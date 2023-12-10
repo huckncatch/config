@@ -1,0 +1,13 @@
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+Issue the command  help_zsh_templates  for further information.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+Issue the command  configure_zsh_templates if you need to do this again.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+Issue the command  switch_prompt  if you want to change the prompt.
+
+ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 

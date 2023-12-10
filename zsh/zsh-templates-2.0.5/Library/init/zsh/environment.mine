@@ -1,0 +1,373 @@
+#!/bin/zsh
+# File environment.mine
+
+#  Add user-specific environment and path variables to this file
+
+if [[ -o interactive ]]; then
+
+  #############################################################################
+  #
+  #  My environment variables:
+  #
+  #############################################################################
+
+
+  #     NB: If a directory is an env variable in zsh,
+  #         you can cd to it without the dollar sign
+
+
+  if [[ $(uname) == Darwin ]];then
+
+
+  fi    # Darwin-specific
+
+  export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;33:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.sit=01;31:*.sitx=01;31:*.hqx=01;31:*.bz2=01;31:*.bin=01;31:*.jpg=01;35:*.JPG=01;35:*.png=01;35:*.gif=01;35:*.bmp=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mpg=01;35:*.wmv=01;35:*.asf=01;35:*.avi=01;35:*.mov=01;35:*.app=01;33:*.c=01;36:*.cpp=01;36:*.h=01;37:*.php=01;36:*.pl=01;36:*.tcl=01;36:*.sh=01;36:*.cgi=01;36:*.dmg=01;32:*.smi=01;32:*.m4a=01;34:'
+  #export LSCOLORS=
+  export CLICOLOR=1
+
+  export X11HOME=/usr/X11R6
+
+  #    For CVS:
+
+  export CVSROOT=/home/cvs
+  export CVS_ROOT=/home/cvs
+  export CVSREAD=yes
+
+  export LC_ALL=C
+
+  if [[ -d /User/soob/Library/perl ]]; then
+    PERL5LIB=$PERL5LIB:/User/soob/Linrary/perl
+  fi
+
+  # command-line dmg creation support
+  export DMG_COMPRESSIONLEVEL=9
+
+
+  #############################################################################
+  #
+  #  Local PATH and FPATH variables:
+  #
+  #############################################################################
+
+  # Use this construct to APPEND to current PATH:
+
+  if [[ -d //Users/soob/bin/perl ]]; then
+    PATH=$PATH:/Users/soob/bin/perl
+  fi
+
+  if [[ -d /usr/local/mysql/bin ]]; then
+    PATH=$PATH:/usr/local/mysql/bin
+  fi
+
+  # To fine-tune this, look at the file /etc/zshenv
+
+  #
+  # Export PATH as separate command to avoid dollar sign in export line
+  #
+  export PATH
+
+
+  # Avoid repeats in the path
+
+  typeset -U path
+
+
+
+  #  Additional fpaths particular to local installations get appended here:
+
+  if [[ -d /Path/To/another/location/functions ]]; then
+    FPATH=$FPATH:/Path/To/another/location/functions
+  fi
+
+  export FPATH
+
+  typeset -U fpath
+
+
+
+
+
+  #############################################################################
+  #
+  #  $hosts variable for host completion with ssh and related programs:
+  #
+  #############################################################################
+
+
+  # ***************************************************************************
+  # ***************************************************************************
+
+  #-------------------------------------------------
+  # Define a list of hosts for host name completion
+  #-------------------------------------------------
+
+
+  # For host completion, set one or more of the following variables to "yes"
+  # Default is to use ~/.ssh/known_hosts for host name completion, but you can in
+  # addition or instead define your own custom list below.
+
+
+  # Individual users can circumvent taylor this to their own specific needs by
+  # creating a file called ~/.zshmyhosts and then by putting one host name in per
+  # line.  If that file is found and read, it alone will be used.  Otherwise, the
+  # preferences and function below will be used to generate a host list on the
+  # fly.
+
+
+  # {====>}
+  use_ssh_known_hosts='yes'    # use ~/.ssh/known_hosts for host name completion
+  use_custom_hosts='no'        # user-defined list of hosts:  edit file below
+  use_etc_hosts='no'           # use zsh _etc_hosts completion function with
+                               # the  /etc/hosts file
+
+  # *****************************************************************************
+
+  # {{{ Common hostnames
+
+  # If user has her or his own ~/.zshmyhosts file with a list of prefered hosts,
+  # one per line, use that and then skip the rest.  Otherwise use preferences set
+  # above, defaulting to getting a host list from ~/.ssh/known_hosts for
+  # each user.  	
+
+
+  if [[ -f ~/.zshmyhosts ]];then
+      hosts=( $( cat ~/.zshmyhosts) )
+
+  else
+    if [[ $use_ssh_known_hosts == yes && -f ~/.ssh/known_hosts  ]]; then
+       ssh_hosts=(	
+         # This gets known hosts from ssh:
+         # un-comment line(s) below to use this.
+         $(cat ~/.ssh/known_hosts | cut -f 1 -d " " | cut -f 1 -d , 2>| /dev/null )
+         # $(cat  /etc/ssh_known_hosts | cut -f 1 -d " " | cut -f 1 -d , 2>| /dev/null )
+       )
+    fi
+
+    if [[ $use_custom_hosts == yes ]]; then
+      custom_hosts=(
+        # Add hosts to list manually here, one per line:
+           www.whitehouse.org
+           foo.bar.com
+      )
+    fi
+
+    if [[ $use_etc_hosts == yes ]]; then
+     etc_hosts=(
+       "$_etc_hosts[@]"
+      )
+    fi
+
+    hosts=( $ssh_hosts $custom_hosts $etc_hosts )
+
+  fi
+
+  # print using the following for host completions: $hosts   # (for debugging)
+
+  # get rid of the repeats
+  typeset -U hosts
+
+  zstyle ':completion:*' hosts $hosts
+
+  # }}}
+
+  # ******************************************************************************
+  # ******************************************************************************	
+
+
+
+
+  #############################################################################
+  #
+  #  Local Java CLASSPATH variables:
+  #
+  #############################################################################
+
+  # Gary Kerbaugh's Java stuff
+  # {====>}
+
+  if [[ $(uname) == Darwin ]];then
+    JAVA_CMD=/usr/bin/java
+
+    JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
+    export JAVA_HOME
+
+    CLASSPATH=$CLASSPATH:/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home:/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Classes/ui.jar:.
+
+    export  CLASSPATH
+
+    # JBOSS_CLASSPATH=/Developer/jboss/bin
+    # JIKESPATH=.:/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Classes/ui.jar:/Developer/jakarta-tomcat-4.0.3/common/lib/servlet.jar:/Developer/jakarta-tomcat-4.0.3/common/lib/xerces.jar:/Library/Java/Extensions/activation.jar:/Library/Java/Extensions/jdbc2_0-stdext.jar:/Library/Java/Extensions/pgjdbc2.jar:/System/Library/Frameworks/JavaVM.framework/Home/lib/dt.jar:/System/Library/Frameworks/JavaVM.framework/Home/lib/ext/jnet.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/Home/lib/ext/jpda.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/Home/lib/ext/jsse.jar
+
+    # export JIKESPATH
+    # *************************************************************************
+
+  fi # if [[ $(uname) == Darwin ]]
+
+###
+# Shell Options
+# Only those options relating to interactive shells.  The others were
+# done in .zshenv already.
+# Ones in capitals are variations from the default ZSH behaviour.
+setopt \
+  alwayslastprompt \
+  ALWAYSTOEND \
+  appendhistory \
+  AUTOCD \
+  autolist \
+  NO_AUTOMENU \
+  AUTONAMEDIRS \
+  autoparamkeys \
+  autoparamslash \
+  AUTOPUSHD \
+  autoremoveslash \
+  AUTORESUME \
+  banghist \
+  beep \
+  bgnice \
+  BRACECCL \
+  no_cdablevars \
+  no_completealiases \
+  COMPLETEINWORD \
+  CORRECT \
+  no_correctall \
+  no_cshjunkiehistory \
+  no_extendedhistory \
+  NO_FLOWCONTROL \
+  no_globcomplete \
+  hashlistall \
+  histbeep \
+  HISTIGNOREDUPS \
+  no_histignorespace \
+  HISTNOSTORE \
+  no_histverify \
+  hup \
+  no_ignoreeof \
+  no_interactivecomments \
+  no_kshoptionprint \
+  listambiguous \
+  NO_LISTBEEP \
+  listtypes \
+  LONGLISTJOBS \
+  no_mailwarning \
+  no_menucomplete \
+  monitor \
+  notify \
+  no_overstrike \
+  promptcr \
+  PROMPTSUBST \
+  no_recexact \
+  no_rmstarsilent \
+  no_singlelinezle \
+  no_sunkeyboardhack \
+  no_verbose \
+  no_xtrace \
+  zle
+#if zsh-version 3.0.6
+#then
+  setopt \
+    no_histnofunctions \
+    no_histreduceblanks \
+    no_promptbang \
+    promptpercent \
+    no_rmstarwait
+#fi
+#if zsh-version 3.1.4
+#then
+  setopt \
+    no_bashautolist \
+    HISTEXPIREDUPSFIRST \
+    no_histignorealldups \
+    no_histsavenodups \
+    no_incappendhistory \
+    no_share_history
+#fi
+#if zsh-version 3.1.8
+#then
+  setopt \
+    checkjobs \
+    no_dvorak \
+    no_histallowclobber \
+    no_histfindnodups \
+    LISTPACKED \
+    no_listrowsfirst
+#fi
+fi    #  if [[ -o interactive ]]
+
+###############
+# Shell options
+
+# These are the options that apply to noninteractive shells.
+# Ones in capitals are variations from the default ZSH behaviour.
+setopt \
+  no_allexport \
+  badpattern \
+  no_bsdecho \
+  no_chaselinks \
+  NO_CLOBBER \
+  no_cshjunkieloops \
+  no_cshjunkiequotes \
+  no_cshnullglob \
+  equals \
+  no_errexit \
+  exec \
+  EXTENDEDGLOB \
+  functionargzero \
+  glob \
+  no_globassign \
+  GLOBDOTS \
+  no_globsubst \
+  hashcmds \
+  hashdirs \
+  no_ignorebraces \
+  no_ksharrays \
+  no_localoptions \
+  no_magicequalsubst \
+  no_markdirs \
+  multios \
+  nomatch \
+  no_nullglob \
+  NUMERICGLOBSORT \
+  no_pathdirs \
+  no_posixbuiltins \
+  no_printexitvalue \
+  PUSHDIGNOREDUPS \
+  PUSHDMINUS \
+  PUSHDSILENT \
+  PUSHDTOHOME \
+  no_rcexpandparam \
+  no_rcquotes \
+  rcs \
+  no_shfileexpansion \
+  no_shglob \
+  no_shoptionletters \
+  shortloops \
+  no_shwordsplit \
+  unset
+#if zsh-version 3.0.6
+#then
+  setopt \
+    bareglobqual \
+    no_kshautoload \
+    no_kshglob \
+    no_printeightbit \
+    no_restricted
+#fi
+#if zsh-version 3.1.6
+#then
+  setopt \
+    no_chasedots \
+    globalrcs \
+    no_localtraps
+#fi
+#if zsh-version 3.1.8
+#then
+  setopt \
+    no_cshnullcmd \
+    NO_GLOBALEXPORT \
+    no_octalzeroes \
+    no_shnullcmd
+#fi
+
+##
+# uncomment this for debugging purposes or verbose startup:
+echo "Local environment (environment.mine) for zsh is now set"

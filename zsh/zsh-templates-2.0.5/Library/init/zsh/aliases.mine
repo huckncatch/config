@@ -1,0 +1,109 @@
+#! /bin/zsh
+##
+##
+###    My aliases start here   ####
+##
+##
+
+echo "omz init (aliases.mine)"
+
+if [[  $(uname) == Darwin ]]; then
+  alias tep='open -a /Users/Shared/Applications/_text/Tex-Edit\ Plus/Tex-Edit\ Plus.app'
+  alias xray='open -a /Users/Shared/Applications/_utilities/XRay/XRay.app'
+  alias mkdmg='hdiutil create -imagekey zlib-level=9 -srcfolder'
+fi
+
+alias gain='aacgain -r -p -k ./**/*m[p4][3a]'
+alias regain='aacgain -p -k -r -s r ./**/*m[4p][a3]'
+alias ckgain='aacgain -s c ./**/*m[4p][a3]'
+alias testgain='aacgain -s s ./**/*m[4p][a3]'
+
+alias od='opendiff'
+
+# default switches
+alias ls='command ls -FsC --color=auto --si'
+alias mv='nocorrect command mv -i'
+alias cp='nocorrect command cp -i'
+alias jobs='builtin jobs -l'
+alias mmv="noglob zmv -W"
+
+# convenient abbreviations
+alias se='. ${ZDOTDIR-$HOME}/.zshenv'
+alias sr='. ${ZDOTDIR-$HOME}/.zshrc'
+#alias sl='. ${ZDOTDIR-$HOME}/.zlogin'
+#alias so='. ${ZDOTDIR-$HOME}/.zlogout'
+alias eg='set | grep -i'
+alias ag='alias | grep -i'
+alias cg='compctl | grep -i'
+alias hg='history 1- | grep -i'
+alias c=clear
+
+# these two are already in 020_aliases_main.zsh
+#alias cd..='cd ..'
+#alias ..='cd ..'
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+
+
+#alias mv='nocorrect mv'         # no spelling correction on mv
+#alias cp='nocorrect cp'         # no spelling correction on cp
+alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir
+alias man='nocorrect man'
+alias rm='rm -i'
+alias j='jobs'
+# Don't need this because auto_pushd is set
+#alias pu=pushd
+alias po=popd
+alias d='dirs'
+#alias h='fc -l'
+alias h=history
+alias grep=egrep
+alias em='emacs'
+alias so=source
+alias sorc='so ~/.zshrc'
+
+alias vmus='ls -lhtr /var/vm;echo;top -l1 10;echo;uptime'
+
+# ls aliases
+#alias lg="grep 'alias l' ~/.zshrc"  # show all list aliases
+alias ll='ls -l'                    # long listing (no dot files)
+alias la='ls -la'                   # long listing (full)
+alias lt='ls -lt'                   # long listing sorted by date
+alias ltr='ls -ltr'                 # long listing sorted by date (reversed)
+# List only directories and symbolic
+# links that point to directories
+alias lsd='ls -ld *(-/DN)'          # list directories only
+alias lsda='ls -l *(-/DN)'           # list directories and their contents
+# List only files beginning with "."
+#alias lsa='ls -ld .*'               # list dot files only
+alias l.='ls -ld .*'                # list dot files only
+
+alias md='mkdir -p'
+alias rd=rmdir
+
+alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
+alias cls='clear'
+#alias server='date;ssh mccartyfamily.org'
+alias server='date;ssh 67.42.145.15'
+#alias archimedes='date;ssh 192.168.170.99'
+alias archimedes='date;ssh mccartyfamily.org'
+#alias tunnel='date;ssh -l soob -f -N -L 3128:192.168.170.99:3128 mccartyfamily.org;pidof ssh'
+alias tunnel='date;ssh -l soob -C -f -N -L 3128:192.168.170.99:3128 67.42.145.15;pidof ssh'
+alias tunnelhome='date;ssh -l soob -C -f -N -L 3128:192.168.170.99:3128 mccartyfamily.org;pidof ssh'
+alias tunnelX='date;ssh -l soob -X -C -f -N -L 5901:192.168.170.99:5901 67.42.145.15;pidof ssh'
+alias tunnelhomeX='date;ssh -l soob -X -C -f -N -L 5901:192.168.170.99:5901 mccartyfamily.org;pidof ssh'
+alias mucks='ssh -l soob -C -f -N -L  6969:192.168.170.99:6969 67.42.145.15;pidof ssh'
+
+# Global aliases -- These do not have to be
+# at the beginning of the command line.
+alias -g M='|more'
+alias -g H='|head'
+alias -g T='|tail'
+alias -g L='|less'
+alias -g G='|grep'
+
+alias doh='echo "Woo Hoo!"'
+# uncomment this for debugging purposes or verbose startup:
+echo "Local aliases (aliases.mine) for zsh are now set"

@@ -1,0 +1,42 @@
+#! /bin/zsh
+# File functions.mine
+
+# Use this file to load your own home-grown functions.
+
+if [[ -o interactive ]]; then
+
+clean () {
+    local wdir
+    
+    wdir=$1
+    if (( $# == 0 ))
+        then wdir="."
+    fi
+    
+    /bin/rm -i $wdir/**/\#*
+    /bin/rm -i $wdir/**/*~
+    /bin/rm -i $wdir/**/*.out
+    /bin/rm -i $wdir/**/*.tmp
+    /bin/rm -i $wdir/**/*.bak
+    /bin/rm -i $wdir/**/*.save*
+    /bin/rm -i $wdir/**/core
+}
+setenv ()   { export $1=$2 }            # csh compatibility
+namedir ()  { $1=$PWD ;  : ~$1 }       # name current directory
+dict ()     { curl dict://dict.org/d:$1 } # define word
+cmd ()      { man -k "$1" | grep -i "$1" }   # search for commands by keyword
+cuw ()      { chmod u+w $* }
+cx ()       { chmod +x $* }
+
+joinpdf () {
+  gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=merged.pdf "$@"
+}
+
+qlook () {
+  qlmanage -p $* >& /dev/null
+}
+
+fi ## end ## [[ -o interactive ]]
+##
+# uncomment this for debugging purposes or verbose startup:
+echo "Local functions (functions.mine) for zsh are now set"
