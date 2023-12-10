@@ -94,9 +94,9 @@ VSCODE_PATH='/Applications/_code/Visual Studio Code.app'
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  bbedit
   brew
   common-aliases
-  bbedit
   git
   iterm2
   vscode
