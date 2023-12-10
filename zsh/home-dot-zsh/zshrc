@@ -99,15 +99,13 @@ plugins=(
   common-aliases
   git
   iterm2
-  vscode
-  zsh-syntax-highlighting
 )
 
 # Initialize Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
-## load common user config
+# load common user config
 source $HOME/Dropbox/ApplicationSupport/config/zsh/common-zshrc.zsh
 
-# Not needed with `zsh-syntax-highlighting` plugin
-# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# load syntax highlighting
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
