@@ -5,35 +5,58 @@
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
 
+_prompt_install() {
+  local response
+  read -r -p "$1 (y/n): " response
+  if [[ $response == [Yy] || $response == "yes" ]]; then
+      echo "yes"
+    else
+      echo "no"
+    fi
+}
+
+_brew_list_does_not_contain() {
+  # local brew_list_output
+  brew_list_output=$(brew list 2>/dev/null)
+  if [[ $brew_list_output != *"$@"* ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 brew_install() {
-  if test ! $(brew list | grep $package); then
-    brew install "$@"
+  if _brew_list_does_not_contain "$formula"; then
+   proceed=$(_prompt_install "Install $formula?")
+    if [[ "$proceed" == "yes" ]]; then
+      echo "Installing..."
+      brew install "$formula"
+    else
+      echo "Declined"
+    fi
   else
-    echo '$package already installed, gonna skip that.'
+    echo "$formula already installed, gonna skip that."
   fi
 }
 
-cask_install() {
-  if test ! $(brew cask list | grep $application); then
-    brew install "$@"
-  else
-    echo '$application already installed, gonna skip that.'
-  fi
+copy_dotfiles() {
+  echo "Copying dotfiles..."
+  for file in "./dotfiles"/*; do
+    filename=$(basename "$file")
+    newFilename=".$filename"
+    echo "$newFilename"
+    cp "$file" "$HOME/$newFilename"
+  done
 }
-
-# copy_configs() {
-#   cp .nvimrc ~
-#   cp .tmux.conf ~
-# }
+copy_dotfiles
 
 # Install Homebrew
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-
-# Install packages
+echo "Check formulae..."# Install packages
 # https://formulae.brew.sh/formula/
 packages=(
   binutils
@@ -54,25 +77,9 @@ packages=(
   zsh-syntax-highlighting
 )
 
-for package in "$packages[@]"
-  do brew_install $package
+for formula in ${packages[@]}
+  do brew_install $formula
 done
-
-# Install languages
-# languages=(
-#   elixir
-#   go
-#   ruby
-# )
-#
-# for package in "$languages[@]"
-#   do brew_install $package
-# done
-
-# Cask usage: https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md
-# Install brew caskroom
-# brew tap homebrew/cask
-# brew tap homebrew/fonts
 
 # Install applications
 # https://formulae.brew.sh/cask/
@@ -87,7 +94,7 @@ applications=(
   audiobook-builder
   backblaze
   backblaze-downloader
-#   bartender
+  bartender
   bbedit
   betterzip
   beyond-compare
@@ -143,7 +150,23 @@ applications=(
   xld
 )
 
-for application in "$applications[@]"
-  echo "installing $application"
-  do cask_install $application
+for formula in ${applications[@]}
+  do brew_install $formula
 done
+
+## Never been tried
+# Install languages
+# languages=(
+#   elixir
+#   go
+#   ruby
+# )
+#
+# for formula in ${languages[@]}
+#   do brew_install $formula
+# done
+
+# Cask usage: https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md
+# Install brew caskroom
+# brew tap homebrew/cask
+# brew tap homebrew/fonts
