@@ -67,7 +67,7 @@ ZSH_THEME="my-jonathan"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="$HOME/Dropbox/ApplicationSupport/config/zsh/oh-my-zsh-custom"
+ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
 
 # Choose between one [code, code-insiders or codium]
 # The following line will make the plugin to open VS Code Insiders
@@ -113,18 +113,18 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# User configuration (jimmc)
+# User configuration (DAT)
 
 ## load sensitive environment
 source $HOME/.dat-creds.zsh
 
 ### aws-dat-cli-tool
     alias aws-dat-cli="aws_dat_cli"
-    aws_dat_cli() { /Users/jimmc/.aws/aws-dat-cli-tool/dat-kube.sh "$@" fixed args; test -f ~/.dat_kube_config && source ~/.dat_kube_config; }
+    aws_dat_cli() { $HOME/.aws/aws-dat-cli-tool/dat-kube.sh "$@" fixed args; test -f ~/.dat_kube_config && source ~/.dat_kube_config; }
 
     # Allow AWS SDK to look up config roles when loading profile credentials
 
     export AWS_SDK_LOAD_CONFIG="true"
 
 ## load common user config
-source $HOME/Dropbox/ApplicationSupport/config/zsh/common-zshrc.zsh
+source $HOME/config/zsh/common-zshrc.zsh

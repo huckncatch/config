@@ -80,7 +80,7 @@ COMPLETION_WAITING_DOTS="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="$HOME/Dropbox/ApplicationSupport/config/zsh/oh-my-zsh-custom"
+ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
 
 # Choose between one [code, code-insiders or codium]
 # The following line will make the plugin to open VS Code Insiders
@@ -105,7 +105,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # load common user config
-source $HOME/Dropbox/ApplicationSupport/config/zsh/common-zshrc.zsh
+source $HOME/config/zsh/common-zshrc.zsh
 
 # load syntax highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
