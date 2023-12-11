@@ -50,13 +50,33 @@ copy_dotfiles() {
 }
 copy_dotfiles
 
+copy_zsh_config() {
+  echo "Copying zshrc..."
+  zshrc="./zsh/home-dot-zsh/zshrc"
+  filename=$(basename "$zshrc")
+  newFilename=".$filename"
+  personal=$(_prompt_install "Personal config?")
+  if [[ "$personal" == "yes" ]]; then
+    echo "Home..."
+    zshrc="./zsh/home-dot-zsh/zshrc"
+    # TODO: do I want to update `/etc/zshrc` too?
+  else
+    echo "Work"
+    zshrc="./zsh/work-dot-zsh/zshrc"
+    # TODO: do I want to update `/etc/zshrc` too?
+  fi
+  cp "$zshrc" "$HOME/$newFilename"
+}
+copy_zsh_config
+
 # Install Homebrew
 # ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Install oh-my-zsh
 # sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-echo "Check formulae..."# Install packages
+echo "Check formulae..."
+# Install packages
 # https://formulae.brew.sh/formula/
 packages=(
   binutils
