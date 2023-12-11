@@ -115,17 +115,8 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration (jimmc)
 
-export SONAR_LOGIN=c12710eef4023ddc67f5881e0188da14c8adb549
-export SONAR_ORG=dat-solutions
-
-# export SONARQUBE_HOME="/opt/sonarqube"
-
-export CSB_CREDENTIALS_DEBUG='mobileuser34:M0bil3app'
-export CSB_CREDENTIALS_TEST='mobileuser34:M0bil3app'
-
-export JFROG_USERNAME="jimmc@tcore.com"
-export JFROG_PASSWORD="AKCp8mZHegr4jR9GGN2bJfYjDKwhJrxcTJxVun4jonvGKmxbQSPQimUvgPvVZUfAWs5hi5oVD"
-export JFROG_PASSWORD_BASE64="QUtDcDhtWkhlZ3I0alI5R0dOMmJKZllqREt3aEpyeGNUSnhWdW40am9udkdLbXhiUVNQUWltVXZnUHZWWlVmQVdzNWhpNW9WRA=="
+## load sensitive environment
+source $HOME/.dat-creds.zsh
 
 ### aws-dat-cli-tool
     alias aws-dat-cli="aws_dat_cli"
