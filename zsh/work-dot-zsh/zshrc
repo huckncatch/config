@@ -90,7 +90,6 @@ plugins=(
   sudo
 #   tmux
   vscode
-  zsh-syntax-highlighting
 )
 
 # Initialize Oh-My-Zsh
@@ -128,3 +127,6 @@ source $HOME/.dat-creds.zsh
 
 ## load common user config
 source $HOME/config/zsh/common-zshrc.zsh
+
+# load syntax highlighting
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
