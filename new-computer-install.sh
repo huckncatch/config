@@ -79,11 +79,13 @@ echo "Check formulae..."
 # Install packages
 # https://formulae.brew.sh/formula/
 packages=(
+  bat
   binutils
   coreutils
   curl
   diffutils
   emacs
+  fd
   findutils
   git
   git-lfs
@@ -134,6 +136,7 @@ applications=(
   google-chrome
   graphicconverter
   handbrake
+  hazel
   istat-menus
   iterm2
   keyboard-cleaner
@@ -168,6 +171,7 @@ applications=(
   visual-studio-code
   vlc
   xld
+  workflowy
 )
 
 for formula in ${applications[@]}
