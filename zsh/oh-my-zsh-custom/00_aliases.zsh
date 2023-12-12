@@ -57,5 +57,5 @@ if [[ -o interactive ]]; then
   alias nrtest='npm run test'
 
   alias bi='brew info'
-  alias bs='brew info'
+  alias bs='brew search'
 fi

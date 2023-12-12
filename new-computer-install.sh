@@ -70,10 +70,10 @@ copy_zsh_config() {
 copy_zsh_config
 
 # Install Homebrew
-# ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install oh-my-zsh
-# sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 echo "Check formulae..."
 # Install packages
@@ -89,9 +89,13 @@ packages=(
   findutils
   git
   git-lfs
+  grep
+  gzip
   highlight
   openssh
   python3
+  rbenv
+  screen
   tmux
   wget
   youtube-dl
