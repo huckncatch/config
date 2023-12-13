@@ -92,6 +92,7 @@ packages=(
   grep
   gzip
   highlight
+  ncdu
   openssh
   python3
   rbenv

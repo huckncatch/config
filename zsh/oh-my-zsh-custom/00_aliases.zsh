@@ -18,6 +18,8 @@ if [[ -o interactive ]]; then
 # doesn't work with sudo... do I really need nocorrect anyway?
 #     alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir
 
+  alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+
   alias em='emacs'
   alias so=source
   alias sorc='so ~/.zshrc'
