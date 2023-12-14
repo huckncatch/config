@@ -80,10 +80,11 @@ echo "Check formulae..."
 # https://formulae.brew.sh/formula/
 packages=(
   bat
-  binutils
+#   binutils
   coreutils
   curl
-  diffutils
+  diff-so-fancy
+#   diffutils
   emacs
   fd
   findutils
@@ -97,6 +98,7 @@ packages=(
   python3
   rbenv
   screen
+  tldr
   tmux
   wget
   youtube-dl
