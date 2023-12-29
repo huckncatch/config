@@ -99,6 +99,7 @@ plugins=(
   common-aliases
   git
   iterm2
+  sudo
 )
 
 # Initialize Oh-My-Zsh
