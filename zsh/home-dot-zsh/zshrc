@@ -98,6 +98,7 @@ plugins=(
   brew
   common-aliases
   git
+  gitfast
   iterm2
   sudo
 )

@@ -85,6 +85,7 @@ plugins=(
   common-aliases
   bbedit
   git
+  gitfast
   iterm2
   sudo
 #   tmux
