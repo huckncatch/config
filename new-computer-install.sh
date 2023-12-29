@@ -197,7 +197,10 @@ done
 #   do brew_install $formula
 # done
 
+# Not sure these taps are needed (or correct)
 # Cask usage: https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md
 # Install brew caskroom
 # brew tap homebrew/cask
 # brew tap homebrew/fonts
+
+### Fonts? ###

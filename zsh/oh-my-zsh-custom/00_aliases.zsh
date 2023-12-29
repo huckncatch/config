@@ -18,26 +18,27 @@ if [[ -o interactive ]]; then
 # doesn't work with sudo... do I really need nocorrect anyway?
 #     alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir
 
+  alias cat='bat'
   alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 
   alias em='emacs'
-  alias so=source
+  alias so='source'
   alias sorc='so ~/.zshrc'
 
-  # ls aliases
-  alias lg="grep 'alias l' $ZDOT/zshrc_local.d/aliases.mine.zsh"  # show all list aliases
-#     alias ll='ls -l'                    # long listing (no dot files)
-#     alias la='ls -lA'                   # long listing (full)
-#     alias lt='ls -lt'                   # long listing sorted by date
+  ## ls
+#   alias lg="grep 'alias l' $ZDOT/zshrc_local.d/aliases.mine.zsh"  # show all list aliases
+#   alias ll='ls -l'                    # long listing (no dot files)
+#   alias la='ls -lA'                   # long listing (full)
+#   alias lt='ls -lt'                   # long listing sorted by date
   alias ltr='ls -ltr'                 # long listing sorted by date (reversed)
   alias l.='ls -ld .*'                # list dot files only
   # List only directories and symbolic links that point to directories
   alias lsd='ls -ld *(-/DN)'          # list directories only
   alias lsda='ls -l *(-/DN)'          # list directories and their contents
 
-  alias grep=egrep
+  alias grep='egrep'
 
-  # git
+  ## git
   alias grhs='git reset --soft'
 #   alias gt='git tag'
   alias gpot='git push origin "$(git_current_branch)" && git push origin --tags'
@@ -53,11 +54,13 @@ if [[ -o interactive ]]; then
 
   alias verifyCodeSign='codesign --verify --verbose'
 
+  ## node package manager
   alias nrt='npm run transpile'
   alias nrs='npm run start'
   alias nrts='nrt && nrs'
   alias nrtest='npm run test'
 
+  ## homebrew
   alias bi='brew info'
   alias bs='brew search'
 fi
