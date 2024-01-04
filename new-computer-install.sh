@@ -114,7 +114,7 @@ done
 # https://formulae.brew.sh/cask/
 applications=(
   1password
-  a-better-finder-rename
+#   a-better-finder-rename -- major versions are paid upgrades
   abbyy-finereader-pdf
   alfred
   amadeus-pro
@@ -131,6 +131,7 @@ applications=(
   carbon-copy-cloner
   cardhop
   choosy
+  cloudflare-warp
   copilot-for-xcode
   daisydisk
   default-folder-x
@@ -141,13 +142,13 @@ applications=(
   fission
   fluid
   google-chrome
-  graphicconverter
+  #graphicconverter
   handbrake
   hazel
   istat-menus
   iterm2
   keyboard-cleaner
-  knuff
+  #knuff
   launchcontrol
   logi-options-plus
   logitech-g-hub
@@ -170,6 +171,7 @@ applications=(
   soundsource
   sourcetree
   spotify
+  #stats
   steam
   suspicious-package
   the-archive-browser
