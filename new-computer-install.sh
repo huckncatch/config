@@ -5,6 +5,10 @@
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
 
+## Notes
+#
+# Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
+
 _prompt_install() {
   local response
   read -r -p "$1 (y/n): " response
