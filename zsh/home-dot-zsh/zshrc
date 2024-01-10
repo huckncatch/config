@@ -103,6 +103,9 @@ plugins=(
   sudo
 )
 
+# Install zsh-completions
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+
 # Initialize Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 

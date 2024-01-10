@@ -157,6 +157,7 @@ applications=(
   logi-options-plus
   logitech-g-hub
   logitech-options
+  maestral
   mailmate
   moneydance
   moom
@@ -183,8 +184,8 @@ applications=(
   tower
   visual-studio-code
   vlc
-  xld
   workflowy
+  xld
 )
 
 for formula in ${applications[@]}
