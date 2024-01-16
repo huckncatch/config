@@ -139,6 +139,7 @@ applications=(
   copilot-for-xcode
   daisydisk
   default-folder-x
+  devtoys
   discord
   eaglefiler
   fantastical
