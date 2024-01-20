@@ -86,8 +86,4 @@ export PATH="$(brew --prefix openssl)/libexec/gnubin:$PATH"
 # export PATH="$(brew --prefix unzip)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix python)/bin:$PATH"
 
-# Add Visual Studio Code (code)
-echo "VSCode Path: $VSCODE_PATH"
-# export PATH="$PATH:${VSCODE_PATH}/Contents/Resources/app/bin"
-
 export PATH=$HOME/bin:$PATH

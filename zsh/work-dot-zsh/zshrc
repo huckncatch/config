@@ -69,12 +69,6 @@ ZSH_THEME="my-jonathan"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
 
-# Choose between one [code, code-insiders or codium]
-# The following line will make the plugin to open VS Code Insiders
-# Invalid entries will be ignored, no aliases will be added
-VSCODE=code
-VSCODE_PATH='/Applications/Visual Studio Code.app'
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/

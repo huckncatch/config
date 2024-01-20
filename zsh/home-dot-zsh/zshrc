@@ -82,12 +82,6 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
 
-# Choose between one [code, code-insiders or codium]
-# The following line will make the plugin to open VS Code Insiders
-# Invalid entries will be ignored, no aliases will be added
-VSCODE=code
-VSCODE_PATH='/Applications/_code/Visual Studio Code.app'
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -101,6 +95,7 @@ plugins=(
   gitfast
   iterm2
   sudo
+  vscode
 )
 
 # Install zsh-completions
