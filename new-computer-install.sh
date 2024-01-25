@@ -116,6 +116,9 @@ done
 ## Notes
 #
 # Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
+#
+# To install a specific version of a cask/formula, follow the instructions here:
+#   https://stackoverflow.com/a/66477916/662731
 
 applications=(
   1password
