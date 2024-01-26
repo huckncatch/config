@@ -23,7 +23,10 @@ if [[ -o interactive ]]; then
 
   alias em='emacs'
   alias so='source'
-  alias sorc='so ~/.zshrc'
+
+  # deprecated, should use `exec zsh` instead
+  # alias sorc='so ~/.zshrc'
+  alias ez='exec zsh'
 
   ## ls
 #   alias lg="grep 'alias l' $ZDOT/zshrc_local.d/aliases.mine.zsh"  # show all list aliases
