@@ -121,8 +121,8 @@ done
 #   https://stackoverflow.com/a/66477916/662731
 
 applications=(
-  1password
-#   a-better-finder-rename -- major versions are paid upgrades
+  # 1password
+  a-better-finder-rename #-- major versions are paid upgrades
   abbyy-finereader-pdf
   alfred
   amadeus-pro
@@ -151,8 +151,8 @@ applications=(
   fission
   fluid
   google-chrome
-  #graphicconverter
-  handbrake
+  graphicconverter
+  homebrew/cask/handbrake
   hazel
   istat-menus
   iterm2
