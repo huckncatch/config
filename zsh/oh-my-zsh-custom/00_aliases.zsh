@@ -29,16 +29,16 @@ if [[ -o interactive ]]; then
   # restart shell
   alias ez='exec zsh'
 
-  ## ls
+  # ls
   alias ltr='ls -ltrFH'                 # long listing sorted by date (reversed)
   alias l.='ls -ld .*'                # list dot files only
-  # List only directories and symbolic links that point to directories
+  ## List only directories and symbolic links that point to directories
   alias lsd='ls -ld *(-/DN)'          # list directories only
   alias lsda='ls -l *(-/DN)'          # list directories and their contents
 
   alias grep='egrep'
 
-  ## git
+  # git
 #   alias gt='git tag'
   alias gpot='git push origin "$(git_current_branch)" && git push origin --tags'
   alias gfst='git fetch && git status'
@@ -53,15 +53,23 @@ if [[ -o interactive ]]; then
 
   alias verifyCodeSign='codesign --verify --verbose'
 
-  ## node package manager
+  # node package manager
   alias nrt='npm run transpile'
   alias nrs='npm run start'
   alias nrts='nrt && nrs'
   alias nrtest='npm run test'
 
-  ## homebrew
+  # homebrew
   alias bi='brew info'
   alias bs='brew search'
   alias blc='brew list --cask'
   alias bis='brew install'
+  alias bcu='brew cu --all'
+  ## brew plugin overrides
+  alias bubo='brew update && brew outdated --formulae'
+  alias bubc='brew upgrade --formulae && brew cleanup'
+  unalias bugbc
+  unalias bubug
+  unalias bcubo
+  unalias bcubc
 fi

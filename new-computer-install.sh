@@ -72,6 +72,12 @@ copy_zsh_config
 # Install Homebrew
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+# Taps
+## https://github.com/buo/homebrew-cask-upgrade
+brew tap buo/cask-upgrade
+## used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
+brew tap homebrew/cask-versions
+
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -193,8 +199,8 @@ applications=(
   xld
 )
 
-for formula in ${applications[@]}
-  do brew_install $formula
+for cask in ${applications[@]}
+  do brew_install $cask
 done
 
 ## Never been tried
