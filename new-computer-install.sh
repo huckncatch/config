@@ -52,9 +52,10 @@ copy_dotfiles
 
 copy_zsh_config() {
   echo "Copying zshrc..."
-  zshrc="./zsh/home-dot-zsh/zshrc"
-  filename=$(basename "$zshrc")
-  newFilename=".$filename"
+  # zshrc="./zsh/home-dot-zsh/zshrc"
+  # filename=$(basename "$zshrc")
+  # newFilename=".$filename"
+  local zshrc
   personal=$(_prompt_install "Personal config?")
   if [[ "$personal" == "yes" ]]; then
     echo "Home..."
@@ -65,7 +66,8 @@ copy_zsh_config() {
     zshrc="./zsh/work-dot-zsh/zshrc"
     # TODO: do I want to update `/etc/zshrc` too?
   fi
-  cp "$zshrc" "$HOME/$newFilename"
+  # cp "$zshrc" "$HOME/$newFilename"
+  cp "$zshrc" "$HOME/.zshrc"
 }
 copy_zsh_config
 
@@ -86,11 +88,11 @@ echo "Check formulae..."
 # https://formulae.brew.sh/formula/
 packages=(
   bat
-#   binutils
+  # binutils
   coreutils
   curl
   diff-so-fancy
-#   diffutils
+  # diffutils
   emacs
   fd
   findutils
@@ -128,17 +130,17 @@ done
 
 applications=(
   # 1password
-  a-better-finder-rename #-- major versions are paid upgrades
+  a-better-finder-rename # pinned
   abbyy-finereader-pdf
   alfred
   amadeus-pro
-  arc
+  # arc
   audio-hijack
   audiobook-builder
-  backblaze
-  backblaze-downloader
-  bartender
-  bbedit
+  # backblaze
+  # backblaze-downloader
+  bartender # pinned?
+  bbedit # pinned
   betterzip
   beyond-compare
   calibre
@@ -146,10 +148,10 @@ applications=(
   cardhop
   choosy
   cloudflare-warp
-  copilot-for-xcode
+  # copilot-for-xcode
   daisydisk
   default-folder-x
-  devtoys
+  # devtoys
   discord
   eaglefiler
   fantastical
@@ -169,7 +171,7 @@ applications=(
   logitech-g-hub
   logitech-options
   maestral
-  mailmate
+  # mailmate
   moneydance
   moom
   musicbrainz-picard
@@ -179,7 +181,7 @@ applications=(
   notion
   path-finder
   poe
-  postman
+  # postman
   raycast
   reunion
   skim
@@ -187,10 +189,10 @@ applications=(
   soundsource
   sourcetree
   spotify
-  #stats
+  # stats
   steam
   suspicious-package
-  the-archive-browser
+  # the-archive-browser
   the-unarchiver
   tower
   visual-studio-code
