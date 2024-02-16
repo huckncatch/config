@@ -4,7 +4,15 @@
 # (https://github.com/iheanyi/dotfiles)
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
+#
+# Permanently prevent macOS High Sierra from reopening apps after a restart
+# https://apple.stackexchange.com/a/309140/234778
+# sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow*
+# touch ~/Library/Preferences/ByHost/com.apple.loginwindow*
+# sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow*
+# sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow*
 
+# helper functions
 _prompt_install() {
   local response
   read -r -p "$1 (y/n): " response
@@ -39,6 +47,7 @@ brew_install() {
   fi
 }
 
+# Copy config files
 copy_dotfiles() {
   echo "Copying dotfiles..."
   for file in "./dotfiles"/*; do
@@ -74,18 +83,18 @@ copy_zsh_config
 # Install Homebrew
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Taps
-## https://github.com/buo/homebrew-cask-upgrade
+## Taps
+# https://github.com/buo/homebrew-cask-upgrade
 brew tap buo/cask-upgrade
-## used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
+# used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
 brew tap homebrew/cask-versions
 
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-echo "Check formulae..."
-# Install packages
+## Install packages
 # https://formulae.brew.sh/formula/
+echo "Check formulae..."
 packages=(
   bat
   # binutils
@@ -165,7 +174,7 @@ applications=(
   istat-menus
   iterm2
   keyboard-cleaner
-  #knuff
+  # knuff
   launchcontrol
   logi-options-plus
   logitech-g-hub
@@ -179,6 +188,7 @@ applications=(
   name-mangler
   netnewswire
   notion
+  opera
   path-finder
   poe
   # postman
