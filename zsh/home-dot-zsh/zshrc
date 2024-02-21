@@ -92,8 +92,5 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 # Initialize Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
-# load common user config
-source $HOME/config/zsh/common-zshrc.zsh
-
 # load syntax highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
