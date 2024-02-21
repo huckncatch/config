@@ -202,7 +202,6 @@ applications=(
   soundsource
   sourcetree
   spotify
-  # stats
   steam
   suspicious-package
   # the-archive-browser
