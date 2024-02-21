@@ -22,6 +22,7 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
-[pager]
-	diff = diff-so-fancy | less --tabs=1,5 -RFX
-	show = diff-so-fancy | less --tabs=1,5 -RFX
+# https://remysharp.com/2018/08/23/cli-improved
+# [pager]
+# 	diff = diff-so-fancy | less --tabs=1,5 -RFX
+# 	show = diff-so-fancy | less --tabs=1,5 -RFX

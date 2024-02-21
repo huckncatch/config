@@ -96,31 +96,34 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 # https://formulae.brew.sh/formula/
 echo "Check formulae..."
 packages=(
-  bat
   # binutils
   coreutils
   curl
-  diff-so-fancy
   # diffutils
   emacs
-  fd
   findutils
   git
   git-lfs
   grep
   gzip
   highlight
-  ncdu
   openssh
   python3
   rbenv
   screen
-  tldr
   tmux
   wget
   youtube-dl
   zsh
   zsh-syntax-highlighting
+  # https://remysharp.com/2018/08/23/cli-improved
+  ack
+  bat
+  diff-so-fancy
+  fd
+  fzf
+  ncdu
+  tldr
 )
 
 for formula in ${packages[@]}
