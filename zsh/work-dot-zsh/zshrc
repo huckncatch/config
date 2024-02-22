@@ -93,9 +93,6 @@ plugins=(
 # Initialize Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
-# User configuration (oh-my-zsh)
-export HOST=$(hostname)
-
 # load syntax highlighting
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
