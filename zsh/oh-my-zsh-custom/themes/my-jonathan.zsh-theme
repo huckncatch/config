@@ -21,7 +21,6 @@ function theme_precmd {
     else
       PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $rubypromptsize + $pwdsize)))..${PR_HBAR}.)}"
     fi
-
 }
 
 

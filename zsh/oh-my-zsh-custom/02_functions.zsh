@@ -1,3 +1,5 @@
+# echo "oh-my-zsh/custom/00_functions.zsh"
+
 # switch to main branch, delete old branch
 # git switch clean
 function gswclm() {
@@ -25,12 +27,12 @@ autoload gswcl
 
 # clean () {
 #     local wdir
-    
+
 #     wdir=$1
 #     if (( $# == 0 ))
 #         then wdir="."
 #     fi
-    
+
 #     /bin/rm -i $wdir/**/\#*
 #     /bin/rm -i $wdir/**/^DerivedData/*~
 #     /bin/rm -i $wdir/**/*.out

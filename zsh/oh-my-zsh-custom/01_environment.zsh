@@ -1,3 +1,5 @@
+# echo "oh-my-zsh/custom/00_environment.zsh"
+
 # https://remysharp.com/2018/08/23/cli-improved
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort,ctrl-b:execute(bbedit {})+abort'"
 
@@ -37,3 +39,5 @@ export PATH="$(brew --prefix openssl)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix python)/bin:$PATH"
 
 export PATH=$HOME/bin:$PATH
+
+export HOST=$(hostname)

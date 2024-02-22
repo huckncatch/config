@@ -4,8 +4,9 @@
 # (https://github.com/iheanyi/dotfiles)
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
-#
+
 # Permanently prevent macOS High Sierra from reopening apps after a restart
+#
 # https://apple.stackexchange.com/a/309140/234778
 # sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow*
 # touch ~/Library/Preferences/ByHost/com.apple.loginwindow*
@@ -91,6 +92,9 @@ brew tap homebrew/cask-versions
 
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install zsh-completions
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
 ## Install packages
 # https://formulae.brew.sh/formula/
