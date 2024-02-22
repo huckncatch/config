@@ -1,5 +1,5 @@
 # work machine profile
-echo "oh-my-zsh/custom/profiles/RC6G2R0600"
+# echo "oh-my-zsh/custom/profiles/RC6G2R0600"
 
 ## load sensitive environment
 source $HOME/.dat-creds.zsh
