@@ -23,7 +23,7 @@ if [[ -o interactive ]]; then
   # https://remysharp.com/2018/08/23/cli-improved
   alias cat='bat'
   alias preview="fzf --preview 'bat --color \"always\" {}'"
-  alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+  alias du='ncdu' # ~/.config/ncdu/config
 
   alias em='emacs'
   alias so='source'

@@ -1,0 +1,12 @@
+--color dark
+--one-file-system
+
+# Always enable extended mode
+--extended
+
+# Enable file deletion
+--enable-delete
+
+# Exclude directories
+--exclude .git
+--exclude node_modules
