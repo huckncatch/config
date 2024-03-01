@@ -75,4 +75,7 @@ if [[ -o interactive ]]; then
   unalias bubug
   unalias bcubo
   unalias bcubc
+
+  # iTerm
+  alias ic='imgcat'
 fi
