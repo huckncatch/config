@@ -96,7 +96,4 @@ source $ZSH/oh-my-zsh.sh
 # load syntax highlighting
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# iTerm shell integration
-test -e /Users/jimmc/.iterm2_shell_integration.zsh && source /Users/jimmc/.iterm2_shell_integration.zsh || true
-
 # echo ".zshrc END"
