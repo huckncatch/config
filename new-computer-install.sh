@@ -159,6 +159,7 @@ applications=(
   bbedit # pinned
   betterzip
   beyond-compare
+  brave-browser
   calibre
   carbon-copy-cloner
   cardhop

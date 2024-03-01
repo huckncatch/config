@@ -23,7 +23,7 @@ if [[ -o interactive ]]; then
   # https://remysharp.com/2018/08/23/cli-improved
   alias cat='bat'
   alias preview="fzf --preview 'bat --color \"always\" {}'"
-  alias du='ncdu' # ~/.config/ncdu/config
+  alias du='ncdu' # options in ~/.config/ncdu/config
 
   alias em='emacs'
   alias so='source'
@@ -46,6 +46,7 @@ if [[ -o interactive ]]; then
   alias gfst='git fetch && git status'
   alias gfasb='git fetch --all --prune && git status --short --branch'
   alias grs.='git restore .'
+  alias gsw-='git switch -'
 
   alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
   alias clean="find . -name '*.orig' -type f -follow -print0 | xargs -0 rm -f"
