@@ -143,6 +143,16 @@ done
 #
 # To install a specific version of a cask/formula, follow the instructions here:
 #   https://stackoverflow.com/a/66477916/662731
+# 1 Go to the Homebrew Cask search page: https://formulae.brew.sh/cask/
+# 2 Type and find the application you are looking for
+# 3 Click Cask code link
+# 4 On Github click History button
+# 5 Find the version you need by reading the commit messages and view the raw file. Confirm the version variable (normally on line 2) is the version you need.
+# 6 Click on the name of the commit, then three dots and select View file
+# 7 Right-click Raw button and Save Link As... to download the file locally
+# 8 When downloaded, go to download directory cd Downloads/
+# 9 Finally run brew install --cask <FORMULA_NAME>.rb
+# 10 Voilà 😄
 
 applications=(
   # 1password
@@ -150,10 +160,11 @@ applications=(
   abbyy-finereader-pdf
   alfred
   amadeus-pro
-  # arc
+  # arc https://arc.net/
   audio-hijack
   audiobook-builder
-  # backblaze
+  # audioranger https://www.audioranger.com/
+  # backblaze https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac
   # backblaze-downloader
   bartender # pinned?
   bbedit # pinned
@@ -165,10 +176,8 @@ applications=(
   cardhop
   choosy
   cloudflare-warp
-  # copilot-for-xcode
   daisydisk
   default-folder-x
-  # devtoys
   discord
   eaglefiler
   fantastical
@@ -176,19 +185,19 @@ applications=(
   fission
   fluid
   google-chrome
-  graphicconverter
+  graphicconverter # pinned
   homebrew/cask/handbrake
   hazel
   istat-menus
   iterm2
   keyboard-cleaner
-  # knuff
   launchcontrol
   logi-options-plus
   logitech-g-hub
   logitech-options
   maestral
   # mailmate
+  homebrew/cask-versions/mailmate-beta
   moneydance
   moom
   musicbrainz-picard
@@ -196,10 +205,10 @@ applications=(
   name-mangler
   netnewswire
   notion
+  obsidian
   opera
   path-finder
   poe
-  # postman
   raycast
   reunion
   skim
@@ -209,12 +218,11 @@ applications=(
   spotify
   steam
   suspicious-package
-  # the-archive-browser
+  # the-archive-browser -- using BetterZip instead
   the-unarchiver
   tower
   visual-studio-code
   vlc
-  workflowy
   xld
 )
 
@@ -233,11 +241,5 @@ done
 # for formula in ${languages[@]}
 #   do brew_install $formula
 # done
-
-# Not sure these taps are needed (or correct)
-# Cask usage: https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md
-# Install brew caskroom
-# brew tap homebrew/cask
-# brew tap homebrew/fonts
 
 ### Fonts? ###
