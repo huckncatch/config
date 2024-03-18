@@ -166,7 +166,7 @@ applications=(
   # audioranger https://www.audioranger.com/
   # backblaze https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac
   # backblaze-downloader
-  bartender # pinned?
+  bartender # pin?
   bbedit # pinned
   betterzip
   beyond-compare
@@ -178,6 +178,7 @@ applications=(
   cloudflare-warp
   daisydisk
   default-folder-x
+  devtoys
   discord
   eaglefiler
   fantastical
