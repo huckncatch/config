@@ -176,6 +176,7 @@ applications=(
   cloudflare-warp
   daisydisk
   default-folder-x
+  devtoys
   discord
   eaglefiler
   fantastical
@@ -241,3 +242,4 @@ done
 # done
 
 ### Fonts? ###
+# https://github.com/githubnext/monaspace
