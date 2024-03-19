@@ -156,7 +156,6 @@ done
 
 applications=(
   # 1password
-  a-better-finder-rename # pinned
   abbyy-finereader-pdf
   alfred
   amadeus-pro
@@ -166,8 +165,7 @@ applications=(
   # audioranger https://www.audioranger.com/
   # backblaze https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac
   # backblaze-downloader
-  bartender # pinned?
-  bbedit # pinned
+  bartender # should be pinned? depends on OS installed
   betterzip
   beyond-compare
   brave-browser
@@ -185,7 +183,6 @@ applications=(
   fission
   fluid
   google-chrome
-  graphicconverter # pinned
   homebrew/cask/handbrake
   hazel
   istat-menus
@@ -221,6 +218,7 @@ applications=(
   # the-archive-browser -- using BetterZip instead
   the-unarchiver
   tower
+  # unclutter -- hombebrew version is out of date
   visual-studio-code
   vlc
   xld
