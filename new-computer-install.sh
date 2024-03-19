@@ -243,3 +243,6 @@ done
 
 ### Fonts? ###
 # https://github.com/githubnext/monaspace
+# to install
+#   `cd util`
+#   `bash util/install_macos.sh`
