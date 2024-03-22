@@ -213,7 +213,6 @@ applications=(
   slack
   soundsource
   sourcetree
-  spotify
   steam
   suspicious-package
   # the-archive-browser -- using BetterZip instead
