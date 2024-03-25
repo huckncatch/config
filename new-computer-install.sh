@@ -155,15 +155,15 @@ done
 # 10 Voilà 😄
 
 applications=(
-  # 1password
+  # 1password (https://1password.com)
   abbyy-finereader-pdf
   alfred
   amadeus-pro
-  # arc https://arc.net/
+  # arc (https://arc.net/)
   audio-hijack
   audiobook-builder
-  # audioranger https://www.audioranger.com/
-  # backblaze https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac
+  # audioranger (https://www.audioranger.com/)
+  # backblaze (https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac)
   # backblaze-downloader
   bartender # should be pinned? depends on OS installed
   betterzip
@@ -207,18 +207,20 @@ applications=(
   opera
   path-finder
   poe
+  # postman -- work
   raycast
   reunion
   skim
   slack
   soundsource
   sourcetree
+  # spotify -- problems launching after updates
   steam
   suspicious-package
   # the-archive-browser -- using BetterZip instead
   the-unarchiver
   tower
-  # unclutter -- hombebrew version is out of date
+  # unclutter (https://unclutterapp.com/) -- hombebrew version is out of date
   visual-studio-code
   vlc
   xld
