@@ -4,17 +4,25 @@
 [core]
 	editor = emacs
 	excludesfile = /Users/soob/.gitignore_global
+[commit]
+	template = /Users/soob/.stCommitMsg
+[diff]
+	tool = bc3
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
+[difftool "bc3"]
+	path = /opt/homebrew/bin/bcomp
+[merge]
+	# tool = bc3
+	tool = opendiff
+	# tool = sourcetree
+	strategy = ort
+[mergetool "bc3"]
+	path = /opt/homebrew/bin/bcomp
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
-[commit]
-	template = /Users/soob/.stCommitMsg
-[merge]
-	tool = opendiff
-	strategy = ort
 [init]
 	defaultBranch = master
 [filter "lfs"]
