@@ -111,6 +111,7 @@ packages=(
   grep
   gzip
   highlight
+  mc
   openssh
   python3
   rbenv
