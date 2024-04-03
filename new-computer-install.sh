@@ -197,6 +197,7 @@ applications=(
   maestral
   # mailmate
   homebrew/cask-versions/mailmate-beta
+  microsoft-edge
   moneydance
   moom
   musicbrainz-picard
@@ -229,6 +230,11 @@ applications=(
 
 for cask in ${applications[@]}
   do brew_install $cask
+done
+
+# install pinned applications
+for cask ("$ZSH_CUSTOM"/pinned_casks/*.rb(N)); do
+  brew install --cask "$ZSH_CUSTOM"/pinned_casks/$cask"
 done
 
 ## Never been tried
