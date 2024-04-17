@@ -118,6 +118,7 @@ packages=(
   screen
   tmux
   wget
+  xcbeautify
   youtube-dl
   zsh
   zsh-syntax-highlighting
@@ -175,6 +176,7 @@ applications=(
   cardhop
   choosy
   cloudflare-warp
+  cyberduck
   daisydisk
   default-folder-x
   devtoys
