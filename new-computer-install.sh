@@ -156,78 +156,80 @@ done
 # 9 Finally run brew install --cask <FORMULA_NAME>.rb
 # 10 Voilà 😄
 
+# maestral keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
+
 applications=(
-  # 1password (https://1password.com)
-  abbyy-finereader-pdf
-  alfred
-  amadeus-pro
+  # 1password (https://1password.com/)
+  abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
+  alfred # https://www.alfredapp.com/
+  amadeus-pro # https://www.hairersoft.com/pro.html
   # arc (https://arc.net/)
-  audio-hijack
-  audiobook-builder
+  audio-hijack # https://rogueamoeba.com/audiohijack/
+  audiobook-builder # https://www.splasm.com/audiobookbuilder/
   # audioranger (https://www.audioranger.com/)
   # backblaze (https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac)
-  # backblaze-downloader
-  bartender # should be pinned? depends on OS installed
-  betterzip
-  beyond-compare
-  brave-browser
-  calibre
-  carbon-copy-cloner
-  cardhop
-  choosy
+  # backblaze-downloader (https://www.backblaze.com/)
+  bartender # https://www.macbartender.com/
+  betterzip # https://macitbetter.com/
+  beyond-compare # https://www.scootersoftware.com/
+  brave-browser # https://brave.com/
+  calibre # https://calibre-ebook.com/
+  carbon-copy-cloner # https://bombich.com/
+  cardhop # https://flexibits.com/cardhop
+  choosy # https://www.choosyosx.com/
   cloudflare-warp
-  cyberduck
-  daisydisk
-  default-folder-x
-  devtoys
-  discord
-  eaglefiler
-  fantastical
-  firefox
-  fission
-  fluid
-  google-chrome
-  homebrew/cask/handbrake
-  hazel
-  istat-menus
-  iterm2
-  keyboard-cleaner
-  launchcontrol
+  cyberduck # https://cyberduck.io/
+  daisydisk # https://daisydiskapp.com/
+  default-folder-x # https://www.stclairsoft.com/DefaultFolderX/
+  devtoys # https://dev.toys/
+  discord # https://discord.com/
+  eaglefiler # https://c-command.com/eaglefiler/
+  fantastical # https://flexibits.com/fantastical
+  firefox # https://www.mozilla.org/en-US/firefox/new/
+  fission # https://rogueamoeba.com/fission/
+  fluid # https://fluidapp.com/
+  google-chrome # https://www.google.com/chrome/
+  homebrew/cask/handbrake # https://handbrake.fr/
+  hazel # https://www.noodlesoft.com/
+  istat-menus # https://bjango.com/mac/istatmenus/
+  iterm2 # https://iterm2.com/
+  keyboard-cleaner # https://folivora.ai/keyboardcleaner
+  launchcontrol # https://www.soma-zone.com/LaunchControl/
   logi-options-plus
   logitech-g-hub
   logitech-options
-  maestral
-  # mailmate
+  maestral # https://maestral.app/
+  # mailmate (https://freron.com/) -- using beta version
   homebrew/cask-versions/mailmate-beta
-  microsoft-edge
-  moneydance
-  moom
-  musicbrainz-picard
-  mylio
-  name-mangler
-  netnewswire
-  notion
-  obsidian
-  opera
-  path-finder
-  poe
-  # postman -- work
-  raycast
-  reunion
-  skim
-  slack
-  soundsource
-  sourcetree
+  microsoft-edge # https://www.microsoft.com/en-us/edge
+  moneydance # https://moneydance.com/
+  moom # https://manytricks.com/moom/
+  musicbrainz-picard # https://picard.musicbrainz.org/
+  mylio # https://mylio.com/
+  name-mangler # https://manytricks.com/namemangler/
+  netnewswire # https://ranchero.com/netnewswire/
+  notion # https://www.notion.so/
+  obsidian # https://obsidian.md/
+  opera # https://www.opera.com/
+  path-finder # https://cocoatech.com/
+  poe # https://poeapp.com/
+  # postman () -- work
+  raycast # https://raycast.com/
+  reunion # https://www.reunionapp.com/
+  skim # https://skim-app.sourceforge.io/
+  slack # https://slack.com/
+  soundsource # https://rogueamoeba.com/soundsource/
+  sourcetree # https://www.sourcetreeapp.com/
   # spotify -- problems launching after updates
-  steam
-  suspicious-package
+  steam # https://store.steampowered.com/about/
+  suspicious-package # https://www.mothersruin.com/software/SuspiciousPackage/
   # the-archive-browser -- using BetterZip instead
-  the-unarchiver
-  tower
+  the-unarchiver # https://theunarchiver.com/
+  tower # https://www.git-tower.com/
   # unclutter (https://unclutterapp.com/) -- hombebrew version is out of date
-  visual-studio-code
-  vlc
-  xld
+  visual-studio-code # https://code.visualstudio.com/
+  vlc # https://www.videolan.org/vlc/
+  xld # https://tmkk.undo.jp/xld/index_e.html
 )
 
 for cask in ${applications[@]}
