@@ -78,4 +78,8 @@ if [[ -o interactive ]]; then
 
   # iTerm
   alias ic='imgcat'
+
+  # Xcode
+  alias xcode-release='sudo xcode-select --switch /Applications/Xcode.app'
+  alias xcode-beta='sudo xcode-select --switch /Applications/Xcode-beta.app'
 fi
