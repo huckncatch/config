@@ -216,6 +216,7 @@ applications=(
   # postman () -- work
   raycast # https://raycast.com/
   reunion # https://www.reunionapp.com/
+  shortcutdetective # https://www.irradiatedsoftware.com/labs/
   skim # https://skim-app.sourceforge.io/
   slack # https://slack.com/
   soundsource # https://rogueamoeba.com/soundsource/
