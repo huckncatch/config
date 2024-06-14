@@ -111,6 +111,7 @@ packages=(
   grep
   gzip
   highlight
+  kubectl
   mc
   openssh
   python3
@@ -136,6 +137,11 @@ for formula in ${packages[@]}
   do brew_install $formula
 done
 
+## node
+#
+# use nvm to install node
+# https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
+
 # Install applications
 # https://formulae.brew.sh/cask/
 
@@ -159,7 +165,7 @@ done
 # maestral keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
 
 applications=(
-  # 1password (https://1password.com/)
+  # 1password (https://1password.com/downloads/mac/) -- !! download directly !!
   abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
   alfred # https://www.alfredapp.com/
   amadeus-pro # https://www.hairersoft.com/pro.html
