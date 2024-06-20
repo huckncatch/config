@@ -1,4 +1,4 @@
-# echo "oh-my-zsh/custom/00_functions.zsh"
+echo ".../oh-my-zsh-custom/02_functions.zsh"
 
 # switch to main branch, delete old branch
 # git switch clean

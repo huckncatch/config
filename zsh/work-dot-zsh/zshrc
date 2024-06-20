@@ -92,6 +92,7 @@ plugins=(
 )
 
 # Initialize Oh-My-Zsh
+# echo "init oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 
 # load syntax highlighting
@@ -102,5 +103,8 @@ zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
 zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
 # zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
 zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # echo ".zshrc END"

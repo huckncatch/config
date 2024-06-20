@@ -1,4 +1,4 @@
-# echo "oh-my-zsh/custom/00_environment.zsh"
+echo ".../oh-my-zsh-custom/01_environment.zsh"
 
 # https://remysharp.com/2018/08/23/cli-improved
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort,ctrl-b:execute(bbedit {})+abort'"

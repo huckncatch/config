@@ -1,4 +1,4 @@
-# echo "oh-my-zsh/custom/00_aliases.zsh"
+echo ".../oh-my-zsh-custom/00_aliases.zsh"
 
 if [[ -o interactive ]]; then
 

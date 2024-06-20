@@ -126,7 +126,7 @@ packages=(
   # https://remysharp.com/2018/08/23/cli-improved
   ack
   bat
-  diff-so-fancy
+  # diff-so-fancy
   fd
   fzf
   ncdu
@@ -206,7 +206,7 @@ applications=(
   logitech-options
   maestral # https://maestral.app/
   # mailmate (https://freron.com/) -- using beta version
-  homebrew/cask-versions/mailmate-beta
+  mailmate@beta
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
   moom # https://manytricks.com/moom/
