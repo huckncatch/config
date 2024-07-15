@@ -199,6 +199,7 @@ applications=(
   hazel # https://www.noodlesoft.com/
   istat-menus # https://bjango.com/mac/istatmenus/
   iterm2 # https://iterm2.com/
+  karabiner-elements # https://karabiner-elements.pqrs.org/
   keyboard-cleaner # https://folivora.ai/keyboardcleaner
   launchcontrol # https://www.soma-zone.com/LaunchControl/
   logi-options-plus
