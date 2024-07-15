@@ -237,6 +237,7 @@ applications=(
   # unclutter (https://unclutterapp.com/) -- hombebrew version is out of date
   visual-studio-code # https://code.visualstudio.com/
   vlc # https://www.videolan.org/vlc/
+  warp # https://www.warp.dev/
   xld # https://tmkk.undo.jp/xld/index_e.html
 )
 
