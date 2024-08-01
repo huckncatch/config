@@ -51,7 +51,7 @@ if [[ -o interactive ]]; then
   alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
   alias clean="find . -name '*.orig' -type f -follow -print0 | xargs -0 rm -f"
 
-  alias yt='youtube-dl --cookies ./cookies.txt --recode-video mp4'
+  alias yt='yt-dlp --cookies ./cookies.txt --recode-video mp4'
   alias rmquarantine='xattr -d -r com.apple.quarantine'
 
   alias verifyCodeSign='codesign --verify --verbose'
