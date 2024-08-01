@@ -5,13 +5,17 @@
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
 
+# Install Homebrew before running this script
+#bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 # Permanently prevent macOS High Sierra from reopening apps after a restart
 #
 # https://apple.stackexchange.com/a/309140/234778
-# sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow*
-# touch ~/Library/Preferences/ByHost/com.apple.loginwindow*
-# sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow*
-# sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow*
+# ll ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
+# sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
+# touch ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
+# sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
+# sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
 
 # helper functions
 _prompt_install() {
@@ -27,24 +31,27 @@ _prompt_install() {
 _brew_list_does_not_contain() {
   # local brew_list_output
   brew_list_output=$(brew list 2>/dev/null)
+  # echo "Checking if $@ is in the brew list..."
   if [[ $brew_list_output != *"$@"* ]]; then
+    # echo "yes"
     return 0
   else
+    # echo "no"
     return 1
   fi
 }
 
 brew_install() {
-  if _brew_list_does_not_contain "$formula"; then
-   proceed=$(_prompt_install "Install $formula?")
+  if _brew_list_does_not_contain "$@"; then
+   proceed=$(_prompt_install "Install $@?")
     if [[ "$proceed" == "yes" ]]; then
-      echo "Installing..."
-      brew install "$formula"
+      echo "Installing $@..."
+      brew install "$@"
     else
       echo "Declined"
     fi
   else
-    echo "$formula already installed, gonna skip that."
+    echo "$@ already installed, gonna skip that."
   fi
 }
 
@@ -81,19 +88,18 @@ copy_zsh_config() {
 }
 copy_zsh_config
 
-# Install Homebrew
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
 ## Taps
 # https://github.com/buo/homebrew-cask-upgrade
 brew tap buo/cask-upgrade
+
 # used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
-brew tap homebrew/cask-versions
+# deprecated
+#brew tap homebrew/cask-versions
 
-# Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+## Install oh-my-zsh
+#sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Install zsh-completions
+## Install zsh-completions
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
 ## Install packages
@@ -106,21 +112,22 @@ packages=(
   # diffutils
   emacs
   findutils
+  ffmpeg
   git
   git-lfs
   grep
   gzip
   highlight
-  kubectl
-  mc
+  kubernetes-cli
+  midnight-commander
   openssh
-  python3
+  #python3 # installed by midnight-commander/mc
   rbenv
   screen
   tmux
   wget
   xcbeautify
-  youtube-dl
+  yt-dlp
   zsh
   zsh-syntax-highlighting
   # https://remysharp.com/2018/08/23/cli-improved
@@ -134,7 +141,9 @@ packages=(
 )
 
 for formula in ${packages[@]}
-  do brew_install $formula
+do
+  #echo "Processing $formula..."
+  brew_install "$formula"
 done
 
 ## node
@@ -158,33 +167,62 @@ done
 # 5 Find the version you need by reading the commit messages and view the raw file. Confirm the version variable (normally on line 2) is the version you need.
 # 6 Click on the name of the commit, then three dots and select View file
 # 7 Right-click Raw button and Save Link As... to download the file locally
-# 8 When downloaded, go to download directory cd Downloads/
-# 9 Finally run brew install --cask <FORMULA_NAME>.rb
+# 8 Download to ~/config/homebrew/pinned_casks
+# 9 Finally run brew install --cask ~/config/homebrew/pinned_casks/<FORMULA_NAME>.rb
 # 10 Voilà 😄
 
 # maestral keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
 
+#abbyy-finereader-pdf
+#amadeus-pro
+#eaglefiler
+#fluid
+#keyboard-cleaner
+#is built for Intel macOS and so requires Rosetta 2 to be installed.
+#You can install Rosetta 2 with:
+#  softwareupdate --install-rosetta --agree-to-license
+#Note that it is very difficult to remove Rosetta 2 once it is installed.
+
+echo "Check apps..."
 applications=(
   # 1password (https://1password.com/downloads/mac/) -- !! download directly !!
-  abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
-  alfred # https://www.alfredapp.com/
-  amadeus-pro # https://www.hairersoft.com/pro.html
   # arc (https://arc.net/)
+  path-finder # https://cocoatech.com/
+  iterm2 # https://iterm2.com/
+  raycast # https://raycast.com/
+  # xcode
+  bartender # https://www.macbartender.com/
+  maestral # https://maestral.app/
+  notion # https://www.notion.so/
+  hazel # https://www.noodlesoft.com/
+  choosy # https://www.choosyosx.com/
+  soundsource # https://rogueamoeba.com/soundsource/
+  istat-menus # https://bjango.com/mac/istatmenus/
+  karabiner-elements # https://karabiner-elements.pqrs.org/
+  mailmate@beta
+  visual-studio-code # https://code.visualstudio.com/
+  tower # https://www.git-tower.com/
+  #
+  betterzip # https://macitbetter.com/
+  moom # https://manytricks.com/moom/
+  the-unarchiver # https://theunarchiver.com/
+  # tana #
+  abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
+  # alfred # https://www.alfredapp.com/
+  amadeus-pro # https://www.hairersoft.com/pro.html
   audio-hijack # https://rogueamoeba.com/audiohijack/
-  audiobook-builder # https://www.splasm.com/audiobookbuilder/
+  # audiobook-builder # https://www.splasm.com/audiobookbuilder/
   # audioranger (https://www.audioranger.com/)
   # backblaze (https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac)
   # backblaze-downloader (https://www.backblaze.com/)
-  bartender # https://www.macbartender.com/
-  betterzip # https://macitbetter.com/
+  sourcetree # https://www.sourcetreeapp.com/
   beyond-compare # https://www.scootersoftware.com/
   brave-browser # https://brave.com/
   calibre # https://calibre-ebook.com/
   carbon-copy-cloner # https://bombich.com/
   cardhop # https://flexibits.com/cardhop
-  choosy # https://www.choosyosx.com/
   cloudflare-warp
-  cyberduck # https://cyberduck.io/
+  # cyberduck # https://cyberduck.io/
   daisydisk # https://daisydiskapp.com/
   default-folder-x # https://www.stclairsoft.com/DefaultFolderX/
   devtoys # https://dev.toys/
@@ -196,58 +234,46 @@ applications=(
   fluid # https://fluidapp.com/
   google-chrome # https://www.google.com/chrome/
   homebrew/cask/handbrake # https://handbrake.fr/
-  hazel # https://www.noodlesoft.com/
-  istat-menus # https://bjango.com/mac/istatmenus/
-  iterm2 # https://iterm2.com/
-  karabiner-elements # https://karabiner-elements.pqrs.org/
   keyboard-cleaner # https://folivora.ai/keyboardcleaner
   launchcontrol # https://www.soma-zone.com/LaunchControl/
   logi-options-plus
   logitech-g-hub
   logitech-options
-  maestral # https://maestral.app/
   # mailmate (https://freron.com/) -- using beta version
-  mailmate@beta
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
-  moom # https://manytricks.com/moom/
   musicbrainz-picard # https://picard.musicbrainz.org/
   mylio # https://mylio.com/
   name-mangler # https://manytricks.com/namemangler/
   netnewswire # https://ranchero.com/netnewswire/
-  notion # https://www.notion.so/
-  obsidian # https://obsidian.md/
+  # obsidian # https://obsidian.md/
   opera # https://www.opera.com/
-  path-finder # https://cocoatech.com/
   poe # https://poeapp.com/
   # postman () -- work
-  raycast # https://raycast.com/
   reunion # https://www.reunionapp.com/
   shortcutdetective # https://www.irradiatedsoftware.com/labs/
   skim # https://skim-app.sourceforge.io/
   slack # https://slack.com/
-  soundsource # https://rogueamoeba.com/soundsource/
-  sourcetree # https://www.sourcetreeapp.com/
   # spotify -- problems launching after updates
   steam # https://store.steampowered.com/about/
   suspicious-package # https://www.mothersruin.com/software/SuspiciousPackage/
   # the-archive-browser -- using BetterZip instead
-  the-unarchiver # https://theunarchiver.com/
-  tower # https://www.git-tower.com/
   # unclutter (https://unclutterapp.com/) -- hombebrew version is out of date
-  visual-studio-code # https://code.visualstudio.com/
   vlc # https://www.videolan.org/vlc/
-  warp # https://www.warp.dev/
+  # warp # https://www.warp.dev/
   xld # https://tmkk.undo.jp/xld/index_e.html
 )
 
 for cask in ${applications[@]}
-  do brew_install $cask
+do
+    # echo "Processing $cask"
+    brew_install $cask
 done
 
 # install pinned applications
-for cask ("$ZSH_CUSTOM"/pinned_casks/*.rb(N)); do
-  brew install --cask "$ZSH_CUSTOM"/pinned_casks/$cask"
+for app in ${"$ZSH_CUSTOM/pinned_casks/*.rb(N)"}
+do
+  brew install --cask "$ZSH_CUSTOM/pinned_casks/$app"
 done
 
 ## Never been tried
