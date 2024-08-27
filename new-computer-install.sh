@@ -197,6 +197,7 @@ applications=(
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
   the-unarchiver # https://theunarchiver.com/
+  ticktick # https://www.ticktick.com/
   # tana #
   abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
   # alfred # https://www.alfredapp.com/
