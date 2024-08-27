@@ -6,6 +6,8 @@ function gswclm() {
   local cwb
   cwb=`git_current_branch`
   gsw `git_main_branch`
+  gfa
+  gl
   gbd $cwb
 }
 compdef _git gswclm=git-switch
@@ -18,6 +20,9 @@ function gswcl() {
   readonly nwb=${1:?"Must specify a branch name."}
   local cwb
   cwb=`git_current_branch`
+  gsw `git_main_branch`
+  gfa
+  gl
   gsw $nwb
   gbd $cwb
 }
