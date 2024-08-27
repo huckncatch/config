@@ -8,15 +8,6 @@
 # Install Homebrew before running this script
 #bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Permanently prevent macOS High Sierra from reopening apps after a restart
-#
-# https://apple.stackexchange.com/a/309140/234778
-# ll ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
-# sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
-# touch ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
-# sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
-# sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow.[UUID].plist
-
 # helper functions
 _prompt_install() {
   local response
