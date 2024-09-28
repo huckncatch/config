@@ -193,7 +193,8 @@ applications=(
   mailmate@beta
   visual-studio-code # https://code.visualstudio.com/
   tower # https://www.git-tower.com/
-  #
+
+  # secondary apps
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
   the-unarchiver # https://theunarchiver.com/
@@ -213,6 +214,7 @@ applications=(
   calibre # https://calibre-ebook.com/
   carbon-copy-cloner # https://bombich.com/
   cardhop # https://flexibits.com/cardhop
+  chatgpt
   cloudflare-warp
   # cyberduck # https://cyberduck.io/
   daisydisk # https://daisydiskapp.com/
