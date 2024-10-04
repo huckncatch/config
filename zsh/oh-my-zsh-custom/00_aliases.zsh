@@ -41,7 +41,7 @@ if [[ -o interactive ]]; then
   alias grep='egrep'
 
   # git
-#   alias gt='git tag'
+  alias gt='git tag'
   alias gpot='git push origin "$(git_current_branch)" && git push origin --tags'
   alias gfst='git fetch && git status'
   alias gfasb='git fetch --all --prune && git status --short --branch'

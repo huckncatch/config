@@ -280,8 +280,8 @@ done
 #   do brew_install $formula
 # done
 
-### Fonts? ###
+### Fonts ###
 # https://github.com/githubnext/monaspace
 # to install
-#   `cd util`
-#   `bash util/install_macos.sh`
+brew tap homebrew/cask-fonts
+brew install font-monaspace
