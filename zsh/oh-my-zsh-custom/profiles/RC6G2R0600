@@ -2,6 +2,7 @@
 echo ".../oh-my-zsh-custom/profiles/RC6G2R0600"
 
 ## load sensitive environment
+## - archived 1Password
 source $HOME/.dat-creds.zsh
 
 ## aws-dat-cli-tool
