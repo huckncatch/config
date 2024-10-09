@@ -47,6 +47,7 @@ if [[ -o interactive ]]; then
   alias gfasb='git fetch --all --prune && git status --short --branch'
   alias grs.='git restore .'
   alias gsw-='git switch -'
+  alias gbd!='git branch -D `git_previous_branch`'
 
   alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
   alias clean="find . -name '*.orig' -type f -follow -print0 | xargs -0 rm -f"

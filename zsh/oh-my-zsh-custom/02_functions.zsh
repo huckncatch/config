@@ -3,12 +3,10 @@ echo ".../oh-my-zsh-custom/02_functions.zsh"
 # switch to main branch, delete old branch
 # git switch clean
 function gswclm() {
-  local cwb
-  cwb=`git_current_branch`
   gsw `git_main_branch`
   gfa
   gl
-  gbd $cwb
+  gbd `git_previous_branch`
 }
 compdef _git gswclm=git-switch
 
@@ -18,13 +16,11 @@ autoload gswclm
 # git switch clean
 function gswcl() {
   readonly nwb=${1:?"Must specify a branch name."}
-  local cwb
-  cwb=`git_current_branch`
   gsw `git_main_branch`
   gfa
   gl
   gsw $nwb
-  gbd $cwb
+  gbd `git_previous_branch`
 }
 compdef _git gswcl=git-switch
 
