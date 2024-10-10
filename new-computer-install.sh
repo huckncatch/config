@@ -181,7 +181,7 @@ applications=(
   path-finder # https://cocoatech.com/
   iterm2 # https://iterm2.com/
   raycast # https://raycast.com/
-  # xcode
+  # xcode # https://xcodereleases.com/
   bartender # https://www.macbartender.com/
   maestral # https://maestral.app/
   notion # https://www.notion.so/
@@ -195,12 +195,12 @@ applications=(
   tower # https://www.git-tower.com/
 
   # secondary apps
-  idrive
+  idrive # https://www.idrive.com/
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
   the-unarchiver # https://theunarchiver.com/
   ticktick # https://www.ticktick.com/
-  # tana #
+  # tana # https://tana.app/
   abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
   # alfred # https://www.alfredapp.com/
   amadeus-pro # https://www.hairersoft.com/pro.html
@@ -215,8 +215,8 @@ applications=(
   calibre # https://calibre-ebook.com/
   carbon-copy-cloner # https://bombich.com/
   cardhop # https://flexibits.com/cardhop
-  chatgpt
-  cloudflare-warp
+  chatgpt # https://chatgpt.com/
+  cloudflare-warp # https://www.cloudflare.com/warp/
   # cyberduck # https://cyberduck.io/
   daisydisk # https://daisydiskapp.com/
   default-folder-x # https://www.stclairsoft.com/DefaultFolderX/
@@ -231,9 +231,9 @@ applications=(
   homebrew/cask/handbrake # https://handbrake.fr/
   keyboard-cleaner # https://folivora.ai/keyboardcleaner
   launchcontrol # https://www.soma-zone.com/LaunchControl/
-  logi-options-plus
-  logitech-g-hub
-  logitech-options
+  logi-options-plus # https://www.logitech.com/en-us/product/options-plus
+  logitech-g-hub # https://www.logitechg.com/en-us/innovation/g-hub.html
+  logitech-options # https://www.logitech.com/en-us/product/options
   # mailmate (https://freron.com/) -- using beta version
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
