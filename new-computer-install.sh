@@ -195,6 +195,7 @@ applications=(
   tower # https://www.git-tower.com/
 
   # secondary apps
+  idrive
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
   the-unarchiver # https://theunarchiver.com/
