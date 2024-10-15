@@ -105,6 +105,7 @@ packages=(
   findutils
   ffmpeg
   git
+  git-interactive-rebase-tool
   git-lfs
   grep
   gzip
