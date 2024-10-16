@@ -146,25 +146,6 @@ done
 # Install applications
 # https://formulae.brew.sh/cask/
 
-## Notes
-#
-# Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
-#
-# To install a specific version of a cask/formula, follow the instructions here:
-#   https://stackoverflow.com/a/66477916/662731
-# 1 Go to the Homebrew Cask search page: https://formulae.brew.sh/cask/
-# 2 Type and find the application you are looking for
-# 3 Click Cask code link
-# 4 On Github click History button
-# 5 Find the version you need by reading the commit messages and view the raw file. Confirm the version variable (normally on line 2) is the version you need.
-# 6 Click on the name of the commit, then three dots and select View file
-# 7 Right-click Raw button and Save Link As... to download the file locally
-# 8 Download to ~/config/homebrew/pinned_casks
-# 9 Finally run brew install --cask ~/config/homebrew/pinned_casks/<FORMULA_NAME>.rb
-# 10 Voilà 😄
-
-# maestral keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
-
 #abbyy-finereader-pdf
 #amadeus-pro
 #eaglefiler

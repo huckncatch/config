@@ -1,5 +1,13 @@
 # Tips, Tricks, and Settings
 
+## Raycast
+
+Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
+
+## Maestral
+
+keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
+
 ## enable word jumping in iTerm2
 
 Use ⌥ + <-/-> (left/right arrow) to jump from one word to the next
@@ -59,3 +67,20 @@ Now Figma will not be able to override that file when it wants to update it. Als
     ```bash
     % rm -fr ~/Library/Application\ Support/Figma/FigmaAgent.app
     ```
+
+## Prevent updating cask with `bcu` -- pin a specific cask version
+
+To install a specific version of a cask/formula, follow the instructions [here](https://stackoverflow.com/a/66477916/662731)
+
+1. Go to the Homebrew Cask [search page](https://formulae.brew.sh/cask/)
+1. Search for the application you are looking for
+1. Click Cask code link
+1. On Github click History button
+1. Find the version you need by reading the commit messages and view the raw file. Confirm the version variable (normally on line 2) is the version you need.
+    - Click on the name of the commit, then three dots and select View file
+1. Right-click Raw button and "Save Link As..." to download the file locally
+1. Move to ~/config/homebrew/pinned_casks
+1. Run `brew install --cask ~/config/homebrew/pinned_casks/<FORMULA_NAME>.rb`
+1. Voilà 😄
+
+When `bcu` shows an update available, choose interactive mode and pin to exclude it from updates
