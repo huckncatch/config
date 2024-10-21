@@ -28,6 +28,9 @@ if [[ -o interactive ]]; then
   alias em='emacs'
   alias so='source'
 
+  alias mytar='tar -cvzf'
+  alias myuntar='tar -xvzf'
+
   # restart shell
   alias ez='exec zsh'
 
