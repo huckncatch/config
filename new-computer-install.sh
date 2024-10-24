@@ -219,6 +219,7 @@ applications=(
   # mailmate (https://freron.com/) -- using beta version
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
+  mountain
   musicbrainz-picard # https://picard.musicbrainz.org/
   mylio # https://mylio.com/
   name-mangler # https://manytricks.com/namemangler/
