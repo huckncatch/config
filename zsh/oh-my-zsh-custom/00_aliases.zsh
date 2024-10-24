@@ -35,7 +35,7 @@ if [[ -o interactive ]]; then
   alias ez='exec zsh'
 
   # ls
-  alias ltr='ls -ltrFH'                 # long listing sorted by date (reversed)
+  alias ltr='ls -ltrFH'               # long listing sorted by date (reversed)
   alias l.='ls -ld .*'                # list dot files only
   ## List only directories and symbolic links that point to directories
   alias lsd='ls -ld *(-/DN)'          # list directories only
