@@ -74,6 +74,7 @@ if [[ -o interactive ]]; then
   alias bcu='brew cu --all'
   ## brew plugin overrides
   alias bubo='brew update && brew outdated --formulae'
+  alias bup='brew upgrade --formulae'
   alias bubc='brew upgrade --formulae && brew cleanup'
   unalias bugbc
   unalias bubug
