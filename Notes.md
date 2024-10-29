@@ -8,6 +8,12 @@ Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory f
 
 keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
 
+## BBEdit
+
+Before launching, create a symlink to `~/Dropbox/Apps/BBEdit` in `~/Library/Application Support`
+
+    ln -s ~/Dropbox/Apps/BBEdit .
+
 ## enable word jumping in iTerm2
 
 Use ⌥ + <-/-> (left/right arrow) to jump from one word to the next

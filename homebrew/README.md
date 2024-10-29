@@ -10,6 +10,8 @@ Use [these instructions](https://minecrafthopper.net/help/installing-java/)
 
 ## Applications
 
+See [[Notes.md]]
+
 Some applications are pinned to prevent updating to paid version upgrades. To save the current list:
 
     brew cu pinned --export ~/config/homebrew/homebrew-cu-pinned-casks
