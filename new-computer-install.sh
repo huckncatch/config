@@ -219,6 +219,7 @@ applications=(
   # mailmate (https://freron.com/) -- using beta version
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
+  monitorcontrol # https://github.com/MonitorControl/MonitorControl
   mountain
   musicbrainz-picard # https://picard.musicbrainz.org/
   mylio # https://mylio.com/
@@ -240,6 +241,7 @@ applications=(
   vlc # https://www.videolan.org/vlc/
   # warp # https://www.warp.dev/
   xld # https://tmkk.undo.jp/xld/index_e.html
+  xnviewmp # https://www.xnview.com/en/xnviewmp/
 )
 
 for cask in ${applications[@]}
