@@ -171,8 +171,10 @@ applications=(
   choosy # https://www.choosyosx.com/
   soundsource # https://rogueamoeba.com/soundsource/
   istat-menus # https://bjango.com/mac/istatmenus/
+  usb-overdrive # https://www.usboverdrive.com/
   karabiner-elements # https://karabiner-elements.pqrs.org/
   mailmate@beta
+  # bbedit # https://www.barebones.com/products/bbedit/ -- PINNED
   visual-studio-code # https://code.visualstudio.com/
   tower # https://www.git-tower.com/
 
@@ -181,16 +183,15 @@ applications=(
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
   the-unarchiver # https://theunarchiver.com/
-  ticktick # https://www.ticktick.com/
+  # ticktick # https://www.ticktick.com/
   # tana # https://tana.app/
+  # a-better-finder-rename # https://www.publicspace.net/ABetterFinderRename/ -- PINNED
   abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
   # alfred # https://www.alfredapp.com/
   amadeus-pro # https://www.hairersoft.com/pro.html
   audio-hijack # https://rogueamoeba.com/audiohijack/
   # audiobook-builder # https://www.splasm.com/audiobookbuilder/
   # audioranger (https://www.audioranger.com/)
-  # backblaze (https://www.backblaze.com/computer-backup/docs/install-the-backup-client-mac)
-  # backblaze-downloader (https://www.backblaze.com/)
   sourcetree # https://www.sourcetreeapp.com/
   beyond-compare # https://www.scootersoftware.com/
   brave-browser # https://brave.com/
@@ -208,14 +209,15 @@ applications=(
   fantastical # https://flexibits.com/fantastical
   firefox # https://www.mozilla.org/en-US/firefox/new/
   fission # https://rogueamoeba.com/fission/
-  fluid # https://fluidapp.com/
+  # fluid # https://fluidapp.com/
   google-chrome # https://www.google.com/chrome/
+  # graphicconverter # https://www.lemkesoft.de/en/products/graphicconverter/ -- PINNED
   homebrew/cask/handbrake # https://handbrake.fr/
   keyboard-cleaner # https://folivora.ai/keyboardcleaner
   launchcontrol # https://www.soma-zone.com/LaunchControl/
-  logi-options-plus # https://www.logitech.com/en-us/product/options-plus
-  logitech-g-hub # https://www.logitechg.com/en-us/innovation/g-hub.html
-  logitech-options # https://www.logitech.com/en-us/product/options
+  # logi-options-plus # https://www.logitech.com/en-us/product/options-plus
+  # logitech-g-hub # https://www.logitechg.com/en-us/innovation/g-hub.html
+  # logitech-options # https://www.logitech.com/en-us/product/options
   # mailmate (https://freron.com/) -- using beta version
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
@@ -229,7 +231,7 @@ applications=(
   opera # https://www.opera.com/
   poe # https://poeapp.com/
   # postman () -- work
-  reunion # https://www.reunionapp.com/
+  # reunion # https://www.reunionapp.com/ -- PINNED
   shortcutdetective # https://www.irradiatedsoftware.com/labs/
   skim # https://skim-app.sourceforge.io/
   slack # https://slack.com/
