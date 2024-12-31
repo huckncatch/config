@@ -1,7 +1,7 @@
 echo ".../oh-my-zsh-custom/01_environment.zsh"
 
 # fzf
-export FZF_DEFAULT_COMMAND='fd --type f --exclude "directory_to_ignore"'
+export FZF_DEFAULT_COMMAND='fd --type f --exclude "DerivedData"'
 # https://remysharp.com/2018/08/23/cli-improved
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort,ctrl-b:execute(bbedit {})+abort'"
 
