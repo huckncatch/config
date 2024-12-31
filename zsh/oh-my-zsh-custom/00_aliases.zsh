@@ -1,4 +1,4 @@
-echo ".../oh-my-zsh-custom/00_aliases.zsh"
+echo ${0:A}
 
 if [[ -o interactive ]]; then
 
@@ -42,15 +42,6 @@ if [[ -o interactive ]]; then
   alias lsda='ls -l *(-/DN)'          # list directories and their contents
 
   alias grep='egrep'
-
-  # git
-  alias gt='git tag'
-  alias gpot='git push origin "$(git_current_branch)" && git push origin --tags'
-  alias gfst='git fetch && git status'
-  alias gfasb='git fetch --all --prune && git status --short --branch'
-  alias grs.='git restore .'
-  alias gsw-='git switch -'
-  alias gbd!='git branch -D `git_previous_branch`'
 
   alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
   alias clean="find . -name '*.orig' -type f -follow -print0 | xargs -0 rm -f"

@@ -1,4 +1,4 @@
-echo ".../oh-my-zsh-custom/01_environment.zsh"
+echo ${0:A}
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --exclude "DerivedData"'

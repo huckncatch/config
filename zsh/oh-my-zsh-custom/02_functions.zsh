@@ -1,4 +1,4 @@
-echo ".../oh-my-zsh-custom/02_functions.zsh"
+echo ${0:A}
 
 # clean () {
 #     local wdir

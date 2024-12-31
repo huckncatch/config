@@ -1,3 +1,6 @@
+# xcode
+echo ${0:A}
+
 # Finds a deletes the Build directory in DerivedData
 function delete_build_dir() {
   local derived_data_path=$(xcodebuild -scheme Unified_Debug-Staging -showBuildSettings 2>&1 | tee /dev/null | grep -m 1 "BUILT_PRODUCTS_DIR" | sed -E 's/^[^=]+=\s*(.+Products.*)$/\1/' | sed -E 's|(.*Unified-[a-z0-9]+/Build).*|\1|')
