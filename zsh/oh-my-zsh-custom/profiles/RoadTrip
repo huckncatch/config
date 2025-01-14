@@ -1,2 +1,2 @@
 # GapYr profile
-echo ".../oh-my-zsh-custom/profiles/RoadTrip"
+echo ${0:A}

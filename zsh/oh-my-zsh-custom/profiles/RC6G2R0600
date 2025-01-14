@@ -1,5 +1,5 @@
 # work machine profile
-echo ".../oh-my-zsh-custom/profiles/RC6G2R0600"
+echo ${0:A}
 
 ## load sensitive environment
 ## - archived 1Password
@@ -11,3 +11,6 @@ aws_dat_cli() { $HOME/.aws/aws-dat-cli-tool/dat-kube.sh "$@" fixed args; test -f
 
 ### Allow AWS SDK to look up config roles when loading profile credentials
 export AWS_SDK_LOAD_CONFIG="true"
+
+## dev helpers
+alias ows="open Unified.xcworkspace"
