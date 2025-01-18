@@ -11,19 +11,6 @@ export CLICOLOR=1
 ## iTerm shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
-## rbenv
-# https://github.com/rbenv/rbenv
-eval "$(rbenv init - zsh)"
-# ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and these are never upgraded.
-# https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
-# To link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded) add the following to your ~/.zshrc:
-# For Ruby versions 2.x–3.0:
-# - brew install openssl@1.1 readline libyaml gmp
-# export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-# Ruby 3.1 and above requires OpenSSL 3:
-# - brew install openssl@3 readline libyaml gmp
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
-
 export PATH="/usr/local/sbin:$PATH"
 
 export PATH="$(brew --prefix binutils)/bin:$PATH"
@@ -38,8 +25,23 @@ export PATH="$(brew --prefix gnu-which)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix grep)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix openssl)/libexec/gnubin:$PATH"
 # export PATH="$(brew --prefix unzip)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix python)/bin:$PATH"
+export PATH="$(brew --prefix python)/libexec/bin:$PATH"
 
-export PATH=$HOME/bin:$PATH
+export PATH="$HOME/.rbenv/bin:$PATH"
+
+export PATH="$HOME/bin:$PATH"
 
 export HOST=$(hostname)
+
+## rbenv
+# https://github.com/rbenv/rbenv
+eval "$(rbenv init - --no-rehash zsh)"
+# ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and these are never upgraded.
+# https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
+# To link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded) add the following to your ~/.zshrc:
+# For Ruby versions 2.x–3.0:
+# - brew install openssl@1.1 readline libyaml gmp
+# export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+# Ruby 3.1 and above requires OpenSSL 3:
+# - brew install openssl@3 readline libyaml gmp
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
