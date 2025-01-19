@@ -93,6 +93,9 @@ brew tap buo/cask-upgrade
 ## Install zsh-completions
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
+## install zsh-nvm
+git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-nvm
+
 ## Install packages
 # https://formulae.brew.sh/formula/
 echo "Check formulae..."

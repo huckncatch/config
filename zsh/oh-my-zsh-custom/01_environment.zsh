@@ -45,3 +45,8 @@ eval "$(rbenv init - --no-rehash zsh)"
 # Ruby 3.1 and above requires OpenSSL 3:
 # - brew install openssl@3 readline libyaml gmp
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
+
+## nvm
+export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

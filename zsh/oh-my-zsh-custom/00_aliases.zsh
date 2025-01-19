@@ -78,4 +78,7 @@ if [[ -o interactive ]]; then
   # Xcode
   alias xcode-release='sudo xcode-select --switch /Applications/Xcode.app'
   alias xcode-beta='sudo xcode-select --switch /Applications/Xcode-beta.app'
+
+  # npm
+  alias npmlatest='npm install -g npm@latest'
 fi
