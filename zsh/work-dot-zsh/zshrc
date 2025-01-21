@@ -54,7 +54,7 @@ ZSH_THEME="my-jonathan"
 # You can also set it to another string to have that shown instead of the default red dots.
 # e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
 # Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -70,7 +70,10 @@ ZSH_THEME="my-jonathan"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
+export ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
+
+# zsh-completions
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -86,14 +89,17 @@ plugins=(
   gitfast
   git-prompt
   iterm2
+  npm
   profiles
   sudo
   vscode
+  zsh-nvm
 )
 
 # Initialize Oh-My-Zsh
-# echo "init oh-my-zsh"
+echo "init oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
+echo "oh-my-zsh loaded"
 
 # load syntax highlighting
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
