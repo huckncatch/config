@@ -5,9 +5,14 @@ echo ${0:A}
 ## - archived 1Password
 source $HOME/.dat-creds.zsh
 
-## aws-dat-cli-tool
+## aws-dat-cli tool
 alias aws-dat-cli="aws_dat_cli"
-aws_dat_cli() { $HOME/.aws/aws-dat-cli-tool/dat-kube.sh "$@" fixed args; test -f ~/.dat_kube_config && source ~/.dat_kube_config; }
+aws_dat_cli() {
+    $HOME/.aws/aws-dat-cli-tool/dat-kube.sh "$@" fixed args
+    if test -f ~/.dat_kube_config; then
+        source $HOME/.dat_kube_config
+    fi
+}
 
 ### Allow AWS SDK to look up config roles when loading profile credentials
 export AWS_SDK_LOAD_CONFIG="true"
