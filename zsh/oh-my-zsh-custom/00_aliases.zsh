@@ -51,34 +51,7 @@ if [[ -o interactive ]]; then
 
   alias verifyCodeSign='codesign --verify --verbose'
 
-  # node package manager
-  alias nrt='npm run transpile'
-  alias nrs='npm run start'
-  alias nrts='nrt && nrs'
-  alias nrtest='npm run test'
-
-  # homebrew
-  alias bi='brew info'
-  alias bs='brew search'
-  alias blc='brew list --cask'
-  alias bis='brew install'
-  alias bcu='brew cu --all'
-  ## brew plugin overrides
-  alias bubo='brew update && brew outdated --formulae'
-  alias bup='brew upgrade --formulae'
-  alias bubc='brew upgrade --formulae && brew cleanup'
-  unalias bugbc
-  unalias bubug
-  unalias bcubo
-  unalias bcubc
-
   # iTerm
   alias ic='imgcat'
 
-  # Xcode
-  alias xcode-release='sudo xcode-select --switch /Applications/Xcode.app'
-  alias xcode-beta='sudo xcode-select --switch /Applications/Xcode-beta.app'
-
-  # npm
-  alias npmlatest='npm install -g npm@latest'
 fi
