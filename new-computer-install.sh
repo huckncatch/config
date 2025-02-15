@@ -5,6 +5,13 @@
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
 
+# Prerequisites
+# This script assumes you have Homebrew installed.
+# If you don't have Homebrew installed, uncomment the line below to install it.
+# You can also install Homebrew manually by following the instructions at https://brew.sh/
+#
+# ZSH_CUSTOM is set in the zshrc file, so it should be set before running this script.
+
 # Install Homebrew before running this script
 #bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -144,6 +151,7 @@ done
 ## node
 #
 # use nvm to install node
+# use zsh-npm instead of nvm, from https://github.com/lukechilds/zsh-nvm
 # https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
 
 # Install applications
