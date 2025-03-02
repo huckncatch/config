@@ -31,7 +31,15 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 
 export PATH="$HOME/bin:$PATH"
 
-export HOST=$(hostname)
+## These don't appear to be needed for the profiles plugin to work
+# export HOST=$(hostname)
+
+# if [[ "$OSTYPE" = darwin* ]]; then
+#   # macOS's $HOST changes with dhcp, etc. Use ComputerName if possible.
+#   export SHORT_HOST=$(scutil --get ComputerName 2>/dev/null) || SHORT_HOST="${HOST/.*/}"
+# else
+#   export SHORT_HOST="${HOST/.*/}"
+# fi
 
 ## rbenv
 # https://github.com/rbenv/rbenv

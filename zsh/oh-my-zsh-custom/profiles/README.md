@@ -17,13 +17,13 @@ To add a new profile to this directory for use with the `new-computer-install.sh
 2. **Create the Profile File**: Create a new file in this directory with the name matching the machine name obtained in the previous step.
 
     ```sh
-    touch /Users/jimmc/config/zsh/oh-my-zsh-custom/profiles/<machine-name>
+    touch .../config/zsh/oh-my-zsh-custom/profiles/<machine-name>
     ```
 
 3. **Edit the Profile File**: Open the newly created file and add the necessary configuration settings for the machine.
 
     ```sh
-    nano /Users/jimmc/config/zsh/oh-my-zsh-custom/profiles/<machine-name>
+    nano .../config/zsh/oh-my-zsh-custom/profiles/<machine-name>
     ```
 
 4. **Save and Close**: Save the changes and close the editor.

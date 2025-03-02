@@ -81,6 +81,7 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  profiles
   alias-finder
   bbedit
   brew
@@ -90,7 +91,6 @@ plugins=(
   git-prompt
   iterm2
   npm
-  profiles
   sudo
   vscode
   zsh-nvm
@@ -113,4 +113,9 @@ zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-# echo ".zshrc END"
+# Declare the variables 'path', 'manpath', and 'fpath' as unique arrays.
+# The '-U' option ensures that each array contains only unique elements,
+# removing any duplicates automatically.
+typeset -U path manpath fpath
+
+echo "END"

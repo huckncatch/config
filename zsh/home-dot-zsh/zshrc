@@ -82,6 +82,7 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  profiles
   alias-finder
   bbedit
   brew
@@ -91,7 +92,6 @@ plugins=(
   git-prompt
   iterm2
   npm
-  profiles
   sudo
   vscode
   zsh-nvm
