@@ -205,6 +205,7 @@ applications=(
   # audioranger (https://www.audioranger.com/)
   sourcetree # https://www.sourcetreeapp.com/
   beyond-compare # https://www.scootersoftware.com/
+  github-copilot-for-xcode # https://github.com/github/CopilotForXcode
   brave-browser # https://brave.com/
   calibre # https://calibre-ebook.com/
   carbon-copy-cloner # https://bombich.com/
