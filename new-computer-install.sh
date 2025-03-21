@@ -188,6 +188,7 @@ applications=(
   # bbedit # https://www.barebones.com/products/bbedit/ -- PINNED
   visual-studio-code # https://code.visualstudio.com/
   tower # https://www.git-tower.com/
+  warp # https://www.warp.dev/
 
   # secondary apps
   idrive # https://www.idrive.com/
