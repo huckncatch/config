@@ -55,6 +55,10 @@ Or, just delete the github password and regenerate the Personal Access Token aga
 % sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow*
 ```
 
+## Speed the Dock open/close animation
+
+`defaults write com.apple.dock autohide-time-modifier -float 0.15;killall Dock`
+
 ## Prevent FigmaAgent from launching on startup
 
 - remove FigmaAgent.app

@@ -140,6 +140,7 @@ packages=(
   fzf
   ncdu
   tldr
+  tree
 )
 
 for formula in ${packages[@]}
@@ -189,6 +190,7 @@ applications=(
   visual-studio-code # https://code.visualstudio.com/
   tower # https://www.git-tower.com/
   warp # https://www.warp.dev/
+  keyclu # https://sergii.tatarenkov.name/keyclu/support/
 
   # secondary apps
   idrive # https://www.idrive.com/
