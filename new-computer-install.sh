@@ -190,13 +190,15 @@ applications=(
   visual-studio-code # https://code.visualstudio.com/
   tower # https://www.git-tower.com/
   warp # https://www.warp.dev/
-  keyclu # https://sergii.tatarenkov.name/keyclu/support/
+  keyclu # https://sergii.tatarenkov.name/keyclu/support/q
 
   # secondary apps
   idrive # https://www.idrive.com/
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
+  betterdisplay # https://www.fadest.chttps://github.com/waydabber/BetterDisplay
   the-unarchiver # https://theunarchiver.com/
+  adapter # https://www.macroplant.com/adapter/
   # ticktick # https://www.ticktick.com/
   # tana # https://tana.app/
   # a-better-finder-rename # https://www.publicspace.net/ABetterFinderRename/ -- PINNED
