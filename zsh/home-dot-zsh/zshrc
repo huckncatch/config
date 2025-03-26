@@ -103,6 +103,7 @@ plugins=(
   sudo
   tmux
   vscode
+  zsh-autosuggestions
   zsh-nvm
 )
 
