@@ -92,7 +92,10 @@ plugins=(
   iterm2
   npm
   sudo
+  tmux
   vscode
+  zsh-autosuggestions
+  zsh-syntax-highlighting
   zsh-nvm
 )
 
@@ -102,7 +105,7 @@ source $ZSH/oh-my-zsh.sh
 echo "oh-my-zsh loaded"
 
 # load syntax highlighting
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # alias-finder
 zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
