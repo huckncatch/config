@@ -261,6 +261,9 @@ applications=(
   # warp # https://www.warp.dev/
   xld # https://tmkk.undo.jp/xld/index_e.html
   xnviewmp # https://www.xnview.com/en/xnviewmp/
+
+  # manual installation
+  # Motion Minute # https://motionminute.app/
 )
 
 for cask in ${applications[@]}
