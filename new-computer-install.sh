@@ -107,11 +107,13 @@ git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zs
 # https://formulae.brew.sh/formula/
 echo "Check formulae..."
 packages=(
+  ag # Silver Search
   # binutils
   coreutils
   curl
   # diffutils
   emacs
+  eza # ls replacement
   findutils
   ffmpeg
   git
@@ -124,23 +126,24 @@ packages=(
   midnight-commander
   openssh
   #python3 # installed by midnight-commander/mc
-  rbenv
+  rbenv # Ruby version manager
   screen
   tmux
   wget
   xcbeautify
-  yt-dlp
+  yt-dlp # youtube-dl replacement
   zsh
   zsh-syntax-highlighting
   # https://remysharp.com/2018/08/23/cli-improved
   ack
   bat
   # diff-so-fancy
-  fd
-  fzf
-  ncdu
+  fd # find replacement
+  fzf # fuzzy finder
+  ncdu # disk usage analyzer
+  ripgrep # grep replacement
   tldr
-  tree
+  tree # directory listing
 )
 
 for formula in ${packages[@]}

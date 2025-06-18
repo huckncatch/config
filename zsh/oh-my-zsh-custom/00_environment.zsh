@@ -1,7 +1,9 @@
 echo ${0:A}
 
 # fzf
-export FZF_DEFAULT_COMMAND='fd --type f --exclude "DerivedData"'
+# export FZF_DEFAULT_COMMAND='fd --type f --exclude "DerivedData"'
+# Enable Ctrl+R history search with preview
+export FZF_DEFAULT_COMMAND='ag -g ""'
 # https://remysharp.com/2018/08/23/cli-improved
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort,ctrl-b:execute(bbedit {})+abort'"
 

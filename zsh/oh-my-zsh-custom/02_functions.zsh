@@ -1,5 +1,7 @@
 echo ${0:A}
 
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
 # clean () {
 #     local wdir
 

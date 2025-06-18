@@ -3,7 +3,8 @@ echo ${0:A}
 if [[ -o interactive ]]; then
 
   # default switches
-  alias ls='command ls -FsC --color=auto --si'
+  # alias ls='command ls -FsC --color=auto --si'
+  alias ls='eza --icons --git'
   alias mv='nocorrect command mv -i'
   alias cp='nocorrect command cp -i'
   alias jobs='builtin jobs -l'
