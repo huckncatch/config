@@ -15,5 +15,5 @@ function delete_build_dir() {
 autoload delete_build_dir
 alias dbd=delete_build_dir
 
-alias xcode-release='sudo xcode-select --switch /Applications/Xcode.app'
-alias xcode-beta='sudo xcode-select --switch /Applications/Xcode-beta.app'
+alias xcr='sudo xcode-select --switch /Applications/Xcode.app'
+alias xcb='sudo xcode-select --switch /Applications/Xcode-beta.app'

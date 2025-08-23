@@ -4,6 +4,8 @@
 
 Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
 
+https://www.raycast.com/VladCuciureanu/toothpick#readme
+
 ## Maestral
 
 keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
@@ -14,7 +16,7 @@ Before launching, create a symlink to `~/Dropbox/Apps/BBEdit` in `~/Library/Appl
 
     ln -s ~/Dropbox/Apps/BBEdit .
 
-## enable word jumping in iTerm2
+## iTerm2: enable word jumping
 
 Use ⌥ + <-/-> (left/right arrow) to jump from one word to the next
 
@@ -47,6 +49,8 @@ OSX prompts for a password every time you use git after brew upgrades git. To ma
 Or, just delete the github password and regenerate the Personal Access Token again. (source: [Fixing the git-credential-osxkeychain password prompts on every git transaction](https://dominoc925.blogspot.com/2019/11/fixing-git-credential-osxkeychain.html))
 
 ## [Permanently prevent macOS High Sierra from reopening apps after a restart](https://apple.stackexchange.com/a/309140/234778)
+
+> [!WARNING] This is broken in macOS 26 Tahoe and later
 
 ```bash
 % sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow*

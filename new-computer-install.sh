@@ -128,6 +128,7 @@ packages=(
   #python3 # installed by midnight-commander/mc
   rbenv # Ruby version manager
   screen
+  swiftly  # Swift toolchain version manager
   tmux
   wget
   xcbeautify
@@ -135,14 +136,14 @@ packages=(
   zsh
   zsh-syntax-highlighting
   # https://remysharp.com/2018/08/23/cli-improved
-  ack
-  bat
+  ack  # grep replacement
+  bat  # cat replacement
   # diff-so-fancy
   fd # find replacement
   fzf # fuzzy finder
   ncdu # disk usage analyzer
   ripgrep # grep replacement
-  tldr
+  tldr # 
   tree # directory listing
 )
 
@@ -218,8 +219,8 @@ applications=(
   calibre # https://calibre-ebook.com/
   carbon-copy-cloner # https://bombich.com/
   cardhop # https://flexibits.com/cardhop
-  chatgpt # https://chatgpt.com/
-  cloudflare-warp # https://www.cloudflare.com/warp/
+  # chatgpt # https://chatgpt.com/
+  # cloudflare-warp # https://www.cloudflare.com/warp/
   # cyberduck # https://cyberduck.io/
   daisydisk # https://daisydiskapp.com/
   default-folder-x # https://www.stclairsoft.com/DefaultFolderX/
@@ -230,9 +231,10 @@ applications=(
   firefox # https://www.mozilla.org/en-US/firefox/new/
   fission # https://rogueamoeba.com/fission/
   # fluid # https://fluidapp.com/
+  flux-app # https://justgetflux.com/
   google-chrome # https://www.google.com/chrome/
   # graphicconverter # https://www.lemkesoft.de/en/products/graphicconverter/ -- PINNED
-  homebrew/cask/handbrake # https://handbrake.fr/
+  handbrake-app # https://handbrake.fr/
   keyboard-cleaner # https://folivora.ai/keyboardcleaner
   launchcontrol # https://www.soma-zone.com/LaunchControl/
   # logi-options-plus # https://www.logitech.com/en-us/product/options-plus
