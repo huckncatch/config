@@ -17,6 +17,11 @@ if [[ -o interactive ]]; then
   alias hg='history 1- | grep -i'
 
   alias c=clear
+  alias cdicloud='cd ~/Library/Mobile\ Documents/com\~apple\~CloudDocs' # iCloud Drive
+  alias cddls='cd ~/Downloads'
+  alias cdpics='cd ~/Pictures'
+  alias cddocs='cd ~/Documents'
+  alias cdcode='cd ~/Developer'
 
 # doesn't work with sudo... do I really need nocorrect anyway?
 #     alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir

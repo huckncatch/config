@@ -4,7 +4,8 @@
 
 Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
 
-https://www.raycast.com/VladCuciureanu/toothpick#readme
+### Toothpick
+Toothpick is a Raycast extension that allows you to control Bluetooth devices from the command line. It requires the `blueutil` command-line tool to be installed. Follow the "Enabling 'blueutil' backend" instructions in the [README](https://www.raycast.com/VladCuciureanu/toothpick#readme) file.
 
 ## Maestral
 

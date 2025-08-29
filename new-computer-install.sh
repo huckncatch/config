@@ -95,13 +95,29 @@ brew tap buo/cask-upgrade
 #brew tap homebrew/cask-versions
 
 ## Install oh-my-zsh
+# ZSH_CUSTOM is set in the zshrc file, so it should be set before running this script.
+# echo "ZSH_CUSTOM is $ZSH_CUSTOM"
+# echo "ZSH is $ZSH"
+
+# old way of installing oh-my-zsh
 #sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install oh-my-zsh without changing the default shell to zsh and without running zsh after installation
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo "Installing oh-my-zsh..."
+  RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+  echo "oh-my-zsh already installed, skipping."
+fi
 
 ## Install zsh-completions
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
 ## install zsh-nvm
 git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-nvm
+
+## Install zsh-fast-syntax-highlighting
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/fast-syntax-highlighting
 
 ## Install packages
 # https://formulae.brew.sh/formula/
@@ -134,7 +150,8 @@ packages=(
   xcbeautify
   yt-dlp # youtube-dl replacement
   zsh
-  zsh-syntax-highlighting
+  # zsh-fast-syntax-highlighting
+  # zsh-syntax-highlighting
   # https://remysharp.com/2018/08/23/cli-improved
   ack  # grep replacement
   bat  # cat replacement
@@ -178,7 +195,7 @@ applications=(
   # arc (https://arc.net/)
   path-finder # https://cocoatech.com/
   iterm2 # https://iterm2.com/
-  raycast # https://raycast.com/
+  raycast # https://raycast.com/ -- ## Raycast Extensions
   # xcode # https://xcodereleases.com/
   bartender # https://www.macbartender.com/
   maestral # https://maestral.app/
@@ -188,7 +205,7 @@ applications=(
   soundsource # https://rogueamoeba.com/soundsource/
   istat-menus # https://bjango.com/mac/istatmenus/
   usb-overdrive # https://www.usboverdrive.com/
-  karabiner-elements # https://karabiner-elements.pqrs.org/
+  karabiner-elements # https://karabiner-elements.pqrs.org/ | keyboard customization savant
   mailmate@beta
   # bbedit # https://www.barebones.com/products/bbedit/ -- PINNED
   visual-studio-code # https://code.visualstudio.com/
@@ -200,9 +217,9 @@ applications=(
   idrive # https://www.idrive.com/
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
-  betterdisplay # https://www.fadest.chttps://github.com/waydabber/BetterDisplay
+  # betterdisplay # https://www.fadest.chttps://github.com/waydabber/BetterDisplay
   the-unarchiver # https://theunarchiver.com/
-  adapter # https://www.macroplant.com/adapter/
+  # adapter # https://www.macroplant.com/adapter/
   # ticktick # https://www.ticktick.com/
   # tana # https://tana.app/
   # a-better-finder-rename # https://www.publicspace.net/ABetterFinderRename/ -- PINNED
@@ -300,3 +317,15 @@ done
 # to install
 brew tap homebrew/cask-fonts
 brew install font-monaspace
+
+## Raycast Extensions
+# https://www.raycast.com/extensions
+#
+# https://www.raycast.com/VladCuciureanu/toothpick # Manage Bluetooth connections
+# https://www.raycast.com/raycast/apple-notes#readme # Search for and create Apple Notes directly within Raycast
+# https://www.raycast.com/thomas/color-picker # Pick and organize colors, everywhere on your Mac
+# https://www.raycast.com/marcjulian/obsidian # Control Obsidian
+# https://www.raycast.com/rolandleth/kill-process # Terminate processes sorted by CPU or memory usage
+# https://www.raycast.com/lardissone/raindrop-io # Search your Raindrop.io bookmarks
+# https://www.raycast.com/benvp/audio-device # Switch the active audio device of your mac
+# https://www.raycast.com/mooxl/coffee # Prevent the sleep function on your mac

@@ -104,7 +104,8 @@ plugins=(
   tmux
   vscode
   zsh-autosuggestions
-  zsh-syntax-highlighting
+  fast-syntax-highlighting
+  # zsh-syntax-highlighting
   zsh-nvm
 )
 
@@ -113,7 +114,14 @@ echo "init oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 echo "oh-my-zsh loaded"
 
-# load syntax highlighting
+## Manually load plugins that need to be loaded after oh-my-zsh
+
+# This is the basic format for sourcing the plugins
+# source ${ZSH_CUSTOM:-$ZSH/custom}/plugins/<plugin-name>/<plugin-file>.zsh
+# -or-
+# source ~/path/to/fsh/fast-syntax-highlighting.plugin.zsh
+
+# load syntax highlighting for fast-syntax-highlighting
 # source /opt/homebrew/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # alias-finder
@@ -133,4 +141,5 @@ typeset -U path manpath fpath
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+echo "host: $HOST"
 echo "END"
