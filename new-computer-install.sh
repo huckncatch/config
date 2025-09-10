@@ -134,20 +134,17 @@ packages=(
   ffmpeg
   git
   git-interactive-rebase-tool
-  git-lfs
+  # git-lfs
   grep
   gzip
   highlight
-  kubernetes-cli
   midnight-commander
   openssh
   #python3 # installed by midnight-commander/mc
   rbenv # Ruby version manager
   screen
-  swiftly  # Swift toolchain version manager
   tmux
   wget
-  xcbeautify
   yt-dlp # youtube-dl replacement
   zsh
   # zsh-fast-syntax-highlighting
@@ -162,6 +159,13 @@ packages=(
   ripgrep # grep replacement
   tldr # 
   tree # directory listing
+
+  # development
+  swiftformat
+  swiftlint
+  swiftly  # Swift toolchain version manager
+  xcbeautify
+  xcode-build-server
 )
 
 for formula in ${packages[@]}
@@ -212,6 +216,13 @@ applications=(
   tower # https://www.git-tower.com/
   warp # https://www.warp.dev/
   keyclu # https://sergii.tatarenkov.name/keyclu/support/q
+
+  # AI tools
+  claude # https://claude.ai/
+  claude-code # https://www.anthropic.com/claude-code
+  cursor # https://www.cursor.so/
+
+  reader # https://readwise.io/read/
 
   # secondary apps
   idrive # https://www.idrive.com/
