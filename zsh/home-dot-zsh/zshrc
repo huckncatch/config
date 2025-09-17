@@ -1,5 +1,9 @@
-echo "BEGIN"
-# echo ${0:A}
+export DEBUG_STARTUP=0
+
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo "BEGIN"
+  echo ${0:A}
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -110,9 +114,13 @@ plugins=(
 )
 
 # Initialize Oh-My-Zsh
-echo "init oh-my-zsh"
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo "init oh-my-zsh"
+fi
 source $ZSH/oh-my-zsh.sh
-echo "oh-my-zsh loaded"
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo "oh-my-zsh loaded"
+fi
 
 ## Manually load plugins that need to be loaded after oh-my-zsh
 
@@ -141,5 +149,7 @@ typeset -U path manpath fpath
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-echo "host: $HOST"
-echo "END"
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo "host: $HOST"
+  echo "END"
+fi

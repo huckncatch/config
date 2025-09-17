@@ -1,5 +1,7 @@
 # node
-echo ${0:A}
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo ${0:A}
+fi
 
 # node package manager
 alias nrt='npm run transpile'

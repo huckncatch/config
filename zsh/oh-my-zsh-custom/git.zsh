@@ -1,5 +1,7 @@
 # git
-echo ${0:A}
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo ${0:A}
+fi
 
 alias gt='git tag'
 alias gpot='git push origin "$(git_current_branch)" && git push origin --tags'

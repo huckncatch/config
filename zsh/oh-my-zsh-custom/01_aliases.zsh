@@ -1,4 +1,6 @@
-echo ${0:A}
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo ${0:A}
+fi
 
 if [[ -o interactive ]]; then
 
