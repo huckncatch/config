@@ -4,9 +4,15 @@ fi
 
 if [[ -o interactive ]]; then
 
+  # Set USE_EZA=1 to use eza, or USE_EZA=0 to use traditional ls
+  USE_EZA=${USE_EZA:-1}
+
   # default switches
-  # alias ls='command ls -FsC --color=auto --si'
-  alias ls='eza --icons --git'
+  if [[ "$USE_EZA" == "1" ]]; then
+    alias ls='eza --icons --git'
+  else
+    alias ls='command ls -FsC --color=auto --si'
+  fi
   alias mv='nocorrect command mv -i'
   alias cp='nocorrect command cp -i'
   alias jobs='builtin jobs -l'
@@ -42,12 +48,26 @@ if [[ -o interactive ]]; then
   # restart shell
   alias ez='exec zsh'
 
-  # ls
-  alias ltr='ls -ltrFH'               # long listing sorted by date (reversed)
-  alias l.='ls -ld .*'                # list dot files only
-  ## List only directories and symbolic links that point to directories
-  alias lsd='ls -ld *(-/DN)'          # list directories only
-  alias lsda='ls -l *(-/DN)'          # list directories and their contents
+  # ls aliases - adapt based on USE_EZA
+  if [[ "$USE_EZA" == "1" ]]; then
+    alias ll='ls -l'                               # long listing (no dot files)
+    alias la='ls -la'                              # long listing (full)
+    alias lt='ls -l --sort=modified'               # long listing sorted by date
+    alias ltr='ls -l --sort=modified --reverse'    # long listing sorted by date (reversed)
+    alias l.='ls -ld .*'                           # list dot files only
+    ## List only directories and symbolic links that point to directories
+    alias lsd='ls -ld *(-/DN)'                     # list directories only
+    alias lsda='ls -l *(-/DN)'                     # list directories and their contents
+  else
+    alias ll='ls -l'                    # long listing (no dot files)
+    alias la='ls -la'                   # long listing (full)
+    alias lt='ls -lt'                   # long listing sorted by date
+    alias ltr='ls -ltrFH'               # long listing sorted by date (reversed)
+    alias l.='ls -ld .*'                # list dot files only
+    ## List only directories and symbolic links that point to directories
+    alias lsd='ls -ld *(-/DN)'          # list directories only
+    alias lsda='ls -l *(-/DN)'          # list directories and their contents
+  fi
 
   alias grep='egrep'
 
