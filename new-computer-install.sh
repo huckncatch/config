@@ -88,6 +88,7 @@ copy_zsh_config
 
 ## Taps
 # https://github.com/buo/homebrew-cask-upgrade
+# used by `brew cu` command to upgrade casks
 brew tap buo/cask-upgrade
 
 # used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
@@ -113,7 +114,14 @@ fi
 ## Install zsh-completions
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
-## install zsh-nvm
+## node
+#
+# ~~use nvm to install node~~
+# ~~https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating~~
+# use zsh-nvm instead of nvm, from https://github.com/lukechilds/zsh-nvm
+#
+# install zsh-nvm
+# installs into `~/.nvm`
 git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-nvm
 
 ## Install zsh-fast-syntax-highlighting
@@ -157,7 +165,7 @@ packages=(
   fzf # fuzzy finder
   ncdu # disk usage analyzer
   ripgrep # grep replacement
-  tldr # 
+  tldr #
   tree # directory listing
 
   # development
@@ -168,7 +176,7 @@ packages=(
   xcode-build-server
 
   # other
-  mas # Mac App Store command line interface
+  # mas # Mac App Store command line interface
 )
 
 for formula in ${packages[@]}
@@ -176,12 +184,6 @@ do
   #echo "Processing $formula..."
   brew_install "$formula"
 done
-
-## node
-#
-# use nvm to install node
-# use zsh-npm instead of nvm, from https://github.com/lukechilds/zsh-nvm
-# https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
 
 # Install applications
 # https://formulae.brew.sh/cask/
@@ -207,7 +209,7 @@ applications=(
   # xcode # https://xcodereleases.com/
   bartender # https://www.macbartender.com/
   maestral # https://maestral.app/
-  notion # https://www.notion.so/
+  obsidian # https://obsidian.md/
   hazel # https://www.noodlesoft.com/
   choosy # https://www.choosyosx.com/
   soundsource # https://rogueamoeba.com/soundsource/
@@ -276,15 +278,16 @@ applications=(
   microsoft-edge # https://www.microsoft.com/en-us/edge
   moneydance # https://moneydance.com/
   monitorcontrol # https://github.com/MonitorControl/MonitorControl
-  mountain
+  # mountain # https://appgineers.de/mountain/ ## deprecated
   musicbrainz-picard # https://picard.musicbrainz.org/
   mylio # https://mylio.com/
   name-mangler # https://manytricks.com/namemangler/
   netnewswire # https://ranchero.com/netnewswire/
-  # obsidian # https://obsidian.md/
   opera # https://www.opera.com/
+  orion # https://browser.kagi.com/
+  piezo # https://rogueamoeba.com/piezo/
   poe # https://poeapp.com/
-  # postman () -- work
+  privadovpn # https://privadovpn.com/
   qlmarkdown # https://github.com/sbarex/QLMarkdown
   # reunion # https://www.reunionapp.com/ -- PINNED
   shortcutdetective # https://www.irradiatedsoftware.com/labs/

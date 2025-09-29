@@ -26,7 +26,11 @@ Use ⌥ + <-/-> (left/right arrow) to jump from one word to the next
 - For left, enter the keyboard shortcut ⌥+left arrow, and Esc+ ‘b’
 - For right, enter the keyboard shortcut ⌥+right arrow, and Esc+ ‘f’
 
-## Prevent updating cask with `bcu` -- pin a specific cask version
+## `brew cu`
+
+Upgrade all outdated casks
+
+### Prevent updating cask with `bcu` -- pin a specific cask version
 
 To install a specific version of a cask/formula, follow the instructions [here](https://stackoverflow.com/a/66477916/662731)
 
@@ -41,7 +45,7 @@ To install a specific version of a cask/formula, follow the instructions [here](
 1. Run `brew install --cask ~/config/homebrew/pinned_casks/<FORMULA_NAME>.rb`
 1. Voilà 😄
 
-When `bcu` shows an update available, choose interactive mode and pin to exclude it from updates
+When `bcu` shows an update available, choose interactive mode and pin to exclude it from updates, or use `bcu --pin <FORMULA_NAME>` to pin it.
 
 ## [Fix for 'git-credential-osxkeychain wants to access key "github.com" in your keychain'](https://stackoverflow.com/a/71936715/662731)
 

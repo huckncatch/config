@@ -1,4 +1,6 @@
-# echo ${0:A}
+# if [[ "$DEBUG_STARTUP" == "1" ]]; then
+#   echo ${0:A}
+# fi
 
 # You can put files here to add functionality separated per file. These files
 # are ignored by git in the oh-my-zsh repo.
