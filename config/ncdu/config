@@ -1,6 +1,5 @@
 --color dark
 --one-file-system
---si
 
 # Always enable extended mode
 --extended

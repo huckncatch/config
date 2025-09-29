@@ -86,6 +86,32 @@ copy_zsh_config() {
 }
 copy_zsh_config
 
+# Copy config files
+copy_config_files() {
+  echo "Copying .config directory files..."
+
+  # Create ~/.config if it doesn't exist
+  mkdir -p "$HOME/.config"
+
+  # Copy each subdirectory/file from config/ to ~/.config/ or ~/
+  for item in ./config/*; do
+    if [ -e "$item" ]; then
+      itemname=$(basename "$item")
+
+      if [ -d "$item" ]; then
+        # Directories: copy to ~/.config/
+        echo "  Copying directory $itemname to ~/.config/"
+        cp -r "$item" "$HOME/.config/"
+      else
+        # Files: add dot prefix and copy to home directory
+        echo "  Copying file $itemname to ~/.$itemname"
+        cp "$item" "$HOME/.$itemname"
+      fi
+    fi
+  done
+}
+copy_config_files
+
 ## Taps
 # https://github.com/buo/homebrew-cask-upgrade
 # used by `brew cu` command to upgrade casks
