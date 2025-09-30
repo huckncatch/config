@@ -79,31 +79,37 @@ copy_zsh_config() {
 }
 copy_zsh_config
 
-# Copy config files
-copy_config_files() {
-  echo "Copying .config directory files..."
+# Copy dotfiles to home directory
+copy_dotfiles() {
+  echo "Copying dotfiles..."
+
+  for item in ./dotfiles/*; do
+    if [ -e "$item" ]; then
+      itemname=$(basename "$item")
+      echo "  Copying $itemname to ~/.$itemname"
+      cp "$item" "$HOME/.$itemname"
+    fi
+  done
+}
+copy_dotfiles
+
+# Copy XDG config files
+copy_xdg_config() {
+  echo "Copying XDG config files..."
 
   # Create ~/.config if it doesn't exist
   mkdir -p "$HOME/.config"
 
-  # Copy each subdirectory/file from config/ to ~/.config/ or ~/
-  for item in ./config/*; do
+  # Copy each directory from xdg-config/ to ~/.config/
+  for item in ./xdg-config/*; do
     if [ -e "$item" ]; then
       itemname=$(basename "$item")
-
-      if [ -d "$item" ]; then
-        # Directories: copy to ~/.config/
-        echo "  Copying directory $itemname to ~/.config/"
-        cp -r "$item" "$HOME/.config/"
-      else
-        # Files: add dot prefix and copy to home directory
-        echo "  Copying file $itemname to ~/.$itemname"
-        cp "$item" "$HOME/.$itemname"
-      fi
+      echo "  Copying directory $itemname to ~/.config/"
+      cp -r "$item" "$HOME/.config/"
     fi
   done
 }
-copy_config_files
+copy_xdg_config
 
 ## Taps
 # https://github.com/buo/homebrew-cask-upgrade
