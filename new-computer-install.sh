@@ -53,18 +53,6 @@ brew_install() {
   fi
 }
 
-# Copy config files
-copy_dotfiles() {
-  echo "Copying dotfiles..."
-  for file in "./dotfiles"/*; do
-    filename=$(basename "$file")
-    newFilename=".$filename"
-    echo "$newFilename"
-    cp "$file" "$HOME/$newFilename"
-  done
-}
-copy_dotfiles
-
 copy_zsh_config() {
   echo "Copying zshrc..."
   # zshrc="./zsh/home-dot-zsh/zshrc"
