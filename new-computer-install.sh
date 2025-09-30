@@ -5,15 +5,27 @@
 # Inspired by komputer-maschine by Lauren Dorman
 # (https://github.com/laurendorman/komputer-maschine)
 
+# Exit on error, undefined variables, and pipe failures
+set -euo pipefail
+
 # Prerequisites
 # This script assumes you have Homebrew installed.
-# If you don't have Homebrew installed, uncomment the line below to install it.
-# You can also install Homebrew manually by following the instructions at https://brew.sh/
-#
-# ZSH_CUSTOM is set in the zshrc file, so it should be set before running this script.
+# If you don't have Homebrew installed, run:
+#   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Or visit https://brew.sh/
 
-# Install Homebrew before running this script
-#bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Check if Homebrew is installed
+if ! command -v brew &> /dev/null; then
+  echo "Error: Homebrew is not installed. Please install it first."
+  echo "Visit https://brew.sh/ for installation instructions."
+  exit 1
+fi
+
+# Check if we're in the config repository directory
+if [ ! -f "./new-computer-install.sh" ]; then
+  echo "Error: This script must be run from the config repository directory."
+  exit 1
+fi
 
 # helper functions
 _prompt_install() {
@@ -57,7 +69,11 @@ copy_zsh_config() {
   echo "Setting up zsh configuration..."
 
   # Copy main zshrc to home directory
-  cp "./zsh/zshrc" "$HOME/.zshrc"
+  if [ -f "$HOME/.zshrc" ]; then
+    echo "  Backing up existing ~/.zshrc to ~/.zshrc.backup"
+    cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
+  fi
+  cp "./zsh/zshrc" "$HOME/.zshrc" || { echo "Error: Failed to copy zshrc"; exit 1; }
   echo "  Copied zshrc to ~/.zshrc"
 
   # Create ~/.config/zsh directory if it doesn't exist
@@ -65,17 +81,21 @@ copy_zsh_config() {
 
   # Prompt for profile selection and create profile.local
   local profile_source
-  personal=$(_prompt_install "Personal/Home config?")
-  if [[ "$personal" == "yes" ]]; then
-    echo "  Creating home profile..."
-    profile_source="./zsh/profile-home.zsh"
+  if [ -f "$HOME/.config/zsh/profile.local" ]; then
+    echo "  Profile already exists at ~/.config/zsh/profile.local, skipping."
   else
-    echo "  Creating work profile..."
-    profile_source="./zsh/profile-work.zsh"
-  fi
+    personal=$(_prompt_install "Personal/Home config?")
+    if [[ "$personal" == "yes" ]]; then
+      echo "  Creating home profile..."
+      profile_source="./zsh/profile-home.zsh"
+    else
+      echo "  Creating work profile..."
+      profile_source="./zsh/profile-work.zsh"
+    fi
 
-  cp "$profile_source" "$HOME/.config/zsh/profile.local"
-  echo "  Created ~/.config/zsh/profile.local"
+    cp "$profile_source" "$HOME/.config/zsh/profile.local" || { echo "Error: Failed to copy profile"; exit 1; }
+    echo "  Created ~/.config/zsh/profile.local"
+  fi
 }
 copy_zsh_config
 
@@ -136,21 +156,32 @@ else
   echo "oh-my-zsh already installed, skipping."
 fi
 
-## Install zsh-completions
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+## Install zsh plugins (skip if already present via git submodules)
+ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}"
 
-## node
-#
-# ~~use nvm to install node~~
-# ~~https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating~~
-# use zsh-nvm instead of nvm, from https://github.com/lukechilds/zsh-nvm
-#
-# install zsh-nvm
-# installs into `~/.nvm`
-git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-nvm
+# Install zsh-completions
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-completions" ]; then
+  echo "Installing zsh-completions..."
+  git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions"
+else
+  echo "zsh-completions already installed, skipping."
+fi
 
-## Install zsh-fast-syntax-highlighting
-git clone https://github.com/zdharma-continuum/fast-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/fast-syntax-highlighting
+# Install zsh-nvm (node version manager for zsh)
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-nvm" ]; then
+  echo "Installing zsh-nvm..."
+  git clone https://github.com/lukechilds/zsh-nvm "$ZSH_CUSTOM_DIR/plugins/zsh-nvm"
+else
+  echo "zsh-nvm already installed, skipping."
+fi
+
+# Install zsh-fast-syntax-highlighting
+if [ ! -d "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting" ]; then
+  echo "Installing fast-syntax-highlighting..."
+  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting"
+else
+  echo "fast-syntax-highlighting already installed, skipping."
+fi
 
 ## Install packages
 # https://formulae.brew.sh/formula/
