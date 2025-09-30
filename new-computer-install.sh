@@ -106,8 +106,18 @@ copy_dotfiles() {
   for item in ./dotfiles/*; do
     if [ -e "$item" ]; then
       itemname=$(basename "$item")
-      echo "  Copying $itemname to ~/.$itemname"
-      cp "$item" "$HOME/.$itemname"
+
+      # Special handling for SSH config
+      if [ "$itemname" = "ssh-config" ]; then
+        echo "  Copying SSH config to ~/.ssh/config"
+        mkdir -p "$HOME/.ssh"
+        chmod 700 "$HOME/.ssh"
+        cp "$item" "$HOME/.ssh/config"
+        chmod 600 "$HOME/.ssh/config"
+      else
+        echo "  Copying $itemname to ~/.$itemname"
+        cp "$item" "$HOME/.$itemname"
+      fi
     fi
   done
 }
