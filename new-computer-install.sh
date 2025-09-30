@@ -332,47 +332,26 @@ applications=(
   # Motion Minute # https://motionminute.app/
 )
 
-# Mac App Store apps
-apstore_apps=(
-  1569813296  # 1Password for Safari      (8.11.9)
-  1402042596  # AdBlock                   (2.1.11)
-  937984704   # Amphetamine               (5.3.2)
-  1037126344  # Apple Configurator        (2.18)
-  1287239339  # ColorSlurp                (3.9.2)
-  640199958   # Developer                 (10.8.3)
-  671736912   # FruitJuice                (2.5.4)
-  408981434   # iMovie                    (10.4.3)
-  1622835804  # Kagi for Safari           (2.2.3)
-  409183694   # Keynote                   (14.4)
-  1274495053  # Microsoft To Do           (2.156)
-  409203825   # Numbers                   (14.4)
-  409201541   # Pages                     (14.4)
-  1303222628  # Paprika Recipe Manager 3  (3.8.2)
-  403504866   # PCalc                     (4.10.8)
-  6714467650  # Perplexity                (2.250818.0)
-  6738274497  # Raycast Companion         (1.2.0)
-  1504940162  # RocketSim                 (14.0.1)
-  1549370672  # Save to Raindrop.io       (5.6.92)
-  1640236961  # Save to Reader            (0.16.9)
-  1409975750  # Spect                     (1.6.9)
-  1153157709  # Speedtest                 (1.27)
-  1376402589  # StopTheMadness            (41.3)
-  899247664   # TestFlight                (3.9.0)
-  904280696   # Things                    (3.22)
-  998361254   # Toothpicks
-)
-
 for cask in ${applications[@]}
 do
     # echo "Processing $cask"
     brew_install $cask
 done
 
-# install pinned applications
-for app in ${"$ZSH_CUSTOM/pinned_casks/*.rb(N)"}
-do
-  brew install --cask "$ZSH_CUSTOM/pinned_casks/$app"
+# Install pinned applications (specific versions to avoid paid upgrades)
+echo "Installing pinned cask versions..."
+for app in ./homebrew/pinned_casks/*.rb; do
+  if [ -e "$app" ]; then
+    echo "  Installing $(basename "$app" .rb)..."
+    brew install --cask "$app"
+  fi
 done
+
+# Mac App Store applications are listed in homebrew/mas-apps.txt
+# Install these manually from the Mac App Store
+echo ""
+echo "Note: Mac App Store apps are listed in homebrew/mas-apps.txt"
+echo "Please install them manually from the App Store."
 
 ## Never been tried
 # Install languages
