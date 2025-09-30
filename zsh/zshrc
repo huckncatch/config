@@ -1,0 +1,30 @@
+export DEBUG_STARTUP=0
+
+if [[ "$DEBUG_STARTUP" == "1" ]]; then
+  echo "BEGIN"
+  echo ${0:A}
+fi
+
+# Source profile-specific configuration (must be before zshrc.base)
+# This sets ZSH_THEME and plugins array which must be defined before oh-my-zsh init
+#
+# Priority order:
+# 1. Local profile override (~/.config/zsh/profile.local) - machine-specific, not in git
+# 2. Default to home profile if no local override exists
+if [[ -f "$HOME/.config/zsh/profile.local" ]]; then
+  source "$HOME/.config/zsh/profile.local"
+elif [[ -f "$HOME/config/zsh/profile-home.zsh" ]]; then
+  source "$HOME/config/zsh/profile-home.zsh"
+else
+  echo "Warning: No profile configuration found"
+  # Set defaults if no profile is found
+  ZSH_THEME="robbyrussell"
+  plugins=(git)
+fi
+
+# Source base zsh configuration
+if [[ -f "$HOME/config/zsh/zshrc.base" ]]; then
+  source "$HOME/config/zsh/zshrc.base"
+else
+  echo "Error: zshrc.base not found at $HOME/config/zsh/zshrc.base"
+fi

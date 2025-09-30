@@ -54,23 +54,28 @@ brew_install() {
 }
 
 copy_zsh_config() {
-  echo "Copying zshrc..."
-  # zshrc="./zsh/home-dot-zsh/zshrc"
-  # filename=$(basename "$zshrc")
-  # newFilename=".$filename"
-  local zshrc
-  personal=$(_prompt_install "Personal config?")
+  echo "Setting up zsh configuration..."
+
+  # Copy main zshrc to home directory
+  cp "./zsh/zshrc" "$HOME/.zshrc"
+  echo "  Copied zshrc to ~/.zshrc"
+
+  # Create ~/.config/zsh directory if it doesn't exist
+  mkdir -p "$HOME/.config/zsh"
+
+  # Prompt for profile selection and create profile.local
+  local profile_source
+  personal=$(_prompt_install "Personal/Home config?")
   if [[ "$personal" == "yes" ]]; then
-    echo "Home..."
-    zshrc="./zsh/home-dot-zsh/zshrc"
-    # TODO: do I want to update `/etc/zshrc` too?
+    echo "  Creating home profile..."
+    profile_source="./zsh/profile-home.zsh"
   else
-    echo "Work"
-    zshrc="./zsh/work-dot-zsh/zshrc"
-    # TODO: do I want to update `/etc/zshrc` too?
+    echo "  Creating work profile..."
+    profile_source="./zsh/profile-work.zsh"
   fi
-  # cp "$zshrc" "$HOME/$newFilename"
-  cp "$zshrc" "$HOME/.zshrc"
+
+  cp "$profile_source" "$HOME/.config/zsh/profile.local"
+  echo "  Created ~/.config/zsh/profile.local"
 }
 copy_zsh_config
 
