@@ -17,19 +17,12 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH="/usr/local/sbin:$PATH"
 
-export PATH="$(brew --prefix binutils)/bin:$PATH"
+# Add Homebrew-installed GNU utilities to PATH
+# Only include tools that are actually installed via the install script
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix curl)/bin:$PATH"
-export PATH="$(brew --prefix diffutils)/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix ed)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix gnu-tar)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix gnu-which)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix grep)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix openssl)/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix unzip)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix python)/libexec/bin:$PATH"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 
