@@ -27,8 +27,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="muse"
 # ZSH_THEME="af-magic"
 # ZSH_THEME="jonathan"
-# ZSH_THEME="my-jonathan"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="my-jonathan"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -94,6 +94,7 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  zsh-nvm
   profiles
   alias-finder
   bbedit
@@ -110,7 +111,6 @@ plugins=(
   zsh-autosuggestions
   fast-syntax-highlighting
   # zsh-syntax-highlighting
-  zsh-nvm
 )
 
 # Initialize Oh-My-Zsh
