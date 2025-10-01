@@ -20,7 +20,7 @@ if [[ -o interactive ]]; then
 
   # search aliases
   alias eg='set | grep -i'
-  alias ag='alias | grep -i'
+  alias alg='alias | grep -i'
   alias cg='compctl | grep -i'
   alias hg='history 1- | grep -i'
 

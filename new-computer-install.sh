@@ -197,12 +197,11 @@ fi
 # https://formulae.brew.sh/formula/
 echo "Check formulae..."
 packages=(
-  ag # Silver Search
-  # binutils
+  the_silver_searcher  # ag - grep replacement
   coreutils
   curl
-  # diffutils
   emacs
+  exiftool
   eza # ls replacement
   findutils
   ffmpeg
@@ -217,12 +216,14 @@ packages=(
   #python3 # installed by midnight-commander/mc
   rbenv # Ruby version manager
   screen
+  tag
   tmux
   wget
   yt-dlp # youtube-dl replacement
   zsh
-  # zsh-fast-syntax-highlighting
+  # zsh-fast-syntax-highlighting, installed as OMZ sub-module custom plugins
   # zsh-syntax-highlighting
+
   # https://remysharp.com/2018/08/23/cli-improved
   ack  # grep replacement
   bat  # cat replacement
@@ -234,7 +235,7 @@ packages=(
   tldr #
   tree # directory listing
 
-  # development
+  # cursor development
   swiftformat
   swiftlint
   swiftly  # Swift toolchain version manager
@@ -273,7 +274,8 @@ applications=(
   itermai # https://iterm2.com/ai-plugin.html
   raycast # https://raycast.com/ -- ## Raycast Extensions
   # xcode # https://xcodereleases.com/
-  bartender # https://www.macbartender.com/
+  # bartender # https://www.macbartender.com/
+  jordanbaird-ice # https://icemenubar.app/
   maestral # https://maestral.app/
   obsidian # https://obsidian.md/
   hazel # https://www.noodlesoft.com/
