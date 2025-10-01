@@ -8,6 +8,57 @@
 # Exit on error, undefined variables, and pipe failures
 set -euo pipefail
 
+# Parse command line options
+DRY_RUN=0
+VERBOSE=0
+
+show_usage() {
+  cat << EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Provision a new macOS machine with dotfiles, configurations, and applications.
+
+OPTIONS:
+  -d, --dry-run    Show what would be installed without actually installing
+  -v, --verbose    Show detailed output during installation
+  -h, --help       Show this help message
+
+EXAMPLES:
+  $(basename "$0")              # Run normal installation
+  $(basename "$0") --dry-run    # Preview what would be installed
+  $(basename "$0") -v           # Run with verbose output
+  $(basename "$0") -d -v        # Preview with verbose output
+
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -d|--dry-run)
+      DRY_RUN=1
+      shift
+      ;;
+    -v|--verbose)
+      VERBOSE=1
+      shift
+      ;;
+    -h|--help)
+      show_usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      show_usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ $DRY_RUN -eq 1 ]; then
+  echo "=== DRY RUN MODE - No changes will be made ==="
+  echo ""
+fi
+
 # Prerequisites
 # This script assumes you have Homebrew installed.
 # If you don't have Homebrew installed, run:
@@ -39,7 +90,7 @@ _prompt_install() {
 }
 
 _brew_list_does_not_contain() {
-  # local brew_list_output
+  local brew_list_output
   brew_list_output=$(brew list 2>/dev/null)
   # echo "Checking if $@ is in the brew list..."
   if [[ $brew_list_output != *"$@"* ]]; then
@@ -66,8 +117,20 @@ _should_install() {
 }
 
 brew_install() {
-  echo "Installing $@..."
-  brew install "$@"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "[DRY RUN] Would install: $@"
+  else
+    echo "Installing $@..."
+    if [ $VERBOSE -eq 1 ]; then
+      brew install "$@"
+    else
+      brew install "$@" > /dev/null 2>&1 || {
+        echo "  Error installing $@"
+        return 1
+      }
+      echo "  ✓ Installed $@"
+    fi
+  fi
 }
 
 copy_zsh_config() {
@@ -75,31 +138,48 @@ copy_zsh_config() {
 
   # Copy main zshrc to home directory
   if [ -f "$HOME/.zshrc" ]; then
-    echo "  Backing up existing ~/.zshrc to ~/.zshrc.backup"
-    cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
+    if [ $DRY_RUN -eq 1 ]; then
+      echo "  [DRY RUN] Would back up existing ~/.zshrc to ~/.zshrc.backup"
+    else
+      echo "  Backing up existing ~/.zshrc to ~/.zshrc.backup"
+      cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
+    fi
   fi
-  cp "./zsh/zshrc" "$HOME/.zshrc" || { echo "Error: Failed to copy zshrc"; exit 1; }
-  echo "  Copied zshrc to ~/.zshrc"
+
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "  [DRY RUN] Would copy zshrc to ~/.zshrc"
+  else
+    cp "./zsh/zshrc" "$HOME/.zshrc" || { echo "Error: Failed to copy zshrc"; exit 1; }
+    echo "  Copied zshrc to ~/.zshrc"
+  fi
 
   # Create ~/.config/zsh directory if it doesn't exist
-  mkdir -p "$HOME/.config/zsh"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "  [DRY RUN] Would create directory ~/.config/zsh"
+  else
+    mkdir -p "$HOME/.config/zsh"
+  fi
 
   # Prompt for profile selection and create profile.local
   local profile_source
   if [ -f "$HOME/.config/zsh/profile.local" ]; then
     echo "  Profile already exists at ~/.config/zsh/profile.local, skipping."
   else
-    personal=$(_prompt_install "Personal/Home config?")
-    if [[ "$personal" == "yes" ]]; then
-      echo "  Creating home profile..."
-      profile_source="./zsh/profile-home.zsh"
+    if [ $DRY_RUN -eq 1 ]; then
+      echo "  [DRY RUN] Would prompt for profile selection and create ~/.config/zsh/profile.local"
     else
-      echo "  Creating work profile..."
-      profile_source="./zsh/profile-work.zsh"
-    fi
+      personal=$(_prompt_install "Personal/Home config?")
+      if [[ "$personal" == "yes" ]]; then
+        echo "  Creating home profile..."
+        profile_source="./zsh/profile-home.zsh"
+      else
+        echo "  Creating work profile..."
+        profile_source="./zsh/profile-work.zsh"
+      fi
 
-    cp "$profile_source" "$HOME/.config/zsh/profile.local" || { echo "Error: Failed to copy profile"; exit 1; }
-    echo "  Created ~/.config/zsh/profile.local"
+      cp "$profile_source" "$HOME/.config/zsh/profile.local" || { echo "Error: Failed to copy profile"; exit 1; }
+      echo "  Created ~/.config/zsh/profile.local"
+    fi
   fi
 }
 copy_zsh_config
@@ -114,14 +194,38 @@ copy_dotfiles() {
 
       # Special handling for SSH config
       if [ "$itemname" = "ssh-config" ]; then
-        echo "  Copying SSH config to ~/.ssh/config"
-        mkdir -p "$HOME/.ssh"
-        chmod 700 "$HOME/.ssh"
-        cp "$item" "$HOME/.ssh/config"
-        chmod 600 "$HOME/.ssh/config"
+        if [ -f "$HOME/.ssh/config" ]; then
+          if [ $DRY_RUN -eq 1 ]; then
+            echo "  [DRY RUN] Would back up existing ~/.ssh/config to ~/.ssh/config.backup"
+          else
+            echo "  Backing up existing ~/.ssh/config to ~/.ssh/config.backup"
+            cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup"
+          fi
+        fi
+        if [ $DRY_RUN -eq 1 ]; then
+          echo "  [DRY RUN] Would copy SSH config to ~/.ssh/config"
+        else
+          echo "  Copying SSH config to ~/.ssh/config"
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          cp "$item" "$HOME/.ssh/config"
+          chmod 600 "$HOME/.ssh/config"
+        fi
       else
-        echo "  Copying $itemname to ~/.$itemname"
-        cp "$item" "$HOME/.$itemname"
+        if [ -f "$HOME/.$itemname" ]; then
+          if [ $DRY_RUN -eq 1 ]; then
+            echo "  [DRY RUN] Would back up existing ~/.$itemname to ~/.$itemname.backup"
+          else
+            echo "  Backing up existing ~/.$itemname to ~/.$itemname.backup"
+            cp "$HOME/.$itemname" "$HOME/.$itemname.backup"
+          fi
+        fi
+        if [ $DRY_RUN -eq 1 ]; then
+          echo "  [DRY RUN] Would copy $itemname to ~/.$itemname"
+        else
+          echo "  Copying $itemname to ~/.$itemname"
+          cp "$item" "$HOME/.$itemname"
+        fi
       fi
     fi
   done
@@ -133,14 +237,30 @@ copy_xdg_config() {
   echo "Copying XDG config files..."
 
   # Create ~/.config if it doesn't exist
-  mkdir -p "$HOME/.config"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "  [DRY RUN] Would create directory ~/.config"
+  else
+    mkdir -p "$HOME/.config"
+  fi
 
   # Copy each directory from xdg-config/ to ~/.config/
   for item in ./xdg-config/*; do
     if [ -e "$item" ]; then
       itemname=$(basename "$item")
-      echo "  Copying directory $itemname to ~/.config/"
-      cp -r "$item" "$HOME/.config/"
+      if [ -e "$HOME/.config/$itemname" ]; then
+        if [ $DRY_RUN -eq 1 ]; then
+          echo "  [DRY RUN] Would back up existing ~/.config/$itemname to ~/.config/$itemname.backup"
+        else
+          echo "  Backing up existing ~/.config/$itemname to ~/.config/$itemname.backup"
+          cp -r "$HOME/.config/$itemname" "$HOME/.config/$itemname.backup"
+        fi
+      fi
+      if [ $DRY_RUN -eq 1 ]; then
+        echo "  [DRY RUN] Would copy directory $itemname to ~/.config/"
+      else
+        echo "  Copying directory $itemname to ~/.config/"
+        cp -r "$item" "$HOME/.config/"
+      fi
     fi
   done
 }
@@ -149,7 +269,11 @@ copy_xdg_config
 ## Taps
 # https://github.com/buo/homebrew-cask-upgrade
 # used by `brew cu` command to upgrade casks
-brew tap buo/cask-upgrade
+if [ $DRY_RUN -eq 1 ]; then
+  echo "[DRY RUN] Would tap: buo/cask-upgrade"
+else
+  brew tap buo/cask-upgrade
+fi
 
 # used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
 # deprecated
@@ -165,8 +289,16 @@ brew tap buo/cask-upgrade
 
 # Install oh-my-zsh without changing the default shell to zsh and without running zsh after installation
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  echo "Installing oh-my-zsh..."
-  RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "[DRY RUN] Would install oh-my-zsh"
+  else
+    echo "Installing oh-my-zsh..."
+    if [ $VERBOSE -eq 1 ]; then
+      RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    else
+      RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" > /dev/null 2>&1 && echo "✓ Installed oh-my-zsh" || echo "Error installing oh-my-zsh"
+    fi
+  fi
 else
   echo "oh-my-zsh already installed, skipping."
 fi
@@ -176,24 +308,48 @@ ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}"
 
 # Install zsh-completions
 if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-completions" ]; then
-  echo "Installing zsh-completions..."
-  git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "[DRY RUN] Would install zsh-completions"
+  else
+    echo "Installing zsh-completions..."
+    if [ $VERBOSE -eq 1 ]; then
+      git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions"
+    else
+      git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions" > /dev/null 2>&1 && echo "✓ Installed zsh-completions" || echo "Error installing zsh-completions"
+    fi
+  fi
 else
   echo "zsh-completions already installed, skipping."
 fi
 
 # Install zsh-nvm (node version manager for zsh)
 if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-nvm" ]; then
-  echo "Installing zsh-nvm..."
-  git clone https://github.com/lukechilds/zsh-nvm "$ZSH_CUSTOM_DIR/plugins/zsh-nvm"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "[DRY RUN] Would install zsh-nvm"
+  else
+    echo "Installing zsh-nvm..."
+    if [ $VERBOSE -eq 1 ]; then
+      git clone https://github.com/lukechilds/zsh-nvm "$ZSH_CUSTOM_DIR/plugins/zsh-nvm"
+    else
+      git clone https://github.com/lukechilds/zsh-nvm "$ZSH_CUSTOM_DIR/plugins/zsh-nvm" > /dev/null 2>&1 && echo "✓ Installed zsh-nvm" || echo "Error installing zsh-nvm"
+    fi
+  fi
 else
   echo "zsh-nvm already installed, skipping."
 fi
 
 # Install zsh-fast-syntax-highlighting
 if [ ! -d "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting" ]; then
-  echo "Installing fast-syntax-highlighting..."
-  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting"
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "[DRY RUN] Would install fast-syntax-highlighting"
+  else
+    echo "Installing fast-syntax-highlighting..."
+    if [ $VERBOSE -eq 1 ]; then
+      git clone https://github.com/zdharma-continuum/fast-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting"
+    else
+      git clone https://github.com/zdharma-continuum/fast-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting" > /dev/null 2>&1 && echo "✓ Installed fast-syntax-highlighting" || echo "Error installing fast-syntax-highlighting"
+    fi
+  fi
 else
   echo "fast-syntax-highlighting already installed, skipping."
 fi
@@ -253,7 +409,7 @@ packages=(
 
 # Gather package selections
 packages_to_install=()
-for formula in ${packages[@]}
+for formula in "${packages[@]}"
 do
   if _should_install "$formula"; then
     packages_to_install+=("$formula")
@@ -398,7 +554,7 @@ applications=(
 
 # Gather application selections
 apps_to_install=()
-for cask in ${applications[@]}
+for cask in "${applications[@]}"
 do
   if _should_install "$cask"; then
     apps_to_install+=("$cask")
@@ -421,8 +577,16 @@ fi
 echo "Installing pinned cask versions..."
 for app in ./homebrew/pinned_casks/*.rb; do
   if [ -e "$app" ]; then
-    echo "  Installing $(basename "$app" .rb)..."
-    brew install --cask "$app"
+    if [ $DRY_RUN -eq 1 ]; then
+      echo "  [DRY RUN] Would install $(basename "$app" .rb)"
+    else
+      echo "  Installing $(basename "$app" .rb)..."
+      if [ $VERBOSE -eq 1 ]; then
+        brew install --cask "$app"
+      else
+        brew install --cask "$app" > /dev/null 2>&1 && echo "    ✓ Installed $(basename "$app" .rb)" || echo "    Error installing $(basename "$app" .rb)"
+      fi
+    fi
   fi
 done
 
@@ -447,8 +611,17 @@ echo "Please install them manually from the App Store."
 ### Fonts ###
 # https://github.com/githubnext/monaspace
 # to install
-brew tap homebrew/cask-fonts
-brew install font-monaspace
+if [ $DRY_RUN -eq 1 ]; then
+  echo "[DRY RUN] Would tap: homebrew/cask-fonts"
+  echo "[DRY RUN] Would install: font-monaspace"
+else
+  brew tap homebrew/cask-fonts
+  if [ $VERBOSE -eq 1 ]; then
+    brew install font-monaspace
+  else
+    brew install font-monaspace > /dev/null 2>&1 && echo "✓ Installed font-monaspace" || echo "Error installing font-monaspace"
+  fi
+fi
 
 ## Raycast Extensions
 # https://www.raycast.com/extensions
