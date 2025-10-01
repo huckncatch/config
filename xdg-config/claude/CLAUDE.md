@@ -27,13 +27,64 @@ Apply these standards to all files in any repository:
 
 ### Git Commit Best Practices
 
-1. **Write clear, descriptive commit messages**:
-   - First line: concise summary (50 chars or less)
-   - Blank line, then detailed explanation if needed
-   - Focus on "why" rather than "what" (the diff shows "what")
-2. **Make atomic commits** - Each commit should represent one logical change
-3. **Review diffs before committing** - Use `git diff` and `git status` to verify what's being committed
-4. **Don't commit sensitive information** - API keys, tokens, passwords, or credentials should never be in commits
+**Philosophy: Small, incremental commits that show progression of changes**
+
+#### Size and Scope
+1. **One logical change per commit** - If you describe it with "and", consider splitting it
+2. **Maintain flexibility** - Don't be pedantic; group related changes when it makes sense
+3. **Each commit should leave code in a working state** - No broken intermediate states
+4. **Plan multi-step work upfront** - List commits in sequence before starting
+
+#### Commit Sequence Planning
+When tackling larger work:
+1. **First commit**: Add infrastructure (new functions, flags, argument parsing)
+2. **Middle commits**: Apply changes incrementally by feature area
+3. **Final commit**: Documentation, cleanup, polish
+
+Example breakdown for adding dry-run mode:
+- `feat: Add command-line argument parsing (--dry-run, --verbose, --help)`
+- `fix: Add DRY_RUN checks to brew operations`
+- `fix: Add DRY_RUN checks to git clone operations`
+- `refactor: Fix variable scoping and array quoting`
+- `feat: Add verbose mode support to installations`
+
+#### Commit Message Format (Conventional Commits)
+Use this format: `<type>: <description>`
+
+**Types:**
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `refactor:` - Code restructuring without behavior change
+- `docs:` - Documentation only
+- `test:` - Test additions/changes
+- `chore:` - Maintenance tasks (dependency updates, etc.)
+
+**Message Structure:**
+```
+type: Short summary in imperative mood (50 chars max)
+
+- Optional body explaining why and how
+- Include context, alternatives considered
+- Reference issues/tickets when applicable
+- Focus on "why" rather than "what" (the diff shows "what")
+```
+
+**Examples:**
+- `feat: Add dry-run flag to preview changes`
+- `fix: Handle missing SSH config gracefully`
+- `refactor: Extract brew installation logic to helper function`
+- `docs: Add troubleshooting section to README`
+
+#### Before Committing
+1. **Review the staged diff**: `git diff --staged` - Does it tell a clear story?
+2. **Verify commit message quality**: Imperative mood, explains what and why
+3. **Check for sensitive data**: No API keys, tokens, passwords, or credentials
+4. **Confirm logical grouping**: Should this be split or combined?
+
+#### Traceability
+- Use `git log --oneline --graph` to verify the commit history tells a clear story
+- Reference file locations with `file_path:line_number` when discussing changes
+- Link related commits in messages when building on previous work
 
 ### Code Quality
 
