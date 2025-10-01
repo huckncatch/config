@@ -1,3 +1,5 @@
 {
-  "installMethod": "homebrew"
+  "installMethod": "homebrew",
+  "autoUpdates": false,
+  "autoUpdatesProtectedForNative": false
 }
