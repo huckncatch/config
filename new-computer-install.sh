@@ -51,18 +51,23 @@ _brew_list_does_not_contain() {
   fi
 }
 
-brew_install() {
+_should_install() {
   if _brew_list_does_not_contain "$@"; then
-   proceed=$(_prompt_install "Install $@?")
+    proceed=$(_prompt_install "Install $@?")
     if [[ "$proceed" == "yes" ]]; then
-      echo "Installing $@..."
-      brew install "$@"
+      return 0
     else
-      echo "Declined"
+      return 1
     fi
   else
     echo "$@ already installed, gonna skip that."
+    return 1
   fi
+}
+
+brew_install() {
+  echo "Installing $@..."
+  brew install "$@"
 }
 
 copy_zsh_config() {
@@ -246,11 +251,26 @@ packages=(
   # mas # Mac App Store command line interface
 )
 
+# Gather package selections
+packages_to_install=()
 for formula in ${packages[@]}
 do
-  #echo "Processing $formula..."
-  brew_install "$formula"
+  if _should_install "$formula"; then
+    packages_to_install+=("$formula")
+  fi
 done
+
+# Install selected packages
+if [ ${#packages_to_install[@]} -gt 0 ]; then
+  echo ""
+  echo "Installing ${#packages_to_install[@]} selected packages..."
+  for formula in "${packages_to_install[@]}"
+  do
+    brew_install "$formula"
+  done
+else
+  echo "No packages selected for installation."
+fi
 
 # Install applications
 # https://formulae.brew.sh/cask/
@@ -265,6 +285,7 @@ done
 #  softwareupdate --install-rosetta --agree-to-license
 #Note that it is very difficult to remove Rosetta 2 once it is installed.
 
+echo ""
 echo "Check apps..."
 applications=(
   # 1password (https://1password.com/downloads/mac/) -- !! download directly !!
@@ -375,11 +396,26 @@ applications=(
   # Motion Minute # https://motionminute.app/
 )
 
+# Gather application selections
+apps_to_install=()
 for cask in ${applications[@]}
 do
-    # echo "Processing $cask"
-    brew_install $cask
+  if _should_install "$cask"; then
+    apps_to_install+=("$cask")
+  fi
 done
+
+# Install selected applications
+if [ ${#apps_to_install[@]} -gt 0 ]; then
+  echo ""
+  echo "Installing ${#apps_to_install[@]} selected applications..."
+  for cask in "${apps_to_install[@]}"
+  do
+    brew_install "$cask"
+  done
+else
+  echo "No applications selected for installation."
+fi
 
 # Install pinned applications (specific versions to avoid paid upgrades)
 echo "Installing pinned cask versions..."
