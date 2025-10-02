@@ -306,53 +306,34 @@ fi
 ## Install zsh plugins (skip if already present via git submodules)
 ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}"
 
-# Install zsh-completions
-if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-completions" ]; then
-  if [ $DRY_RUN -eq 1 ]; then
-    echo "[DRY RUN] Would install zsh-completions"
-  else
-    echo "Installing zsh-completions..."
-    if [ $VERBOSE -eq 1 ]; then
-      git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions"
-    else
-      git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM_DIR/plugins/zsh-completions" > /dev/null 2>&1 && echo "✓ Installed zsh-completions" || echo "Error installing zsh-completions"
-    fi
-  fi
-else
-  echo "zsh-completions already installed, skipping."
-fi
+# Define plugins as "name|repository_url"
+zsh_plugins=(
+  "zsh-completions|https://github.com/zsh-users/zsh-completions"
+  "zsh-nvm|https://github.com/lukechilds/zsh-nvm"
+  "fast-syntax-highlighting|https://github.com/zdharma-continuum/fast-syntax-highlighting"
+)
 
-# Install zsh-nvm (node version manager for zsh)
-if [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-nvm" ]; then
-  if [ $DRY_RUN -eq 1 ]; then
-    echo "[DRY RUN] Would install zsh-nvm"
-  else
-    echo "Installing zsh-nvm..."
-    if [ $VERBOSE -eq 1 ]; then
-      git clone https://github.com/lukechilds/zsh-nvm "$ZSH_CUSTOM_DIR/plugins/zsh-nvm"
-    else
-      git clone https://github.com/lukechilds/zsh-nvm "$ZSH_CUSTOM_DIR/plugins/zsh-nvm" > /dev/null 2>&1 && echo "✓ Installed zsh-nvm" || echo "Error installing zsh-nvm"
-    fi
-  fi
-else
-  echo "zsh-nvm already installed, skipping."
-fi
+# Install each plugin
+for plugin_spec in "${zsh_plugins[@]}"; do
+  plugin_name="${plugin_spec%%|*}"
+  plugin_url="${plugin_spec##*|}"
+  plugin_path="$ZSH_CUSTOM_DIR/plugins/$plugin_name"
 
-# Install zsh-fast-syntax-highlighting
-if [ ! -d "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting" ]; then
-  if [ $DRY_RUN -eq 1 ]; then
-    echo "[DRY RUN] Would install fast-syntax-highlighting"
-  else
-    echo "Installing fast-syntax-highlighting..."
-    if [ $VERBOSE -eq 1 ]; then
-      git clone https://github.com/zdharma-continuum/fast-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting"
+  if [ ! -d "$plugin_path" ]; then
+    if [ $DRY_RUN -eq 1 ]; then
+      echo "[DRY RUN] Would install $plugin_name"
     else
-      git clone https://github.com/zdharma-continuum/fast-syntax-highlighting "$ZSH_CUSTOM_DIR/plugins/fast-syntax-highlighting" > /dev/null 2>&1 && echo "✓ Installed fast-syntax-highlighting" || echo "Error installing fast-syntax-highlighting"
+      echo "Installing $plugin_name..."
+      if [ $VERBOSE -eq 1 ]; then
+        git clone "$plugin_url" "$plugin_path"
+      else
+        git clone "$plugin_url" "$plugin_path" > /dev/null 2>&1 && echo "✓ Installed $plugin_name" || echo "Error installing $plugin_name"
+      fi
     fi
+  else
+    echo "$plugin_name already installed, skipping."
   fi
-else
-  echo "fast-syntax-highlighting already installed, skipping."
-fi
+done
 
 ## Install packages
 # https://formulae.brew.sh/formula/
