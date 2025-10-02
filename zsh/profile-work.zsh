@@ -14,7 +14,6 @@ plugins=(
   alias-finder
   bbedit
   brew
-  common-aliases
   git
   gitfast
   git-prompt
