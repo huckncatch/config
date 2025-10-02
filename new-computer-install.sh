@@ -182,7 +182,6 @@ copy_zsh_config() {
     fi
   fi
 }
-copy_zsh_config
 
 # Copy dotfiles to home directory
 copy_dotfiles() {
@@ -230,7 +229,6 @@ copy_dotfiles() {
     fi
   done
 }
-copy_dotfiles
 
 # Copy XDG config files
 copy_xdg_config() {
@@ -264,7 +262,6 @@ copy_xdg_config() {
     fi
   done
 }
-copy_xdg_config
 
 ## Homebrew taps
 # Tap all required repositories before installing packages
@@ -603,14 +600,29 @@ else
   fi
 fi
 
-## Raycast Extensions
-# https://www.raycast.com/extensions
-#
-# https://www.raycast.com/VladCuciureanu/toothpick # Manage Bluetooth connections
-# https://www.raycast.com/raycast/apple-notes#readme # Search for and create Apple Notes directly within Raycast
-# https://www.raycast.com/thomas/color-picker # Pick and organize colors, everywhere on your Mac
-# https://www.raycast.com/marcjulian/obsidian # Control Obsidian
-# https://www.raycast.com/rolandleth/kill-process # Terminate processes sorted by CPU or memory usage
-# https://www.raycast.com/lardissone/raindrop-io # Search your Raindrop.io bookmarks
-# https://www.raycast.com/benvp/audio-device # Switch the active audio device of your mac
-# https://www.raycast.com/mooxl/coffee # Prevent the sleep function on your mac
+## Main installation orchestrator
+main() {
+  # Phase 1: Configuration files (foundation)
+  copy_zsh_config
+  copy_dotfiles
+  copy_xdg_config
+
+  # Phase 2: Shell environment setup
+  # (oh-my-zsh, plugins, taps already executed inline above)
+
+  # Phase 3: Package installation
+  # (packages, applications, pinned casks, fonts already executed inline above)
+
+  # Phase 4: Post-installation notes
+  echo ""
+  echo "=== Installation Complete ==="
+  echo ""
+  echo "Manual steps remaining:"
+  echo "- Mac App Store apps are listed in homebrew/mas-apps.txt"
+  echo "- Raycast Extensions: https://www.raycast.com/extensions"
+  echo "  - toothpick (Bluetooth), apple-notes, color-picker, obsidian"
+  echo "  - kill-process, raindrop-io, audio-device, coffee"
+}
+
+# Run main installation
+main
