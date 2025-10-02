@@ -266,18 +266,20 @@ copy_xdg_config() {
 }
 copy_xdg_config
 
-## Taps
-# https://github.com/buo/homebrew-cask-upgrade
-# used by `brew cu` command to upgrade casks
-if [ $DRY_RUN -eq 1 ]; then
-  echo "[DRY RUN] Would tap: buo/cask-upgrade"
-else
-  brew tap buo/cask-upgrade
-fi
+## Homebrew taps
+# Tap all required repositories before installing packages
+brew_taps=(
+  "buo/cask-upgrade"          # Used by brew cu command to upgrade casks
+  "homebrew/cask-fonts"       # Required for font installations
+)
 
-# used by [Java installation instructions](https://johnathangilday.com/blog/macos-homebrew-openjdk/)
-# deprecated
-#brew tap homebrew/cask-versions
+for tap in "${brew_taps[@]}"; do
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "[DRY RUN] Would tap: $tap"
+  else
+    brew tap "$tap" 2>/dev/null || echo "  Already tapped: $tap"
+  fi
+done
 
 ## Install oh-my-zsh
 # ZSH_CUSTOM is set in the zshrc file, so it should be set before running this script.
@@ -591,12 +593,9 @@ echo "Please install them manually from the App Store."
 
 ### Fonts ###
 # https://github.com/githubnext/monaspace
-# to install
 if [ $DRY_RUN -eq 1 ]; then
-  echo "[DRY RUN] Would tap: homebrew/cask-fonts"
   echo "[DRY RUN] Would install: font-monaspace"
 else
-  brew tap homebrew/cask-fonts
   if [ $VERBOSE -eq 1 ]; then
     brew install font-monaspace
   else
