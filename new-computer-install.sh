@@ -78,7 +78,9 @@ if [ ! -f "./new-computer-install.sh" ]; then
   exit 1
 fi
 
-# helper functions
+#############################################################################
+# HELPER FUNCTIONS
+#############################################################################
 _prompt_install() {
   local response
   read -r -p "$1 (y/n): " response
@@ -132,6 +134,10 @@ brew_install() {
     fi
   fi
 }
+
+#############################################################################
+# PHASE 1: CONFIGURATION FILES
+#############################################################################
 
 copy_zsh_config() {
   echo "Setting up zsh configuration..."
@@ -263,6 +269,10 @@ copy_xdg_config() {
   done
 }
 
+#############################################################################
+# PHASE 2: SHELL ENVIRONMENT SETUP
+#############################################################################
+
 ## Homebrew taps
 # Tap all required repositories before installing packages
 brew_taps=(
@@ -278,7 +288,7 @@ for tap in "${brew_taps[@]}"; do
   fi
 done
 
-## Install oh-my-zsh
+## oh-my-zsh installation
 # ZSH_CUSTOM is set in the zshrc file, so it should be set before running this script.
 # echo "ZSH_CUSTOM is $ZSH_CUSTOM"
 # echo "ZSH is $ZSH"
@@ -334,7 +344,11 @@ for plugin_spec in "${zsh_plugins[@]}"; do
   fi
 done
 
-## Install packages
+#############################################################################
+# PHASE 3: PACKAGE INSTALLATION
+#############################################################################
+
+## Homebrew packages
 # https://formulae.brew.sh/formula/
 echo "Check formulae..."
 packages=(
@@ -408,7 +422,7 @@ else
   echo "No packages selected for installation."
 fi
 
-# Install applications
+## Homebrew cask applications
 # https://formulae.brew.sh/cask/
 
 #abbyy-finereader-pdf
@@ -553,7 +567,7 @@ else
   echo "No applications selected for installation."
 fi
 
-# Install pinned applications (specific versions to avoid paid upgrades)
+## Pinned applications (specific versions to avoid paid upgrades)
 echo "Installing pinned cask versions..."
 for app in ./homebrew/pinned_casks/*.rb; do
   if [ -e "$app" ]; then
@@ -570,25 +584,7 @@ for app in ./homebrew/pinned_casks/*.rb; do
   fi
 done
 
-# Mac App Store applications are listed in homebrew/mas-apps.txt
-# Install these manually from the Mac App Store
-echo ""
-echo "Note: Mac App Store apps are listed in homebrew/mas-apps.txt"
-echo "Please install them manually from the App Store."
-
-## Never been tried
-# Install languages
-# languages=(
-#   elixir
-#   go
-#   ruby
-# )
-#
-# for formula in ${languages[@]}
-#   do brew_install $formula
-# done
-
-### Fonts ###
+## Fonts
 # https://github.com/githubnext/monaspace
 if [ $DRY_RUN -eq 1 ]; then
   echo "[DRY RUN] Would install: font-monaspace"
@@ -600,7 +596,9 @@ else
   fi
 fi
 
-## Main installation orchestrator
+#############################################################################
+# MAIN INSTALLATION ORCHESTRATOR
+#############################################################################
 main() {
   # Phase 1: Configuration files (foundation)
   copy_zsh_config
@@ -615,13 +613,24 @@ main() {
 
   # Phase 4: Post-installation notes
   echo ""
-  echo "=== Installation Complete ==="
+  echo "============================================================================="
+  echo "  Installation Complete"
+  echo "============================================================================="
   echo ""
   echo "Manual steps remaining:"
-  echo "- Mac App Store apps are listed in homebrew/mas-apps.txt"
-  echo "- Raycast Extensions: https://www.raycast.com/extensions"
-  echo "  - toothpick (Bluetooth), apple-notes, color-picker, obsidian"
-  echo "  - kill-process, raindrop-io, audio-device, coffee"
+  echo ""
+  echo "1. Mac App Store apps (see homebrew/mas-apps.txt)"
+  echo ""
+  echo "2. Raycast Extensions: https://www.raycast.com/extensions"
+  echo "   - toothpick (Bluetooth connections)"
+  echo "   - apple-notes (search/create notes)"
+  echo "   - color-picker (pick and organize colors)"
+  echo "   - obsidian (control Obsidian)"
+  echo "   - kill-process (terminate by CPU/memory)"
+  echo "   - raindrop-io (search bookmarks)"
+  echo "   - audio-device (switch audio devices)"
+  echo "   - coffee (prevent sleep)"
+  echo ""
 }
 
 # Run main installation
