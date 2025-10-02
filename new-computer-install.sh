@@ -289,14 +289,7 @@ for tap in "${brew_taps[@]}"; do
 done
 
 ## oh-my-zsh installation
-# ZSH_CUSTOM is set in the zshrc file, so it should be set before running this script.
-# echo "ZSH_CUSTOM is $ZSH_CUSTOM"
-# echo "ZSH is $ZSH"
-
-# old way of installing oh-my-zsh
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Install oh-my-zsh without changing the default shell to zsh and without running zsh after installation
+# Installs without changing default shell or running zsh after installation
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   if [ $DRY_RUN -eq 1 ]; then
     echo "[DRY RUN] Would install oh-my-zsh"
@@ -312,7 +305,7 @@ else
   echo "oh-my-zsh already installed, skipping."
 fi
 
-## Install zsh plugins (skip if already present via git submodules)
+## zsh plugins installation
 ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}"
 
 # Define plugins as "name|repository_url"
