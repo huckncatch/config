@@ -99,6 +99,7 @@ type: Short summary in imperative mood (50 chars max)
 2. **Ask for clarification** - When requirements are ambiguous or multiple approaches exist
 3. **Explain non-obvious changes** - Especially for system modifications or destructive operations
 4. **Provide context for suggestions** - Help users understand recommendations
+5. **Never hallucinate or claim work not done** - If a commit message says "Remove X", X must actually be removed in that commit. Verify changes match descriptions before committing.
 
 ## Tool Usage
 
