@@ -100,14 +100,6 @@ source $ZSH/oh-my-zsh.sh
 
 # --- Post Oh-My-Zsh Configuration ---
 
-# Configure alias-finder plugin
-zstyle ':omz:plugins:alias-finder' autoload yes
-zstyle ':omz:plugins:alias-finder' longer yes
-zstyle ':omz:plugins:alias-finder' cheaper yes
-
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
-
 # Ensure unique elements in path arrays
 typeset -U path manpath fpath
 
