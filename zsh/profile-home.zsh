@@ -1,14 +1,31 @@
-if [[ "$DEBUG_STARTUP" == "1" ]]; then
-  echo ${0:A}
-fi
+# ==============================================================================
+# PROFILE TEMPLATE - HOME ENVIRONMENT
+# ==============================================================================
+#
+# TEMPLATE FILE: Tracked in git as a reference configuration
+# INSTALLED TO: ~/.config/zsh/profile.local during new-computer-install.sh
+#
+# PURPOSE:
+# Defines machine-specific settings that must be loaded BEFORE oh-my-zsh
+# initialization (theme and plugins). This allows different machines to use
+# different themes or plugin sets while sharing the same base configuration.
+#
+# CUSTOMIZATION:
+# - DO NOT edit this template for machine-specific changes
+# - Edit ~/.config/zsh/profile.local instead (not tracked in git)
+# - This template serves as a starting point for personal/home machines
+#
+# WHAT TO DEFINE:
+# - ZSH_THEME: The oh-my-zsh theme to use
+# - plugins: Array of oh-my-zsh plugins to load
+# ==============================================================================
 
-# Profile-specific settings for home environment
-# This file should be sourced BEFORE zshrc.base
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
-# Theme selection
+# Theme
 ZSH_THEME="my-jonathan"
 
-# Plugin configuration
+# Plugins
 plugins=(
   zsh-nvm
   profiles
