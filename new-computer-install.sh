@@ -139,11 +139,17 @@ brew_install() {
   else
     echo "Installing $@..."
     if [ $VERBOSE -eq 1 ]; then
-      brew install "$@"
+      brew install "$@" || {
+        echo "  ⚠ Error installing $@"
+        return 0  # Continue with other packages
+      }
     else
-      brew install "$@" > /dev/null 2>&1 || {
-        echo "  Error installing $@"
-        return 1
+      local error_output
+      error_output=$(brew install "$@" 2>&1) || {
+        echo "  ⚠ Error installing $@"
+        echo "  Last 5 lines of output:"
+        echo "$error_output" | tail -5
+        return 0  # Continue with other packages
       }
       echo "  ✓ Installed $@"
     fi
@@ -584,9 +590,9 @@ for app in ./homebrew/pinned_casks/*.rb; do
     else
       echo "  Installing $(basename "$app" .rb)..."
       if [ $VERBOSE -eq 1 ]; then
-        brew install --cask "$app"
+        brew install --cask "$app" && echo "    ✓ Installed $(basename "$app" .rb)" || echo "    ⚠ Error installing $(basename "$app" .rb)"
       else
-        brew install --cask "$app" > /dev/null 2>&1 && echo "    ✓ Installed $(basename "$app" .rb)" || echo "    Error installing $(basename "$app" .rb)"
+        brew install --cask "$app" > /dev/null 2>&1 && echo "    ✓ Installed $(basename "$app" .rb)" || echo "    ⚠ Error installing $(basename "$app" .rb)"
       fi
     fi
   fi
@@ -598,9 +604,9 @@ if [ $DRY_RUN -eq 1 ]; then
   echo "[DRY RUN] Would install: font-monaspace"
 else
   if [ $VERBOSE -eq 1 ]; then
-    brew install font-monaspace
+    brew install font-monaspace && echo "✓ Installed font-monaspace" || echo "⚠ Error installing font-monaspace"
   else
-    brew install font-monaspace > /dev/null 2>&1 && echo "✓ Installed font-monaspace" || echo "Error installing font-monaspace"
+    brew install font-monaspace > /dev/null 2>&1 && echo "✓ Installed font-monaspace" || echo "⚠ Error installing font-monaspace"
   fi
 fi
 
