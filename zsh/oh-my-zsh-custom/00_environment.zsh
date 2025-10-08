@@ -1,6 +1,14 @@
-if [[ "$DEBUG_STARTUP" == "1" ]]; then
-  echo ${0:A}
-fi
+# ==============================================================================
+# GENERAL ENVIRONMENT CONFIGURATION
+# ==============================================================================
+#
+# Auto-loaded by oh-my-zsh from $ZSH_CUSTOM during initialization
+# Loading order: First (00_ prefix ensures it loads before other custom files)
+#
+# Contains general environment variables, PATH configuration, and tool setup
+# ==============================================================================
+
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
 # fzf
 # export FZF_DEFAULT_COMMAND='fd --type f --exclude "DerivedData"'

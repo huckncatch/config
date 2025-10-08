@@ -1,9 +1,15 @@
-# xcode
-if [[ "$DEBUG_STARTUP" == "1" ]]; then
-  echo ${0:A}
-fi
+# ==============================================================================
+# XCODE/SWIFT CONFIGURATION
+# ==============================================================================
+#
+# Auto-loaded by oh-my-zsh from $ZSH_CUSTOM during initialization
+#
+# Contains Xcode and Swift development-specific functions and aliases
+# ==============================================================================
 
-# Finds a deletes the Build directory in DerivedData
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
+
+# Finds and deletes the Build directory in DerivedData
 function delete_build_dir() {
   local derived_data_path=$(xcodebuild -scheme Unified_Debug-Staging -showBuildSettings 2>&1 | tee /dev/null | grep -m 1 "BUILT_PRODUCTS_DIR" | sed -E 's/^[^=]+=\s*(.+Products.*)$/\1/' | sed -E 's|(.*Unified-[a-z0-9]+/Build).*|\1|')
   if [ -d "$derived_data_path" ]; then

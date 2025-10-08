@@ -1,6 +1,14 @@
-if [[ "$DEBUG_STARTUP" == "1" ]]; then
-  echo ${0:A}
-fi
+# ==============================================================================
+# GENERAL SHELL FUNCTIONS
+# ==============================================================================
+#
+# Auto-loaded by oh-my-zsh from $ZSH_CUSTOM during initialization
+# Loading order: Third (02_ prefix)
+#
+# Contains general-purpose shell functions
+# ==============================================================================
+
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
 mkcd() { mkdir -p "$1" && cd "$1"; }
 

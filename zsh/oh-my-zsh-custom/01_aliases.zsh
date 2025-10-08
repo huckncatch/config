@@ -1,6 +1,14 @@
-if [[ "$DEBUG_STARTUP" == "1" ]]; then
-  echo ${0:A}
-fi
+# ==============================================================================
+# GENERAL SHELL ALIASES
+# ==============================================================================
+#
+# Auto-loaded by oh-my-zsh from $ZSH_CUSTOM during initialization
+# Loading order: Second (01_ prefix)
+#
+# Contains general-purpose shell aliases for interactive sessions
+# ==============================================================================
+
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
 if [[ -o interactive ]]; then
 

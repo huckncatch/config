@@ -1,7 +1,13 @@
-# git
-if [[ "$DEBUG_STARTUP" == "1" ]]; then
-  echo ${0:A}
-fi
+# ==============================================================================
+# GIT CONFIGURATION
+# ==============================================================================
+#
+# Auto-loaded by oh-my-zsh from $ZSH_CUSTOM during initialization
+#
+# Contains git-specific aliases and functions
+# ==============================================================================
+
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
 if [[ -o interactive ]]; then
   alias gt='git tag'

@@ -1,18 +1,16 @@
-# if [[ "$DEBUG_STARTUP" == "1" ]]; then
-#   echo ${0:A}
-# fi
+# ==============================================================================
+# CLAUDE CODE CONFIGURATION
+# ==============================================================================
+#
+# Auto-loaded by oh-my-zsh from $ZSH_CUSTOM during initialization
+#
+# Configures Claude Code for Homebrew installation to prevent conflicts with
+# the native installer auto-update system
+# ==============================================================================
 
-# Claude Code Configuration for Homebrew Installation
-#
-# When Claude Code is installed via Homebrew, these environment variables
-# prevent conflicts with the native installer auto-update system.
-#
-# DISABLE_AUTOUPDATER: Prevents Claude from auto-updating to ~/.local/bin/claude
-#   (Homebrew's auto-updater should be used instead: brew upgrade --cask claude-code)
-#
-# DISABLE_INSTALLATION_CHECKS: Disables startup warnings about native installation
-#   that incorrectly trigger for Homebrew installations
-#
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
+
+# Prevent auto-updates to ~/.local/bin/claude (use Homebrew instead)
 # Install Method Configuration:
 #   The installMethod is configured in xdg-config/claude/settings.json
 #   and gets copied to ~/.config/claude/settings.json during new machine setup
