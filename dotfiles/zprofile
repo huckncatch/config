@@ -1,0 +1,27 @@
+# ==============================================================================
+# .zprofile - INFORMATIONAL ONLY
+# ==============================================================================
+#
+# This file is intentionally minimal and serves as documentation.
+#
+# MACHINE-SPECIFIC CONFIGURATION:
+# This system uses XDG Base Directory compliant configuration.
+# Machine-specific zsh profile settings are located at:
+#
+#   ~/.config/zsh/profile.local
+#
+# That file is sourced from ~/.zshrc and defines:
+# - ZSH_THEME (the oh-my-zsh theme to use)
+# - plugins (array of oh-my-zsh plugins to load)
+#
+# TO CUSTOMIZE:
+# Edit ~/.config/zsh/profile.local (not this file)
+#
+# ARCHITECTURE:
+# The loading order is:
+#   ~/.zshrc
+#   ├─ ~/.config/zsh/profile.local (theme + plugins)
+#   └─ ~/config/zsh/zshrc.base (shared configuration)
+#
+# See ~/config/CLAUDE.md for complete documentation.
+# ==============================================================================

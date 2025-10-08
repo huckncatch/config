@@ -107,6 +107,12 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
 
+### Profile Discovery Helper
+
+For users expecting standard zsh conventions, a `.zprofile` file is installed that documents the XDG-compliant location:
+- **Source**: `dotfiles/zprofile` → `~/.zprofile` (informational only)
+- **Actual config**: `~/.config/zsh/profile.local` (where machine-specific settings live)
+
 ### Claude Code Configuration
 
 **For Homebrew installations**, environment variables and settings prevent conflicts with native installer:
