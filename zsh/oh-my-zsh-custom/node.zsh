@@ -9,7 +9,8 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
-if [[ -o interactive ]]; then
+# Exclude CLAUDECODE to prevent aliases from persisting in snapshots (see 01_aliases.zsh)
+if [[ -o interactive && -z "$CLAUDECODE" ]]; then
   # node package manager
   alias nrt='npm run transpile'
   alias nrs='npm run start'

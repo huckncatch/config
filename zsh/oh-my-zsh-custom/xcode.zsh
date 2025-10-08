@@ -22,7 +22,8 @@ function delete_build_dir() {
 
 autoload delete_build_dir
 
-if [[ -o interactive ]]; then
+# Exclude CLAUDECODE to prevent aliases from persisting in snapshots (see 01_aliases.zsh)
+if [[ -o interactive && -z "$CLAUDECODE" ]]; then
   alias dbd=delete_build_dir
   alias xcr='sudo xcode-select --switch /Applications/Xcode.app'
   alias xcb='sudo xcode-select --switch /Applications/Xcode-beta.app'

@@ -10,7 +10,11 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
-if [[ -o interactive ]]; then
+# Only set aliases in interactive shells that are not Claude Code sessions.
+# Why exclude CLAUDECODE: Claude Code captures shell snapshots that persist aliases
+# across commands. Interactive aliases like 'cp -i' would cause Bash tool commands
+# to hang waiting for confirmation. Other files use the same check with shorter comments.
+if [[ -o interactive && -z "$CLAUDECODE" ]]; then
 
   # Set USE_EZA=1 to use eza, or USE_EZA=0 to use traditional ls
   USE_EZA=${USE_EZA:-1}

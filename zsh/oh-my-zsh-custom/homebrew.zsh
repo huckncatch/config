@@ -9,7 +9,8 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
-if [[ -o interactive ]]; then
+# Exclude CLAUDECODE to prevent aliases from persisting in snapshots (see 01_aliases.zsh)
+if [[ -o interactive && -z "$CLAUDECODE" ]]; then
   alias bi='brew info'
   alias bs='brew search'
   alias blc='brew list --cask'
