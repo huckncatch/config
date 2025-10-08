@@ -10,7 +10,7 @@
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
 # Exclude CLAUDECODE to prevent aliases from persisting in snapshots (see 01_aliases.zsh)
-if [[ -o interactive && -z "$CLAUDECODE" ]]; then
+if [[ -o interactive ]]; then
   alias gt='git tag'
   alias gpot='git push origin "$(git_current_branch)" && git push origin --tags'
   alias gfst='git fetch && git status'
