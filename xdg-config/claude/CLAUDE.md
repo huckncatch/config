@@ -67,6 +67,8 @@ type: Short summary in imperative mood (50 chars max)
 - Include context, alternatives considered
 - Reference issues/tickets when applicable
 - Focus on "why" rather than "what" (the diff shows "what")
+- Enclose commands, code, and flags in backticks for readability
+  (e.g., `brew install`, `set -euo pipefail`, `--dry-run`)
 ```
 
 **Examples:**

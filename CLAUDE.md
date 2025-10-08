@@ -19,22 +19,31 @@ cd ~/config
 
 The installation script (`new-computer-install.sh`) performs these operations:
 
-1. **Validates Homebrew** is installed (exits if not found)
-2. **Copies zsh configuration**: `zsh/zshrc` → `~/.zshrc` (backs up existing)
-3. **Creates profile**: Prompts for home/work profile, creates `~/.config/zsh/profile.local`
-4. **Copies dotfiles**: Items from `dotfiles/` → `~/.<filename>` (with special handling for SSH config)
-5. **Copies XDG configs**: Directories from `xdg-config/` → `~/.config/` (includes git, tmux, claude, karabiner, ncdu)
-6. **Installs oh-my-zsh**: Uses `RUNZSH=no KEEP_ZSHRC=yes` flags to preserve zshrc
-7. **Installs zsh plugins**: Clones zsh-completions, zsh-nvm, fast-syntax-highlighting to `$ZSH_CUSTOM/plugins/`
-8. **Installs Homebrew packages**: Interactive prompts for each formula/cask
-9. **Installs pinned casks**: From `homebrew/pinned_casks/*.rb` (specific versions to avoid paid upgrades)
+1. **Initializes Homebrew environment**: Auto-detects and runs `brew shellenv` if Homebrew is installed but not in PATH
+2. **Validates Homebrew**: Checks common installation locations (/opt/homebrew, /usr/local, Linux paths)
+3. **Copies zsh configuration**: `zsh/zshrc` → `~/.zshrc` (backs up existing)
+4. **Creates profile**: Prompts for home/work profile, creates `~/.config/zsh/profile.local`
+5. **Copies dotfiles**: Items from `dotfiles/` → `~/.<filename>` (with special handling for SSH config)
+6. **Copies XDG configs**: Directories from `xdg-config/` → `~/.config/` (includes git, tmux, claude, karabiner, ncdu)
+7. **Installs oh-my-zsh**: Uses `RUNZSH=no KEEP_ZSHRC=yes` flags to preserve zshrc
+8. **Installs zsh plugins**: Clones zsh-completions, zsh-nvm, fast-syntax-highlighting to `$ZSH_CUSTOM/plugins/`
+9. **Installs Homebrew packages**: Interactive prompts for each formula/cask, continues on failures
+10. **Installs pinned casks**: From `homebrew/pinned_casks/*.rb` (specific versions to avoid paid upgrades)
 
 ### Key Installation Functions
 
-- `copy_zsh_config()`: Copies zshrc and creates profile (lines 68-99)
-- `copy_dotfiles()`: Handles dotfiles with SSH config special case (lines 103-124)
-- `copy_xdg_config()`: Copies XDG-compliant config directories (lines 127-142)
-- `brew_install()`: Interactive package installation with skip logic (lines 54-66)
+- `copy_zsh_config()`: Copies zshrc and creates profile
+- `copy_dotfiles()`: Handles dotfiles with SSH config special case
+- `copy_xdg_config()`: Copies XDG-compliant config directories
+- `brew_install()`: Interactive package installation with error handling that continues on failures
+
+### Installation Script Features
+
+- **Error Resilience**: Uses `set -euo pipefail` for safety, but `brew install` failures don't stop the script
+- **Error Reporting**: Shows last 5 lines of Homebrew output when package installation fails (non-verbose mode)
+- **Homebrew Auto-Init**: Automatically runs `brew shellenv` if needed, eliminating manual .zprofile setup
+- **Dry Run Mode**: Use `--dry-run` flag to preview what would be installed
+- **Verbose Mode**: Use `--verbose` flag to see full Homebrew output during installation
 
 ## Architecture
 
@@ -169,9 +178,9 @@ Set `DEBUG_STARTUP=1` in `~/.zshrc` to see which files are sourced during initia
 
 Edit `new-computer-install.sh`:
 
-- Packages: Add to `packages` array (line ~199)
-- Applications: Add to `applications` array (line ~269)
-- Both use `brew_install` function which prompts before installing
+- Packages: Add to `packages` array
+- Applications: Add to `applications` array
+- Both use `brew_install` function which prompts before installing and handles errors gracefully
 
 ### SSH Configuration
 
@@ -185,11 +194,15 @@ SSH config is handled specially during installation:
 
 When editing files in this repository:
 
-1. **Preserve install script logic**: The `new-computer-install.sh` script has careful error handling with `set -euo pipefail`
+1. **Preserve install script logic**: The `new-computer-install.sh` script uses `set -euo pipefail` for safety, but all `brew install` calls must handle errors gracefully with `||` or `&&` to prevent script exit
 2. **Maintain zsh load order**: Profile must be sourced before zshrc.base (which initializes oh-my-zsh)
 3. **Keep XDG structure consistent**: Files in `xdg-config/` should match their expected `~/.config/` structure
 4. **Test profile selection**: Ensure both home and work profiles define required variables (`ZSH_THEME`, `plugins`)
-5. **Update both settings files**: When changing Claude config, update both `xdg-config/claude/settings.json` and `~/.config/claude/settings.json`
+5. **Keep Claude config in sync**: When changing global Claude settings, update both:
+   - `~/.config/claude/CLAUDE.md` (active global instructions)
+   - `xdg-config/claude/CLAUDE.md` (repo version for new installs)
+   - `~/.config/claude/settings.json` (active settings)
+   - `xdg-config/claude/settings.json` (repo version for new installs)
 
 ## Debugging Tips
 
