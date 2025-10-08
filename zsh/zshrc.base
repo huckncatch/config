@@ -103,7 +103,4 @@ source $ZSH/oh-my-zsh.sh
 # Ensure unique elements in path arrays
 typeset -U path manpath fpath
 
-# Load Powerlevel10k configuration if it exists
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "END zshrc.base"

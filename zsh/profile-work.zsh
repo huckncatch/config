@@ -25,6 +25,9 @@
 # Theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+# Load P10k configuration if it exists
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # Plugins
 plugins=(
   profiles

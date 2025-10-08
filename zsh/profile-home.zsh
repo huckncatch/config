@@ -25,6 +25,9 @@
 # Theme
 ZSH_THEME="my-jonathan"
 
+# P10k configuration (not used with my-jonathan theme, but check anyway)
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # Plugins
 plugins=(
   zsh-nvm
