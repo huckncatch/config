@@ -65,11 +65,26 @@ fi
 #   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # Or visit https://brew.sh/
 
-# Check if Homebrew is installed
+# Initialize Homebrew environment if not already in PATH
+# This handles fresh Homebrew installations where shellenv hasn't been run yet
 if ! command -v brew &> /dev/null; then
-  echo "Error: Homebrew is not installed. Please install it first."
-  echo "Visit https://brew.sh/ for installation instructions."
-  exit 1
+  # Try common Homebrew installation locations
+  if [ -x "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [ -x "/usr/local/bin/brew" ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  elif [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  elif [ -x "$HOME/.linuxbrew/bin/brew" ]; then
+    eval "$($HOME/.linuxbrew/bin/brew shellenv)"
+  else
+    echo "Error: Homebrew is not installed. Please install it first."
+    echo "Visit https://brew.sh/ for installation instructions."
+    echo ""
+    echo "Note: After installing Homebrew, you can skip the 'Next Steps' about"
+    echo "adding brew shellenv to .zprofile - this script will handle it."
+    exit 1
+  fi
 fi
 
 # Check if we're in the config repository directory
