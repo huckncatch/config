@@ -33,6 +33,7 @@ plugins=(
   profiles
   alias-finder
   bbedit
+  blueutil
   brew
   git
   gitfast

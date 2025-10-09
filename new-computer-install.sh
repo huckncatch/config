@@ -453,16 +453,17 @@ echo ""
 echo "Check apps..."
 applications=(
   # 1password (https://1password.com/downloads/mac/) -- !! download directly !!
-  # arc (https://arc.net/)
+  # arc (https://arc.net/) -- !! download directly !!
   path-finder # https://cocoatech.com/
   iterm2 # https://iterm2.com/
   itermai # https://iterm2.com/ai-plugin.html
   raycast # https://raycast.com/ -- ## Raycast Extensions
-  # xcode # https://xcodereleases.com/
-  # bartender # https://www.macbartender.com/
-  jordanbaird-ice # https://icemenubar.app/
+  # xcode # https://xcodereleases.com/ -- !! download directly !!
+  bartender # https://www.macbartender.com/
+  # jordanbaird-ice # https://icemenubar.app/
   maestral # https://maestral.app/
   obsidian # https://obsidian.md/
+  voiceink # https://tryvoiceink.com/
   hazel # https://www.noodlesoft.com/
   choosy # https://www.choosyosx.com/
   soundsource # https://rogueamoeba.com/soundsource/
@@ -488,11 +489,8 @@ applications=(
   betterzip # https://macitbetter.com/
   moom # https://manytricks.com/moom/
   # betterdisplay # https://www.fadest.chttps://github.com/waydabber/BetterDisplay
-  the-unarchiver # https://theunarchiver.com/
-  # adapter # https://www.macroplant.com/adapter/
-  # ticktick # https://www.ticktick.com/
-  # tana # https://tana.app/
-  # a-better-finder-rename # https://www.publicspace.net/ABetterFinderRename/ -- PINNED
+  # the-unarchiver # https://theunarchiver.com/
+  a-better-finder-rename # https://www.publicspace.net/ABetterFinderRename/
   abbyy-finereader-pdf # https://www.abbyy.com/en-us/finereader/
   # alfred # https://www.alfredapp.com/
   amadeus-pro # https://www.hairersoft.com/pro.html
