@@ -34,6 +34,14 @@ When presenting complex analysis with multiple decisions or changes (e.g., archi
 
 This approach ensures thorough understanding and prevents decision fatigue when evaluating multiple complex changes.
 
+### Safety with Sensitive Operations
+
+When working with production systems, credentials, sensitive data, or external communications:
+
+1. **Explicitly confirm intent** - Describe the planned action and wait for user confirmation before proceeding
+2. **Be transparent about scope** - Clearly state what will be accessed, modified, or transmitted
+3. **Highlight irreversible operations** - Call out destructive actions (deletions, external API calls, deployments) before executing
+
 ### Documentation Placement
 
 When modifying CLAUDE.md files, verify that content is placed appropriately:
