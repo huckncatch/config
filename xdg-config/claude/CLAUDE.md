@@ -72,12 +72,23 @@ Apply these standards to all files in any repository:
 
 After completing any meaningful unit of work, proactively ask the user if they want to commit the changes. Don't wait for the user to request it.
 
+**Commit after each meaningful change**, not just at the end of a multi-step plan. Each commit should represent a single logical unit of work that could be understood and potentially reverted independently.
+
 **Meaningful work includes:**
 
 - Completing a feature or bug fix
 - Finishing a refactoring operation
 - Adding or updating documentation
 - Completing a logical step in a multi-step plan
+
+**Examples of when to commit:**
+
+- When creating new scripts/files: commit the journey incrementally (initial structure, then core logic, then error handling, then tests, etc.)
+- After refactoring a single file or module
+- After adding a new feature or function
+- After fixing a bug
+- After updating documentation to reflect code changes
+- NOT after every single line change, but after each coherent piece of work
 
 #### Size and Scope
 
