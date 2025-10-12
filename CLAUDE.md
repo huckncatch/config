@@ -194,23 +194,25 @@ brew install package-name
 
 When modifying Claude settings or instructions, both locations must be updated. The repository version is used for new installations, while the active version is used by the running Claude Code instance.
 
-## Understanding the Codebase
+## Architecture Rationale
+
+Understanding these design decisions prevents breaking changes:
 
 ### Why Profile-Based Configuration?
 
-The profile system (home vs work) allows different plugin sets and themes on different machines while sharing the base configuration. This is why profile must load before zshrc.base - it defines variables that zshrc.base depends on.
+Allows different plugin sets and themes per machine while sharing base configuration. Profile must load before zshrc.base because it defines `ZSH_THEME` and `plugins` that oh-my-zsh initialization depends on.
 
-### Why XDG Compliance?
+### Why XDG Compliance (Partial)?
 
-XDG Base Directory specification keeps `$HOME` cleaner by organizing config files in `~/.config/`. This repository adopts XDG where supported, but falls back to traditional dotfiles when tools don't support it (like Powerlevel10k's `.p10k.zsh`).
-
-### Why Pinned Casks?
-
-Some applications (like BBEdit, GraphicConverter) require payment for version upgrades. Pinning allows using a specific version indefinitely. The `homebrew/pinned_casks/*.rb` files are downloaded from Homebrew's formula history and installed directly.
+Keeps `$HOME` cleaner by using `~/.config/` where supported. Some tools (Powerlevel10k, SSH) don't support XDG paths and must remain as dotfiles in home directory.
 
 ### Why Custom ZSH_CUSTOM Location?
 
-Setting `ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"` keeps custom configurations in the git repository instead of `~/.oh-my-zsh/custom/`. This makes the entire configuration portable and version-controlled.
+Keeps custom configurations in this git repository (`~/config/zsh/oh-my-zsh-custom`) instead of `~/.oh-my-zsh/custom/`, making the entire configuration portable and version-controlled.
+
+### Why Pinned Casks?
+
+Some applications require payment for version upgrades. Pinning specific versions allows indefinite use. The `homebrew/pinned_casks/*.rb` files are downloaded from Homebrew's formula history.
 
 ## Common Patterns
 
