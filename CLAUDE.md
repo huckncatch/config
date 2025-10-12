@@ -25,6 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - After all blocks of work have been completed for a plan (or task), always validate against this CLAUDE.md for any needed updates. For example: directory structure changes during refactors, new patterns that should be documented, or documentation that no longer reflects reality.
 - Review all documentation for accuracy - avoid hallucinating or exaggerating information.
 - Avoid unnecessary emphasis words like "entire", "completely", "absolutely" when describing issues or constraints. Be direct and factual.
+- Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
 
 ## Documentation Standards
 
