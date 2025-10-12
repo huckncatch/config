@@ -23,6 +23,17 @@ Before executing a new plan that involves multiple steps or substantial changes:
 
 This helps avoid misunderstandings and wasted effort on the wrong solution.
 
+#### Iterative Decision Making
+
+When presenting complex analysis with multiple decisions or changes (e.g., architectural reviews, multi-file refactorings, documentation restructuring):
+
+1. **Present one decision at a time** - Don't overwhelm with all conclusions at once
+2. **Provide full context per decision** - Include both the detailed analysis and the summary/recommendation for each item
+3. **Allow back-and-forth discussion** - Wait for user input before moving to the next decision
+4. **Solidify each decision** - Ensure agreement on one item before proceeding to the next
+
+This approach ensures thorough understanding and prevents decision fatigue when evaluating multiple complex changes.
+
 ### Documentation Placement
 
 When modifying CLAUDE.md files, verify that content is placed appropriately:
