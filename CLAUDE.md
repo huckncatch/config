@@ -252,8 +252,8 @@ When adding new installation steps:
 
 ### Adding Homebrew Packages
 
-Edit `new-computer-install.sh` and add to the appropriate array:
-- `packages=(...)` for formulae (command-line tools)
-- `applications=(...)` for casks (GUI applications)
+Edit `new-computer-install.sh`:
+- Add to `packages=(...)` array for formulae (command-line tools)
+- Add to `applications=(...)` array for casks (GUI applications)
 
 Both use the `brew_install` function which prompts before installing and handles errors gracefully.
