@@ -67,9 +67,10 @@ Apply these standards to all files in any repository:
 ### Universal Requirements
 
 1. **All files must end with a trailing newline** - This is standard practice for version control and POSIX compliance
-2. **Markdown files must pass linting** - Use markdownlint (e.g., `davidanson.vscode-markdownlint` for VS Code) to validate all .md files
-3. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
-4. **Verify changes don't break functionality** - Test affected code paths after making changes
+2. **Markdown files must use uppercase filenames** - Use uppercase for all .md files (e.g., CLAUDE.md, README.md, NOTES.md). Subdirectories follow the same convention (e.g., homebrew/README.md, not homebrew/HOMEBREW.md)
+3. **Markdown files must pass linting** - Use markdownlint (e.g., `davidanson.vscode-markdownlint` for VS Code) to validate all .md files
+4. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
+5. **Verify changes don't break functionality** - Test affected code paths after making changes
 
 ### Git Commit Best Practices
 

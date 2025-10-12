@@ -13,13 +13,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Ensure information isn't duplicated or in the wrong location between files
 - Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
 
-## Documentation Standards
-
-- All markdown documentation files must use uppercase filenames with the .md extension.
-- Examples: CLAUDE.md, README.md, NOTES.md, TROUBLESHOOTING.md
-- This improves visibility and consistency across the repository.
-- Subdirectories follow the same convention (e.g., homebrew/README.md, not homebrew/HOMEBREW.md).
-
 ## Repository Overview
 
 This is a personal macOS configuration repository containing dotfiles, shell configurations, and automated setup scripts for provisioning new machines. The repository is designed to be cloned to `~/config` and uses a modular structure with profile-based zsh configuration.
