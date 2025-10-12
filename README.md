@@ -14,6 +14,7 @@ cd ~/config
 ```
 
 The install script will:
+
 - Verify Homebrew is installed and initialize it if needed
 - Set up zsh configuration with profile selection (home/work)
 - Copy dotfiles and XDG config files
@@ -27,7 +28,7 @@ The install script will:
 
 ## Repository Structure
 
-```
+```text
 config/
 ├── dotfiles/           # Files copied to ~/ with dot prefix
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
@@ -66,6 +67,7 @@ The zsh setup uses a profile-based system that allows different configurations o
 ### Profiles
 
 During installation, you'll choose a profile (home or work) which determines:
+
 - Which theme to use (Powerlevel10k by default)
 - Which oh-my-zsh plugins to load
 
@@ -74,6 +76,7 @@ Profile templates are in `zsh/profile-home.zsh` and `zsh/profile-work.zsh`.
 ### Custom Configurations
 
 Custom zsh files in `oh-my-zsh-custom/` are loaded automatically:
+
 - `00_environment.zsh` - PATH, colors, environment variables
 - `01_aliases.zsh` - Shell aliases
 - `02_functions.zsh` - Custom shell functions

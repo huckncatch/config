@@ -105,6 +105,7 @@ Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home
 ### Profile Discovery Helper
 
 For users expecting standard zsh conventions, a `.zprofile` file is installed that documents the XDG-compliant location:
+
 - **Source**: `dotfiles/zprofile` → `~/.zprofile` (informational only)
 - **Actual config**: `~/.config/zsh/profile.local` (where machine-specific settings live)
 
@@ -142,6 +143,7 @@ The `new-computer-install.sh` script performs automated setup in a specific orde
 ### Installation Script Flow
 
 The script performs these operations in order:
+
 1. Initializes Homebrew environment (auto-detects and runs `brew shellenv` if needed)
 2. Validates Homebrew installation
 3. Copies zsh configuration → `~/.zshrc` (backs up existing)
@@ -207,6 +209,7 @@ brew install package-name
 ### Configuration Sync Requirements
 
 **Claude Code configuration exists in two locations and must be kept in sync:**
+
 - Active: `~/.config/claude/`
 - Repository: `xdg-config/claude/`
 
@@ -245,6 +248,7 @@ Add to `zsh/oh-my-zsh-custom/00_environment.zsh` (the `00_` prefix ensures it lo
 ### Modifying Installation Script
 
 When adding new installation steps:
+
 1. Add the function if needed
 2. Call it in the main flow (after the "Installation flow" comment)
 3. Ensure proper error handling (don't break the script on failures)
@@ -253,6 +257,7 @@ When adding new installation steps:
 ### Adding Homebrew Packages
 
 Edit `new-computer-install.sh`:
+
 - Add to `packages=(...)` array for formulae (command-line tools)
 - Add to `applications=(...)` array for casks (GUI applications)
 

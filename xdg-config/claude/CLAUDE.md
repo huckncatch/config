@@ -54,24 +54,29 @@ Apply these standards to all files in any repository:
 After completing any meaningful unit of work, proactively ask the user if they want to commit the changes. Don't wait for the user to request it.
 
 **Meaningful work includes:**
+
 - Completing a feature or bug fix
 - Finishing a refactoring operation
 - Adding or updating documentation
 - Completing a logical step in a multi-step plan
 
 #### Size and Scope
+
 1. **One logical change per commit** - If you describe it with "and", consider splitting it
 2. **Maintain flexibility** - Don't be pedantic; group related changes when it makes sense
 3. **Each commit should leave code in a working state** - No broken intermediate states
 4. **Plan multi-step work upfront** - List commits in sequence before starting
 
 #### Commit Sequence Planning
+
 When tackling larger work:
+
 1. **First commit**: Add infrastructure (new functions, flags, argument parsing)
 2. **Middle commits**: Apply changes incrementally by feature area
 3. **Final commit**: Documentation, cleanup, polish
 
 Example breakdown for adding dry-run mode:
+
 - `feat: Add command-line argument parsing (--dry-run, --verbose, --help)`
 - `fix: Add DRY_RUN checks to brew operations`
 - `fix: Add DRY_RUN checks to git clone operations`
@@ -79,9 +84,11 @@ Example breakdown for adding dry-run mode:
 - `feat: Add verbose mode support to installations`
 
 #### Commit Message Format (Conventional Commits)
+
 Use this format: `<type>: <description>`
 
 **Types:**
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `refactor:` - Code restructuring without behavior change
@@ -90,7 +97,8 @@ Use this format: `<type>: <description>`
 - `chore:` - Maintenance tasks (dependency updates, etc.)
 
 **Message Structure:**
-```
+
+```text
 type: Short summary in imperative mood (50 chars max)
 
 - Optional body explaining why and how
@@ -102,18 +110,21 @@ type: Short summary in imperative mood (50 chars max)
 ```
 
 **Examples:**
+
 - `feat: Add dry-run flag to preview changes`
 - `fix: Handle missing SSH config gracefully`
 - `refactor: Extract brew installation logic to helper function`
 - `docs: Add troubleshooting section to README`
 
 #### Before Committing
+
 1. **Review the staged diff**: `git diff --staged` - Does it tell a clear story?
 2. **Verify commit message quality**: Imperative mood, explains what and why
 3. **Check for sensitive data**: No API keys, tokens, passwords, or credentials
 4. **Confirm logical grouping**: Should this be split or combined?
 
 #### Traceability
+
 - Use `git log --oneline --graph` to verify the commit history tells a clear story
 - Reference file locations with `file_path:line_number` when discussing changes
 - Link related commits in messages when building on previous work

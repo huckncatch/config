@@ -5,6 +5,7 @@
 ### Adding Packages to Install Script
 
 To add packages that will be installed on new machines, edit `new-computer-install.sh`:
+
 - Add to `packages` array for command-line tools (formulae)
 - Add to `applications` array for GUI applications (casks)
 
@@ -50,21 +51,25 @@ To install a specific version of a cask (e.g., to avoid paid upgrade):
 The `brew cu` command (from brew-cask-upgrade) can manage pinned casks:
 
 **Pin during interactive update:**
+
 ```bash
 brew cu  # Choose interactive mode when prompted, then pin specific casks
 ```
 
 **Pin via command line:**
+
 ```bash
 brew cu --pin <CASK_NAME>
 ```
 
 **Export current pins:**
+
 ```bash
 brew cu pinned --export ~/config/homebrew/homebrew-cu-pinned-casks
 ```
 
 **Import pins:**
+
 ```bash
 brew cu pinned --load ~/config/homebrew/homebrew-cu-pinned-casks
 ```
@@ -83,16 +88,19 @@ The install script skips files without the `.rb` extension.
 ## Upgrading Packages
 
 **Formulae (command-line tools):**
+
 ```bash
 brew upgrade
 ```
 
 **Casks (GUI applications):**
+
 ```bash
 brew cu  # Respects pinned casks
 ```
 
 Or upgrade all casks (ignoring pins):
+
 ```bash
 brew upgrade --cask
 ```
