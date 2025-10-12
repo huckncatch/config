@@ -6,11 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Work Process
 
-- After completing each step in a plan, list the remaining steps and ask the user if they want to continue or make changes to instructions or the plan.
 - Before proceeding with file modifications, verify that files haven't moved or changed since last checked.
-- After all blocks of work have been completed for a plan (or task), always validate against this CLAUDE.md for any needed updates. For example: directory structure changes during refactors, new patterns that should be documented, or documentation that no longer reflects reality.
-- Review all documentation for accuracy - avoid hallucinating or exaggerating information.
-- Avoid unnecessary emphasis words like "entire", "completely", "absolutely" when describing issues or constraints. Be direct and factual.
+- After completing all work for a plan or task, validate against both CLAUDE.md files for needed updates:
+  - **Project CLAUDE.md**: Architecture changes, new patterns, updated file structure
+  - **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): New universal workflows, cross-project preferences discovered
+  - Ensure information isn't duplicated or in the wrong location between files
 - Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
 
 ## Documentation Standards

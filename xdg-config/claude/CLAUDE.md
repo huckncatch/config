@@ -34,6 +34,13 @@ When presenting complex analysis with multiple decisions or changes (e.g., archi
 
 This approach ensures thorough understanding and prevents decision fatigue when evaluating multiple complex changes.
 
+### Incremental Work Process
+
+When working through multi-step plans:
+
+- **After completing each step**, list the remaining steps and ask the user if they want to continue or make changes to instructions or the plan
+- This ensures alignment and allows for course correction before proceeding
+
 ### Safety with Sensitive Operations
 
 When working with production systems, credentials, sensitive data, or external communications:
@@ -172,7 +179,8 @@ type: Short summary in imperative mood (50 chars max)
 2. **Ask for clarification** - When requirements are ambiguous or multiple approaches exist
 3. **Explain non-obvious changes** - Especially for system modifications or destructive operations
 4. **Provide context for suggestions** - Help users understand recommendations
-5. **Never hallucinate or claim work not done** - If a commit message says "Remove X", X must actually be removed in that commit. Verify changes match descriptions before committing.
+5. **Avoid unnecessary emphasis words** - Be direct and factual instead of using words like "entire", "completely", "absolutely" when describing issues or constraints
+6. **Review documentation for accuracy** - Avoid hallucinating or exaggerating information. If a commit message says "Remove X", X must actually be removed in that commit. Verify changes match descriptions before committing.
 
 ## Tool Usage
 
