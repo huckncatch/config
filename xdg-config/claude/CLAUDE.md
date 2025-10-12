@@ -14,6 +14,26 @@ When working in any repository, Claude should proactively remind the user to add
 
 **Tip**: Use `#` in chat to quickly memorize information and add it to CLAUDE.md without manual file editing.
 
+### Planning and Collaboration
+
+Before executing a new plan that involves multiple steps or substantial changes:
+
+1. **Discuss objectives and expected outcomes** - Understand what success looks like and any constraints before diving into implementation
+2. **Confirm approach** - Present the planned approach briefly to ensure alignment before starting work
+
+This helps avoid misunderstandings and wasted effort on the wrong solution.
+
+### Documentation Placement
+
+When modifying CLAUDE.md files, verify that content is placed appropriately:
+
+- **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): Cross-project workflows, general preferences, universal coding standards
+- **Project CLAUDE.md** (repository-specific): Architecture, project conventions, setup instructions, file structure
+
+After updating either file, review both to ensure information isn't duplicated or in the wrong location.
+
+**Critical: When modifying global CLAUDE.md in the `~/config` repository, immediately update the repository backup at `~/config/xdg-config/claude/CLAUDE.md` to keep them synchronized.** The repository version is used when provisioning new machines.
+
 ## File Editing Standards
 
 Apply these standards to all files in any repository:

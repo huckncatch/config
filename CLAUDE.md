@@ -171,11 +171,11 @@ When editing files in this repository:
 
 4. **Test profile selection**: Ensure both home and work profiles define required variables (`ZSH_THEME`, `plugins`). Missing these will cause oh-my-zsh initialization to fail.
 
-5. **Keep Claude config in sync**: When changing global Claude settings, update both:
-   - `~/.config/claude/CLAUDE.md` (active global instructions)
-   - `xdg-config/claude/CLAUDE.md` (repo version for new installs)
-   - `~/.config/claude/settings.json` (active settings)
-   - `xdg-config/claude/settings.json` (repo version for new installs)
+5. **Keep Claude config in sync**: When changing Claude Code configuration files, immediately update both locations:
+   - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
+   - **Settings**: `~/.config/claude/settings.json` (active) → `xdg-config/claude/settings.json` (backup)
+
+   The `xdg-config/` versions are used when provisioning new machines via `new-computer-install.sh`.
 
 6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
 
