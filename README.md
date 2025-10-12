@@ -98,18 +98,16 @@ Set `DEBUG_STARTUP=1` in `~/.zshrc` to see which files are being sourced during 
 - **Aliases/functions**: Add to appropriate file in `~/config/zsh/oh-my-zsh-custom/`
 - **Environment variables**: Edit `~/config/zsh/oh-my-zsh-custom/00_environment.zsh`
 
-### Adding Homebrew Packages
+### Installing Additional Packages
 
-Edit `new-computer-install.sh`:
-- Add formulae (command-line tools) to the `packages` array
-- Add casks (GUI applications) to the `applications` array
-
-Run the install script again to install new packages, or install manually:
+Install packages manually:
 
 ```bash
 brew install <package-name>
 brew install --cask <application-name>
 ```
+
+To add packages to the install script for future machines, see [Homebrew Management](./homebrew/README.md).
 
 ### Updating Git Submodules
 

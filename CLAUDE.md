@@ -140,24 +140,23 @@ The `new-computer-install.sh` script performs automated setup in a specific orde
 
 ### Installation Script Flow
 
-1. **Initializes Homebrew environment**: Auto-detects and runs `brew shellenv` if Homebrew is installed but not in PATH
-2. **Validates Homebrew**: Checks common installation locations (/opt/homebrew, /usr/local, Linux paths)
-3. **Copies zsh configuration**: `zsh/zshrc` → `~/.zshrc` (backs up existing)
-4. **Creates profile**: Prompts for home/work profile, creates `~/.config/zsh/profile.local`
-5. **Copies dotfiles**: Items from `dotfiles/` → `~/.<filename>` (with special handling for SSH config)
-6. **Copies XDG configs**: Directories from `xdg-config/` → `~/.config/` (includes git, tmux, claude, karabiner, ncdu)
-7. **Installs oh-my-zsh**: Uses `RUNZSH=no KEEP_ZSHRC=yes` flags to preserve zshrc
-8. **Installs zsh plugins**: Clones zsh-completions, zsh-nvm, fast-syntax-highlighting to `$ZSH_CUSTOM/plugins/`
-9. **Installs Homebrew packages**: Interactive prompts for each formula/cask, continues on failures
-10. **Installs pinned casks**: From `homebrew/pinned_casks/*.rb` (specific versions to avoid paid upgrades)
+The script performs these operations in order:
+1. Initializes Homebrew environment (auto-detects and runs `brew shellenv` if needed)
+2. Validates Homebrew installation
+3. Copies zsh configuration → `~/.zshrc` (backs up existing)
+4. Creates profile (`~/.config/zsh/profile.local`) from home/work template
+5. Copies dotfiles → `~/.<filename>` (SSH config gets special permissions)
+6. Copies XDG configs → `~/.config/`
+7. Installs oh-my-zsh (with `RUNZSH=no KEEP_ZSHRC=yes` to preserve zshrc)
+8. Installs zsh plugins to `$ZSH_CUSTOM/plugins/`
+9. Installs Homebrew packages (interactive, continues on failures)
+10. Installs pinned casks from `homebrew/pinned_casks/*.rb`
 
-### Installation Script Features
+### Script Behavior
 
-- **Error Resilience**: Uses `set -euo pipefail` for safety, but `brew install` failures don't stop the script
-- **Error Reporting**: Shows last 5 lines of Homebrew output when package installation fails (non-verbose mode)
-- **Homebrew Auto-Init**: Automatically runs `brew shellenv` if needed, eliminating manual .zprofile setup
-- **Dry Run Mode**: Use `--dry-run` flag to preview what would be installed
-- **Verbose Mode**: Use `--verbose` flag to see full Homebrew output during installation
+- Uses `set -euo pipefail` for safety, but `brew install` failures don't stop execution
+- Supports `--dry-run` and `--verbose` flags
+- Auto-initializes Homebrew environment if needed
 
 ## File Editing Guidelines
 

@@ -1,16 +1,14 @@
 # Homebrew Management
 
-## Installation
+## Package Management
 
-Homebrew packages are installed via the `new-computer-install.sh` script, which provides interactive prompts for each package and continues even if individual installations fail.
+### Adding Packages to Install Script
 
-### Package Lists
+To add packages that will be installed on new machines, edit `new-computer-install.sh`:
+- Add to `packages` array for command-line tools (formulae)
+- Add to `applications` array for GUI applications (casks)
 
-The install script maintains two arrays:
-- `packages` - Command-line tools (formulae)
-- `applications` - GUI applications (casks)
-
-To add new packages, edit `new-computer-install.sh` and add to the appropriate array.
+The script provides interactive prompts for each package and continues even if individual installations fail.
 
 ## Java
 
