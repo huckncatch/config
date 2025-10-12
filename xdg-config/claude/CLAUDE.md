@@ -49,6 +49,16 @@ Apply these standards to all files in any repository:
 
 **Philosophy: Small, incremental commits that show progression of changes**
 
+#### Proactive Commit Management
+
+After completing any meaningful unit of work, proactively ask the user if they want to commit the changes. Don't wait for the user to request it.
+
+**Meaningful work includes:**
+- Completing a feature or bug fix
+- Finishing a refactoring operation
+- Adding or updating documentation
+- Completing a logical step in a multi-step plan
+
 #### Size and Scope
 1. **One logical change per commit** - If you describe it with "and", consider splitting it
 2. **Maintain flexibility** - Don't be pedantic; group related changes when it makes sense
