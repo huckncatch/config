@@ -4,9 +4,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Process
 
-- Commit frequently with concise, descriptive messages that summarize the changes made.
-- Each commit should represent a single logical unit of work.
+### Commit Discipline
+
+- **Commit after each meaningful change**, not just at the end of a multi-step plan.
+- Each commit should represent a single logical unit of work that could be understood and potentially reverted independently.
+- When working through a multi-step plan, commit after completing each major step (e.g., after restructuring one file, after adding a new function, after fixing a bug).
 - Use imperative mood in commit messages (e.g., "Add validation logic" not "Added validation logic").
+- Examples of when to commit:
+  - When creating new scripts/files: commit the journey incrementally (initial structure, then core logic, then error handling, then tests, etc.)
+  - After refactoring a single file or module
+  - After adding a new feature or function
+  - After fixing a bug
+  - After updating documentation to reflect code changes
+  - NOT after every single line change, but after each coherent piece of work
+
+### Work Process
+
 - After completing each step in a plan, list the remaining steps and ask the user if they want to continue or make changes to instructions or the plan.
 - Before proceeding with file modifications, verify that files haven't moved or changed since last checked.
 - After all blocks of work have been completed for a plan (or task), always validate against this CLAUDE.md for any needed updates. For example: directory structure changes during refactors, new patterns that should be documented, or documentation that no longer reflects reality.
