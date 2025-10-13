@@ -399,6 +399,7 @@ packages=(
   # diff-so-fancy
   fd # find replacement
   fzf # fuzzy finder
+  markdownlint-cli2 # markdown linter (NOTE: installs node as dependency, conflicts with zsh-nvm plugin)
   ncdu # disk usage analyzer
   ripgrep # grep replacement
   tldr #

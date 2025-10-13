@@ -5,11 +5,12 @@
 Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
 
 ### Toothpick
+
 Toothpick is a Raycast extension that allows you to control Bluetooth devices from the command line. It requires the `blueutil` command-line tool to be installed. Follow the "Enabling 'blueutil' backend" instructions in the [README](https://www.raycast.com/VladCuciureanu/toothpick#readme) file.
 
 ## Maestral
 
-keep-alive instructions: https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro
+keep-alive instructions: <https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro>
 
 ## BBEdit
 
@@ -32,7 +33,7 @@ Upgrade all outdated casks
 
 ### Prevent updating cask with `bcu` -- pin a specific cask version
 
-To install a specific version of a cask/formula, follow the instructions [here](https://stackoverflow.com/a/66477916/662731)
+To install a specific version of a cask/formula, follow the instructions in [this Stack Overflow answer](https://stackoverflow.com/a/66477916/662731)
 
 1. Go to the Homebrew Cask [search page](https://formulae.brew.sh/cask/)
 1. Search for the application you are looking for

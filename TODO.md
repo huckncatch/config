@@ -6,7 +6,7 @@ Future improvements and features for this configuration repository.
 
 ### Script to Organize Timestamped Files
 
-**Priority: High**
+Priority: High
 
 Create a script to move files with timestamp prefixes (e.g., `2025-10-11_13-31-00.*`) into appropriate directories with duplicate handling.
 
@@ -69,12 +69,25 @@ Two profile systems currently exist: the current `profile-home.zsh` / `profile-w
 - Update documentation to reflect single profile system
 - Status: Not started
 
+### Resolve Homebrew Node vs zsh-nvm Conflict
+
+The `markdownlint-cli2` Homebrew formula installs Node as a dependency, which conflicts with the zsh-nvm plugin used for Node version management.
+
+- Investigate whether Homebrew Node can be safely uninstalled while keeping markdownlint-cli2
+- Test if markdownlint-cli2 works with zsh-nvm's Node instead of Homebrew's Node
+- Consider alternative solutions:
+  - Use npm global install of markdownlint-cli2 (via nvm-managed Node)
+  - Use different markdown linter that doesn't require Node
+  - Document workaround if both installations must coexist
+- Document the recommended approach in CLAUDE.md or install script
+- Status: Not started
+
 ## Ideas / Future Consideration
 
-*Items that need more thought or may not be implemented*
+Items that need more thought or may not be implemented
 
 - None currently
 
 ## Completed
 
-*Completed items are removed from this list but visible in git history*
+Completed items are removed from this list but visible in git history

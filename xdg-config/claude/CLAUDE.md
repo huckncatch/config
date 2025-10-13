@@ -74,7 +74,7 @@ Apply these standards to all files in any repository:
 
 ### Git Commit Best Practices
 
-**Philosophy: Small, incremental commits that show progression of changes**
+Philosophy: Small, incremental commits that show progression of changes
 
 #### Proactive Commit Management
 
