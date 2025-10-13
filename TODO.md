@@ -4,19 +4,6 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
-### Script to Organize Timestamped Files
-
-Priority: High
-
-Create a script to move files with timestamp prefixes (e.g., `2025-10-11_13-31-00.*`) into appropriate directories with duplicate handling.
-
-- Parse timestamp format from filenames
-- Determine appropriate destination directories (by date, file type, or other criteria)
-- Handle duplicates with suffix notation (-1, -2, etc.)
-- Provide dry-run mode to preview moves
-- Add safety checks to prevent data loss
-- Status: Not started
-
 ### Update Work Profile Template to use my-jonathan Theme
 
 Currently both profile templates use Powerlevel10k by default. Update `zsh/profile-work.zsh` to use my-jonathan theme as the default instead.
