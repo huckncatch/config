@@ -58,6 +58,28 @@ When modifying CLAUDE.md files, verify that content is placed appropriately:
 
 After updating either file, review both to ensure information isn't duplicated or in the wrong location.
 
+#### Creating New Project CLAUDE Files
+
+When creating a new project CLAUDE.md:
+
+1. **Don't duplicate global guidance** - Assume Claude will read both files; only include project-specific information
+2. **Focus on what's unique** - Document architecture, conventions, and patterns specific to this project
+3. **Reference, don't repeat** - If global CLAUDE.md already covers it (commit discipline, file standards, tool usage), don't repeat it
+4. **Keep it minimal** - Less is more; only add what Claude needs to know about this specific codebase
+5. **Review for redundancy** - After creation, verify no overlap with global CLAUDE.md
+
+**Examples of what belongs in project CLAUDE.md:**
+- Repository-specific architecture and file structure
+- Critical constraints unique to this project
+- Project-specific workflows or build processes
+- Important context about design decisions
+
+**Examples of what belongs in global CLAUDE.md:**
+- Commit message format and discipline
+- File editing standards (trailing newlines, markdown conventions)
+- Tool usage preferences (Read vs cat, Edit vs sed)
+- Universal code quality standards
+
 **Critical: When modifying global CLAUDE.md in the `~/config` repository, immediately update the repository backup at `~/config/xdg-config/claude/CLAUDE.md` to keep them synchronized.** The repository version is used when provisioning new machines.
 
 ## File Editing Standards
