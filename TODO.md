@@ -71,16 +71,17 @@ Two profile systems currently exist: the current `profile-home.zsh` / `profile-w
 
 ### Resolve Homebrew Node vs zsh-nvm Conflict
 
-The `markdownlint-cli2` Homebrew formula installs Node as a dependency, which conflicts with the zsh-nvm plugin used for Node version management.
+Resolution: Keep both installations - they coexist without real conflict.
 
-- Investigate whether Homebrew Node can be safely uninstalled while keeping markdownlint-cli2
-- Test if markdownlint-cli2 works with zsh-nvm's Node instead of Homebrew's Node
-- Consider alternative solutions:
-  - Use npm global install of markdownlint-cli2 (via nvm-managed Node)
-  - Use different markdown linter that doesn't require Node
-  - Document workaround if both installations must coexist
-- Document the recommended approach in CLAUDE.md or install script
-- Status: Not started
+Investigation revealed:
+- In interactive shells, zsh-nvm plugin ensures nvm's Node takes precedence
+- markdownlint-cli2 Homebrew formula has hardcoded shebang (`#!/opt/homebrew/opt/node/bin/node`)
+- Cannot use nvm's Node with Homebrew's markdownlint-cli2 due to shebang hardcoding
+- Both Node installations can coexist peacefully
+
+Decision: Keep both Homebrew Node (for markdownlint-cli2) and nvm (for project development).
+
+- Status: Resolved
 
 ## Ideas / Future Consideration
 
