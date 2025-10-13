@@ -57,6 +57,18 @@ Allow re-running `new-computer-install.sh` after pulling updates to sync new fil
 - Document the refresh workflow
 - Status: Not started
 
+### Consolidate Profile Systems
+
+Two profile systems currently exist: the current `profile-home.zsh` / `profile-work.zsh` system used by `new-computer-install.sh`, and the older Profiles plugin in `zsh/oh-my-zsh-custom/plugins/profiles/` (currently disabled).
+
+- Review the Profiles plugin functionality and benefits
+- Determine which features from each system should be retained
+- Design unified profile management approach
+- Update install script if needed
+- Consolidate or remove redundant profile directories
+- Update documentation to reflect single profile system
+- Status: Not started
+
 ## Ideas / Future Consideration
 
 *Items that need more thought or may not be implemented*
