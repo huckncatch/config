@@ -401,6 +401,7 @@ packages=(
   fzf # fuzzy finder
   markdownlint-cli2 # markdown linter (NOTE: installs node as dependency; coexists with zsh-nvm plugin - nvm takes precedence in interactive shells)
   ncdu # disk usage analyzer
+  pandoc # markdown converter
   ripgrep # grep replacement
   tldr #
   tree # directory listing
@@ -540,6 +541,7 @@ applications=(
   piezo # https://rogueamoeba.com/piezo/
   poe # https://poeapp.com/
   privadovpn # https://privadovpn.com/
+  proxyman # https://proxyman.com/
   qlmarkdown # https://github.com/sbarex/QLMarkdown
   # reunion # https://www.reunionapp.com/ -- PINNED
   shortcutdetective # https://www.irradiatedsoftware.com/labs/
