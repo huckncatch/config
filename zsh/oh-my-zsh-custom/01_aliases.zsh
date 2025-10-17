@@ -27,14 +27,19 @@ if [[ -o interactive ]]; then
   fi
   alias mv='nocorrect command mv -i'
   alias cp='nocorrect command cp -i'
+  alias rm='nocorrect command rm -i'
   alias jobs='builtin jobs -l'
   alias mmv="noglob zmv -W"
+
+  # history aliases
+  alias h='history'
+  alias hg="fc -El 0 | grep"
 
   # search aliases
   alias eg='set | grep -i'
   alias alg='alias | grep -i'
   alias cg='compctl | grep -i'
-  alias hg='history 1- | grep -i'
+  alias ff='fd --type f --hidden --exclude .git'  # fast file find using fd
 
   alias c=clear
   alias cdicloud='cd ~/Library/Mobile\ Documents/com\~apple\~CloudDocs' # iCloud Drive
