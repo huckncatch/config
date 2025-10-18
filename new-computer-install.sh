@@ -389,6 +389,7 @@ packages=(
   tmux
   wget
   yt-dlp # youtube-dl replacement
+  bash # a modern version of bash for scripting
   zsh
   # zsh-fast-syntax-highlighting, installed as OMZ sub-module custom plugins
   # zsh-syntax-highlighting
