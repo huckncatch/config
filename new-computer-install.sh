@@ -391,8 +391,8 @@ packages=(
   yt-dlp # youtube-dl replacement
   bash # a modern version of bash for scripting
   zsh
-  # zsh-fast-syntax-highlighting, installed as OMZ sub-module custom plugins
-  # zsh-syntax-highlighting
+
+  blueutil # bluetooth support
 
   # https://remysharp.com/2018/08/23/cli-improved
   ack  # grep replacement
