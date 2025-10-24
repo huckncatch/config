@@ -60,12 +60,14 @@ autoload gswcl
 
 if [[ "$MACHINE_PROFILE" == "work" ]]; then
   unalias gsw 2>/dev/null
-  function gsw() {
+  function _gsw_impl() {
     git switch "$*"
   }
+  alias gsw='noglob _gsw_impl'
 
   unalias gswc 2>/dev/null
-  function gswc() {
+  function _gswc_impl() {
     git switch --create "$*"
   }
+  alias gswc='noglob _gswc_impl'
 fi
