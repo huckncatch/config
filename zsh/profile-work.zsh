@@ -26,13 +26,14 @@
 export MACHINE_PROFILE="work"
 
 # Theme
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="my-jonathan"
 
 # Load P10k configuration if it exists
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Plugins
 plugins=(
+  zsh-nvm
   profiles
   alias-finder
   bbedit
@@ -47,6 +48,5 @@ plugins=(
   tmux
   vscode
   zsh-autosuggestions
-  zsh-syntax-highlighting
-  zsh-nvm
+  fast-syntax-highlighting
 )

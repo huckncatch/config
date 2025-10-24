@@ -28,7 +28,7 @@ export MACHINE_PROFILE="home"
 # Theme
 ZSH_THEME="my-jonathan"
 
-# P10k configuration (not used with my-jonathan theme, but check anyway)
+# Load P10k configuration if it exists
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Plugins
