@@ -485,6 +485,9 @@ applications=(
   claude-code # https://www.anthropic.com/claude-code
   cursor # https://www.cursor.so/
 
+  chatgpt-atlas # https://chatgpt.com/atlas
+  fastmail # https://www.fastmail.com/
+
   reader # https://readwise.io/read/
 
   # secondary apps
