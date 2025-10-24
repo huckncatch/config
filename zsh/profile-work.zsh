@@ -22,6 +22,9 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
+# Machine profile marker for conditional configuration
+export MACHINE_PROFILE="work"
+
 # Theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
 

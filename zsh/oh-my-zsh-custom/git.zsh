@@ -47,3 +47,25 @@ function gswcl() {
 compdef _git gswcl=git-switch
 
 autoload gswcl
+
+# ==============================================================================
+# WORK-SPECIFIC GIT FUNCTION OVERRIDES
+# ==============================================================================
+# Override oh-my-zsh git plugin aliases to handle branch names with # symbols
+# (e.g., JPG/AB#1398231-Simulator_camera_crash_fix)
+#
+# These must be defined AFTER oh-my-zsh initialization (which happens after
+# profile loading), so they're placed here in the custom directory rather than
+# in the profile file.
+
+if [[ "$MACHINE_PROFILE" == "work" ]]; then
+  unalias gsw 2>/dev/null
+  function gsw() {
+    git switch "$*"
+  }
+
+  unalias gswc 2>/dev/null
+  function gswc() {
+    git switch --create "$*"
+  }
+fi
