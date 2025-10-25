@@ -186,6 +186,92 @@ brew_install() {
   fi
 }
 
+_files_differ() {
+  local src="$1"
+  local dest="$2"
+
+  # If dest doesn't exist, files differ
+  [ ! -f "$dest" ] && return 0
+
+  # Compare file contents
+  if ! diff -q "$src" "$dest" > /dev/null 2>&1; then
+    return 0  # Files differ
+  else
+    return 1  # Files identical
+  fi
+}
+
+_sync_file() {
+  local src="$1"
+  local dest="$2"
+  local mode="${3:-}"  # Optional: file permissions
+
+  if ! _files_differ "$src" "$dest"; then
+    [ $VERBOSE -eq 1 ] && echo "  ✓ $dest unchanged"
+    return 0
+  fi
+
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "  [DRY RUN] Would update: $dest"
+    return 0
+  fi
+
+  # Backup existing file with timestamp
+  if [ -f "$dest" ]; then
+    local backup="${dest}.backup.$(date +%Y%m%d_%H%M%S)"
+    cp "$dest" "$backup"
+    echo "  ⚠ Backed up: $backup"
+  fi
+
+  # Create parent directory if needed
+  mkdir -p "$(dirname "$dest")"
+
+  # Copy file
+  cp "$src" "$dest"
+
+  # Set permissions if specified
+  [ -n "$mode" ] && chmod "$mode" "$dest"
+
+  echo "  ✓ Updated: $dest"
+}
+
+_sync_directory_selective() {
+  local src_dir="$1"
+  local dest_dir="$2"
+  local preserve_patterns="$3"  # Patterns to preserve (space-separated)
+
+  if [ -n "$preserve_patterns" ]; then
+    echo "  Syncing $dest_dir (preserving: $preserve_patterns)"
+  else
+    echo "  Syncing $dest_dir"
+  fi
+
+  # Find all files in source directory
+  find "$src_dir" -type f | while read -r src_file; do
+    # Get relative path
+    rel_path="${src_file#$src_dir/}"
+    dest_file="$dest_dir/$rel_path"
+
+    # Check if file matches preserve pattern
+    local should_preserve=0
+    for pattern in $preserve_patterns; do
+      case "$rel_path" in
+        $pattern)
+          should_preserve=1
+          [ $VERBOSE -eq 1 ] && echo "  ⊘ Preserving: $rel_path"
+          break
+          ;;
+      esac
+    done
+
+    # Skip if should preserve
+    [ $should_preserve -eq 1 ] && continue
+
+    # Sync the file
+    _sync_file "$src_file" "$dest_file"
+  done
+}
+
 #############################################################################
 # PHASE 1: CONFIGURATION FILES
 #############################################################################
