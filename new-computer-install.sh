@@ -366,6 +366,11 @@ copy_dotfiles() {
 
       # Special handling for SSH config
       if [ "$itemname" = "ssh-config" ]; then
+        if [ $UPDATE_MODE -eq 1 ]; then
+          echo "  ⊘ Skipping SSH config in update mode (manual merge recommended)"
+          continue
+        fi
+
         if [ -f "$HOME/.ssh/config" ]; then
           if [ $DRY_RUN -eq 1 ]; then
             echo "  [DRY RUN] Would back up existing ~/.ssh/config to ~/.ssh/config.backup"
@@ -384,19 +389,24 @@ copy_dotfiles() {
           chmod 600 "$HOME/.ssh/config"
         fi
       else
-        if [ -f "$HOME/.$itemname" ]; then
-          if [ $DRY_RUN -eq 1 ]; then
-            echo "  [DRY RUN] Would back up existing ~/.$itemname to ~/.$itemname.backup"
-          else
-            echo "  Backing up existing ~/.$itemname to ~/.$itemname.backup"
-            cp "$HOME/.$itemname" "$HOME/.$itemname.backup"
-          fi
-        fi
-        if [ $DRY_RUN -eq 1 ]; then
-          echo "  [DRY RUN] Would copy $itemname to ~/.$itemname"
+        # Use smart sync in update mode
+        if [ $UPDATE_MODE -eq 1 ]; then
+          _sync_file "$item" "$HOME/.$itemname"
         else
-          echo "  Copying $itemname to ~/.$itemname"
-          cp "$item" "$HOME/.$itemname"
+          if [ -f "$HOME/.$itemname" ]; then
+            if [ $DRY_RUN -eq 1 ]; then
+              echo "  [DRY RUN] Would back up existing ~/.$itemname to ~/.$itemname.backup"
+            else
+              echo "  Backing up existing ~/.$itemname to ~/.$itemname.backup"
+              cp "$HOME/.$itemname" "$HOME/.$itemname.backup"
+            fi
+          fi
+          if [ $DRY_RUN -eq 1 ]; then
+            echo "  [DRY RUN] Would copy $itemname to ~/.$itemname"
+          else
+            echo "  Copying $itemname to ~/.$itemname"
+            cp "$item" "$HOME/.$itemname"
+          fi
         fi
       fi
     fi
