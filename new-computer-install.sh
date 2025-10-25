@@ -279,6 +279,27 @@ _sync_directory_selective() {
 copy_zsh_config() {
   echo "Setting up zsh configuration..."
 
+  # In update mode, just sync the zshrc file
+  if [ $UPDATE_MODE -eq 1 ]; then
+    _sync_file "./zsh/zshrc" "$HOME/.zshrc"
+    echo "  ⊘ Skipping profile (update mode preserves local profile)"
+
+    # Profile drift detection
+    if [ -f "$HOME/.config/zsh/profile.local" ]; then
+      local drift_found=0
+      if diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-home.zsh" > /dev/null 2>&1; then
+        echo "  ✓ Profile matches home template"
+      elif diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-work.zsh" > /dev/null 2>&1; then
+        echo "  ✓ Profile matches work template"
+      else
+        echo "  ⚠ Profile drift detected: ~/.config/zsh/profile.local differs from both templates"
+        drift_found=1
+      fi
+    fi
+
+    return 0
+  fi
+
   # Copy main zshrc to home directory
   if [ -f "$HOME/.zshrc" ]; then
     if [ $DRY_RUN -eq 1 ]; then
@@ -307,6 +328,15 @@ copy_zsh_config() {
   local profile_source
   if [ -f "$HOME/.config/zsh/profile.local" ]; then
     echo "  Profile already exists at ~/.config/zsh/profile.local, skipping."
+
+    # Profile drift detection (also run in normal mode)
+    if diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-home.zsh" > /dev/null 2>&1; then
+      echo "  ✓ Profile matches home template"
+    elif diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-work.zsh" > /dev/null 2>&1; then
+      echo "  ✓ Profile matches work template"
+    else
+      echo "  ⚠ Profile drift detected: ~/.config/zsh/profile.local differs from both templates"
+    fi
   else
     if [ $DRY_RUN -eq 1 ]; then
       echo "  [DRY RUN] Would prompt for profile selection and create ~/.config/zsh/profile.local"
