@@ -424,26 +424,65 @@ copy_xdg_config() {
     mkdir -p "$HOME/.config"
   fi
 
+  # Track unknown configs for final summary
+  local unknown_configs=()
+
   # Copy each directory from xdg-config/ to ~/.config/
   for item in ./xdg-config/*; do
     if [ -e "$item" ]; then
       itemname=$(basename "$item")
-      if [ -e "$HOME/.config/$itemname" ]; then
-        if [ $DRY_RUN -eq 1 ]; then
-          echo "  [DRY RUN] Would back up existing ~/.config/$itemname to ~/.config/$itemname.backup"
-        else
-          echo "  Backing up existing ~/.config/$itemname to ~/.config/$itemname.backup"
-          cp -r "$HOME/.config/$itemname" "$HOME/.config/$itemname.backup"
-        fi
-      fi
-      if [ $DRY_RUN -eq 1 ]; then
-        echo "  [DRY RUN] Would copy directory $itemname to ~/.config/"
+
+      if [ $UPDATE_MODE -eq 1 ]; then
+        # Define preservation patterns per config directory
+        case "$itemname" in
+          "claude")
+            # Preserve everything except CLAUDE.md and settings.json
+            _sync_directory_selective "$item" "$HOME/.config/$itemname" \
+              "local/* projects/* statsig/* todos/* hooks/*"
+            ;;
+          "karabiner")
+            # Preserve automatic backups and assets
+            _sync_directory_selective "$item" "$HOME/.config/$itemname" \
+              "automatic_backups/* assets/*"
+            ;;
+          "git"|"tmux"|"ncdu")
+            # These are safe to fully sync
+            _sync_directory_selective "$item" "$HOME/.config/$itemname" ""
+            ;;
+          *)
+            echo "  ⚠ Unknown config: $itemname (skipping in update mode)"
+            unknown_configs+=("$itemname")
+            ;;
+        esac
       else
-        echo "  Copying directory $itemname to ~/.config/"
-        cp -r "$item" "$HOME/.config/"
+        # Normal mode: backup and copy entire directory
+        if [ -e "$HOME/.config/$itemname" ]; then
+          if [ $DRY_RUN -eq 1 ]; then
+            echo "  [DRY RUN] Would back up existing ~/.config/$itemname to ~/.config/$itemname.backup"
+          else
+            echo "  Backing up existing ~/.config/$itemname to ~/.config/$itemname.backup"
+            cp -r "$HOME/.config/$itemname" "$HOME/.config/$itemname.backup"
+          fi
+        fi
+        if [ $DRY_RUN -eq 1 ]; then
+          echo "  [DRY RUN] Would copy directory $itemname to ~/.config/"
+        else
+          echo "  Copying directory $itemname to ~/.config/"
+          cp -r "$item" "$HOME/.config/"
+        fi
       fi
     fi
   done
+
+  # Display unknown configs summary if any
+  if [ ${#unknown_configs[@]} -gt 0 ] && [ $UPDATE_MODE -eq 1 ]; then
+    echo ""
+    echo "  Unknown configs skipped in update mode:"
+    for config in "${unknown_configs[@]}"; do
+      echo "    - $config"
+    done
+    echo "  To update these, run without --update flag or add them to copy_xdg_config()"
+  fi
 }
 
 #############################################################################
