@@ -1,5 +1,9 @@
 {
   "installMethod": "homebrew",
   "autoUpdates": false,
-  "autoUpdatesProtectedForNative": false
+  "autoUpdatesProtectedForNative": false,
+  "statusLine": {
+    "type": "command",
+    "command": "printf '\\033[36m%s\\033[32m@\\033[32m%s \\033[32m%s \\033[33m%s' \"$(whoami)\" \"$(hostname -s)\" \"$(basename \"$(pwd)\")\" \"$(date +%H:%M:%S)\""
+  }
 }
