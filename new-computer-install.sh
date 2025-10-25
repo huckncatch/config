@@ -11,6 +11,7 @@ set -euo pipefail
 # Parse command line options
 DRY_RUN=0
 VERBOSE=0
+UPDATE_MODE=0
 
 show_usage() {
   cat << EOF
@@ -20,13 +21,15 @@ Provision a new macOS machine with dotfiles, configurations, and applications.
 
 OPTIONS:
   -d, --dry-run    Show what would be installed without actually installing
+  -u, --update     Update mode: sync changed config files only, skip installations
   -v, --verbose    Show detailed output during installation
   -h, --help       Show this help message
 
 EXAMPLES:
   $(basename "$0")              # Run normal installation
   $(basename "$0") --dry-run    # Preview what would be installed
-  $(basename "$0") -v           # Run with verbose output
+  $(basename "$0") --update     # Update configs after git pull
+  $(basename "$0") -u -v        # Update with verbose output
   $(basename "$0") -d -v        # Preview with verbose output
 
 EOF
@@ -36,6 +39,10 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     -d|--dry-run)
       DRY_RUN=1
+      shift
+      ;;
+    -u|--update)
+      UPDATE_MODE=1
       shift
       ;;
     -v|--verbose)
