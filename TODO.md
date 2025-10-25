@@ -4,6 +4,35 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
+### Review Oh-My-Zsh Plugins for Useful Additions
+
+Review the built-in oh-my-zsh plugins to identify useful ones not currently enabled.
+
+**Current plugins enabled:**
+- zsh-nvm
+- profiles
+- alias-finder
+- bbedit
+- brew
+- git
+- gitfast
+- git-prompt
+- iterm2
+- npm
+- sudo
+- tmux
+- vscode
+- zsh-autosuggestions
+- fast-syntax-highlighting
+
+**Action items:**
+- Browse oh-my-zsh plugins directory or documentation
+- Identify plugins that would improve workflow
+- Test selected plugins in local profile
+- Update profile templates if plugins should be enabled by default
+- Document any plugin-specific configuration needed
+- Status: Not started
+
 ### Resolve Homebrew Node vs zsh-nvm Conflict
 
 Resolution: Keep both installations - they coexist without real conflict.
