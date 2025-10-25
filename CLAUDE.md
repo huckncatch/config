@@ -143,8 +143,61 @@ The script performs these operations in order:
 ### Script Behavior
 
 - Uses `set -euo pipefail` for safety, but `brew install` failures don't stop execution
-- Supports `--dry-run` and `--verbose` flags
+- Supports `--dry-run`, `--update`, and `--verbose` flags
 - Auto-initializes Homebrew environment if needed
+
+### Update/Refresh Mode
+
+The `--update` flag enables safe configuration syncing after pulling repository updates:
+
+**What it does:**
+
+- Syncs only changed configuration files (creates timestamped backups)
+- Skips all installations (Homebrew, oh-my-zsh, plugins, packages)
+- Preserves user data and local customizations
+- Detects profile drift from templates
+
+**Files synced:**
+
+- `~/.zshrc` - Smart sync with backup if changed
+- Dotfiles (`~/.p10k.zsh`, `~/.editorconfig`, etc.) - Smart sync with backup
+- XDG configs with selective preservation:
+  - **Claude**: Syncs `CLAUDE.md` and `settings.json`, preserves `local/`, `projects/`, `statsig/`, `todos/`, `hooks/`
+  - **Karabiner**: Syncs `karabiner.json`, preserves `automatic_backups/`, `assets/`
+  - **Git/tmux/ncdu**: Full sync (no user data to preserve)
+
+**Files preserved/skipped:**
+
+- `~/.config/zsh/profile.local` - Skipped entirely (drift detection runs)
+- `~/.ssh/config` - Skipped entirely (manual merge recommended)
+- All Homebrew taps, packages, casks, fonts
+- oh-my-zsh and zsh plugins
+
+**Usage:**
+
+```bash
+cd ~/config && git pull && ./new-computer-install.sh --update
+```
+
+**With dry-run preview:**
+
+```bash
+./new-computer-install.sh --update --dry-run
+```
+
+**With verbose output:**
+
+```bash
+./new-computer-install.sh --update --verbose
+```
+
+**Backup format:**
+
+Files are backed up with timestamps before updates:
+
+- Format: `<filename>.backup.YYYYMMDD_HHMMSS`
+- Example: `.zshrc.backup.20251025_121230`
+- All backups are preserved (no automatic cleanup)
 
 ## File Editing Guidelines
 
