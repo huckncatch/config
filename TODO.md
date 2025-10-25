@@ -4,18 +4,6 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
-### Add Refresh/Update Mode to Install Script
-
-Allow re-running `new-computer-install.sh` after pulling updates to sync new files/configurations without data loss.
-
-- Review what currently gets overwritten vs preserved
-- Identify potential data/configuration loss scenarios
-- Implement smart merge/update logic
-- Add `--update` or similar flag
-- Test thoroughly to ensure no data loss
-- Document the refresh workflow
-- Status: Not started
-
 ### Consolidate Profile Systems
 
 Two profile systems currently exist: the current `profile-home.zsh` / `profile-work.zsh` system used by `new-computer-install.sh`, and the older Profiles plugin in `zsh/oh-my-zsh-custom/plugins/profiles/` (currently disabled).
@@ -82,4 +70,28 @@ Items that need more thought or may not be implemented
 
 ## Completed
 
-Completed items are removed from this list but visible in git history
+### Add Refresh/Update Mode to Install Script
+
+**Status:** Completed 2025-10-25
+
+Implemented `--update` flag for `new-computer-install.sh` to safely sync configuration changes after pulling repository updates.
+
+**Features implemented:**
+- Smart file syncing with timestamped backups for all changes
+- Profile drift detection (detects if local profile differs from templates)
+- Selective directory syncing with pattern-based preservation:
+  - Claude: preserves local/, projects/, statsig/, todos/, hooks/
+  - Karabiner: preserves automatic_backups/, assets/
+  - Git, tmux, ncdu: full sync
+- SSH config skipped entirely in update mode (manual merge recommended)
+- All shell setup and package installation skipped in update mode
+- Clear messaging showing unchanged vs updated files
+- Dry-run support for preview
+- Verbose mode for detailed output
+
+**Usage:**
+```bash
+cd ~/config && git pull && ./new-computer-install.sh --update
+```
+
+Older completed items are removed from this list but visible in git history
