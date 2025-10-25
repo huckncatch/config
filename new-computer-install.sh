@@ -664,6 +664,15 @@ fi
 # MAIN INSTALLATION ORCHESTRATOR
 #############################################################################
 main() {
+  # Display mode banner
+  if [ $UPDATE_MODE -eq 1 ]; then
+    echo ""
+    echo "============================================================================="
+    echo "  UPDATE MODE - Syncing configuration files only"
+    echo "============================================================================="
+    echo ""
+  fi
+
   # Phase 1: Configuration files (foundation)
   copy_zsh_config
   copy_dotfiles
@@ -678,22 +687,36 @@ main() {
   # Phase 4: Post-installation notes
   echo ""
   echo "============================================================================="
-  echo "  Installation Complete"
-  echo "============================================================================="
-  echo ""
-  echo "Manual steps remaining:"
-  echo ""
-  echo "1. Mac App Store apps (see homebrew/mas-apps.txt)"
-  echo ""
-  echo "2. Raycast Extensions: https://www.raycast.com/extensions"
-  echo "   - toothpick (Bluetooth connections)"
-  echo "   - apple-notes (search/create notes)"
-  echo "   - color-picker (pick and organize colors)"
-  echo "   - obsidian (control Obsidian)"
-  echo "   - kill-process (terminate by CPU/memory)"
-  echo "   - raindrop-io (search bookmarks)"
-  echo "   - audio-device (switch audio devices)"
-  echo "   - coffee (prevent sleep)"
+  if [ $UPDATE_MODE -eq 1 ]; then
+    echo "  Configuration Update Complete"
+    echo "============================================================================="
+    echo ""
+    echo "Configuration files have been synced from the repository."
+    echo ""
+    echo "Changed files have been backed up with timestamps."
+    echo "Review changes with:"
+    echo "  ls -lt ~/*.backup.* ~/.config/*/*.backup.* 2>/dev/null | head -20"
+    echo ""
+    echo "To view a specific backup diff:"
+    echo "  diff <original_file> <backup_file>"
+  else
+    echo "  Installation Complete"
+    echo "============================================================================="
+    echo ""
+    echo "Manual steps remaining:"
+    echo ""
+    echo "1. Mac App Store apps (see homebrew/mas-apps.txt)"
+    echo ""
+    echo "2. Raycast Extensions: https://www.raycast.com/extensions"
+    echo "   - toothpick (Bluetooth connections)"
+    echo "   - apple-notes (search/create notes)"
+    echo "   - color-picker (pick and organize colors)"
+    echo "   - obsidian (control Obsidian)"
+    echo "   - kill-process (terminate by CPU/memory)"
+    echo "   - raindrop-io (search bookmarks)"
+    echo "   - audio-device (switch audio devices)"
+    echo "   - coffee (prevent sleep)"
+  fi
   echo ""
 }
 
