@@ -4,18 +4,6 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
-### Consolidate Profile Systems
-
-Two profile systems currently exist: the current `profile-home.zsh` / `profile-work.zsh` system used by `new-computer-install.sh`, and the older Profiles plugin in `zsh/oh-my-zsh-custom/plugins/profiles/` (currently disabled).
-
-- Review the Profiles plugin functionality and benefits
-- Determine which features from each system should be retained
-- Design unified profile management approach
-- Update install script if needed
-- Consolidate or remove redundant profile directories
-- Update documentation to reflect single profile system
-- Status: Not started
-
 ### Resolve Homebrew Node vs zsh-nvm Conflict
 
 Resolution: Keep both installations - they coexist without real conflict.
@@ -69,6 +57,24 @@ Items that need more thought or may not be implemented
 - None currently
 
 ## Completed
+
+### Consolidate Profile Systems
+
+**Status:** Completed 2025-10-25
+
+Unified the two profile systems into a complementary dual-profile architecture:
+
+**Solution implemented:**
+- **Profile templates** (`profile-home.zsh`/`profile-work.zsh`) define theme and plugins before oh-my-zsh initialization
+- **Hostname-based profiles** (Profiles plugin) provide machine-specific runtime config during oh-my-zsh initialization
+- Re-enabled Profiles plugin with `.local` suffix normalization (single file works for both `Skuld` and `Skuld.local` hostnames)
+- Removed redundant `Skuld.local` profile file
+- Updated documentation to explain the dual-system architecture and load order
+
+**Benefits:**
+- Clean separation of concerns (theme/plugins vs runtime config)
+- Hostname-based auto-loading for machine-specific settings
+- No install script changes needed (systems work together seamlessly)
 
 ### Add Refresh/Update Mode to Install Script
 
