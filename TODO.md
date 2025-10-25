@@ -4,17 +4,6 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
-### Review Home Directory Dotfiles for XDG Compliance
-
-Audit dotfiles in `~/` to identify candidates that could be moved to `~/.config/` following the XDG Base Directory specification.
-
-- Review current dotfiles in home directory
-- Research which tools support XDG paths
-- Create migration plan for compatible dotfiles
-- Update install script and documentation
-- Status: Not started
-
-
 ### Add Refresh/Update Mode to Install Script
 
 Allow re-running `new-computer-install.sh` after pulling updates to sync new files/configurations without data loss.
