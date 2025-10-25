@@ -195,6 +195,7 @@ type: Short summary in imperative mood (50 chars max)
 2. **Add comments for non-obvious logic** - Explain "why" not "what"
 3. **Handle errors gracefully** - Don't let errors fail silently
 4. **Keep functions focused** - Single responsibility principle
+5. **Avoid bash process substitution** - Never use `<(...)` syntax; use simpler alternatives like storing function output in variables or using command substitution with `$(...)` in loops. Simpler is better for portability and readability.
 
 ### Communication with User
 

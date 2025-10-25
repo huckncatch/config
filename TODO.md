@@ -14,15 +14,6 @@ Audit dotfiles in `~/` to identify candidates that could be moved to `~/.config/
 - Update install script and documentation
 - Status: Not started
 
-### Extract Formula and Cask Lists from Install Script
-
-Currently package/application arrays are hardcoded in `new-computer-install.sh`. Consider extracting them for better organization.
-
-- Evaluate options: separate files, profile templates, or other locations
-- Determine if packages should be profile-specific (home vs work)
-- Update install script to read from external source
-- Update documentation
-- Status: Not started
 
 ### Add Refresh/Update Mode to Install Script
 
