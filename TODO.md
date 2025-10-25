@@ -4,14 +4,6 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
-### Update Work Profile Template to use my-jonathan Theme
-
-Currently both profile templates use Powerlevel10k by default. Update `zsh/profile-work.zsh` to use my-jonathan theme as the default instead.
-
-- Make my-jonathan the default theme
-- Keep P10k as a good example in documentation for tools that don't support XDG paths
-- Status: Not started
-
 ### Review Home Directory Dotfiles for XDG Compliance
 
 Audit dotfiles in `~/` to identify candidates that could be moved to `~/.config/` following the XDG Base Directory specification.
