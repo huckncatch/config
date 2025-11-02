@@ -16,6 +16,9 @@ if [[ -o interactive ]]; then
   alias blc='brew list --cask'
   alias bis='brew install'
   alias bcu='brew cu --all'
+  alias bus='brew uninstall'
+  alias btr='brew deps --tree'
+
   ## brew plugin overrides
   alias bubo='brew update && brew outdated --formulae'
   alias bup='brew upgrade --formulae'
