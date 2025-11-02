@@ -341,8 +341,19 @@ tree -C
 ```
 
 ### fzf - Fuzzy finder
+
+**Homepage:** https://github.com/junegunn/fzf
+
+Your fzf is configured to use `fd` by default, which means:
+- ✅ Hidden files are included (like `.zshrc`, `.gitignore`)
+- ✅ Respects `.gitignore` rules
+- ✅ Excludes `.git` directories
+- ✅ Follows symlinks
+
+#### Basic Usage
+
 ```bash
-# Interactive file search
+# Interactive file search (includes hidden files by default)
 fzf
 
 # Preview files (use your alias)
@@ -356,6 +367,49 @@ ps aux | fzf | awk '{print $2}' | xargs kill
 
 # Change directory interactively
 cd $(fd -t d | fzf)
+```
+
+#### Search Mode Functions
+
+Use these helper functions for different search modes:
+
+```bash
+# Files only (default behavior)
+fzf-files                # includes hidden files (like .zshrc)
+fzf-files-no-hidden      # excludes hidden files
+
+# Directories only
+fzf-dirs                 # includes hidden directories (like .git)
+fzf-dirs-no-hidden       # excludes hidden directories
+
+# Both files and directories
+fzf-all                  # includes hidden
+fzf-all-no-hidden        # excludes hidden
+```
+
+#### Examples
+
+```bash
+# Find and open a hidden config file in VS Code
+fzf-files | xargs code
+
+# Find a directory (including hidden ones like .git)
+cd $(fzf-dirs)
+
+# Search all items (files + dirs) excluding hidden
+fzf-all-no-hidden
+
+# Use Ctrl+O to open file in VS Code (built-in binding)
+# Use Ctrl+B to open file in BBEdit (built-in binding)
+fzf  # then press Ctrl+O or Ctrl+B on selected file
+```
+
+#### Advanced: Manual Environment Variable Override
+
+```bash
+# Temporarily use a different search command
+FZF_DEFAULT_COMMAND='fd -e md' fzf  # only markdown files
+FZF_DEFAULT_COMMAND=$FZF_FD_DIRS fzf  # only directories
 ```
 
 ### tldr - Simplified man pages
