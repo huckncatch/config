@@ -51,15 +51,12 @@ The zsh setup uses a hierarchical loading system:
 
 4. **Custom configs** (loaded automatically by oh-my-zsh from `$ZSH_CUSTOM`)
    - Files in `zsh/oh-my-zsh-custom/*.zsh` are sourced alphabetically
-   - Naming convention uses numeric prefixes for load order:
-     - `00_environment.zsh` - PATH, colors, environment variables
-     - `01_aliases.zsh` - Shell aliases
-     - `02_functions.zsh` - Custom shell functions
-     - `claude.zsh` - Claude Code configuration
-     - `git.zsh` - Git-specific configurations
-     - `homebrew.zsh` - Homebrew aliases/functions
-     - `node.zsh` - Node.js configuration
-     - `xcode.zsh` - Xcode/Swift development
+   - Naming conventions:
+     - Numeric prefixes (00_, 01_, 02_) control load order when needed
+     - `00_environment.zsh` - Loads first for PATH and environment variables
+     - `01_aliases.zsh` - General shell aliases (not tool-specific)
+     - `02_functions.zsh` - General shell functions (not tool-specific)
+     - Tool-specific files (e.g., `fzf.zsh`, `git.zsh`, `homebrew.zsh`) contain ALL related configuration for that tool (environment vars, aliases, functions)
 
 ### Git Submodules
 
@@ -281,9 +278,9 @@ Add to `zsh/oh-my-zsh-custom/00_environment.zsh` (the `00_` prefix ensures it lo
 
 ### Adding Aliases or Functions
 
-- Aliases: `zsh/oh-my-zsh-custom/01_aliases.zsh`
-- Functions: `zsh/oh-my-zsh-custom/02_functions.zsh`
-- Tool-specific: Create/edit appropriate file (e.g., `git.zsh`, `homebrew.zsh`)
+- General aliases: `zsh/oh-my-zsh-custom/01_aliases.zsh`
+- General functions: `zsh/oh-my-zsh-custom/02_functions.zsh`
+- **Tool-specific: All aliases and functions for a tool must be kept together in that tool's file** (e.g., all fzf aliases/functions in `fzf.zsh`, all git aliases/functions in `git.zsh`, all homebrew aliases/functions in `homebrew.zsh`). Never split tool-related configuration across multiple files.
 
 ### Modifying Installation Script
 
