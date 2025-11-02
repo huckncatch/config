@@ -1,0 +1,48 @@
+# ==============================================================================
+# BAT CONFIGURATION
+# ==============================================================================
+#
+# bat is a modern replacement for cat with syntax highlighting and Git integration.
+# This file is loaded from ~/.config/bat/config (XDG-compliant)
+#
+# See 'bat --help' for all options
+# See 'bat --list-themes' for available themes
+# ==============================================================================
+
+# Theme for syntax highlighting
+# Use a dark theme that works well in terminals
+--theme="Monokai Extended"
+
+# Show line numbers, Git modifications, and file header
+--style="numbers,changes,header,grid"
+
+# Use italic text in output (when supported by terminal)
+--italic-text=always
+
+# Set the tab width to 4 spaces
+--tabs=4
+
+# Wrap long lines (auto = wrap if output is terminal, not if piped)
+--wrap=auto
+
+# Show non-printable characters like space, tab, newline, etc.
+# Options: unicode, caret
+# --show-nonprintable
+
+# Map file extensions to languages for syntax highlighting
+# Useful for files with non-standard extensions
+# --map-syntax="*.conf:INI"
+# --map-syntax=".ignore:Git Ignore"
+# --map-syntax="*.jenkinsfile:Groovy"
+
+# Paging behavior
+# Options: auto (default), always, never
+# Auto will use pager for long files only
+--paging=auto
+
+# Uncomment to use a specific pager (default is 'less')
+# --pager="less -RF"
+
+# Set terminal title to filename when using pager
+--set-terminal-title
+
