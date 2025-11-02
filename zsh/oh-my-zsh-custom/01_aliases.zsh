@@ -35,11 +35,15 @@ if [[ -o interactive ]]; then
   alias h='history'
   alias hg="fc -El 0 | grep"
 
-  # search aliases
-  alias eg='set | grep -i'
-  alias alg='alias | grep -i'
-  alias cg='compctl | grep -i'
+  # search aliases (using ripgrep instead of grep)
+  alias eg='set | rg -i'
+  alias alg='alias | rg -i'
+  alias cg='compctl | rg -i'
   alias ff='fd --type f --hidden --exclude .git'  # fast file find using fd
+
+  # Modern replacements for traditional Unix tools
+  alias find='fd'           # fd is faster and more user-friendly than find
+  alias grep='rg'           # ripgrep is faster than grep/egrep
 
   alias c=clear
   alias cdicloud='cd ~/Library/Mobile\ Documents/com\~apple\~CloudDocs' # iCloud Drive
@@ -86,10 +90,13 @@ if [[ -o interactive ]]; then
     alias lsda='ls -l *(-/DN)'          # list directories and their contents
   fi
 
-  alias grep='egrep'
+  # Replaced by modern tools (see aliases above)
+  # Old: alias grep='egrep'
+  # Old: alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
 
-  alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
-  alias clean="find . -name '*.orig' -type f -follow -print0 | xargs -0 rm -f"
+  # Updated to use modern tools (fd + ripgrep)
+  alias gfind='fd --type f --hidden --follow --exec rg -n'  # search file contents with line numbers
+  alias clean="fd -H -t f -e orig -x rm"  # remove .orig files
 
   alias yt='yt-dlp --cookies ./cookies.txt --recode-video mp4 -o "%(title)s.%(ext)s"'
   alias rmquarantine='xattr -d -r com.apple.quarantine'
