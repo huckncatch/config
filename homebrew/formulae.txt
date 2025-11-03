@@ -28,6 +28,7 @@ wget
 yt-dlp # youtube-dl replacement
 bash # a modern version of bash for scripting
 zsh
+gh
 
 blueutil # bluetooth support
 
