@@ -16,8 +16,6 @@ export CLICOLOR=1
 ## iTerm shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
-export OBSIDIAN_DIR="$HOME/Dropbox/Apps/Obsidian"
-
 ## Flotsam
 
 export PATH="/usr/local/sbin:$PATH"

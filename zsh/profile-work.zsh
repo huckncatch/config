@@ -22,6 +22,9 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
+# Obsidian root directory
+export OBSIDIAN_DIR="$HOME/Documents/Obsidian"
+
 # Machine profile marker for conditional configuration
 export MACHINE_PROFILE="work"
 
