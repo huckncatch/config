@@ -22,11 +22,12 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
-# Obsidian root directory
-export OBSIDIAN_DIR="$HOME/Dropbox/Apps/Obsidian"
-
 # Machine profile marker for conditional configuration
 export MACHINE_PROFILE="home"
+
+# Obsidian
+export OBSIDIAN_DIR="$HOME/Dropbox/Apps/Obsidian"
+export OBSIDIAN_VAULT="Home"
 
 # Theme
 ZSH_THEME="my-jonathan"

@@ -103,6 +103,9 @@ if [[ -o interactive ]]; then
 
   alias verifyCodeSign='codesign --verify --verbose'
 
+  # opens Xcode workspace or project in the current directory
+  alias oxc='[[ -d *.xcworkspace ]] && open *.xcworkspace || open *.xcodeproj'
+
   # iTerm
   alias ic='imgcat'
 
