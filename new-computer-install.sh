@@ -570,7 +570,7 @@ if [ $UPDATE_MODE -eq 0 ]; then
 
   # Read packages from external file into array
   packages=()
-  for package in $(_read_package_list "./homebrew/formulae.txt"); do
+  for package in $(_read_package_list "./homebrew/formulae.zsh"); do
     packages+=("$package")
   done
 
@@ -602,7 +602,7 @@ if [ $UPDATE_MODE -eq 0 ]; then
 
   # Read applications from external file into array
   applications=()
-  for app in $(_read_package_list "./homebrew/casks.txt"); do
+  for app in $(_read_package_list "./homebrew/casks.zsh"); do
     applications+=("$app")
   done
 
@@ -705,7 +705,7 @@ main() {
     echo ""
     echo "Manual steps remaining:"
     echo ""
-    echo "1. Mac App Store apps (see homebrew/mas-apps.txt)"
+    echo "1. Mac App Store apps (see homebrew/mas-apps.zsh)"
     echo ""
     echo "2. Raycast Extensions: https://www.raycast.com/extensions"
     echo "   - toothpick (Bluetooth connections)"
