@@ -12,6 +12,27 @@
 
 mkcd() { mkdir -p "$1" && cd "$1"; }
 
+# Open Xcode project or workspace in a specified directory
+oxc() {
+  local target_dir="${1:-.}"
+  
+  # Resolve to absolute path
+  target_dir="$(cd "$target_dir" 2>/dev/null && pwd)" || {
+    echo "Directory not found: $1"
+    return 1
+  }
+  
+  # Check for .xcworkspace first, then .xcodeproj
+  if [[ -d "$target_dir"/*.xcworkspace ]]; then
+    open "$target_dir"/*.xcworkspace
+  elif [[ -d "$target_dir"/*.xcodeproj ]]; then
+    open "$target_dir"/*.xcodeproj
+  else
+    echo "No .xcworkspace or .xcodeproj found in $target_dir"
+    return 1
+  fi
+}
+
 # clean () {
 #     local wdir
 

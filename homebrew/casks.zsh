@@ -90,6 +90,7 @@ musicbrainz-picard # https://picard.musicbrainz.org/
 mylio # https://mylio.com/
 name-mangler # https://manytricks.com/namemangler/
 netnewswire # https://ranchero.com/netnewswire/
+onyx # https://www.titanium-software.fr/en/onyx.html
 opera # https://www.opera.com/
 orion # https://browser.kagi.com/
 piezo # https://rogueamoeba.com/piezo/
