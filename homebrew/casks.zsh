@@ -34,6 +34,7 @@ keyclu # https://sergii.tatarenkov.name/keyclu/support/q
 claude # https://claude.ai/
 claude-code # https://www.anthropic.com/claude-code
 cursor # https://www.cursor.so/
+codex # coding agent from OpenAI; https://github.com/openai/codex
 
 chatgpt-atlas # https://chatgpt.com/atlas
 fastmail # https://www.fastmail.com/
@@ -83,6 +84,7 @@ launchcontrol # https://www.soma-zone.com/LaunchControl/
 # logitech-options # https://www.logitech.com/en-us/product/options
 # mailmate # https://freron.com/ -- using beta version
 microsoft-edge # https://www.microsoft.com/en-us/edge
+modern-csv # Intuitive CSV File Editor/Viewer; https://www.moderncsv.com/
 moneydance # https://moneydance.com/
 monitorcontrol # https://github.com/MonitorControl/MonitorControl
 # mountain # https://appgineers.de/mountain/ ## deprecated
@@ -107,6 +109,7 @@ steam # https://store.steampowered.com/about/
 suspicious-package # https://www.mothersruin.com/software/SuspiciousPackage/
 # the-archive-browser # using BetterZip instead
 # unclutter # https://unclutterapp.com/ -- homebrew version is out of date
+utm # virtualization app emulates various operating systems; https://mac.getutm.app/
 vlc # https://www.videolan.org/vlc/
 xld # https://tmkk.undo.jp/xld/index_e.html
 xnviewmp # https://www.xnview.com/en/xnviewmp/
