@@ -13,7 +13,7 @@ copy_lobby_files() {
 
     local target_dir="$1"
     local github_source="$HOME/Documents/Obsidian/Alaska/Development/Lobby repo files/github"
-    local md_source="$HOME/Documents/Obsidian/Alaska/Development/Lobby repo files"
+    local root_source="$HOME/Documents/Obsidian/Alaska/Development/Lobby repo files"
 
     # Verify target directory exists
     if [[ ! -d "$target_dir" ]]; then
@@ -27,8 +27,8 @@ copy_lobby_files() {
         return 1
     fi
 
-    if [[ ! -d "$md_source" ]]; then
-        echo "Error: Markdown source directory does not exist: $md_source"
+    if [[ ! -d "$root_source" ]]; then
+        echo "Error: Markdown source directory does not exist: $root_source"
         return 1
     fi
 
@@ -48,21 +48,24 @@ copy_lobby_files() {
         echo "⚠ No files found in github source or copy failed"
     fi
 
-    # Copy *-src.md files
-    echo "Copying *-src.md files..."
+    # Copy any files ending in -src (with any extension)
+    echo "Copying *-src.* files..."
     local copied_count=0
-    for file in "$md_source"/*-src.md(N); do
+    for file in "$root_source"/*-src.*(N); do
         if [[ -f "$file" ]]; then
-            cp "$file" "$target_dir/"
-            echo "✓ Copied: $(basename "$file")"
+            # Remove '-src' from the filename
+            local base_name="$(basename "$file")"
+            local new_name="${base_name/-src/}"
+            cp "$file" "$target_dir/$new_name"
+            echo "✓ Copied: $base_name → $new_name"
             ((copied_count++))
         fi
     done
 
     if [[ $copied_count -eq 0 ]]; then
-        echo "⚠ No *-src.md files found"
+        echo "⚠ No *-src.* files found"
     else
-        echo "✓ Copied $copied_count markdown file(s)"
+        echo "✓ Copied $copied_count file(s)"
     fi
 
     echo "Done!"
