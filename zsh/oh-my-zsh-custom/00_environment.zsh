@@ -16,6 +16,14 @@ export CLICOLOR=1
 ## iTerm shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
+## VSCode shell integration
+# [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
+# The above shell integration installation is cross-platform and compatible with any installation type if code is in the $PATH.
+# However, this recommended approach starts Node.js to fetch the script path, leading to a slight delay in shell startup.
+# To mitigate this delay, inline the script above by resolving the path ahead of time and adding it directly into your init script.
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "/Applications/Visual Studio Code.app/Contents/Resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-rc.zsh"
+
 ## Flotsam
 
 export PATH="/usr/local/sbin:$PATH"

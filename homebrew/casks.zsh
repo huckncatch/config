@@ -41,6 +41,8 @@ fastmail # https://www.fastmail.com/
 
 reader # https://readwise.io/read/
 
+applite # homebrew appstore; https://github.com/milanvarady/Applite | https://aerolite.dev/applite
+
 # Secondary applications
 idrive # https://www.idrive.com/
 betterzip # https://macitbetter.com/
@@ -77,6 +79,7 @@ flux-app # https://justgetflux.com/
 google-chrome # https://www.google.com/chrome/
 # graphicconverter # https://www.lemkesoft.de/en/products/graphicconverter/ -- PINNED
 handbrake-app # https://handbrake.fr/
+iina # macOS native media player; https://iina.io/
 keyboard-cleaner # https://folivora.ai/keyboardcleaner
 launchcontrol # https://www.soma-zone.com/LaunchControl/
 # logi-options-plus # https://www.logitech.com/en-us/product/options-plus
