@@ -69,12 +69,14 @@ When creating a new project CLAUDE.md:
 5. **Review for redundancy** - After creation, verify no overlap with global CLAUDE.md
 
 **Examples of what belongs in project CLAUDE.md:**
+
 - Repository-specific architecture and file structure
 - Critical constraints unique to this project
 - Project-specific workflows or build processes
 - Important context about design decisions
 
 **Examples of what belongs in global CLAUDE.md:**
+
 - Commit message format and discipline
 - File editing standards (trailing newlines, markdown conventions)
 - Tool usage preferences (Read vs cat, Edit vs sed)
@@ -90,7 +92,10 @@ Apply these standards to all files in any repository:
 
 1. **All files must end with a trailing newline** - This is standard practice for version control and POSIX compliance
 2. **Markdown files must use uppercase filenames** - Use uppercase for all .md files (e.g., CLAUDE.md, README.md, NOTES.md). Subdirectories follow the same convention (e.g., homebrew/README.md, not homebrew/HOMEBREW.md)
-3. **Markdown files must pass linting** - Use markdownlint (e.g., `davidanson.vscode-markdownlint` for VS Code) to validate all .md files
+3. **Markdown files must pass linting** - Use markdownlint (e.g., `davidanson.vscode-markdownlint` for VS Code) to validate all .md files. **IMPORTANT: After creating or modifying markdown files, immediately run `markdownlint-cli2 <files>` to check for errors, then fix any issues before considering the task complete.** Common issues to avoid:
+   - Missing blank lines around headings, lists, and code blocks
+   - Missing language specifier on fenced code blocks (use ```text,```bash, ```swift, etc.)
+   - Inconsistent list indentation (use 4 spaces for nested lists)
 4. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
 5. **Verify changes don't break functionality** - Test affected code paths after making changes
 
