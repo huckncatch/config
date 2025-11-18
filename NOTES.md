@@ -18,6 +18,18 @@ Before launching, create a symlink to `~/Dropbox/Apps/BBEdit` in `~/Library/Appl
 
     ln -s ~/Dropbox/Apps/BBEdit .
 
+## Kintsugi
+
+Ruby gem for resolving Xcode project file merge conflicts.
+
+Repository: <https://github.com/Lightricks/Kintsugi>
+
+Install after setting up rbenv:
+
+```bash
+gem install kintsugi
+```
+
 ## iTerm2: enable word jumping
 
 Use ⌥ + <-/-> (left/right arrow) to jump from one word to the next

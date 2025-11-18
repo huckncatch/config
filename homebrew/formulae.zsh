@@ -20,7 +20,11 @@ highlight
 midnight-commander
 openssh
 # python3 # installed by midnight-commander/mc
+
 rbenv # Ruby version manager
+ruby-build
+openssl@3 # needed to link Rubies to Homebrew's OpenSSL, see rbenv note in 00_environment.zsh
+
 screen
 tag
 tmux
@@ -28,7 +32,8 @@ wget
 yt-dlp # youtube-dl replacement
 bash # a modern version of bash for scripting
 zsh
-gh
+gh # 
+cloc # Statistics utility to count lines of code https://github.com/AlDanial/cloc/
 
 blueutil # bluetooth support
 
