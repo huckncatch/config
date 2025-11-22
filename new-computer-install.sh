@@ -485,6 +485,70 @@ copy_xdg_config() {
   fi
 }
 
+# Copy Claude Code user settings to ~/.claude/
+# This is separate from XDG config because ~/.claude/ doesn't follow XDG spec
+copy_claude_settings() {
+  echo "Copying Claude Code user settings..."
+
+  # Create ~/.claude if it doesn't exist
+  if [ $DRY_RUN -eq 1 ]; then
+    echo "  [DRY RUN] Would create directory ~/.claude"
+  else
+    mkdir -p "$HOME/.claude"
+  fi
+
+  # Copy settings.json from claude/ to ~/.claude/
+  local source_file="./claude/settings.json"
+  local target_file="$HOME/.claude/settings.json"
+
+  if [ -f "$source_file" ]; then
+    if [ $UPDATE_MODE -eq 1 ]; then
+      # In update mode, use smart sync
+      if [ -f "$target_file" ]; then
+        if ! diff -q "$source_file" "$target_file" > /dev/null 2>&1; then
+          local backup_name="settings.json.backup.$(date +%Y%m%d_%H%M%S)"
+          if [ $DRY_RUN -eq 1 ]; then
+            echo "  [DRY RUN] Would backup $target_file to $HOME/.claude/$backup_name"
+            echo "  [DRY RUN] Would update $target_file"
+          else
+            echo "  Backing up $target_file to $HOME/.claude/$backup_name"
+            cp "$target_file" "$HOME/.claude/$backup_name"
+            echo "  Updating $target_file"
+            cp "$source_file" "$target_file"
+          fi
+        else
+          [ $VERBOSE -eq 1 ] && echo "  $target_file unchanged, skipping"
+        fi
+      else
+        if [ $DRY_RUN -eq 1 ]; then
+          echo "  [DRY RUN] Would copy settings.json to ~/.claude/"
+        else
+          echo "  Copying settings.json to ~/.claude/"
+          cp "$source_file" "$target_file"
+        fi
+      fi
+    else
+      # Normal mode: backup and copy
+      if [ -f "$target_file" ]; then
+        if [ $DRY_RUN -eq 1 ]; then
+          echo "  [DRY RUN] Would back up existing $target_file"
+        else
+          echo "  Backing up existing $target_file"
+          cp "$target_file" "$target_file.backup"
+        fi
+      fi
+      if [ $DRY_RUN -eq 1 ]; then
+        echo "  [DRY RUN] Would copy settings.json to ~/.claude/"
+      else
+        echo "  Copying settings.json to ~/.claude/"
+        cp "$source_file" "$target_file"
+      fi
+    fi
+  else
+    echo "  ⚠ Warning: $source_file not found, skipping"
+  fi
+}
+
 #############################################################################
 # PHASE 2: SHELL ENVIRONMENT SETUP
 #############################################################################
@@ -677,6 +741,7 @@ main() {
   copy_zsh_config
   copy_dotfiles
   copy_xdg_config
+  copy_claude_settings
 
   # Phase 2: Shell environment setup
   # (oh-my-zsh, plugins, taps already executed inline above)

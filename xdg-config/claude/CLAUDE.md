@@ -217,12 +217,46 @@ type: Short summary in imperative mood (50 chars max)
 
 ## Claude Code Configuration Files
 
-- **Global settings & state**: `~/.claude.json` (MCP servers, preferences, project data)
+Claude Code uses a hierarchical settings system with the following precedence (highest to lowest):
+
+### Settings Files (Precedence Order)
+
+1. **Enterprise policies** (managed by organization, not applicable to personal use)
+2. **Command line arguments**
+3. **Local project settings**: `<project>/.claude/settings.local.json`
+   - Personal permissions and preferences for this project
+   - NOT committed to git (add to `.gitignore`)
+   - Where per-project tool permissions are stored
+4. **Shared project settings**: `<project>/.claude/settings.json`
+   - Team-wide project conventions
+   - CAN be committed to git
+5. **User settings**: `~/.claude/settings.json`
+   - Global user preferences (env vars, default permissions)
+
+### Other Configuration Files
+
+- **Runtime state & preferences**: `~/.claude.json`
+  - MCP servers, OAuth, project data, tips history
+  - NOT for permissions or settings (use `~/.claude/settings.json` instead)
 - **Global instructions**: `~/.config/claude/CLAUDE.md` (this file)
-- **Project settings**: `<project>/.claude/settings.json`
 - **Project instructions**: `<project>/CLAUDE.md`
 
-Note: When `~/.claude.json` exists, it takes precedence over `~/.config/claude/settings.json` for settings like `installMethod`, `autoUpdates`, and `mcpServers`.
+### What Goes Where
+
+| Setting Type                                  | Location                                 |
+| --------------------------------------------- | ---------------------------------------- |
+| MCP servers                                   | `~/.claude.json`                         |
+| Install method, auto-updates                  | `~/.claude.json`                         |
+| Global env vars (like `DISABLE_AUTOUPDATER`)  | `~/.claude/settings.json`                |
+| Global permissions (allow/deny/ask)           | `~/.claude/settings.json`                |
+| Project-specific permissions                  | `<project>/.claude/settings.local.json`  |
+| Shared project conventions                    | `<project>/.claude/settings.json`        |
+
+### Important Notes
+
+- `~/.config/claude/settings.json` is NOT used for settings (only CLAUDE.md lives there)
+- The message "Execution allowed by: .claude/settings.local.json" means permissions in that file enable tool execution for the project
+- Project permissions in `.claude/settings.local.json` override user-level settings in `~/.claude/settings.json`
 
 ## Tool Usage
 

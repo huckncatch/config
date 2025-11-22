@@ -1,0 +1,6 @@
+{
+  "alwaysThinkingEnabled": false,
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  }
+}
