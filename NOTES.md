@@ -103,7 +103,7 @@ Or, just delete the github password and regenerate the Personal Access Token aga
 
 Now Figma will not be able to override that file when it wants to update it. Also the login item does not get created for me again after removal at this point
 
-### revert the changes
+#### revert the changes
 
 - remove the schg flag
 
@@ -116,3 +116,56 @@ Now Figma will not be able to override that file when it wants to update it. Als
     ```bash
     % rm -fr ~/Library/Application\ Support/Figma/FigmaAgent.app
     ```
+
+## Claude Code MCP Servers
+
+### Fastmail MCP Server
+
+Repository: <https://github.com/MadLlama25/fastmail-mcp>
+
+#### Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/MadLlama25/fastmail-mcp.git ~/.local/share/mcp/fastmail-mcp
+cd ~/.local/share/mcp/fastmail-mcp
+
+# Install and build
+npm install
+npm run build
+```
+
+#### Configuration
+
+1. Get your Fastmail API token:
+   - Log into Fastmail
+   - Go to Settings → Privacy & Security
+   - Find "Connected apps & API tokens"
+   - Generate a new token
+
+2. Add to `~/.claude.json` under the `mcpServers` key:
+
+```json
+{
+  "mcpServers": {
+    "fastmail": {
+      "command": "node",
+      "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"],
+      "env": {
+        "FASTMAIL_API_TOKEN": "your_token_here"
+      }
+    }
+  }
+}
+```
+
+Note: `~/.claude.json` is the actual settings file. When it exists, `~/.config/claude/settings.json` is ignored for settings like `mcpServers`.
+
+#### Updating
+
+```bash
+cd ~/.local/share/mcp/fastmail-mcp
+git pull
+npm install
+npm run build
+```

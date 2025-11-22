@@ -12,15 +12,11 @@
 
 # Prevent auto-updates to ~/.local/bin/claude (use Homebrew instead)
 # Install Method Configuration:
-#   The installMethod is configured in xdg-config/claude/settings.json
-#   and gets copied to ~/.config/claude/settings.json during new machine setup
-#   by the new-computer-install.sh script (via the copy_xdg_config function).
-#
-#   The settings.json contains:
+#   Claude Code stores settings in ~/.claude.json (not ~/.config/claude/settings.json)
+#   For Homebrew installations, ensure these fields are set in ~/.claude.json:
 #   {
 #     "installMethod": "homebrew",
-#     "autoUpdates": false,
-#     "autoUpdatesProtectedForNative": false
+#     "autoUpdates": false
 #   }
 #
 export DISABLE_AUTOUPDATER=1

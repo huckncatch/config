@@ -103,17 +103,18 @@ For users expecting standard zsh conventions, a `.zprofile` file is installed th
   - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
   - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
 
-- **Settings** (`xdg-config/claude/settings.json`):
+- **Settings** (`~/.claude.json`):
+
+  Claude Code stores settings and state in `~/.claude.json`. For Homebrew installations, ensure these fields are set:
 
   ```json
   {
     "installMethod": "homebrew",
-    "autoUpdates": false,
-    "autoUpdatesProtectedForNative": false
+    "autoUpdates": false
   }
   ```
 
-This configuration gets copied to `~/.config/claude/settings.json` during `new-computer-install.sh` setup.
+  Note: `~/.config/claude/settings.json` is NOT used when `~/.claude.json` exists. The `xdg-config/claude/settings.json` in this repository is kept for reference but is not actively used.
 
 ## Installation Script Architecture
 
@@ -212,11 +213,10 @@ When editing files in this repository:
 
 4. **Test profile selection**: Ensure both home and work profiles define required variables (`ZSH_THEME`, `plugins`). Missing these will cause oh-my-zsh initialization to fail.
 
-5. **Keep Claude config in sync**: When changing Claude Code configuration files, immediately update both locations:
+5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
-   - **Settings**: `~/.config/claude/settings.json` (active) → `xdg-config/claude/settings.json` (backup)
 
-   The `xdg-config/` versions are used when provisioning new machines via `new-computer-install.sh`.
+   Note: Settings are stored in `~/.claude.json` (not `~/.config/claude/settings.json`). This file contains runtime state and is not backed up to the repository.
 
 6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
 

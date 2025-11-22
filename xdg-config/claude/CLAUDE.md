@@ -201,6 +201,10 @@ type: Short summary in imperative mood (50 chars max)
 3. **Handle errors gracefully** - Don't let errors fail silently
 4. **Keep functions focused** - Single responsibility principle
 5. **Avoid bash process substitution** - Never use `<(...)` syntax; use simpler alternatives like storing function output in variables or using command substitution with `$(...)` in loops. Simpler is better for portability and readability.
+6. **Back up files before in-place modifications** - When using tools that modify files in place (like `jq`, `sed -i`, or piping to temp files then moving), always create a backup first:
+   - `cp file.json file.json.backup` before running `jq ... > temp && mv temp file.json`
+   - This protects against parse errors, malformed output, or unexpected tool behavior
+   - The Edit tool doesn't require this (it shows changes before applying), but bash commands that transform and replace files do
 
 ### Communication with User
 
@@ -210,6 +214,15 @@ type: Short summary in imperative mood (50 chars max)
 4. **Provide context for suggestions** - Help users understand recommendations
 5. **Avoid unnecessary emphasis words** - Be direct and factual instead of using words like "entire", "completely", "absolutely" when describing issues or constraints
 6. **Review documentation for accuracy** - Avoid hallucinating or exaggerating information. If a commit message says "Remove X", X must actually be removed in that commit. Verify changes match descriptions before committing.
+
+## Claude Code Configuration Files
+
+- **Global settings & state**: `~/.claude.json` (MCP servers, preferences, project data)
+- **Global instructions**: `~/.config/claude/CLAUDE.md` (this file)
+- **Project settings**: `<project>/.claude/settings.json`
+- **Project instructions**: `<project>/CLAUDE.md`
+
+Note: When `~/.claude.json` exists, it takes precedence over `~/.config/claude/settings.json` for settings like `installMethod`, `autoUpdates`, and `mcpServers`.
 
 ## Tool Usage
 
