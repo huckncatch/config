@@ -35,7 +35,7 @@ export OBSIDIAN_VAULT="Alaska"
 # Theme
 ZSH_THEME="my-jonathan"
 
-# Load P10k configuration if it exists
+# P10k configuration (not used with my-jonathan theme, but check anyway)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Plugins
