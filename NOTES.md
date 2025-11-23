@@ -18,6 +18,95 @@ Before launching, create a symlink to `~/Dropbox/Apps/BBEdit` in `~/Library/Appl
 
     ln -s ~/Dropbox/Apps/BBEdit .
 
+## Python / pip
+
+Python is managed via Homebrew. The OMZ `python` plugin provides useful aliases.
+
+### Setup
+
+1. Install Python via Homebrew:
+
+   ```bash
+   brew install python@3.13
+   brew link python@3.13
+   ```
+
+2. The `python` plugin is enabled in the profile templates (profile-home.zsh, profile-work.zsh)
+
+3. `brew shellenv` in profile-base.zsh adds `/opt/homebrew/bin` to PATH
+
+### Usage
+
+```bash
+# Python commands (Homebrew provides python3/pip3, not python/pip)
+python3 --version
+pip3 install <package>
+python3 -m pip install <package>
+
+# OMZ python plugin aliases
+py              # runs python3
+pyfind          # find .py files recursively
+pyclean         # delete __pycache__ and .pyc files
+pygrep <text>   # grep in *.py files
+pyserver        # start HTTP server on current directory
+```
+
+### Virtual Environments
+
+```bash
+mkv [name]      # create venv (default: venv)
+vrun [name]     # activate venv
+```
+
+To enable auto-activation when entering directories with venv, add to profile.local:
+
+```bash
+PYTHON_AUTO_VRUN=true
+PYTHON_VENV_NAME=".venv"  # optional, default is "venv"
+```
+
+### Multiple Python Versions
+
+Homebrew can have multiple Python versions installed simultaneously:
+
+```bash
+brew install python@3.12 python@3.13 python@3.14
+brew link python@3.13  # sets default python3/pip3
+```
+
+Version-specific commands are always available:
+
+```bash
+python3.12, pip3.12
+python3.13, pip3.13
+python3.14, pip3.14
+```
+
+### Installing Python Packages
+
+Homebrew's Python is "externally managed" (PEP 668) and won't allow global pip installs. Options:
+
+1. **pipx** (Best for CLI tools):
+   ```bash
+   brew install pipx
+   pipx ensurepath
+   pipx install <package>
+   ```
+
+2. **Virtual environments** (Best for projects):
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. **--user flag** (Quick installs):
+   ```bash
+   pip3 install --user <package>
+   ```
+
+For standalone Python scripts, use a dedicated venv and update the shebang to point to the venv's Python interpreter.
+
 ## Kintsugi
 
 Ruby gem for resolving Xcode project file merge conflicts.

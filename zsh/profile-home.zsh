@@ -50,6 +50,7 @@ plugins=(
   git-prompt
   iterm2
   npm
+  python
   sudo
   tmux
   vscode

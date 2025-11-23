@@ -61,5 +61,8 @@ xcode-build-server
 html2text
 ollama
 
+# Python tools
+pipx
+
 # Other tools
 # mas # Mac App Store command line interface
