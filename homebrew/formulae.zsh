@@ -2,67 +2,77 @@
 # One package per line, comments start with #
 # Inline comments are supported: package-name # comment
 
-# Core utilities
-the_silver_searcher # ag - grep replacement
-coreutils
-curl
+# Shell & Terminal
+bash # modern version for scripting
 emacs
-exiftool
+screen
+tmux
+zsh
+
+# File Management
+coreutils
 eza # ls replacement
+fd # find replacement
 findutils
-ffmpeg
+midnight-commander
+ncdu # disk usage analyzer
+tag
+tree
+
+# Search & Text Processing
+ack # grep replacement
+fzf # fuzzy finder
+grep
+highlight
+ripgrep # grep replacement
+the_silver_searcher # ag - grep replacement
+
+# Network & Download
+curl
+openssh
+wget
+yt-dlp # youtube-dl replacement
+
+# Version Control
+gh
 git
 git-interactive-rebase-tool
 # git-lfs
-grep
-gzip
-highlight
-midnight-commander
-openssh
-# python3 # installed by midnight-commander/mc
 
-rbenv # Ruby version manager
-ruby-build
-openssl@3 # needed to link Rubies to Homebrew's OpenSSL, see rbenv note in 00_environment.zsh
+# Media
+exiftool
+ffmpeg
 
-screen
-tag
-tmux
-wget
-yt-dlp # youtube-dl replacement
-bash # a modern version of bash for scripting
-zsh
-gh # 
-cloc # Statistics utility to count lines of code https://github.com/AlDanial/cloc/
-
-blueutil # bluetooth support
-
-# CLI improvements - https://remysharp.com/2018/08/23/cli-improved
-ack # grep replacement
+# Documentation
 bat # cat replacement
-# diff-so-fancy
-fd # find replacement
-fzf # fuzzy finder
-markdownlint-cli2 # markdown linter (NOTE: installs node as dependency; coexists with zsh-nvm plugin - nvm takes precedence in interactive shells)
-ncdu # disk usage analyzer
+cloc # count lines of code
+markdownlint-cli2 # markdown linter (NOTE: installs node as dependency)
 pandoc # markdown converter
-ripgrep # grep replacement
 tldr
-tree # directory listing
 
-# Swift/Xcode development
+# Ruby Development
+openssl@3 # needed to link Rubies to Homebrew's OpenSSL
+rbenv
+ruby-build
+
+# Swift/Xcode Development
 swiftformat
 swiftlint
 swiftly # Swift toolchain version manager
 xcbeautify
 xcode-build-server
 
-# AI related
+# Python Tools
+pipx
+
+# AI & ML
 html2text
 ollama
 
-# Python tools
-pipx
+# System Utilities
+blueutil # bluetooth support
+gzip
 
-# Other tools
+# Disabled
 # mas # Mac App Store command line interface
+# python3 # installed by midnight-commander/mc
