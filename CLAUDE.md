@@ -44,7 +44,9 @@ The zsh setup uses a hierarchical loading system:
    - `~/.config/zsh/profile.local` - Machine-specific, created during install, **not tracked in git**
    - `zsh/profile-home.zsh` - Template for personal machines
    - `zsh/profile-work.zsh` - Template for work machines
+   - `zsh/profile-base.zsh` - Shared settings sourced by all profile templates
    - Must define: `ZSH_THEME` and `plugins` array
+   - Profile templates source `profile-base.zsh` for shared config (e.g., tmux plugin settings)
 
 3. **`zsh/zshrc.base`** (shared configuration)
    - Enables Powerlevel10k instant prompt

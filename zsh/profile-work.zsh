@@ -22,6 +22,9 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
+# Source shared base configuration
+source "${HOME}/config/zsh/profile-base.zsh"
+
 # Machine profile marker for conditional configuration
 export MACHINE_PROFILE="work"
 

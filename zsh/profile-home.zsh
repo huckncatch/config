@@ -22,6 +22,9 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
+# Source shared base configuration
+source "${HOME}/config/zsh/profile-base.zsh"
+
 # Machine profile marker for conditional configuration
 export MACHINE_PROFILE="home"
 
@@ -32,7 +35,7 @@ export OBSIDIAN_VAULT="Home"
 # Theme
 ZSH_THEME="my-jonathan"
 
-# Load P10k configuration if it exists
+# P10k configuration (not used with my-jonathan theme, but check anyway)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Plugins
