@@ -268,6 +268,8 @@ When editing files in this repository:
 
 8. **Numeric prefixes in custom zsh files**: Files in `zsh/oh-my-zsh-custom/` with numeric prefixes (00_, 01_, 02_) control load order. Only use numeric prefixes when load order matters (e.g., environment variables must load before functions that use them).
 
+9. **Run shellcheck on shell scripts**: After modifying `new-computer-install.sh` or any `.zsh` files, run `shellcheck <file>` to catch common issues. The install script should pass shellcheck with minimal exceptions.
+
 ## Critical Constraints
 
 ### Error Handling in Install Script

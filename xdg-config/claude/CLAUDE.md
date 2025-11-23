@@ -94,10 +94,15 @@ Apply these standards to all files in any repository:
 2. **Markdown files must use uppercase filenames** - Use uppercase for all .md files (e.g., CLAUDE.md, README.md, NOTES.md). Subdirectories follow the same convention (e.g., homebrew/README.md, not homebrew/HOMEBREW.md)
 3. **Markdown files must pass linting** - Use markdownlint (e.g., `davidanson.vscode-markdownlint` for VS Code) to validate all .md files. **IMPORTANT: After creating or modifying markdown files, immediately run `markdownlint-cli2 <files>` to check for errors, then fix any issues before considering the task complete.** Common issues to avoid:
    - Missing blank lines around headings, lists, and code blocks
-   - Missing language specifier on fenced code blocks (use ```text,```bash, ```swift, etc.)
+   - Missing language specifier on fenced code blocks (use ```text, ```bash, ```swift, etc.)
    - Inconsistent list indentation (use 4 spaces for nested lists)
-4. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
-5. **Verify changes don't break functionality** - Test affected code paths after making changes
+4. **Shell scripts must pass shellcheck** - After creating or modifying shell scripts (.sh, .zsh, or files with shell shebangs), run `shellcheck <file>` to validate. Fix any errors or warnings before considering the task complete. Common issues to avoid:
+   - Unquoted variables that may contain spaces
+   - Using `[ ]` instead of `[[ ]]` for conditionals
+   - Missing `set -euo pipefail` for safety
+   - Incorrect array syntax
+5. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
+6. **Verify changes don't break functionality** - Test affected code paths after making changes
 
 ### Git Commit Best Practices
 

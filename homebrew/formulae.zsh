@@ -43,11 +43,12 @@ git-interactive-rebase-tool
 exiftool
 ffmpeg
 
-# Documentation
+# Documentation & Linting
 bat # cat replacement
 cloc # count lines of code
 markdownlint-cli2 # markdown linter (NOTE: installs node as dependency)
 pandoc # markdown converter
+shellcheck # shell script linter
 tldr
 
 # Ruby Development
