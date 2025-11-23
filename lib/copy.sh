@@ -244,7 +244,7 @@ copy_claude_settings() {
             cp "$source_file" "$target_file"
           fi
         else
-          [ $VERBOSE -eq 1 ] && echo "  $target_file unchanged, skipping"
+          [ $VERBOSE -eq 1 ] && echo "  $target_file unchanged, skipping" || true
         fi
       else
         if [ $DRY_RUN -eq 1 ]; then

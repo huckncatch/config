@@ -59,7 +59,7 @@ _sync_file() {
   local mode="${3:-}"  # Optional: file permissions
 
   if ! _files_differ "$src" "$dest"; then
-    [ $VERBOSE -eq 1 ] && echo "  ✓ $dest unchanged"
+    [ $VERBOSE -eq 1 ] && echo "  ✓ $dest unchanged" || true
     return 0
   fi
 
@@ -111,7 +111,7 @@ _sync_directory_selective() {
       case "$rel_path" in
         $pattern)
           should_preserve=1
-          [ $VERBOSE -eq 1 ] && echo "  ⊘ Preserving: $rel_path"
+          [ $VERBOSE -eq 1 ] && echo "  ⊘ Preserving: $rel_path" || true
           break
           ;;
       esac
