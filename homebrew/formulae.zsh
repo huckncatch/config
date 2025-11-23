@@ -57,5 +57,9 @@ swiftly # Swift toolchain version manager
 xcbeautify
 xcode-build-server
 
+# AI related
+html2text
+ollama
+
 # Other tools
 # mas # Mac App Store command line interface
