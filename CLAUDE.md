@@ -159,7 +159,13 @@ Note: `xdg-config/claude/settings.json` is kept for reference only (not actively
 
 ## Installation Script Architecture
 
-The `new-computer-install.sh` script performs automated setup in a specific order:
+The `new-computer-install.sh` script performs automated setup in a specific order. Functions are organized into library files in the `lib/` directory:
+
+### Library Structure
+
+- **`lib/utils.sh`**: Common helpers (`show_usage`, `_sync_file`, `_files_differ`, `_sync_directory_selective`, `_prompt_install`)
+- **`lib/brew.sh`**: Homebrew operations (`_read_package_list`, `brew_install`, `_should_install`, `_brew_list_does_not_contain`)
+- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `copy_claude_settings`)
 
 ### Key Installation Functions
 
