@@ -92,17 +92,42 @@ Apply these standards to all files in any repository:
 
 1. **All files must end with a trailing newline** - This is standard practice for version control and POSIX compliance
 2. **Markdown files must use uppercase filenames** - Use uppercase for all .md files (e.g., CLAUDE.md, README.md, NOTES.md). Subdirectories follow the same convention (e.g., homebrew/README.md, not homebrew/HOMEBREW.md)
-3. **Markdown files must pass linting** - Use markdownlint (e.g., `davidanson.vscode-markdownlint` for VS Code) to validate all .md files. **IMPORTANT: After creating or modifying markdown files, immediately run `markdownlint-cli2 <files>` to check for errors, then fix any issues before considering the task complete.** Common issues to avoid:
-   - Missing blank lines around headings, lists, and code blocks
-   - Missing language specifier on fenced code blocks (use ```text, ```bash, ```swift, etc.)
-   - Inconsistent list indentation (use 4 spaces for nested lists)
-4. **Shell scripts must pass shellcheck** - After creating or modifying shell scripts (.sh, .zsh, or files with shell shebangs), run `shellcheck <file>` to validate. Fix any errors or warnings before considering the task complete. Common issues to avoid:
-   - Unquoted variables that may contain spaces
-   - Using `[ ]` instead of `[[ ]]` for conditionals
-   - Missing `set -euo pipefail` for safety
-   - Incorrect array syntax
-5. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
-6. **Verify changes don't break functionality** - Test affected code paths after making changes
+3. **Markdown files must pass linting** - All markdown files must pass markdownlint-cli2 before completion.
+
+   **Linting Workflow:**
+   1. Write or edit the markdown file
+   2. Run linter: `markdownlint-cli2 "path/to/file.md"`
+   3. Fix violations reported by linter
+   4. Confirm zero errors before considering work complete
+   5. Ask user if unsure about how to resolve a specific violation
+
+   **Rules Enforced:**
+   - **MD022**: Blank lines around headings (before and after)
+   - **MD032**: Blank lines around lists (before and after)
+   - **MD007**: Unordered list indentation (4 spaces per level)
+   - **MD041**: First line must be a top-level heading (`# Title`)
+   - **MD024**: Unique heading content (no duplicate headings)
+   - **MD025**: Single top-level heading per file (only one `#` heading)
+   - **MD012**: No multiple consecutive blank lines
+   - **MD009**: No trailing spaces at end of lines
+   - **MD010**: No hard tabs (use spaces only)
+   - **MD047**: Files must end with single newline character
+   - **MD033**: Inline HTML restricted (see allowed elements below)
+   - **Fenced code blocks**: Must have language specifier (use `text`, `bash`, `swift`, etc.)
+
+   **MD033 - Allowed HTML Elements:**
+
+   These placeholder-style elements ARE allowed:
+   - `<example>`, `<commentary>`, `<reasoning>`
+   - `<good-example>`, `<bad-example>`
+   - `<system-reminder>`, `<command-message>`
+   - `<command-name>`, `<command-args>`
+   - `<local-command-stdout>`
+   - `<function_calls>`, `<invoke>`, `<parameter>`
+
+   Other HTML tags (like `<div>`, `<span>`, `<br>`, etc.) are NOT allowed.
+4. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
+5. **Verify changes don't break functionality** - Test affected code paths after making changes
 
 ### Git Commit Best Practices
 

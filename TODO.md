@@ -4,6 +4,24 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
+### Fix Markdownlint Errors in Project Files
+
+Run `markdownlint-cli2 "**/*.md"` and fix all errors in project-owned markdown files.
+
+**Files with errors:**
+
+- MODERN_CLI_TOOLS.md (48 errors) - table styles, bare URLs, heading punctuation, blank lines
+- NOTES.md (4 errors) - blank lines around code blocks, heading increment
+- TODO.md (11 errors) - blank lines around lists and code blocks
+
+**Action items:**
+
+- Fix MODERN_CLI_TOOLS.md errors
+- Fix NOTES.md errors
+- Fix TODO.md errors
+- Verify zero errors with `markdownlint-cli2 "**/*.md"`
+- Status: Not started
+
 ### Review Oh-My-Zsh Plugins for Useful Additions
 
 Review the built-in oh-my-zsh plugins to identify useful ones not currently enabled.

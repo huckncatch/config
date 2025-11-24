@@ -22,7 +22,7 @@ Use session states to preserve context when ending a long session or when contex
 
 Copy-paste this prompt:
 
-```
+```text
 Before I clear context, create a session state document.
 
 Use the template at `claude/SESSION_STATE_TEMPLATE.md` to create a file called `claude/sessions/SESSION_STATE_YYYY-MM-DD.md`.
@@ -34,7 +34,7 @@ Fill in all sections based on our current session. Format everything so the next
 
 Use the resume prompt from Section 7 of the session state file, or:
 
-```
+```text
 Let's continue our previous work.
 
 First, read the session state: @claude/sessions/SESSION_STATE_YYYY-MM-DD.md
@@ -45,6 +45,7 @@ Please confirm you've loaded the context, then proceed with the next steps liste
 ## Integration with Project
 
 When starting a new session:
+
 1. Check `CLAUDE.md` for project context and guidelines
 2. Check `TODO.md` for planned work items
 3. Review recent session states if resuming previous work

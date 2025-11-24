@@ -1,0 +1,3 @@
+# Git submodules (external repos we don't control)
+zsh/oh-my-zsh-custom/plugins/
+zsh/oh-my-zsh-custom/themes/

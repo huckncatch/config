@@ -29,8 +29,8 @@
 ### In Progress
 
 - [ ] [Current task - describe exact state]
-    - What's done so far:
-    - What's remaining:
+  - What's done so far:
+  - What's remaining:
 
 ### Pending
 
