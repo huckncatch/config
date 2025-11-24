@@ -1,3 +1,5 @@
 .claude/settings.local.json
 # Machine-specific zsh profile (created by install script)
 .config/zsh/profile.local
+# Session state files (may contain sensitive context)
+claude/sessions/*.md
