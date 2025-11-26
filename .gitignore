@@ -3,3 +3,5 @@
 .config/zsh/profile.local
 # Session state files (may contain sensitive context)
 claude/sessions/*.md
+# MCP memory-bank server files
+memory-bank/

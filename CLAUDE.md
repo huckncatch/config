@@ -6,12 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Work Process
 
-- **Before modifying global CLAUDE.md**, verify it matches the repository backup:
-  - Run: `diff ~/.config/claude/CLAUDE.md ~/config/xdg-config/claude/CLAUDE.md`
-  - If files differ, the active global file was likely modified from another project (e.g., ~/bin)
-  - Check modification times: `ls -l ~/.config/claude/CLAUDE.md ~/config/xdg-config/claude/CLAUDE.md`
-  - If repository backup is the same age or older, copy active global file to repository: `cp ~/.config/claude/CLAUDE.md ~/config/xdg-config/claude/CLAUDE.md`
-  - If repository backup is newer, determine which changes to keep
+- **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
+  - Checks `~/.claude/settings.json` ↔ `claude/settings.json`
+  - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
+  - Interactively prompts to sync, skip, or view diffs
+  - Run periodically or when switching between projects
 - Before proceeding with file modifications, verify that files haven't moved or changed since last checked.
 - After completing all work for a plan or task, validate against both CLAUDE.md files for needed updates:
   - **Project CLAUDE.md**: Architecture changes, new patterns, updated file structure
