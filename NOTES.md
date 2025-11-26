@@ -244,6 +244,17 @@ Now Figma will not be able to override that file when it wants to update it. Als
 
 ## Claude Code MCP Servers
 
+MCP servers are configured in `~/.claude.json` under the `mcpServers` key. Use `bin/sync-backups.sh` to back up configuration changes.
+
+**Currently installed:**
+
+- **context7**: Library documentation lookup (npx @upstash/context7-mcp)
+- **fastmail**: Email/calendar/contacts management (local install)
+- **sequential-thinking**: Step-by-step reasoning (npx @modelcontextprotocol/server-sequential-thinking)
+- **memory-bank**: Project context memory (npx memory-bank-mcp)
+
+**Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.claude.json` to save ~9% context.
+
 ### Fastmail MCP Server
 
 Repository: <https://github.com/MadLlama25/fastmail-mcp>
@@ -293,4 +304,52 @@ cd ~/.local/share/mcp/fastmail-mcp
 git pull
 npm install
 npm run build
+```
+
+### Other MCP Servers
+
+The following servers are installed via npx (no local installation required):
+
+**context7** - Library documentation lookup
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+**sequential-thinking** - Step-by-step reasoning
+
+```json
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  }
+}
+```
+
+**memory-bank** - Project context memory
+
+```json
+{
+  "mcpServers": {
+    "memory-bank": {
+      "command": "npx",
+      "args": ["-y", "memory-bank-mcp"],
+      "env": {
+        "MEMORY_BANK_PATH": "/Users/soob/.local/share/memory-bank"
+      }
+    }
+  }
+}
 ```
