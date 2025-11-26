@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
   - Checks `~/.claude/settings.json` ↔ `claude/settings.json`
+  - Checks `~/.claude.json` ↔ `claude/claude.json` (gitignored - contains sensitive data)
   - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects

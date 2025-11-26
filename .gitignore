@@ -3,5 +3,7 @@
 .config/zsh/profile.local
 # Session state files (may contain sensitive context)
 claude/sessions/*.md
+# Claude runtime state (contains API tokens, OAuth, personal info)
+claude/claude.json
 # MCP memory-bank server files
 memory-bank/
