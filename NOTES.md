@@ -119,6 +119,42 @@ Install after setting up rbenv:
 gem install kintsugi
 ```
 
+## tmux
+
+### Mouse Selection (iTerm-like behavior)
+
+The tmux.conf is configured for iTerm-like mouse selection:
+
+- **Click-drag**: Selects text, copies to clipboard, selection stays visible
+- **Double-click**: Selects word, copies to clipboard, selection stays visible
+- **Press `q` or `Escape`**: Exit copy mode and clear selection
+
+### Copy Mode Cheatsheet (vi mode)
+
+Enter copy mode: `prefix + [` (usually `Ctrl-b [`)
+
+#### Navigation
+
+| Key | Action |
+|-----|--------|
+| `h/j/k/l` | Move left/down/up/right |
+| `w` / `b` | Word forward / backward |
+| `0` / `$` | Beginning / end of line |
+| `g` / `G` | Top / bottom of buffer |
+| `Ctrl-b` / `Ctrl-f` | Page up / down |
+| `/` / `?` | Search forward / backward |
+| `n` / `N` | Next / previous search match |
+
+#### Selection and Copy
+
+| Key | Action |
+|-----|--------|
+| `v` | Start selection |
+| `V` | Select line |
+| `y` | Copy selection to clipboard |
+| `Enter` | Copy selection and exit |
+| `Escape` or `q` | Cancel / exit copy mode |
+
 ## iTerm2: enable word jumping
 
 Use ⌥ + <-/-> (left/right arrow) to jump from one word to the next
