@@ -4,6 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Process
 
+### General Principles
+
+- **Never assume you know how a tool or app works. Always seek documentation.** When working with any tool, library, framework, or application, consult official documentation, man pages, or help output rather than relying on assumptions or general knowledge. Tools evolve, syntax changes, and edge cases exist that may not be obvious. Use resources like `man`, `--help`, official docs, or the Context7 MCP server to verify behavior before proceeding.
+
 ### Work Process
 
 - **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:

@@ -104,6 +104,7 @@ if [[ -o interactive ]]; then
   alias verifyCodeSign='codesign --verify --verbose'
 
   # opens Xcode workspace or project in the current directory
+  # commented out in favor of a more versatile function
   # alias oxc='[[ -d *.xcworkspace ]] && open *.xcworkspace || open *.xcodeproj'
 
   # iTerm
