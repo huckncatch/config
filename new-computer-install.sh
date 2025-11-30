@@ -301,6 +301,7 @@ main() {
   copy_dotfiles
   copy_xdg_config
   copy_claude_settings
+  install_tmux_config
 
   # Phase 2: Shell environment setup
   install_shell_environment

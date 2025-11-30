@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Checks `~/.claude/settings.json` ↔ `claude/settings.json`
   - Checks `~/.claude.json` ↔ `claude/claude.json` (gitignored - contains sensitive data)
   - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
+  - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
 - Before proceeding with file modifications, verify that files haven't moved or changed since last checked.
@@ -76,6 +77,10 @@ Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/
 - `plugins/tmux`
 - `themes/powerlevel10k`
 
+Oh my tmux! configuration framework is a git submodule:
+
+- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from https://github.com/gpakosz/.tmux
+
 When modifying submodules, be aware they point to specific commits. Use `git submodule update --remote` to update.
 
 ### XDG Base Directory Compliance
@@ -83,7 +88,9 @@ When modifying submodules, be aware they point to specific commits. Use `git sub
 Configurations follow XDG spec where supported. The `xdg-config/` directory structure mirrors `~/.config/`:
 
 - **Git**: `xdg-config/git/config` → `~/.config/git/config`
-- **Tmux**: `xdg-config/tmux/tmux.conf` → `~/.config/tmux/tmux.conf`
+- **Tmux**: Uses Oh my tmux! with two-file configuration:
+  - `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink)
+  - `xdg-config/tmux/tmux.conf.local` → `~/.config/tmux/tmux.conf.local` (user customizations)
 - **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
 - **Karabiner**: `xdg-config/karabiner/` → `~/.config/karabiner/`
 - **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
@@ -98,6 +105,29 @@ For users expecting standard zsh conventions, a `.zprofile` file is installed th
 
 - **Source**: `dotfiles/zprofile` → `~/.zprofile` (informational only)
 - **Actual config**: `~/.config/zsh/profile.local` (where machine-specific settings live)
+
+### Tmux Configuration
+
+Tmux uses **Oh my tmux!** (https://github.com/gpakosz/.tmux), a pre-configured tmux framework with a two-file configuration system:
+
+**Main Configuration** (read-only, from submodule):
+- **Submodule**: `xdg-config/tmux/oh-my-tmux/.tmux.conf`
+- **System**: `~/.config/tmux/tmux.conf` (symlink to submodule)
+- Never modify this file directly; it receives updates from the upstream project
+
+**User Customizations**:
+- **Repository**: `xdg-config/tmux/tmux.conf.local`
+- **System**: `~/.config/tmux/tmux.conf.local`
+- All personal settings and overrides go here (vi mode, mouse settings, key bindings, etc.)
+
+**Installation**:
+The `install_tmux_config()` function creates the symlink during installation. To update Oh my tmux!:
+```bash
+git submodule update --remote xdg-config/tmux/oh-my-tmux
+```
+
+**Backup Tracking**:
+Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config symlink is regenerated on install.
 
 ### Claude Code Configuration
 

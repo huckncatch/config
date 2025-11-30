@@ -8,6 +8,7 @@ FILE_PAIRS=(
   "$HOME/.claude/settings.json:claude/settings.json"
   "$HOME/.claude.json:claude/claude.json"
   "$HOME/.config/claude/CLAUDE.md:xdg-config/claude/CLAUDE.md"
+  "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
 )
 
 # Get script directory and change to repo root

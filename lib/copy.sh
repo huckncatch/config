@@ -172,9 +172,14 @@ copy_xdg_config() {
             _sync_directory_selective "$item" "$HOME/.config/$itemname" \
               "automatic_backups/* assets/*"
             ;;
-          "git"|"tmux"|"ncdu")
+          "git"|"ncdu")
             # These are safe to fully sync
             _sync_directory_selective "$item" "$HOME/.config/$itemname" ""
+            ;;
+          "tmux")
+            # Preserve oh-my-tmux submodule and tmux.conf symlink
+            _sync_directory_selective "$item" "$HOME/.config/$itemname" \
+              "oh-my-tmux/* tmux.conf"
             ;;
           *)
             echo "  ⚠ Unknown config: $itemname (skipping in update mode)"
@@ -273,5 +278,55 @@ copy_claude_settings() {
     fi
   else
     echo "  ⚠ Warning: $source_file not found, skipping"
+  fi
+}
+
+# Install Oh my tmux! configuration
+install_tmux_config() {
+  echo "Setting up Oh my tmux! configuration..."
+
+  # Define paths
+  local tmux_source="$HOME/config/xdg-config/tmux/oh-my-tmux/.tmux.conf"
+  local tmux_target="$HOME/.config/tmux/tmux.conf"
+
+  # Check if source exists
+  if [ ! -f "$tmux_source" ]; then
+    echo "  ⚠ Warning: Oh my tmux! not found at $tmux_source"
+    echo "  Run: git submodule update --init --recursive"
+    return 1
+  fi
+
+  # Remove existing file if it's not a symlink
+  if [ -f "$tmux_target" ] && [ ! -L "$tmux_target" ]; then
+    if [ $DRY_RUN -eq 1 ]; then
+      echo "  [DRY RUN] Would remove existing $tmux_target (not a symlink)"
+    else
+      echo "  Removing existing $tmux_target (not a symlink)"
+      rm "$tmux_target"
+    fi
+  fi
+
+  # Create or update symlink
+  if [ -L "$tmux_target" ]; then
+    # Check if symlink points to correct location
+    local current_target=$(readlink "$tmux_target")
+    if [ "$current_target" = "$tmux_source" ]; then
+      echo "  ✓ Symlink already correct: $tmux_target → $tmux_source"
+    else
+      if [ $DRY_RUN -eq 1 ]; then
+        echo "  [DRY RUN] Would update symlink: $tmux_target → $tmux_source"
+      else
+        echo "  Updating symlink: $tmux_target → $tmux_source"
+        rm "$tmux_target"
+        ln -s "$tmux_source" "$tmux_target"
+      fi
+    fi
+  else
+    if [ $DRY_RUN -eq 1 ]; then
+      echo "  [DRY RUN] Would create symlink: $tmux_target → $tmux_source"
+    else
+      echo "  Creating symlink: $tmux_target → $tmux_source"
+      ln -s "$tmux_source" "$tmux_target"
+    fi
   fi
 }

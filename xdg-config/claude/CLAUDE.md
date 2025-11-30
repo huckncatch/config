@@ -1,308 +1,389 @@
-# Global Claude Code Guidelines
+# CLAUDE.md
 
-This file provides guidance to Claude Code for all projects.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Working with Claude Code
+## Development Process
 
-When working in any repository, Claude should proactively remind the user to add information to CLAUDE.md when:
+### Work Process
 
-- Discovering architectural patterns or conventions not yet documented
-- Creating workarounds for tricky issues (e.g., installation conflicts, permission problems)
-- Establishing new workflows or procedures
-- Finding non-obvious repository-specific behaviors
-- Adding custom scripts or functions that future sessions should know about
+- **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
+  - Checks `~/.claude/settings.json` ↔ `claude/settings.json`
+  - Checks `~/.claude.json` ↔ `claude/claude.json` (gitignored - contains sensitive data)
+  - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
+  - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
+  - Interactively prompts to sync, skip, or view diffs
+  - Run periodically or when switching between projects
+- Before proceeding with file modifications, verify that files haven't moved or changed since last checked.
+- After completing all work for a plan or task, validate against both CLAUDE.md files for needed updates:
+  - **Project CLAUDE.md**: Architecture changes, new patterns, updated file structure
+  - **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): New universal workflows, cross-project preferences discovered
+  - Ensure information isn't duplicated or in the wrong location between files
+- Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
 
-**Tip**: Use `#` in chat to quickly memorize information and add it to CLAUDE.md without manual file editing.
+## Repository Overview
 
-### Planning and Collaboration
+This is a personal macOS configuration repository containing dotfiles, shell configurations, and automated setup scripts for provisioning new machines. The repository is designed to be cloned to `~/config` and uses a modular structure with profile-based zsh configuration.
 
-Before executing a new plan that involves multiple steps or substantial changes:
+### Documentation Files
 
-1. **Discuss objectives and expected outcomes** - Understand what success looks like and any constraints before diving into implementation
-2. **Confirm approach** - Present the planned approach briefly to ensure alignment before starting work
+- **NOTES.md**: Contains installation tips, configuration instructions, and manual setup steps for tools and applications that can't be fully automated. This includes things like Raycast extensions setup, application-specific configurations, Ruby gems, and macOS system tweaks. When users need to document manual setup procedures or reference instructions for tools, add them to NOTES.md.
 
-This helps avoid misunderstandings and wasted effort on the wrong solution.
+## Architecture
 
-#### Iterative Decision Making
+### Zsh Configuration Loading Order
 
-When presenting complex analysis with multiple decisions or changes (e.g., architectural reviews, multi-file refactorings, documentation restructuring):
+**Critical: This load order must be maintained for the system to work correctly.**
 
-1. **Present one decision at a time** - Don't overwhelm with all conclusions at once
-2. **Provide full context per decision** - Include both the detailed analysis and the summary/recommendation for each item
-3. **Allow back-and-forth discussion** - Wait for user input before moving to the next decision
-4. **Solidify each decision** - Ensure agreement on one item before proceeding to the next
+The zsh setup uses a hierarchical loading system:
 
-This approach ensures thorough understanding and prevents decision fatigue when evaluating multiple complex changes.
+1. **`~/.zshrc`** (entry point, sourced by zsh)
+   - Sets `DEBUG_STARTUP=0` (set to 1 to trace file loading)
+   - Sources profile-specific config (`~/.config/zsh/profile.local` or falls back to `~/config/zsh/profile-home.zsh`)
+   - Sources `~/config/zsh/zshrc.base`
 
-### Incremental Work Process
+2. **Profile files** (define theme and plugins before oh-my-zsh init)
+   - `~/.config/zsh/profile.local` - Machine-specific, created during install, **not tracked in git**
+   - `zsh/profile-home.zsh` - Template for personal machines
+   - `zsh/profile-work.zsh` - Template for work machines
+   - `zsh/profile-base.zsh` - Shared settings sourced by all profile templates
+   - Must define: `ZSH_THEME` and `plugins` array
+   - Profile templates source `profile-base.zsh` for shared config (e.g., tmux plugin settings)
 
-When working through multi-step plans:
+3. **`zsh/zshrc.base`** (shared configuration)
+   - Enables Powerlevel10k instant prompt
+   - Sets `ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"`
+   - Initializes oh-my-zsh
+   - Configures fzf, alias-finder plugin
+   - Sources `~/.p10k.zsh` (Powerlevel10k theme config)
 
-- **After completing each step**, list the remaining steps and ask the user if they want to continue or make changes to instructions or the plan
-- This ensures alignment and allows for course correction before proceeding
+4. **Custom configs** (loaded automatically by oh-my-zsh from `$ZSH_CUSTOM`)
+   - Files in `zsh/oh-my-zsh-custom/*.zsh` are sourced alphabetically
+   - Naming conventions:
+     - Numeric prefixes (00_, 01_, 02_) control load order when needed
+     - `00_environment.zsh` - Loads first for PATH and environment variables
+     - `01_aliases.zsh` - General shell aliases (not tool-specific)
+     - `02_functions.zsh` - General shell functions (not tool-specific)
+     - Tool-specific files (e.g., `fzf.zsh`, `git.zsh`, `homebrew.zsh`) contain ALL related configuration for that tool (environment vars, aliases, functions)
 
-### Safety with Sensitive Operations
+### Git Submodules
 
-When working with production systems, credentials, sensitive data, or external communications:
+Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/`:
 
-1. **Explicitly confirm intent** - Describe the planned action and wait for user confirmation before proceeding
-2. **Be transparent about scope** - Clearly state what will be accessed, modified, or transmitted
-3. **Highlight irreversible operations** - Call out destructive actions (deletions, external API calls, deployments) before executing
+- `plugins/zsh-completions`
+- `plugins/zsh-nvm`
+- `plugins/fast-syntax-highlighting`
+- `plugins/zsh-autosuggestions`
+- `plugins/zsh-syntax-highlighting`
+- `plugins/tmux`
+- `themes/powerlevel10k`
 
-### Documentation Placement
+Oh my tmux! configuration framework is a git submodule:
 
-When modifying CLAUDE.md files, verify that content is placed appropriately:
+- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from https://github.com/gpakosz/.tmux
 
-- **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): Cross-project workflows, general preferences, universal coding standards
-- **Project CLAUDE.md** (repository-specific): Architecture, project conventions, setup instructions, file structure
+When modifying submodules, be aware they point to specific commits. Use `git submodule update --remote` to update.
 
-After updating either file, review both to ensure information isn't duplicated or in the wrong location.
+### XDG Base Directory Compliance
 
-#### Creating New Project CLAUDE Files
+Configurations follow XDG spec where supported. The `xdg-config/` directory structure mirrors `~/.config/`:
 
-When creating a new project CLAUDE.md:
+- **Git**: `xdg-config/git/config` → `~/.config/git/config`
+- **Tmux**: Uses Oh my tmux! with two-file configuration:
+  - `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink)
+  - `xdg-config/tmux/tmux.conf.local` → `~/.config/tmux/tmux.conf.local` (user customizations)
+- **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
+- **Karabiner**: `xdg-config/karabiner/` → `~/.config/karabiner/`
+- **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
 
-1. **Don't duplicate global guidance** - Assume Claude will read both files; only include project-specific information
-2. **Focus on what's unique** - Document architecture, conventions, and patterns specific to this project
-3. **Reference, don't repeat** - If global CLAUDE.md already covers it (commit discipline, file standards, tool usage), don't repeat it
-4. **Keep it minimal** - Less is more; only add what Claude needs to know about this specific codebase
-5. **Review for redundancy** - After creation, verify no overlap with global CLAUDE.md
+Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
 
-**Examples of what belongs in project CLAUDE.md:**
+Note: Claude Code settings are NOT stored in `~/.config/claude/settings.json`. See "Claude Code Configuration" section below for the correct file locations.
 
-- Repository-specific architecture and file structure
-- Critical constraints unique to this project
-- Project-specific workflows or build processes
-- Important context about design decisions
+### Profile Discovery Helper
 
-**Examples of what belongs in global CLAUDE.md:**
+For users expecting standard zsh conventions, a `.zprofile` file is installed that documents the XDG-compliant location:
 
-- Commit message format and discipline
-- File editing standards (trailing newlines, markdown conventions)
-- Tool usage preferences (Read vs cat, Edit vs sed)
-- Universal code quality standards
+- **Source**: `dotfiles/zprofile` → `~/.zprofile` (informational only)
+- **Actual config**: `~/.config/zsh/profile.local` (where machine-specific settings live)
 
-**Critical: When modifying global CLAUDE.md in the `~/config` repository, immediately update the repository backup at `~/config/xdg-config/claude/CLAUDE.md` to keep them synchronized.** The repository version is used when provisioning new machines.
+### Tmux Configuration
 
-## File Editing Standards
+Tmux uses **Oh my tmux!** (https://github.com/gpakosz/.tmux), a pre-configured tmux framework with a two-file configuration system:
 
-Apply these standards to all files in any repository:
+**Main Configuration** (read-only, from submodule):
+- **Submodule**: `xdg-config/tmux/oh-my-tmux/.tmux.conf`
+- **System**: `~/.config/tmux/tmux.conf` (symlink to submodule)
+- Never modify this file directly; it receives updates from the upstream project
 
-### Universal Requirements
+**User Customizations**:
+- **Repository**: `xdg-config/tmux/tmux.conf.local`
+- **System**: `~/.config/tmux/tmux.conf.local`
+- All personal settings and overrides go here (vi mode, mouse settings, key bindings, etc.)
 
-1. **All files must end with a trailing newline** - This is standard practice for version control and POSIX compliance
-2. **Markdown files must use uppercase filenames** - Use uppercase for all .md files (e.g., CLAUDE.md, README.md, NOTES.md). Subdirectories follow the same convention (e.g., homebrew/README.md, not homebrew/HOMEBREW.md)
-3. **Markdown files must pass linting** - All markdown files must pass markdownlint-cli2 before completion.
-
-   **Linting Workflow:**
-   1. Write or edit the markdown file
-   2. Run linter: `markdownlint-cli2 "path/to/file.md"`
-   3. Fix violations reported by linter
-   4. Confirm zero errors before considering work complete
-   5. Ask user if unsure about how to resolve a specific violation
-
-   **Rules Enforced:**
-   - **MD022**: Blank lines around headings (before and after)
-   - **MD032**: Blank lines around lists (before and after)
-   - **MD007**: Unordered list indentation (4 spaces per level)
-   - **MD041**: First line must be a top-level heading (`# Title`)
-   - **MD024**: Unique heading content (no duplicate headings)
-   - **MD025**: Single top-level heading per file (only one `#` heading)
-   - **MD012**: No multiple consecutive blank lines
-   - **MD009**: No trailing spaces at end of lines
-   - **MD010**: No hard tabs (use spaces only)
-   - **MD047**: Files must end with single newline character
-   - **MD033**: Inline HTML restricted (see allowed elements below)
-   - **Fenced code blocks**: Must have language specifier (use `text`, `bash`, `swift`, etc.)
-
-   **MD033 - Allowed HTML Elements:**
-
-   These placeholder-style elements ARE allowed:
-   - `<example>`, `<commentary>`, `<reasoning>`
-   - `<good-example>`, `<bad-example>`
-   - `<system-reminder>`, `<command-message>`
-   - `<command-name>`, `<command-args>`
-   - `<local-command-stdout>`
-   - `<function_calls>`, `<invoke>`, `<parameter>`
-
-   Other HTML tags (like `<div>`, `<span>`, `<br>`, etc.) are NOT allowed.
-4. **Preserve existing code style** - Match the formatting, indentation, and conventions already in use
-5. **Verify changes don't break functionality** - Test affected code paths after making changes
-
-### Git Commit Best Practices
-
-Philosophy: Small, incremental commits that show progression of changes
-
-#### Proactive Commit Management
-
-After completing any meaningful unit of work, proactively ask the user if they want to commit the changes. Don't wait for the user to request it.
-
-**Commit after each meaningful change**, not just at the end of a multi-step plan. Each commit should represent a single logical unit of work that could be understood and potentially reverted independently.
-
-**Meaningful work includes:**
-
-- Completing a feature or bug fix
-- Finishing a refactoring operation
-- Adding or updating documentation
-- Completing a logical step in a multi-step plan
-
-**Examples of when to commit:**
-
-- When creating new scripts/files: commit the journey incrementally (initial structure, then core logic, then error handling, then tests, etc.)
-- After refactoring a single file or module
-- After adding a new feature or function
-- After fixing a bug
-- After updating documentation to reflect code changes
-- NOT after every single line change, but after each coherent piece of work
-
-#### Size and Scope
-
-1. **One logical change per commit** - If you describe it with "and", consider splitting it
-2. **Maintain flexibility** - Don't be pedantic; group related changes when it makes sense
-3. **Each commit should leave code in a working state** - No broken intermediate states
-4. **Plan multi-step work upfront** - List commits in sequence before starting
-
-#### Commit Sequence Planning
-
-When tackling larger work:
-
-1. **First commit**: Add infrastructure (new functions, flags, argument parsing)
-2. **Middle commits**: Apply changes incrementally by feature area
-3. **Final commit**: Documentation, cleanup, polish
-
-Example breakdown for adding dry-run mode:
-
-- `feat: Add command-line argument parsing (--dry-run, --verbose, --help)`
-- `fix: Add DRY_RUN checks to brew operations`
-- `fix: Add DRY_RUN checks to git clone operations`
-- `refactor: Fix variable scoping and array quoting`
-- `feat: Add verbose mode support to installations`
-
-#### Commit Message Format (Conventional Commits)
-
-Use this format: `<type>: <description>`
-
-**Types:**
-
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `refactor:` - Code restructuring without behavior change
-- `docs:` - Documentation only
-- `test:` - Test additions/changes
-- `chore:` - Maintenance tasks (dependency updates, etc.)
-
-**Message Structure:**
-
-```text
-type: Short summary in imperative mood (50 chars max)
-
-- Optional body explaining why and how
-- Include context, alternatives considered
-- Reference issues/tickets when applicable
-- Focus on "why" rather than "what" (the diff shows "what")
-- Enclose commands, code, and flags in backticks for readability
-  (e.g., `brew install`, `set -euo pipefail`, `--dry-run`)
+**Installation**:
+The `install_tmux_config()` function creates the symlink during installation. To update Oh my tmux!:
+```bash
+git submodule update --remote xdg-config/tmux/oh-my-tmux
 ```
 
-**Examples:**
+**Backup Tracking**:
+Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config symlink is regenerated on install.
 
-- `feat: Add dry-run flag to preview changes`
-- `fix: Handle missing SSH config gracefully`
-- `refactor: Extract brew installation logic to helper function`
-- `docs: Add troubleshooting section to README`
+### Claude Code Configuration
 
-#### Before Committing
+Claude Code uses a hierarchical settings system. Understanding this hierarchy is important for proper configuration.
 
-1. **Review the staged diff**: `git diff --staged` - Does it tell a clear story?
-2. **Verify commit message quality**: Imperative mood, explains what and why
-3. **Check for sensitive data**: No API keys, tokens, passwords, or credentials
-4. **Confirm logical grouping**: Should this be split or combined?
+#### Settings File Hierarchy (Precedence: highest → lowest)
 
-#### Traceability
-
-- Use `git log --oneline --graph` to verify the commit history tells a clear story
-- Reference file locations with `file_path:line_number` when discussing changes
-- Link related commits in messages when building on previous work
-
-### Code Quality
-
-1. **Prefer editing existing files over creating new ones** - Unless explicitly required
-2. **Add comments for non-obvious logic** - Explain "why" not "what"
-3. **Handle errors gracefully** - Don't let errors fail silently
-4. **Keep functions focused** - Single responsibility principle
-5. **Avoid bash process substitution** - Never use `<(...)` syntax; use simpler alternatives like storing function output in variables or using command substitution with `$(...)` in loops. Simpler is better for portability and readability.
-6. **Back up files before in-place modifications** - When using tools that modify files in place (like `jq`, `sed -i`, or piping to temp files then moving), always create a backup first:
-   - `cp file.json file.json.backup` before running `jq ... > temp && mv temp file.json`
-   - This protects against parse errors, malformed output, or unexpected tool behavior
-   - The Edit tool doesn't require this (it shows changes before applying), but bash commands that transform and replace files do
-
-### Communication with User
-
-1. **Be concise** - Match verbosity to task complexity (see Claude Code tone guidelines)
-2. **Ask for clarification** - When requirements are ambiguous or multiple approaches exist
-3. **Explain non-obvious changes** - Especially for system modifications or destructive operations
-4. **Provide context for suggestions** - Help users understand recommendations
-5. **Avoid unnecessary emphasis words** - Be direct and factual instead of using words like "entire", "completely", "absolutely" when describing issues or constraints
-6. **Review documentation for accuracy** - Avoid hallucinating or exaggerating information. If a commit message says "Remove X", X must actually be removed in that commit. Verify changes match descriptions before committing.
-
-## Claude Code Configuration Files
-
-Claude Code uses a hierarchical settings system with the following precedence (highest to lowest):
-
-### Settings Files (Precedence Order)
-
-1. **Enterprise policies** (managed by organization, not applicable to personal use)
+1. **Enterprise policies** (not applicable to personal use)
 2. **Command line arguments**
 3. **Local project settings**: `<project>/.claude/settings.local.json`
-   - Personal permissions and preferences for this project
-   - NOT committed to git (add to `.gitignore`)
-   - Where per-project tool permissions are stored
+   - Personal permissions for this project (NOT in git)
+   - This is what enables tool execution per-project
 4. **Shared project settings**: `<project>/.claude/settings.json`
-   - Team-wide project conventions
-   - CAN be committed to git
+   - Team conventions (CAN be in git)
 5. **User settings**: `~/.claude/settings.json`
-   - Global user preferences (env vars, default permissions)
+   - Global env vars and default permissions
 
-### Other Configuration Files
+#### Runtime State File
 
-- **Runtime state & preferences**: `~/.claude.json`
-  - MCP servers, OAuth, project data, tips history
-  - NOT for permissions or settings (use `~/.claude/settings.json` instead)
-- **Global instructions**: `~/.config/claude/CLAUDE.md` (this file)
-- **Project instructions**: `<project>/CLAUDE.md`
+`~/.claude.json` stores runtime state and preferences (NOT settings):
 
-### What Goes Where
+- MCP servers configuration
+- OAuth account info
+- Project data and history
+- Installation method (`"installMethod": "homebrew"`)
 
-| Setting Type                                  | Location                                 |
-| --------------------------------------------- | ---------------------------------------- |
-| MCP servers                                   | `~/.claude.json`                         |
-| Install method, auto-updates                  | `~/.claude.json`                         |
-| Global env vars (like `DISABLE_AUTOUPDATER`)  | `~/.claude/settings.json`                |
-| Global permissions (allow/deny/ask)           | `~/.claude/settings.json`                |
-| Project-specific permissions                  | `<project>/.claude/settings.local.json`  |
-| Shared project conventions                    | `<project>/.claude/settings.json`        |
+#### Homebrew Installation Settings
 
-### Important Notes
+For Homebrew installations, configure:
 
-- `~/.config/claude/settings.json` is NOT used for settings (only CLAUDE.md lives there)
-- The message "Execution allowed by: .claude/settings.local.json" means permissions in that file enable tool execution for the project
-- Project permissions in `.claude/settings.local.json` override user-level settings in `~/.claude/settings.json`
+1. **Shell environment** (`zsh/oh-my-zsh-custom/claude.zsh`):
+   - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
+   - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
 
-## Tool Usage
+2. **Runtime state** (`~/.claude.json`):
 
-1. **Use specialized tools over bash commands**:
-   - Read tool for reading files (not `cat`, `head`, `tail`)
-   - Edit tool for editing files (not `sed`, `awk`)
-   - Write tool for creating files (not `echo >` or `cat <<EOF`)
-   - Grep tool for searching file contents (not bash `grep` or `rg` commands)
-   - Glob tool for finding files by pattern (not `find` or `ls` commands)
-2. **Batch independent operations** - Make multiple tool calls in a single message when operations don't depend on each other
-3. **Use Read before Edit or Write** - Always read existing files before modifying them
-4. **Verify file paths exist** - Check parent directories before creating files in nested paths
+   ```json
+   {
+     "installMethod": "homebrew"
+   }
+   ```
 
-## Memory and Context Management
+3. **User settings** (`~/.claude/settings.json`):
 
-1. **Keep CLAUDE.md files up to date** - Both global and project-specific
-2. **Reference file locations with line numbers** - Use `file_path:line_number` format when discussing code
-3. **Document workarounds and gotchas** - Future Claude instances benefit from your discoveries
-4. **Note dependencies and prerequisites** - Especially for setup or build processes
+   ```json
+   {
+     "env": {
+       "DISABLE_AUTOUPDATER": "1"
+     }
+   }
+   ```
+
+#### Repository Backups
+
+- `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
+- `claude/settings.json` → `~/.claude/settings.json` (user settings with permissions/env vars)
+
+Note: `xdg-config/claude/settings.json` is kept for reference only (not actively used since settings go in `~/.claude/settings.json`)
+
+## Installation Script Architecture
+
+The `new-computer-install.sh` script performs automated setup in a specific order. Functions are organized into library files in the `lib/` directory:
+
+### Library Structure
+
+- **`lib/utils.sh`**: Common helpers (`show_usage`, `_sync_file`, `_files_differ`, `_sync_directory_selective`, `_prompt_install`)
+- **`lib/brew.sh`**: Homebrew operations (`_read_package_list`, `brew_install`, `_should_install`, `_brew_list_does_not_contain`)
+- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `copy_claude_settings`)
+
+### Key Installation Functions
+
+- `copy_zsh_config()`: Copies zshrc and creates profile
+- `copy_dotfiles()`: Handles dotfiles with SSH config special case (sets permissions 700/600)
+- `copy_xdg_config()`: Copies XDG-compliant config directories
+- `copy_claude_settings()`: Copies Claude Code user settings to `~/.claude/`
+- `brew_install()`: Interactive package installation with error handling that continues on failures
+
+### Installation Script Flow
+
+The script performs these operations in order:
+
+1. Initializes Homebrew environment (auto-detects and runs `brew shellenv` if needed)
+2. Validates Homebrew installation
+3. Copies zsh configuration → `~/.zshrc` (backs up existing)
+4. Creates profile (`~/.config/zsh/profile.local`) from home/work template
+5. Copies dotfiles → `~/.<filename>` (SSH config gets special permissions)
+6. Copies XDG configs → `~/.config/`
+7. Copies Claude Code user settings → `~/.claude/settings.json`
+8. Installs oh-my-zsh (with `RUNZSH=no KEEP_ZSHRC=yes` to preserve zshrc)
+9. Installs zsh plugins to `$ZSH_CUSTOM/plugins/`
+10. Installs Homebrew packages (interactive, continues on failures)
+11. Installs pinned casks from `homebrew/pinned_casks/*.rb`
+
+### Script Behavior
+
+- Uses `set -euo pipefail` for safety, but `brew install` failures don't stop execution
+- Supports `--dry-run`, `--update`, and `--verbose` flags
+- Auto-initializes Homebrew environment if needed
+
+### Update/Refresh Mode
+
+The `--update` flag enables safe configuration syncing after pulling repository updates:
+
+**What it does:**
+
+- Syncs only changed configuration files (creates timestamped backups)
+- Skips all installations (Homebrew, oh-my-zsh, plugins, packages)
+- Preserves user data and local customizations
+- Detects profile drift from templates
+
+**Files synced:**
+
+- `~/.zshrc` - Smart sync with backup if changed
+- Dotfiles (`~/.p10k.zsh`, `~/.editorconfig`, etc.) - Smart sync with backup
+- XDG configs with selective preservation:
+  - **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md`, preserves `local/`, `projects/`, `statsig/`, `todos/`, `hooks/`
+  - **Karabiner**: Syncs `karabiner.json`, preserves `automatic_backups/`, `assets/`
+  - **Git/tmux/ncdu**: Full sync (no user data to preserve)
+- Claude Code user settings (`~/.claude/settings.json`) - Smart sync with backup if changed
+
+**Files preserved/skipped:**
+
+- `~/.config/zsh/profile.local` - Skipped entirely (drift detection runs)
+- `~/.ssh/config` - Skipped entirely (manual merge recommended)
+- All Homebrew taps, packages, casks, fonts
+- oh-my-zsh and zsh plugins
+
+**Usage:**
+
+```bash
+cd ~/config && git pull && ./new-computer-install.sh --update
+```
+
+**With dry-run preview:**
+
+```bash
+./new-computer-install.sh --update --dry-run
+```
+
+**With verbose output:**
+
+```bash
+./new-computer-install.sh --update --verbose
+```
+
+**Backup format:**
+
+Files are backed up with timestamps before updates:
+
+- Format: `<filename>.backup.YYYYMMDD_HHMMSS`
+- Example: `.zshrc.backup.20251025_121230`
+- All backups are preserved (no automatic cleanup)
+
+## File Editing Guidelines
+
+When editing files in this repository:
+
+1. **Preserve install script logic**: The `new-computer-install.sh` script uses `set -euo pipefail` for safety, but all `brew install` calls must handle errors gracefully with `||` or `&&` to prevent script exit. Never change error handling patterns without understanding the implications.
+
+2. **Maintain zsh load order**: Profile must be sourced before zshrc.base (which initializes oh-my-zsh). Any changes to the loading sequence will break the shell configuration.
+
+3. **Keep XDG structure consistent**: Files in `xdg-config/` should match their expected `~/.config/` structure. The directory hierarchy must be preserved exactly.
+
+4. **Test profile selection**: Ensure both home and work profiles define required variables (`ZSH_THEME`, `plugins`). Missing these will cause oh-my-zsh initialization to fail.
+
+5. **Keep Claude config in sync**: When changing Claude Code configuration files:
+   - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
+
+   Note: Settings are stored in `~/.claude.json` (not `~/.config/claude/settings.json`). This file contains runtime state and is not backed up to the repository.
+
+6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
+
+7. **Homebrew package additions**: When adding packages to `new-computer-install.sh`, add them to the appropriate array (`packages` for formulae, `applications` for casks). All installations use `brew_install` which handles errors gracefully.
+
+8. **Numeric prefixes in custom zsh files**: Files in `zsh/oh-my-zsh-custom/` with numeric prefixes (00_, 01_, 02_) control load order. Only use numeric prefixes when load order matters (e.g., environment variables must load before functions that use them).
+
+9. **Run shellcheck on shell scripts**: After modifying `new-computer-install.sh` or any `.zsh` files, run `shellcheck <file>` to catch common issues. The install script should pass shellcheck with minimal exceptions.
+
+## Critical Constraints
+
+### Error Handling in Install Script
+
+**Never allow `brew install` commands to cause script exit.** The install script is designed to be resilient and continue even if individual package installations fail. All brew operations must use error handling:
+
+```bash
+# Good - continues on failure
+brew_install formula "package-name" || true
+
+# Good - continues on failure with logging
+brew_install formula "package-name" && echo "Success" || echo "Failed but continuing"
+
+# Bad - will exit script on failure
+brew install package-name
+```
+
+### Zsh Load Order Dependencies
+
+**Never change the order of sourcing profile vs zshrc.base.** The profile files define `ZSH_THEME` and `plugins` which must be set before oh-my-zsh is initialized in zshrc.base. Changing this order will break the shell configuration.
+
+### Configuration Sync Requirements
+
+**Claude Code CLAUDE.md exists in two locations and must be kept in sync:**
+
+- Active: `~/.config/claude/CLAUDE.md`
+- Repository: `xdg-config/claude/CLAUDE.md`
+
+When modifying global instructions, both locations must be updated. The repository version is used for new installations.
+
+Note: Settings files (`~/.claude.json`, `~/.claude/settings.json`, `.claude/settings.local.json`) are NOT backed up to the repository as they contain machine-specific state and permissions.
+
+## Architecture Rationale
+
+Understanding these design decisions prevents breaking changes:
+
+### Why Profile-Based Configuration?
+
+Allows different plugin sets and themes per machine while sharing base configuration. Profile must load before zshrc.base because it defines `ZSH_THEME` and `plugins` that oh-my-zsh initialization depends on.
+
+### Why XDG Compliance (Partial)?
+
+Keeps `$HOME` cleaner by using `~/.config/` where supported. Some tools (Powerlevel10k, SSH) don't support XDG paths and must remain as dotfiles in home directory.
+
+### Why Custom ZSH_CUSTOM Location?
+
+Keeps custom configurations in this git repository (`~/config/zsh/oh-my-zsh-custom`) instead of `~/.oh-my-zsh/custom/`, making the entire configuration portable and version-controlled.
+
+### Why Pinned Casks?
+
+Some applications require payment for version upgrades. Pinning specific versions allows indefinite use. The `homebrew/pinned_casks/*.rb` files are downloaded from Homebrew's formula history.
+
+## Common Patterns
+
+### Adding Environment Variables
+
+Add to `zsh/oh-my-zsh-custom/00_environment.zsh` (the `00_` prefix ensures it loads first).
+
+### Adding Aliases or Functions
+
+- General aliases: `zsh/oh-my-zsh-custom/01_aliases.zsh`
+- General functions: `zsh/oh-my-zsh-custom/02_functions.zsh`
+- **Tool-specific: All aliases and functions for a tool must be kept together in that tool's file** (e.g., all fzf aliases/functions in `fzf.zsh`, all git aliases/functions in `git.zsh`, all homebrew aliases/functions in `homebrew.zsh`). Never split tool-related configuration across multiple files.
+
+### Modifying Installation Script
+
+When adding new installation steps:
+
+1. Add the function if needed
+2. Call it in the main flow (after the "Installation flow" comment)
+3. Ensure proper error handling (don't break the script on failures)
+4. Test with `--dry-run` flag first
+
+### Adding Homebrew Packages
+
+Edit `new-computer-install.sh`:
+
+- Add to `packages=(...)` array for formulae (command-line tools)
+- Add to `applications=(...)` array for casks (GUI applications)
+
+Both use the `brew_install` function which prompts before installing and handles errors gracefully.
