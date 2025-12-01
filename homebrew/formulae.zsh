@@ -14,6 +14,7 @@ coreutils
 eza # ls replacement
 fd # find replacement
 findutils
+fswatch
 midnight-commander
 ncdu # disk usage analyzer
 tag
