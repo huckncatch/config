@@ -1,6 +1,6 @@
 {
-  "alwaysThinkingEnabled": false,
   "env": {
     "DISABLE_AUTOUPDATER": "1"
-  }
+  },
+  "alwaysThinkingEnabled": true
 }
