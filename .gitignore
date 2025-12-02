@@ -7,3 +7,5 @@ claude/sessions/*.md
 claude/claude.json
 # MCP memory-bank server files
 memory-bank/
+# Karabiner automatic backups (machine-generated)
+xdg-config/karabiner/automatic_backups/

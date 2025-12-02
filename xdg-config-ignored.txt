@@ -1,0 +1,8 @@
+# XDG Config directories to ignore during installation/updates
+# One directory name per line (must match directory name in xdg-config/)
+# Lines starting with # are comments and will be ignored
+# Empty lines are ignored
+
+# Example entries:
+# some-app
+# another-tool

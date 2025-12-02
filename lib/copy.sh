@@ -151,13 +151,35 @@ copy_xdg_config() {
     mkdir -p "$HOME/.config"
   fi
 
-  # Track unknown configs for final summary
-  local unknown_configs=()
+  # Read ignored configs from file
+  local ignored_configs=()
+  local ignored_file="./xdg-config-ignored.txt"
+  if [ -f "$ignored_file" ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+      # Skip comments and empty lines
+      [[ "$line" =~ ^#.*$ ]] && continue
+      [[ -z "$line" ]] && continue
+      ignored_configs+=("$line")
+    done < "$ignored_file"
+  fi
 
   # Copy each directory from xdg-config/ to ~/.config/
   for item in ./xdg-config/*; do
     if [ -e "$item" ]; then
       itemname=$(basename "$item")
+
+      # Check if this config should be ignored
+      local should_ignore=0
+      if [ ${#ignored_configs[@]} -gt 0 ]; then
+        for ignored in "${ignored_configs[@]}"; do
+          if [ "$itemname" = "$ignored" ]; then
+            echo "  ⊘ Ignoring: $itemname (in ignored list)"
+            should_ignore=1
+            break
+          fi
+        done
+      fi
+      [ $should_ignore -eq 1 ] && continue
 
       if [ $UPDATE_MODE -eq 1 ]; then
         # Define preservation patterns per config directory
@@ -168,22 +190,18 @@ copy_xdg_config() {
               "local/* projects/* statsig/* todos/* hooks/*"
             ;;
           "karabiner")
-            # Preserve automatic backups and assets
+            # Preserve assets only (automatic_backups are machine-generated)
             _sync_directory_selective "$item" "$HOME/.config/$itemname" \
-              "automatic_backups/* assets/*"
-            ;;
-          "git"|"ncdu")
-            # These are safe to fully sync
-            _sync_directory_selective "$item" "$HOME/.config/$itemname" ""
+              "assets/*"
             ;;
           "tmux")
-            # Preserve oh-my-tmux submodule and tmux.conf symlink
+            # Preserve oh-my-tmux submodule (symlink is managed by install_tmux_config)
             _sync_directory_selective "$item" "$HOME/.config/$itemname" \
-              "oh-my-tmux/* tmux.conf"
+              "oh-my-tmux/*"
             ;;
           *)
-            echo "  ⚠ Unknown config: $itemname (skipping in update mode)"
-            unknown_configs+=("$itemname")
+            # Default: full sync with no preservation
+            _sync_directory_selective "$item" "$HOME/.config/$itemname" ""
             ;;
         esac
       else
@@ -205,16 +223,6 @@ copy_xdg_config() {
       fi
     fi
   done
-
-  # Display unknown configs summary if any
-  if [ ${#unknown_configs[@]} -gt 0 ] && [ $UPDATE_MODE -eq 1 ]; then
-    echo ""
-    echo "  Unknown configs skipped in update mode:"
-    for config in "${unknown_configs[@]}"; do
-      echo "    - $config"
-    done
-    echo "  To update these, run without --update flag or add them to copy_xdg_config()"
-  fi
 }
 
 # Copy Claude Code user settings to ~/.claude/
