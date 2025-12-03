@@ -34,7 +34,7 @@ if [[ -o interactive ]]; then
 
   # Directory listing variations
   if [[ "$USE_EZA" == "1" ]]; then
-    alias ll='ls -l'                               # long listing (no dot files)
+    alias ll='ls -lh'                              # long listing with human-readable sizes
     alias la='ls -la'                              # long listing with dot files
     alias lt='ls -l --sort=modified'               # long listing sorted by modification time
     alias ltr='ls -l --sort=modified --reverse'    # long listing sorted by time (oldest first)
@@ -42,7 +42,7 @@ if [[ -o interactive ]]; then
     alias lsd='ls -ld *(-/DN)'                     # list directories only
     alias lsda='ls -l *(-/DN)'                     # list directories with details
   else
-    alias ll='ls -l'                               # long listing (no dot files)
+    alias ll='ls -lh'                              # long listing with human-readable sizes
     alias la='ls -la'                              # long listing with dot files
     alias lt='ls -lt'                              # long listing sorted by modification time
     alias ltr='ls -ltrFH'                          # long listing sorted by time (oldest first)
@@ -65,17 +65,13 @@ if [[ -o interactive ]]; then
   # Example: mmv *.txt *.md  (renames all .txt to .md)
   alias mmv="noglob zmv -W"
 
-  # mkdir spelling correction disabled - causes issues with sudo
-  # Kept for reference in case a workaround is found
-  # alias mkdir='nocorrect mkdir'
-
   # ==============================================================================
   # MODERN UNIX TOOL REPLACEMENTS
   # ==============================================================================
 
   # Modern alternatives to traditional Unix tools (faster, more user-friendly)
-  alias find='fd'                                  # fd: faster, simpler syntax than find
-  alias grep='rg'                                  # ripgrep: much faster than grep
+  # Note: find→fd and grep→rg not aliased to avoid breaking scripts
+  #       Use fd/rg explicitly when you want the modern versions
   alias cat='bat'                                  # bat: cat with syntax highlighting
   alias du='ncdu'                                  # ncdu: interactive disk usage (config: ~/.config/ncdu/config)
 
@@ -102,7 +98,7 @@ if [[ -o interactive ]]; then
   # ==============================================================================
 
   alias h='history'                                # show command history
-  alias hg="fc -El 0 | grep"                       # search command history
+  alias hg="fc -El 0 | rg"                         # search command history (using ripgrep)
 
   # ==============================================================================
   # DIRECTORY NAVIGATION
@@ -173,8 +169,15 @@ if [[ -o interactive ]]; then
   # Old version: opened first match without checking if multiple exist
   # alias oxc='[[ -d *.xcworkspace ]] && open *.xcworkspace || open *.xcodeproj'
 
-  # Traditional grep/find patterns (replaced by modern tools above)
-  # Kept for reference if reverting to traditional tools is needed
+  # Modern tool replacements (NOT aliased to avoid breaking scripts)
+  # Use these tools explicitly when you want the modern versions:
+  # - fd instead of find (faster, simpler syntax)
+  # - rg instead of grep (ripgrep, much faster)
+  # Removed aliases that were breaking compatibility:
+  # alias find='fd'
+  # alias grep='rg'
+
+  # Traditional grep/find patterns (kept for reference)
   # alias grep='egrep'
   # alias gfind='find . -type f -follow -print0 | xargs -0 grep -n'
 
