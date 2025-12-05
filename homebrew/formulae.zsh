@@ -43,6 +43,7 @@ git-interactive-rebase-tool
 # Media
 exiftool
 ffmpeg
+id3v2
 
 # Documentation & Linting
 bat # cat replacement
