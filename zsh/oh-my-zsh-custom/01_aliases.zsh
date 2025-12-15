@@ -88,7 +88,7 @@ if [[ -o interactive ]]; then
   alias ff='fd --type f --hidden --exclude .git'   # find files (including hidden, excluding .git)
 
   # Content searching (using ripgrep)
-  alias gfind='fd --type f --hidden --follow --exec rg -n'  # search in file contents with line numbers
+  alias gfind='fd --type f --hidden --follow --exec rg -nH'  # search in file contents with line numbers
 
   # File cleanup
   alias clean="fd -H -t f -e orig -x rm"           # remove .orig files (merge artifacts)
