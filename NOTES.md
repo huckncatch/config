@@ -1,5 +1,11 @@
 # Tips, Tricks, and Settings
 
+## Clean up disk space
+
+```shell
+npx mac-cleaner-cli
+```
+
 ## Raycast
 
 Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)
@@ -87,6 +93,7 @@ python3.14, pip3.14
 Homebrew's Python is "externally managed" (PEP 668) and won't allow global pip installs. Options:
 
 1. **pipx** (Best for CLI tools):
+
    ```bash
    brew install pipx
    pipx ensurepath
@@ -94,6 +101,7 @@ Homebrew's Python is "externally managed" (PEP 668) and won't allow global pip i
    ```
 
 2. **Virtual environments** (Best for projects):
+
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
@@ -101,6 +109,7 @@ Homebrew's Python is "externally managed" (PEP 668) and won't allow global pip i
    ```
 
 3. **--user flag** (Quick installs):
+
    ```bash
    pip3 install --user <package>
    ```
@@ -228,7 +237,7 @@ Or, just delete the github password and regenerate the Personal Access Token aga
 
 Now Figma will not be able to override that file when it wants to update it. Also the login item does not get created for me again after removal at this point
 
-#### revert the changes
+### revert the changes
 
 - remove the schg flag
 

@@ -85,6 +85,7 @@ betterzip # https://macitbetter.com/
 daisydisk # https://daisydiskapp.com/
 eaglefiler # https://c-command.com/eaglefiler/
 name-mangler # https://manytricks.com/namemangler/
+spacedrive # https://github.com/spacedriveapp/spacedrive
 # the-unarchiver # https://theunarchiver.com/
 # the-archive-browser # using BetterZip instead
 
