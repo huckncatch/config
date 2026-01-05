@@ -98,7 +98,7 @@ if [[ -o interactive ]]; then
   # ==============================================================================
 
   alias h='history'                                # show command history
-  alias hg="fc -El 0 | rg"                         # search command history (using ripgrep)
+  alias hg="fc -il 0 | rg"                         # search command history (using ripgrep)
 
   # ==============================================================================
   # DIRECTORY NAVIGATION
