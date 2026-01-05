@@ -48,23 +48,70 @@ compdef _git gswcl=git-switch
 
 autoload gswcl
 
-# Create worktree from remote branch with automatic path naming and support file sync
-# Usage: gwta <remote-branch-name> <local-branch-name> <app>
-# Creates worktree at ~/Development/${app}_${local_branch} and syncs app-specific files
+# Create worktree with automatic path naming and support file sync
+# Usage: gwta -b <local-branch> -a <app> [-r <remote-branch>] [-B <base-branch>]
+# Creates worktree at ~/Developer/${app}_${local_branch} and syncs app-specific files
 unalias gwta 2>/dev/null
 gwta() {
-    if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-        echo "Usage: gwta <remote-branch-name> <local-branch-name> <app>"
+    # Parse options using zparseopts
+    local -A opts
+    zparseopts -D -E -A opts -- r: b: a: B: h -help=h
+
+    # Show help if requested
+    if [[ -v opts[-h] ]]; then
+        cat <<'EOF'
+Usage: gwta -b <local-branch> -a <app> [-r <remote-branch>] [-B <base-branch>]
+
+Create a git worktree with automatic path naming and support file sync.
+
+Options:
+  -b <branch>       Local branch name (required)
+  -a <app>          App name for worktree path (required)
+  -r <remote>       Remote branch to track (e.g., origin/feature-branch)
+  -B <base>         Base branch to create from (default: current branch)
+  -h, --help        Show this help message
+
+Examples:
+  # Create worktree from remote branch
+  gwta -r origin/feature -b feature -a myapp
+
+  # Create new branch from current branch
+  gwta -b new-feature -a myapp
+
+  # Create new branch from specified base
+  gwta -b new-feature -a myapp -B main
+
+  # Options can be in any order
+  gwta -a myapp -b new-feature -B develop
+
+Creates worktree at ~/Developer/${app}_${local_branch}
+EOF
+        return 0
+    fi
+
+    # Extract parameters
+    local local_branch="${opts[-b]}"
+    local app="${opts[-a]}"
+    local remote_branch="${opts[-r]}"
+    local base_branch="${opts[-B]}"
+
+    # Validate required parameters
+    if [[ -z "$local_branch" ]]; then
+        echo "Error: local branch name (-b) is required"
+        echo "Use 'gwta -h' for usage information"
         return 1
     fi
 
-    local remote_branch=$1
-    local local_branch=$2
-    local app=$3
+    if [[ -z "$app" ]]; then
+        echo "Error: app name (-a) is required"
+        echo "Use 'gwta -h' for usage information"
+        return 1
+    fi
+
     local worktree_path="$HOME/Developer/${app}_${local_branch}"
 
     # Check if worktree path already exists
-    if [ -d "$worktree_path" ]; then
+    if [[ -d "$worktree_path" ]]; then
         echo "Error: worktree path already exists: $worktree_path"
         return 1
     fi
@@ -75,38 +122,80 @@ gwta() {
         return 1
     fi
 
-    # Create worktree
-    if ! git worktree add -b "$local_branch" "$worktree_path" "$remote_branch"; then
-        echo "Error: failed to create worktree"
-        return 1
+    # Create worktree based on mode
+    if [[ -n "$remote_branch" ]]; then
+        # Mode 1: Create from remote branch (original behavior)
+        echo "Creating worktree from remote branch '$remote_branch'..."
+        if ! git worktree add -b "$local_branch" "$worktree_path" "$remote_branch"; then
+            echo "Error: failed to create worktree from remote branch"
+            return 1
+        fi
+    else
+        # Mode 2: Create new branch (new behavior)
+        if [[ -z "$base_branch" ]]; then
+            # Use current branch as base
+            base_branch=$(git_current_branch)
+            echo "Creating worktree with new branch from current branch '$base_branch'..."
+        else
+            echo "Creating worktree with new branch from base branch '$base_branch'..."
+        fi
+
+        if ! git worktree add -b "$local_branch" "$worktree_path" "$base_branch"; then
+            echo "Error: failed to create worktree from base branch"
+            return 1
+        fi
     fi
 
     # Sync support files
     echo "Syncing support files..."
 
+    # Copy vscode files
+    mkdir -p "$worktree_path/.vscode" || echo "Failed to create .vscode directory"
+    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotvscode/* "$worktree_path/.vscode/" 2>/dev/null || echo "Failed to copy vscode files"
+
     # Copy copilot-instructions.md
-    mkdir`` -p "$worktree_path/.github" || echo "Failed to create .github directory"
-    cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/github/copilot-instructions.md "$worktree_path/.github/" || echo "Failed to copy copilot-instructions.md"
+    mkdir -p "$worktree_path/.github" || echo "Failed to create .github directory"
+    cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/github/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null || echo "Failed to copy copilot-instructions.md"
 
     # Copy chatmode files
     mkdir -p "$worktree_path/.github/chatmodes" || echo "Failed to create chatmodes directory"
-    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/chatmodes/* "$worktree_path/.github/chatmodes/" || echo "Failed to copy chatmode files"
+    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null || echo "Failed to copy chatmode files"
+
+    # Copy instructions files
+    mkdir -p "$worktree_path/.github/instructions" || echo "Failed to create instructions directory"
+    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null || echo "Failed to copy instructions files"
 
     # Copy IDETemplateMacros.plist
     for xcodeproj in "$worktree_path"/*.xcodeproj; do
-        if [ -d "$xcodeproj" ]; then
+        if [[ -d "$xcodeproj" ]]; then
             mkdir -p "$xcodeproj/xcshareddata" || echo "Failed to create xcshareddata directory in $xcodeproj"
-            cp ~/Documents/Obsidian/Alaska/Development/repo_files/Common/IDETemplateMacros.plist "$xcodeproj/xcshareddata/" || echo "Failed to copy IDETemplateMacros.plist to $xcodeproj"
+            cp ~/Documents/Obsidian/Alaska/Development/repo_files/Common/IDETemplateMacros.plist "$xcodeproj/xcshareddata/" 2>/dev/null || echo "Failed to copy IDETemplateMacros.plist to $xcodeproj"
             break  # Only copy to the first .xcodeproj found
         fi
     done
 
     # Copy files with -src pattern (removing -src from filename)
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/$app/*-src.*; do
-        if [ -f "$file" ]; then
+    ## Common files
+    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/*-src.*; do
+        if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
-            cp "$file" "$worktree_path/$new_name" || echo "Failed to copy $file"
+            cp "$file" "$worktree_path/$new_name" 2>/dev/null || echo "Failed to copy $file"
+        fi
+    done
+    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dot-*; do
+        if [[ -f "$file" ]]; then
+            local filename=$(basename "$file")
+            local new_name=${filename/dot-/\.}
+            cp "$file" "$worktree_path/$new_name" 2>/dev/null || echo "Failed to copy $file"
+        fi
+    done
+    ## App-specific files
+    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/$app/*-src.*; do
+        if [[ -f "$file" ]]; then
+            local filename=$(basename "$file")
+            local new_name=${filename/-src./\.}
+            cp "$file" "$worktree_path/$new_name" 2>/dev/null || echo "Failed to copy $file"
         fi
     done
 
