@@ -37,6 +37,7 @@ This file provides universal guidance to Claude Code across all projects.
 - Respect `.gitignore` - don't force-add ignored files
 - Never force push to `main`/`master` branches
 - Write clear, descriptive commit messages following project conventions
+- **Always present commit messages for review before executing**: Draft the commit message, show it to the user, and wait for explicit approval before running `git commit`
 
 ### Testing Discipline
 
