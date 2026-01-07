@@ -81,10 +81,21 @@ Examples:
   # Create new branch from specified base
   gwta -b new-feature -a myapp -B main
 
+  # ADO ticket branch (extracts ticket number for worktree name)
+  gwta -r origin/jtm/poc/ab#123456-option_exploration -b jtm/poc/ab#123456-option_exploration -a Lobby
+  # Creates: ~/Developer/Lobby_123456-option_exploration
+
+  # Branch with slashes (extracts final component)
+  gwta -b jtm/poc/temp-branch -a myapp
+  # Creates: ~/Developer/myapp_temp-branch
+
   # Options can be in any order
   gwta -a myapp -b new-feature -B develop
 
-Creates worktree at ~/Developer/${app}_${local_branch}
+Creates worktree at ~/Developer/${app}_${worktree_suffix}
+- For branches with 'ab#' (ADO tickets), extracts everything after 'ab#'
+- For other branches with slashes, extracts the final component after the last '/'
+- For simple branch names, uses the full name
 EOF
         return 0
     fi
@@ -108,7 +119,21 @@ EOF
         return 1
     fi
 
-    local worktree_path="$HOME/Developer/${app}_${local_branch}"
+    # Extract worktree suffix from branch name
+    # For ADO ticket branches like 'jtm/poc/ab#123456-option_exploration'
+    # Extract just '123456-option_exploration' for the worktree name
+    # For other branches with slashes like 'jtm/poc/temp-branch'
+    # Extract just 'temp-branch' (the part after the last slash)
+    local worktree_suffix="$local_branch"
+    if [[ "$local_branch" == *"ab#"* ]]; then
+        # Extract everything after 'ab#'
+        worktree_suffix="${local_branch##*ab#}"
+    else
+        # Extract everything after the last slash (or use full name if no slash)
+        worktree_suffix="${local_branch##*/}"
+    fi
+
+    local worktree_path="$HOME/Developer/${app}_${worktree_suffix}"
 
     # Check if worktree path already exists
     if [[ -d "$worktree_path" ]]; then
