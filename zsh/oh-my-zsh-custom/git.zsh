@@ -72,8 +72,11 @@ Options:
   -h, --help        Show this help message
 
 Examples:
-  # Create worktree from remote branch
+  # Create worktree from remote branch (local branch must not exist)
   gwta -r origin/feature -b feature -a myapp
+
+  # Create worktree for existing local branch
+  gwta -b existing-feature -a myapp
 
   # Create new branch from current branch
   gwta -b new-feature -a myapp
@@ -96,6 +99,10 @@ Creates worktree at ~/Developer/${app}_${worktree_suffix}
 - For branches with 'ab#' (ADO tickets), extracts everything after 'ab#'
 - For other branches with slashes, extracts the final component after the last '/'
 - For simple branch names, uses the full name
+
+Branch behavior:
+- Without -r: Uses existing local branch if it exists, otherwise creates new branch
+- With -r: Local branch must not exist (creates from remote)
 EOF
         return 0
     fi
@@ -142,21 +149,34 @@ EOF
     fi
 
     # Check if local branch already exists
+    local branch_exists=0
     if git show-ref --verify --quiet refs/heads/"$local_branch"; then
-        echo "Error: local branch '$local_branch' already exists"
+        branch_exists=1
+    fi
+
+    # If using remote branch (-r), local branch must not exist
+    if [[ -n "$remote_branch" && $branch_exists -eq 1 ]]; then
+        echo "Error: local branch '$local_branch' already exists (cannot use with -r)"
         return 1
     fi
 
     # Create worktree based on mode
     if [[ -n "$remote_branch" ]]; then
-        # Mode 1: Create from remote branch (original behavior)
+        # Mode 1: Create from remote branch
         echo "Creating worktree from remote branch '$remote_branch'..."
         if ! git worktree add -b "$local_branch" "$worktree_path" "$remote_branch"; then
             echo "Error: failed to create worktree from remote branch"
             return 1
         fi
+    elif [[ $branch_exists -eq 1 ]]; then
+        # Mode 2: Use existing local branch
+        echo "Creating worktree using existing branch '$local_branch'..."
+        if ! git worktree add "$worktree_path" "$local_branch"; then
+            echo "Error: failed to create worktree from existing branch"
+            return 1
+        fi
     else
-        # Mode 2: Create new branch (new behavior)
+        # Mode 3: Create new branch from base
         if [[ -z "$base_branch" ]]; then
             # Use current branch as base
             base_branch=$(git_current_branch)
