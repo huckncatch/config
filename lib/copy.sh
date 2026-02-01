@@ -225,34 +225,27 @@ copy_xdg_config() {
   done
 }
 
-# Copy Claude Code user settings to ~/.claude/
-# This is separate from XDG config because ~/.claude/ doesn't follow XDG spec
+# Copy Claude Code configuration to ~/.claude.json
+# This includes MCP servers, install method, and user preferences
 copy_claude_settings() {
-  echo "Copying Claude Code user settings..."
+  echo "Copying Claude Code configuration..."
 
-  # Create ~/.claude if it doesn't exist
-  if [ $DRY_RUN -eq 1 ]; then
-    echo "  [DRY RUN] Would create directory ~/.claude"
-  else
-    mkdir -p "$HOME/.claude"
-  fi
-
-  # Copy settings.json from claude/ to ~/.claude/
-  local source_file="./claude/settings.json"
-  local target_file="$HOME/.claude/settings.json"
+  # Copy .claude.json from claude/ to ~/
+  local source_file="./claude/claude.json"
+  local target_file="$HOME/.claude.json"
 
   if [ -f "$source_file" ]; then
     if [ $UPDATE_MODE -eq 1 ]; then
       # In update mode, use smart sync
       if [ -f "$target_file" ]; then
         if ! diff -q "$source_file" "$target_file" > /dev/null 2>&1; then
-          local backup_name="settings.json.backup.$(date +%Y%m%d_%H%M%S)"
+          local backup_name=".claude.json.backup.$(date +%Y%m%d_%H%M%S)"
           if [ $DRY_RUN -eq 1 ]; then
-            echo "  [DRY RUN] Would backup $target_file to $HOME/.claude/$backup_name"
+            echo "  [DRY RUN] Would backup $target_file to $HOME/$backup_name"
             echo "  [DRY RUN] Would update $target_file"
           else
-            echo "  Backing up $target_file to $HOME/.claude/$backup_name"
-            cp "$target_file" "$HOME/.claude/$backup_name"
+            echo "  Backing up $target_file to $HOME/$backup_name"
+            cp "$target_file" "$HOME/$backup_name"
             echo "  Updating $target_file"
             cp "$source_file" "$target_file"
           fi
@@ -261,9 +254,9 @@ copy_claude_settings() {
         fi
       else
         if [ $DRY_RUN -eq 1 ]; then
-          echo "  [DRY RUN] Would copy settings.json to ~/.claude/"
+          echo "  [DRY RUN] Would copy claude.json to ~/.claude.json"
         else
-          echo "  Copying settings.json to ~/.claude/"
+          echo "  Copying claude.json to ~/.claude.json"
           cp "$source_file" "$target_file"
         fi
       fi
@@ -278,9 +271,9 @@ copy_claude_settings() {
         fi
       fi
       if [ $DRY_RUN -eq 1 ]; then
-        echo "  [DRY RUN] Would copy settings.json to ~/.claude/"
+        echo "  [DRY RUN] Would copy claude.json to ~/.claude.json"
       else
-        echo "  Copying settings.json to ~/.claude/"
+        echo "  Copying claude.json to ~/.claude.json"
         cp "$source_file" "$target_file"
       fi
     fi

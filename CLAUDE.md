@@ -7,8 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Work Process
 
 - **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
-  - Checks `~/.claude/settings.json` ↔ `claude/settings.json`
-  - Checks `~/.claude.json` ↔ `claude/claude.json` (gitignored - contains sensitive data)
+  - Checks `~/.claude.json` ↔ `claude/claude.json` (sanitized template - API tokens removed)
   - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Interactively prompts to sync, skip, or view diffs
@@ -131,7 +130,7 @@ Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config syml
 
 ### Claude Code Configuration
 
-Claude Code uses a hierarchical settings system. Understanding this hierarchy is important for proper configuration.
+Claude Code uses a hierarchical settings system with `~/.claude.json` as the primary configuration file.
 
 #### Settings File Hierarchy (Precedence: highest → lowest)
 
@@ -142,17 +141,19 @@ Claude Code uses a hierarchical settings system. Understanding this hierarchy is
    - This is what enables tool execution per-project
 4. **Shared project settings**: `<project>/.claude/settings.json`
    - Team conventions (CAN be in git)
-5. **User settings**: `~/.claude/settings.json`
-   - Global env vars and default permissions
+5. **User configuration**: `~/.claude.json`
+   - Global settings, MCP servers, preferences, install method
 
-#### Runtime State File
+#### Primary Configuration File
 
-`~/.claude.json` stores runtime state and preferences (NOT settings):
+`~/.claude.json` is the main Claude Code configuration file containing:
 
-- MCP servers configuration
-- OAuth account info
-- Project data and history
+- MCP servers configuration (`mcpServers`)
 - Installation method (`"installMethod": "homebrew"`)
+- User preferences (`alwaysThinkingEnabled`, `autoUpdates`, etc.)
+- Feature flags (cached from Statsig/GrowthBook)
+- Project-specific data and history
+- OAuth account info (sensitive - excluded from repository backup)
 
 #### Homebrew Installation Settings
 
@@ -162,20 +163,16 @@ For Homebrew installations, configure:
    - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
    - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
 
-2. **Runtime state** (`~/.claude.json`):
+2. **Main configuration** (`~/.claude.json`):
 
    ```json
    {
-     "installMethod": "homebrew"
-   }
-   ```
-
-3. **User settings** (`~/.claude/settings.json`):
-
-   ```json
-   {
-     "env": {
-       "DISABLE_AUTOUPDATER": "1"
+     "installMethod": "homebrew",
+     "alwaysThinkingEnabled": true,
+     "autoUpdates": false,
+     "mcpServers": {
+       "context7": { ... },
+       "brave-search": { ... }
      }
    }
    ```
@@ -183,9 +180,9 @@ For Homebrew installations, configure:
 #### Repository Backups
 
 - `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
-- `claude/settings.json` → `~/.claude/settings.json` (user settings with permissions/env vars)
+- `claude/claude.json` → `~/.claude.json` (sanitized template - sensitive data removed)
 
-Note: `xdg-config/claude/settings.json` is kept for reference only (not actively used since settings go in `~/.claude/settings.json`)
+**Note**: The repository contains a sanitized template with API tokens replaced by placeholders. After installation, you must add your actual API keys to `~/.claude.json`.
 
 ## Installation Script Architecture
 
@@ -202,7 +199,7 @@ The `new-computer-install.sh` script performs automated setup in a specific orde
 - `copy_zsh_config()`: Copies zshrc and creates profile
 - `copy_dotfiles()`: Handles dotfiles with SSH config special case (sets permissions 700/600)
 - `copy_xdg_config()`: Copies XDG-compliant config directories
-- `copy_claude_settings()`: Copies Claude Code user settings to `~/.claude/`
+- `copy_claude_settings()`: Copies Claude Code configuration to `~/.claude.json`
 - `brew_install()`: Interactive package installation with error handling that continues on failures
 
 ### Installation Script Flow
@@ -215,7 +212,7 @@ The script performs these operations in order:
 4. Creates profile (`~/.config/zsh/profile.local`) from home/work template
 5. Copies dotfiles → `~/.<filename>` (SSH config gets special permissions)
 6. Copies XDG configs → `~/.config/`
-7. Copies Claude Code user settings → `~/.claude/settings.json`
+7. Copies Claude Code configuration → `~/.claude.json` (sanitized template)
 8. Installs oh-my-zsh (with `RUNZSH=no KEEP_ZSHRC=yes` to preserve zshrc)
 9. Installs zsh plugins to `$ZSH_CUSTOM/plugins/`
 10. Installs Homebrew packages (interactive, continues on failures)
@@ -246,7 +243,7 @@ The `--update` flag enables safe configuration syncing after pulling repository 
   - **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md`, preserves `local/`, `projects/`, `statsig/`, `todos/`, `hooks/`
   - **Karabiner**: Syncs `karabiner.json`, preserves `automatic_backups/`, `assets/`
   - **Git/tmux/ncdu**: Full sync (no user data to preserve)
-- Claude Code user settings (`~/.claude/settings.json`) - Smart sync with backup if changed
+- Claude Code configuration (`~/.claude.json`) - Smart sync with backup if changed (merges settings, preserves OAuth/secrets)
 
 **Files preserved/skipped:**
 
@@ -295,8 +292,9 @@ When editing files in this repository:
 
 5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
+   - **Configuration**: `~/.claude.json` (active) → `claude/claude.json` (sanitized backup)
 
-   Note: Settings are stored in `~/.claude.json` (not `~/.config/claude/settings.json`). This file contains runtime state and is not backed up to the repository.
+   Note: The repository contains a sanitized template with API tokens removed. Use `bin/sync-backups.sh` to sync non-sensitive settings.
 
 6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
 
@@ -336,7 +334,11 @@ brew install package-name
 
 When modifying global instructions, both locations must be updated. The repository version is used for new installations.
 
-Note: Settings files (`~/.claude.json`, `~/.claude/settings.json`, `.claude/settings.local.json`) are NOT backed up to the repository as they contain machine-specific state and permissions.
+**Claude Code Configuration Backup:**
+
+- `~/.claude.json` is backed up as a sanitized template in `claude/claude.json` (sensitive data removed)
+- Project-local settings (`.claude/settings.local.json`) are NOT backed up as they contain machine-specific permissions
+- Use `bin/sync-backups.sh` to sync configuration changes between system and repository
 
 ## Architecture Rationale
 

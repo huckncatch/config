@@ -4,7 +4,7 @@ This directory contains Claude Code configuration and session state management f
 
 ## Contents
 
-- `settings.json` - Living backup of `~/.claude/settings.json` (user settings with permissions/env vars)
+- `claude.json` - Sanitized backup of `~/.claude.json` (configuration with API tokens removed)
 - `SESSION_STATE_TEMPLATE.md` - Template for creating session state documents
 - `sessions/` - Session state files (gitignored)
 

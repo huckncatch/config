@@ -3,8 +3,8 @@
 .config/zsh/profile.local
 # Session state files (may contain sensitive context)
 claude/sessions/*.md
-# Claude runtime state (contains API tokens, OAuth, personal info)
-claude/claude.json
+# Deprecated - settings.json is not used when .claude.json exists
+claude/settings.json
 # MCP memory-bank server files
 memory-bank/
 # Karabiner automatic backups (machine-generated)
