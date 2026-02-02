@@ -1,0 +1,27 @@
+{
+	"name": "my-midnight-theme",
+	"displayName": "My Midnight Xcode",
+	"description": "Custom Xcode-inspired dark theme",
+	"version": "1.0.0",
+	"publisher": "local",
+	"engines": {
+		"vscode": "^1.60.0"
+	},
+	"categories": [
+		"Themes"
+	],
+	"contributes": {
+		"themes": [
+			{
+				"label": "My Midnight Xcode",
+				"uiTheme": "vs-dark",
+				"path": "./themes/my-midnight-xcode-theme.json"
+			}
+		]
+	},
+	"__metadata": {
+		"installedTimestamp": 1769929297691,
+		"targetPlatform": "undefined",
+		"size": 9915
+	}
+}
