@@ -1,6 +1,8 @@
 functions rbenv_prompt_info >& /dev/null || rbenv_prompt_info(){}
 
 function theme_precmd {
+    [[ "$TERM_PROGRAM" == "vscode" ]] && return
+
     local TERMWIDTH
     (( TERMWIDTH = ${COLUMNS} - 1 ))
 
@@ -143,6 +145,13 @@ $PR_HBAR\
 $PR_BLUE$PR_HBAR(\
 $PR_LIGHT_GREEN%_$PR_BLUE)$PR_HBAR\
 $PR_CYAN$PR_HBAR$PR_NO_COLOUR '
+
+    # VSCode integrated terminal: single-line prompt avoids box-drawing issues
+    if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+      PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[green]%}%m%{$reset_color%} %{$fg[blue]%}%~%{$reset_color%}`git_prompt_info``git_prompt_status` %{$fg[yellow]%}➤%{$reset_color%} '
+      RPROMPT=' $return_code'
+      PS2='%{$fg[yellow]%}➤%{$reset_color%} '
+    fi
 }
 
 setprompt

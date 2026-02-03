@@ -19,6 +19,7 @@ raycast # https://raycast.com/
 # Terminal & Development
 beyond-compare # https://www.scootersoftware.com/
 devtoys # https://dev.toys/
+dotnet-sdk # 
 iterm2 # https://iterm2.com/
 itermai # https://iterm2.com/ai-plugin.html
 sourcetree # https://www.sourcetreeapp.com/
@@ -96,6 +97,7 @@ karabiner-elements # https://karabiner-elements.pqrs.org/
 keyboard-cleaner # https://folivora.ai/keyboardcleaner
 keyclu # https://sergii.tatarenkov.name/keyclu/support/q
 launchcontrol # https://www.soma-zone.com/LaunchControl/
+mole # https://github.com/tw93/Mole
 monitorcontrol # https://github.com/MonitorControl/MonitorControl
 onyx # https://www.titanium-software.fr/en/onyx.html
 shortcutdetective # https://www.irradiatedsoftware.com/labs/
