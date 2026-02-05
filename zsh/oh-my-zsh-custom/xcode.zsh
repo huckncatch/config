@@ -9,6 +9,12 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
+# Swiftly - Swift toolchain version manager
+# https://github.com/swiftlang/swiftly
+if [[ -f "$HOME/.swiftly/env.sh" ]]; then
+  . "$HOME/.swiftly/env.sh"
+fi
+
 # Finds and deletes the Build directory in DerivedData
 function delete_build_dir() {
   local derived_data_path=$(xcodebuild -scheme Unified_Debug-Staging -showBuildSettings 2>&1 | tee /dev/null | grep -m 1 "BUILT_PRODUCTS_DIR" | sed -E 's/^[^=]+=\s*(.+Products.*)$/\1/' | sed -E 's|(.*Unified-[a-z0-9]+/Build).*|\1|')
