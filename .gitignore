@@ -9,3 +9,5 @@ claude/settings.json
 memory-bank/
 # Karabiner automatic backups (machine-generated)
 xdg-config/karabiner/automatic_backups/
+
+.swift-version
