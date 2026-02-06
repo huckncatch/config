@@ -193,28 +193,50 @@ EOF
 
     # Sync support files
     echo "Syncing support files..."
+    local -a synced=() failed=()
 
     # Copy vscode files
-    mkdir -p "$worktree_path/.vscode" || echo "Failed to create .vscode directory"
-    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotvscode/* "$worktree_path/.vscode/" 2>/dev/null || echo "Failed to copy vscode files"
+    if mkdir -p "$worktree_path/.vscode" 2>/dev/null && \
+       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotvscode/* "$worktree_path/.vscode/" 2>/dev/null; then
+        synced+=(".vscode/*")
+    else
+        failed+=(".vscode/* (common)")
+    fi
 
     # Copy copilot-instructions.md
-    mkdir -p "$worktree_path/.github" || echo "Failed to create .github directory"
-    cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/github/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null || echo "Failed to copy copilot-instructions.md"
+    if mkdir -p "$worktree_path/.github" 2>/dev/null && \
+       cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/github/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null; then
+        synced+=(".github/copilot-instructions.md")
+    else
+        failed+=(".github/copilot-instructions.md ($app)")
+    fi
 
     # Copy chatmode files
-    mkdir -p "$worktree_path/.github/chatmodes" || echo "Failed to create chatmodes directory"
-    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null || echo "Failed to copy chatmode files"
+    if mkdir -p "$worktree_path/.github/chatmodes" 2>/dev/null && \
+       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null; then
+        synced+=(".github/chatmodes/*")
+    else
+        failed+=(".github/chatmodes/* (common)")
+    fi
 
     # Copy instructions files
-    mkdir -p "$worktree_path/.github/instructions" || echo "Failed to create instructions directory"
-    cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null || echo "Failed to copy instructions files"
+    if mkdir -p "$worktree_path/.github/instructions" 2>/dev/null && \
+       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null; then
+        synced+=(".github/instructions/*")
+    else
+        failed+=(".github/instructions/* (common)")
+    fi
 
     # Copy IDETemplateMacros.plist
     for xcodeproj in "$worktree_path"/*.xcodeproj; do
         if [[ -d "$xcodeproj" ]]; then
-            mkdir -p "$xcodeproj/xcshareddata" || echo "Failed to create xcshareddata directory in $xcodeproj"
-            cp ~/Documents/Obsidian/Alaska/Development/repo_files/Common/IDETemplateMacros.plist "$xcodeproj/xcshareddata/" 2>/dev/null || echo "Failed to copy IDETemplateMacros.plist to $xcodeproj"
+            local xcodeproj_name=$(basename "$xcodeproj")
+            if mkdir -p "$xcodeproj/xcshareddata" 2>/dev/null && \
+               cp ~/Documents/Obsidian/Alaska/Development/repo_files/Common/IDETemplateMacros.plist "$xcodeproj/xcshareddata/" 2>/dev/null; then
+                synced+=("$xcodeproj_name/xcshareddata/IDETemplateMacros.plist")
+            else
+                failed+=("$xcodeproj_name/xcshareddata/IDETemplateMacros.plist")
+            fi
             break  # Only copy to the first .xcodeproj found
         fi
     done
@@ -225,14 +247,22 @@ EOF
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
-            cp "$file" "$worktree_path/$new_name" 2>/dev/null || echo "Failed to copy $file"
+            if cp "$file" "$worktree_path/$new_name" 2>/dev/null; then
+                synced+=("$new_name (common)")
+            else
+                failed+=("$new_name (common)")
+            fi
         fi
     done
     for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dot-*; do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/dot-/\.}
-            cp "$file" "$worktree_path/$new_name" 2>/dev/null || echo "Failed to copy $file"
+            if cp "$file" "$worktree_path/$new_name" 2>/dev/null; then
+                synced+=("$new_name (common)")
+            else
+                failed+=("$new_name (common)")
+            fi
         fi
     done
     ## App-specific files
@@ -240,10 +270,30 @@ EOF
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
-            cp "$file" "$worktree_path/$new_name" 2>/dev/null || echo "Failed to copy $file"
+            if cp "$file" "$worktree_path/$new_name" 2>/dev/null; then
+                synced+=("$new_name ($app)")
+            else
+                failed+=("$new_name ($app)")
+            fi
         fi
     done
 
+    # Print sync summary
+    echo ""
+    if (( ${#synced} > 0 )); then
+        echo "Synced (${#synced}):"
+        for item in "${synced[@]}"; do
+            echo "  + $item"
+        done
+    fi
+    if (( ${#failed} > 0 )); then
+        echo "Failed (${#failed}):"
+        for item in "${failed[@]}"; do
+            echo "  - $item"
+        done
+    fi
+
+    echo ""
     echo "Worktree ready at $worktree_path"
 }
 compdef _git gwta=git-worktree
