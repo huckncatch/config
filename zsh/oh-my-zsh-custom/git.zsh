@@ -228,7 +228,7 @@ EOF
     fi
 
     # Copy IDETemplateMacros.plist
-    for xcodeproj in "$worktree_path"/*.xcodeproj; do
+    for xcodeproj in "$worktree_path"/*.xcodeproj(N); do
         if [[ -d "$xcodeproj" ]]; then
             local xcodeproj_name=$(basename "$xcodeproj")
             if mkdir -p "$xcodeproj/xcshareddata" 2>/dev/null && \
@@ -243,7 +243,7 @@ EOF
 
     # Copy files with -src pattern (removing -src from filename)
     ## Common files
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/*-src.*; do
+    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/*-src.*(N); do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
@@ -254,7 +254,7 @@ EOF
             fi
         fi
     done
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dot-*; do
+    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dot-*(N); do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/dot-/\.}
@@ -266,7 +266,7 @@ EOF
         fi
     done
     ## App-specific files
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/$app/*-src.*; do
+    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/$app/*-src.*(N); do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
