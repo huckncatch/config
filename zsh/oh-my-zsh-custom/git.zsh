@@ -30,8 +30,6 @@ function gswclm() {
 }
 compdef _git gswclm=git-switch
 
-autoload gswclm
-
 # switch to new branch, delete old branch
 # git switch clean
 function gswcl() {
@@ -45,8 +43,6 @@ function gswcl() {
   gbd $cwb
 }
 compdef _git gswcl=git-switch
-
-autoload gswcl
 
 # Create worktree with automatic path naming and support file sync
 # Usage: gwta -b <local-branch> -a <app> [-r <remote-branch>] [-B <base-branch>]
@@ -193,7 +189,7 @@ EOF
 
     # Sync support files
     echo "Syncing support files..."
-    local -a synced=() failed=()
+    local -a synced=() failed=() skipped=()
 
     # Copy vscode files
     if mkdir -p "$worktree_path/.vscode" 2>/dev/null && \
@@ -247,6 +243,10 @@ EOF
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
+            if [[ -e "$worktree_path/$new_name" ]]; then
+                skipped+=("$new_name (common)")
+                continue
+            fi
             if cp "$file" "$worktree_path/$new_name" 2>/dev/null; then
                 synced+=("$new_name (common)")
             else
@@ -258,6 +258,10 @@ EOF
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/dot-/\.}
+            if [[ -e "$worktree_path/$new_name" ]]; then
+                skipped+=("$new_name (common)")
+                continue
+            fi
             if cp "$file" "$worktree_path/$new_name" 2>/dev/null; then
                 synced+=("$new_name (common)")
             else
@@ -270,6 +274,10 @@ EOF
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
+            if [[ -e "$worktree_path/$new_name" ]]; then
+                skipped+=("$new_name ($app)")
+                continue
+            fi
             if cp "$file" "$worktree_path/$new_name" 2>/dev/null; then
                 synced+=("$new_name ($app)")
             else
@@ -286,6 +294,12 @@ EOF
             echo "  + $item"
         done
     fi
+    if (( ${#skipped} > 0 )); then
+        echo "Skipped (${#skipped}):"
+        for item in "${skipped[@]}"; do
+            echo "  = $item"
+        done
+    fi
     if (( ${#failed} > 0 )); then
         echo "Failed (${#failed}):"
         for item in "${failed[@]}"; do
@@ -297,7 +311,6 @@ EOF
     echo "Worktree ready at $worktree_path"
 }
 compdef _git gwta=git-worktree
-autoload gwta
 
 # ==============================================================================
 # WORK-SPECIFIC GIT FUNCTION OVERRIDES
