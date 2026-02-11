@@ -201,7 +201,7 @@ EOF
 
     # Copy copilot-instructions.md
     if mkdir -p "$worktree_path/.github" 2>/dev/null && \
-       cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/github/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null; then
+       cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/dotgithub/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null; then
         synced+=(".github/copilot-instructions.md")
     else
         failed+=(".github/copilot-instructions.md ($app)")
@@ -209,18 +209,29 @@ EOF
 
     # Copy chatmode files
     if mkdir -p "$worktree_path/.github/chatmodes" 2>/dev/null && \
-       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null; then
+       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotgithub/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null; then
         synced+=(".github/chatmodes/*")
     else
         failed+=(".github/chatmodes/* (common)")
     fi
 
-    # Copy instructions files
+    # Copy instructions files (common)
     if mkdir -p "$worktree_path/.github/instructions" 2>/dev/null && \
-       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/github/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null; then
-        synced+=(".github/instructions/*")
+       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotgithub/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null; then
+        synced+=(".github/instructions/* (common)")
     else
         failed+=(".github/instructions/* (common)")
+    fi
+
+    # Copy instructions files (app-specific)
+    local app_instructions_dir=~/Documents/Obsidian/Alaska/Development/repo_files/$app/dotgithub/instructions
+    if [[ -d "$app_instructions_dir" ]]; then
+        if mkdir -p "$worktree_path/.github/instructions" 2>/dev/null && \
+           cp -r "$app_instructions_dir"/* "$worktree_path/.github/instructions/" 2>/dev/null; then
+            synced+=(".github/instructions/* ($app)")
+        else
+            failed+=(".github/instructions/* ($app)")
+        fi
     fi
 
     # Copy IDETemplateMacros.plist

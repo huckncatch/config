@@ -132,6 +132,7 @@ utm # virtualization; https://mac.getutm.app/
 
 # Other
 applite # homebrew appstore; https://aerolite.dev/applite
+bambu-studio # https://bambulab.com/en/download/studio
 modern-csv # CSV editor; https://www.moderncsv.com/
 steam # https://store.steampowered.com/about/
 suspicious-package # https://www.mothersruin.com/software/SuspiciousPackage/

@@ -68,6 +68,9 @@ xcode-build-server
 # Python Tools
 pipx
 
+# Node.js & Package Managers
+pnpm # fast, disk space efficient package manager (works with nvm)
+
 # AI & ML
 html2text
 ollama
