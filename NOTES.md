@@ -145,7 +145,7 @@ Enter copy mode: `prefix + [` (usually `Ctrl-b [`)
 #### Navigation
 
 | Key | Action |
-|-----|--------|
+| --- | --- |
 | `h/j/k/l` | Move left/down/up/right |
 | `w` / `b` | Word forward / backward |
 | `0` / `$` | Beginning / end of line |
@@ -157,7 +157,7 @@ Enter copy mode: `prefix + [` (usually `Ctrl-b [`)
 #### Selection and Copy
 
 | Key | Action |
-|-----|--------|
+| --- | --- |
 | `v` | Start selection |
 | `V` | Select line |
 | `y` | Copy selection to clipboard |
@@ -250,6 +250,54 @@ Now Figma will not be able to override that file when it wants to update it. Als
     ```bash
     % rm -fr ~/Library/Application\ Support/Figma/FigmaAgent.app
     ```
+
+## VS Code
+
+### `ctrl+l` — Scroll Current Line to Center
+
+This keybinding (equivalent to Vim's `zz`) is powered by the [Commands](https://marketplace.visualstudio.com/items?itemName=usernamehw.commands) extension (`usernamehw.commands`), which allows defining custom command IDs that invoke built-in VSCode commands with arguments.
+
+#### How it works
+
+`Viewport.scrollCenter` is not a built-in VSCode command — it's a custom command defined in settings that calls `revealLine` with `${lineNumber}` (the current cursor line) and `at: "center"`.
+
+#### Setup for each profile
+
+The `commands.commands` setting is **application-scoped**, so VS Code's Settings UI will refuse to let you add it in a non-default profile. **Bypass this by editing the profile's `settings.json` directly** (Cmd+Shift+P → "Open User Settings (JSON)").
+
+Add to the profile's `settings.json`:
+
+```json
+"commands.variableSubstitutionEnabled": true,
+"commands.commands": {
+    "Viewport.scrollCenter": {
+        "command": "revealLine",
+        "args": {
+            "lineNumber": "${lineNumber}",
+            "at": "center"
+        }
+    }
+}
+```
+
+And add to the profile's `keybindings.json`:
+
+```json
+{
+    "key": "ctrl+l",
+    "command": "Viewport.scrollCenter",
+    "when": "editorTextFocus"
+}
+```
+
+> **Note:** `commands.variableSubstitutionEnabled` must be `true` or `${lineNumber}` will be passed as a literal string instead of the actual line number.
+
+#### Finding the correct profile settings file
+
+VS Code profiles each have their own settings files under:
+`~/Library/Application Support/Code/User/profiles/<id>/`
+
+To open the current profile's settings JSON: Cmd+Shift+P → **"Open User Settings (JSON)"**. This always opens the active profile's file.
 
 ## Claude Code MCP Servers
 

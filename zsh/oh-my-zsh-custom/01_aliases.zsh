@@ -11,10 +11,11 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
-# Only set aliases in interactive shells that are not Claude Code sessions.
-# Why exclude CLAUDECODE: Claude Code captures shell snapshots that persist aliases
-# across commands. Interactive aliases like 'cp -i' would cause Bash tool commands
-# to hang waiting for confirmation. Other files use the same check with shorter comments.
+# Only set aliases in interactive shells.
+# Some aliases are further restricted to non-VS Code terminals ($TERM_PROGRAM != "vscode")
+# because VS Code integrated terminals are used by AI agents (Claude Code, Copilot, etc.)
+# that capture shell state. Interactive aliases like 'cp -i' hang waiting for confirmation,
+# and TUI replacements like 'ncdu' block completely. Other files use the same pattern.
 if [[ -o interactive ]]; then
 
   # ==============================================================================
@@ -55,11 +56,15 @@ if [[ -o interactive ]]; then
   # SAFE FILE OPERATIONS
   # ==============================================================================
 
-  # Interactive prompts for potentially destructive operations
-  # nocorrect: Disable zsh spelling correction for these commands
-  alias mv='nocorrect command mv -i'               # confirm before overwriting
-  alias cp='nocorrect command cp -i'               # confirm before overwriting
-  alias rm='nocorrect command rm -i'               # confirm before deleting
+  # Interactive confirmation aliases - skipped in VS Code terminals.
+  # AI agents running in VS Code capture shell state; these aliases would cause
+  # commands to hang waiting for y/n confirmation.
+  if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+    # nocorrect: Disable zsh spelling correction for these commands
+    alias mv='nocorrect command mv -i'             # confirm before overwriting
+    alias cp='nocorrect command cp -i'             # confirm before overwriting
+    alias rm='nocorrect command rm -i'             # confirm before deleting
+  fi
 
   # Mass rename using zmv (zsh built-in)
   # Example: mmv *.txt *.md  (renames all .txt to .md)
@@ -69,11 +74,13 @@ if [[ -o interactive ]]; then
   # MODERN UNIX TOOL REPLACEMENTS
   # ==============================================================================
 
-  # Modern alternatives to traditional Unix tools (faster, more user-friendly)
-  # Note: find→fd and grep→rg not aliased to avoid breaking scripts
-  #       Use fd/rg explicitly when you want the modern versions
-  alias cat='bat'                                  # bat: cat with syntax highlighting
-  alias du='ncdu'                                  # ncdu: interactive disk usage (config: ~/.config/ncdu/config)
+  # Modern tool replacements - skipped in VS Code terminals.
+  # bat wraps output with headers/paging that confuses agent output parsing;
+  # ncdu is a full interactive TUI that blocks non-interactive callers.
+  if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+    alias cat='bat'                                # bat: cat with syntax highlighting
+    alias du='ncdu'                                # ncdu: interactive disk usage (config: ~/.config/ncdu/config)
+  fi
 
   # ==============================================================================
   # SEARCH AND FIND ALIASES

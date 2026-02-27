@@ -30,6 +30,18 @@ export LS_COLORS='bd=40;33;01:cd=40;33;01:di=01;34:ex=100;01;33:fi=00:ln=01;36:n
 export CLICOLOR=1
 
 # ==============================================================================
+# HOMEBREW
+# ==============================================================================
+
+# Detect Homebrew prefix via directory check — no subprocess needed.
+# Standard locations: /opt/homebrew (Apple Silicon) or /usr/local (Intel).
+# Skipped if already set (e.g. brew shellenv was sourced by a login shell).
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+  [[ -d /opt/homebrew ]] && export HOMEBREW_PREFIX=/opt/homebrew \
+                         || export HOMEBREW_PREFIX=/usr/local
+fi
+
+# ==============================================================================
 # PATH CONFIGURATION
 # ==============================================================================
 
@@ -37,11 +49,13 @@ export CLICOLOR=1
 export PATH="/usr/local/sbin:$PATH"
 
 # Homebrew GNU utilities (prefer over BSD versions)
-# These replace macOS built-in tools with more feature-complete GNU versions
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix curl)/bin:$PATH"
-export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix grep)/libexec/gnubin:$PATH"
+# These replace macOS built-in tools with more feature-complete GNU versions.
+# Uses $HOMEBREW_PREFIX/opt/<formula> — equivalent to `brew --prefix <formula>`
+# but without the subprocess fork.
+export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/curl/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/findutils/libexec/gnubin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
 
 # Ruby version manager
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -72,16 +86,31 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # rbenv - Ruby version manager
 # https://github.com/rbenv/rbenv
-# --no-rehash: Speeds up shell initialization by skipping shim rehashing
-eval "$(rbenv init - --no-rehash zsh)"
+#
+# Shims are added to PATH directly so ruby/gem/bundle resolve immediately without
+# waiting for rbenv init. Full shell integration (completions, RBENV_SHELL env var,
+# shell function override) is lazy-loaded on first `rbenv` call, deferring the
+# subprocess fork until actually needed.
+#
+# Note: `command rbenv` in the stub bypasses this function to call the real binary.
+#
+# Trade-off: if you install a gem that adds a new executable (e.g. `bundle exec rails`)
+# in a shell where `rbenv` hasn't been called yet, run `rbenv rehash` afterward to
+# update the shims. This is the cost of combining --no-rehash with lazy init.
+export PATH="$HOME/.rbenv/shims:$PATH"
+rbenv() {
+  unfunction rbenv
+  eval "$(command rbenv init - --no-rehash zsh)"
+  rbenv "$@"
+}
 
 # Ruby build configuration
-# Links Ruby installations to Homebrew's OpenSSL for automatic security updates
-# ruby-build normally installs a separate OpenSSL per Ruby version that never upgrades
+# Links Ruby installations to Homebrew's OpenSSL for automatic security updates.
+# ruby-build normally installs a separate OpenSSL per Ruby version that never upgrades.
 # For Ruby 3.1+: requires OpenSSL 3 (brew install openssl@3 readline libyaml gmp)
 # For Ruby 2.x-3.0: use OpenSSL 1.1 (brew install openssl@1.1 readline libyaml gmp)
 # See: https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=${HOMEBREW_PREFIX}/opt/openssl@3"
 
 # nvm - Node version manager
 # Using zsh-nvm plugin (loaded in profile) instead of official nvm installation
