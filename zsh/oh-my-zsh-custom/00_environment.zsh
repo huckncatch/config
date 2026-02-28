@@ -75,7 +75,18 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Provides command tracking, current working directory detection, and exit code capture
 # Using hardcoded path instead of `code --locate-shell-integration-path zsh` to avoid
 # startup delay from launching Node.js. Update this path if VSCode installation changes.
-[[ "$TERM_PROGRAM" == "vscode" ]] && . "/Applications/Visual Studio Code.app/Contents/Resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-rc.zsh"
+#
+# VSCODE_SHELL_INTEGRATION guard: shellIntegration-rc.zsh exits early if this var is set,
+# to prevent double-init during VS Code's own ZDOTDIR wrapper startup. However, `exec zsh`
+# creates a new shell that inherits this var, so the script would return immediately without
+# setting up any hooks. VS Code then detects lost integration and does PTY re-injection —
+# writing a source command into the new shell's stdin, which interleaves with init output.
+# Fix: unset the guard before sourcing, but only outside VS Code's wrapper (VSCODE_INJECTION
+# is set during the wrapper; absent in exec'd shells), so the wrapper's guard still works.
+if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+  [[ -z "$VSCODE_INJECTION" ]] && unset VSCODE_SHELL_INTEGRATION
+  . "/Applications/Visual Studio Code.app/Contents/Resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-rc.zsh"
+fi
 
 # Note: Cross-platform dynamic approach (slower due to Node.js startup):
 # [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
