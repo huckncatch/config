@@ -234,15 +234,23 @@ EOF
         fi
     fi
 
-    # Copy IDETemplateMacros.plist
+    # Copy xcodeproj shared configuration
+    local xcodeproj_src=~/Documents/Obsidian/Alaska/Development/repo_files/Common/xcodeproj
     for xcodeproj in "$worktree_path"/*.xcodeproj(N); do
         if [[ -d "$xcodeproj" ]]; then
             local xcodeproj_name=$(basename "$xcodeproj")
-            if mkdir -p "$xcodeproj/xcshareddata" 2>/dev/null && \
-               cp ~/Documents/Obsidian/Alaska/Development/repo_files/Common/IDETemplateMacros.plist "$xcodeproj/xcshareddata/" 2>/dev/null; then
-                synced+=("$xcodeproj_name/xcshareddata/IDETemplateMacros.plist")
+            # Copy project.xcworkspace directory
+            if cp -r "$xcodeproj_src/project.xcworkspace" "$xcodeproj/" 2>/dev/null; then
+                synced+=("$xcodeproj_name/project.xcworkspace/")
             else
-                failed+=("$xcodeproj_name/xcshareddata/IDETemplateMacros.plist")
+                failed+=("$xcodeproj_name/project.xcworkspace/")
+            fi
+            # Copy contents of xcshareddata
+            if mkdir -p "$xcodeproj/xcshareddata" 2>/dev/null && \
+               cp -r "$xcodeproj_src/xcshareddata/"* "$xcodeproj/xcshareddata/" 2>/dev/null; then
+                synced+=("$xcodeproj_name/xcshareddata/*")
+            else
+                failed+=("$xcodeproj_name/xcshareddata/*")
             fi
             break  # Only copy to the first .xcodeproj found
         fi
