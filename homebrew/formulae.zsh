@@ -67,6 +67,7 @@ xcode-build-server # bridges xcodebuild with LSP for Xcode project support in no
 
 # Python Tools
 pipx # install and run Python CLI apps in isolated virtual environments; https://github.com/pypa/pipx
+uv # extremely fast Python package and project manager (pip/virtualenv/pyenv replacement, written in Rust); https://github.com/astral-sh/uv
 
 # Node.js & Package Managers
 pnpm # fast, disk-efficient package manager using a content-addressable store (works with nvm); https://github.com/pnpm/pnpm

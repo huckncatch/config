@@ -63,6 +63,9 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 # Personal scripts and binaries
 export PATH="$HOME/bin:$PATH"
 
+# Obsidian CLI
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+
 # ==============================================================================
 # SHELL INTEGRATIONS
 # ==============================================================================
