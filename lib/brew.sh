@@ -26,11 +26,15 @@ _read_package_list() {
   printf '%s\n' "${packages[@]}"
 }
 
+# Cached output of `brew list` — populated on first use, reused for all checks
+_BREW_LIST_CACHE=""
+
 # Check if package is not in brew list
 _brew_list_does_not_contain() {
-  local brew_list_output
-  brew_list_output=$(brew list 2>/dev/null)
-  if [[ $brew_list_output != *"$@"* ]]; then
+  if [ -z "$_BREW_LIST_CACHE" ]; then
+    _BREW_LIST_CACHE=$(brew list 2>/dev/null)
+  fi
+  if [[ $_BREW_LIST_CACHE != *"$@"* ]]; then
     return 0
   else
     return 1
