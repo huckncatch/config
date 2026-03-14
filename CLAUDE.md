@@ -19,6 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): New universal workflows, cross-project preferences discovered
   - Ensure information isn't duplicated or in the wrong location between files
 - Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
+- Keep TODO.md current as work progresses: mark items completed (with date), update status notes, move resolved items to the Completed section, and add new items when new planned work is identified.
 
 ## Repository Overview
 
