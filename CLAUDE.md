@@ -171,7 +171,21 @@ For Homebrew installations, configure:
    - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
    - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
 
-2. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
+2. **User settings** (`~/.config/claude/settings.json`):
+
+   ```json
+   {
+     "installMethod": "homebrew",
+     "autoUpdates": false,
+     "autoUpdatesProtectedForNative": false
+   }
+   ```
+
+   - `installMethod` — tells Claude Code it was installed via Homebrew; prevents it from trying to self-update via npm/native installer
+   - `autoUpdates` — disables automatic updates (managed by `brew upgrade` instead)
+   - `autoUpdatesProtectedForNative` — prevents the native updater from re-enabling auto-updates
+
+3. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
    - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess; not stored in settings.json
 
 #### Repository Backups
@@ -224,67 +238,22 @@ The script performs these operations in order:
 
 ### Config Sync (bin/sync-config.sh)
 
-`bin/sync-config.sh` safely syncs configuration files from the repository to the system after a `git pull`. It replaces the old `--update` flag on `new-computer-install.sh`.
+Replaces the old `--update` flag. Syncs changed config files from repo to system with timestamped backups; skips all installations. XDG config preservation rules:
 
-**What it does:**
+- **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md` and `settings.json`; preserves `projects/`, `todos/`, `hooks/`, `commands/`, `plugins/`, `statsig/`
+- **Karabiner**: Syncs `karabiner.json`; preserves `assets/`
+- **Tmux**: Syncs `tmux.conf.local`; preserves `oh-my-tmux/` submodule symlink
+- **Git/ncdu**: Full sync
 
-- Syncs only changed configuration files (creates timestamped backups)
-- Skips all installations (Homebrew, oh-my-zsh, plugins, packages)
-- Preserves user data and local customizations
-- Detects profile drift from templates
-
-**Files synced:**
-
-- `~/.zshrc` - Smart sync with backup if changed
-- Dotfiles (`~/.p10k.zsh`, `~/.editorconfig`, etc.) - Smart sync with backup
-- XDG configs with selective preservation:
-  - **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md`, preserves `local/`, `projects/`, `statsig/`, `todos/`, `hooks/`
-  - **Karabiner**: Syncs `karabiner.json`, preserves `automatic_backups/`, `assets/`
-  - **Git/tmux/ncdu**: Full sync (no user data to preserve)
-- Claude Code configuration (`~/.claude.json`) - Smart sync with backup if changed (merges settings, preserves OAuth/secrets)
-
-**Files preserved/skipped:**
-
-- `~/.config/zsh/profile.local` - Skipped entirely (drift detection runs)
-- `~/.ssh/config` - Skipped entirely (manual merge recommended)
-- All Homebrew taps, packages, casks, fonts
-- oh-my-zsh and zsh plugins
-
-**Usage:**
-
-```bash
-cd ~/config && git pull && bin/sync-config.sh
-```
-
-**With dry-run preview:**
-
-```bash
-bin/sync-config.sh --dry-run
-```
-
-**Backup format:**
-
-Files are backed up with timestamps before updates:
-
-- Format: `<filename>.backup.YYYYMMDD_HHMMSS`
-- Example: `.zshrc.backup.20251025_121230`
-- All backups are preserved (no automatic cleanup)
+Skips entirely: `~/.config/zsh/profile.local` (drift detection runs), `~/.ssh/config`.
 
 ### Shell Environment (bin/install-shell.sh)
 
-Installs Homebrew taps, oh-my-zsh, and zsh plugins. Can be run independently on an existing machine.
-
-```bash
-bin/install-shell.sh
-```
+Installs Homebrew taps, oh-my-zsh, and zsh plugins. Can be run independently.
 
 ### Package Installation (bin/install-packages.sh)
 
 Installs Homebrew formulae, casks, pinned casks, and fonts interactively. Can be run independently.
-
-```bash
-bin/install-packages.sh
-```
 
 ## File Editing Guidelines
 

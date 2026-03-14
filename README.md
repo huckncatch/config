@@ -88,6 +88,17 @@ Custom zsh files in `oh-my-zsh-custom/` are loaded automatically:
 
 Files with numeric prefixes (00_, 01_, etc.) control load order.
 
+## Day-to-day Scripts
+
+All scripts support `-d` (dry-run) and `-v` (verbose).
+
+| Script | Purpose |
+|--------|---------|
+| `bin/sync-config.sh` | Sync repo → system after `git pull` (safe, timestamped backups) |
+| `bin/sync-backups.sh` | Sync system → repo (keeps tracked files up to date) |
+| `bin/install-shell.sh` | Install Homebrew taps, oh-my-zsh, and zsh plugins |
+| `bin/install-packages.sh` | Install Homebrew formulae, casks, and fonts |
+
 ## Common Tasks
 
 ### Debugging Shell Startup
@@ -139,7 +150,7 @@ On other machines:
 ```bash
 cd ~/config
 git pull
-./new-computer-install.sh  # Re-run to copy updated files
+bin/sync-config.sh  # Syncs config files with timestamped backups
 ```
 
 ## XDG Base Directory Compliance
