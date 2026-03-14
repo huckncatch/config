@@ -1,5 +1,35 @@
 {
   "installMethod": "homebrew",
   "autoUpdates": false,
-  "autoUpdatesProtectedForNative": false
+  "autoUpdatesProtectedForNative": false,
+  "mcpServers": {
+    "fastmail": {
+      "command": "npx",
+      "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"]
+    }
+  },
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  },
+  "permissions": {
+    "deny": [
+      "WebSearch"
+    ]
+  },
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/soob/.config/claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "greptile@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "voiceEnabled": false
 }

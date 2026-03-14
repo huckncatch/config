@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
   - Checks `~/.claude.json` ↔ `claude/claude.json` (sanitized template - API tokens removed)
   - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
+  - Checks `~/.config/claude/settings.json` ↔ `xdg-config/claude/settings.json` (sanitized - Fastmail token omitted)
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
@@ -96,7 +97,7 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
 
-Note: Claude Code settings are NOT stored in `~/.config/claude/settings.json`. See "Claude Code Configuration" section below for the correct file locations.
+Note: Claude Code config directory is set to `~/.config/claude/` via `CLAUDE_CONFIG_DIR` (exported from `zsh/oh-my-zsh-custom/claude.zsh`). This is required for global `CLAUDE.md` instructions to be loaded.
 
 ### Profile Discovery Helper
 
@@ -130,7 +131,7 @@ Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config syml
 
 ### Claude Code Configuration
 
-Claude Code uses a hierarchical settings system with `~/.claude.json` as the primary configuration file.
+Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CONFIG_DIR` in `claude.zsh`). This enables global `CLAUDE.md` instructions and consolidates state under the XDG directory.
 
 #### Settings File Hierarchy (Precedence: highest → lowest)
 
@@ -141,48 +142,45 @@ Claude Code uses a hierarchical settings system with `~/.claude.json` as the pri
    - This is what enables tool execution per-project
 4. **Shared project settings**: `<project>/.claude/settings.json`
    - Team conventions (CAN be in git)
-5. **User configuration**: `~/.claude.json`
-   - Global settings, MCP servers, preferences, install method
+5. **User settings**: `~/.config/claude/settings.json`
+   - Model, plugins, statusLine, permissions, MCP servers
+6. **Main configuration**: `~/.claude.json`
+   - OAuth account info, feature flags, install method (sensitive)
 
-#### Primary Configuration File
+#### User Settings File
 
-`~/.claude.json` is the main Claude Code configuration file containing:
+`~/.config/claude/settings.json` contains:
 
-- MCP servers configuration (`mcpServers`)
-- Installation method (`"installMethod": "homebrew"`)
-- User preferences (`alwaysThinkingEnabled`, `autoUpdates`, etc.)
-- Feature flags (cached from Statsig/GrowthBook)
-- Project-specific data and history
-- OAuth account info (sensitive - excluded from repository backup)
+- Model selection (`model`)
+- Enabled plugins (`enabledPlugins`)
+- Status line configuration (`statusLine`)
+- Permissions (`permissions`)
+- MCP servers (`mcpServers`) — Fastmail token read from `FASTMAIL_API_TOKEN` env var (set in `profile.local`)
+- Install method and update preferences
+
+#### Main Configuration File
+
+`~/.claude.json` contains OAuth account info, feature flags (Statsig/GrowthBook cache), and install method. Sensitive — excluded from repository backup except as a sanitized template.
 
 #### Homebrew Installation Settings
 
 For Homebrew installations, configure:
 
 1. **Shell environment** (`zsh/oh-my-zsh-custom/claude.zsh`):
+   - `CLAUDE_CONFIG_DIR="$HOME/.config/claude"` - XDG config dir (loads global CLAUDE.md)
    - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
    - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
 
-2. **Main configuration** (`~/.claude.json`):
-
-   ```json
-   {
-     "installMethod": "homebrew",
-     "alwaysThinkingEnabled": true,
-     "autoUpdates": false,
-     "mcpServers": {
-       "context7": { ... },
-       "brave-search": { ... }
-     }
-   }
-   ```
+2. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
+   - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess; not stored in settings.json
 
 #### Repository Backups
 
 - `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
-- `claude/claude.json` → `~/.claude.json` (sanitized template - sensitive data removed)
+- `xdg-config/claude/settings.json` → `~/.config/claude/settings.json` (sanitized — Fastmail token omitted)
+- `claude/claude.json` → `~/.claude.json` (sanitized template - OAuth/sensitive data removed)
 
-**Note**: The repository contains a sanitized template with API tokens replaced by placeholders. After installation, you must add your actual API keys to `~/.claude.json`.
+**Note**: After fresh installation, add `FASTMAIL_API_TOKEN` to `~/.config/zsh/profile.local`.
 
 ## Installation Script Architecture
 
@@ -292,9 +290,10 @@ When editing files in this repository:
 
 5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
-   - **Configuration**: `~/.claude.json` (active) → `claude/claude.json` (sanitized backup)
+   - **User settings**: `~/.config/claude/settings.json` (active) → `xdg-config/claude/settings.json` (sanitized backup — omit Fastmail token)
+   - **Main config**: `~/.claude.json` (active) → `claude/claude.json` (sanitized backup)
 
-   Note: The repository contains a sanitized template with API tokens removed. Use `bin/sync-backups.sh` to sync non-sensitive settings.
+   Use `bin/sync-backups.sh` to sync non-sensitive settings. Never commit API tokens.
 
 6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
 
@@ -327,16 +326,14 @@ brew install package-name
 
 ### Configuration Sync Requirements
 
-**Claude Code CLAUDE.md exists in two locations and must be kept in sync:**
+**Claude Code config files exist in two locations and must be kept in sync:**
 
-- Active: `~/.config/claude/CLAUDE.md`
-- Repository: `xdg-config/claude/CLAUDE.md`
+| Active | Repository | Notes |
+|--------|-----------|-------|
+| `~/.config/claude/CLAUDE.md` | `xdg-config/claude/CLAUDE.md` | Full sync |
+| `~/.config/claude/settings.json` | `xdg-config/claude/settings.json` | Sanitized — omit Fastmail token |
+| `~/.claude.json` | `claude/claude.json` | Sanitized — omit OAuth/secrets |
 
-When modifying global instructions, both locations must be updated. The repository version is used for new installations.
-
-**Claude Code Configuration Backup:**
-
-- `~/.claude.json` is backed up as a sanitized template in `claude/claude.json` (sensitive data removed)
 - Project-local settings (`.claude/settings.local.json`) are NOT backed up as they contain machine-specific permissions
 - Use `bin/sync-backups.sh` to sync configuration changes between system and repository
 

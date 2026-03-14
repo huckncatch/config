@@ -7,6 +7,7 @@ set -euo pipefail
 FILE_PAIRS=(
   "$HOME/.claude.json:claude/claude.json"
   "$HOME/.config/claude/CLAUDE.md:xdg-config/claude/CLAUDE.md"
+  "$HOME/.config/claude/settings.json:xdg-config/claude/settings.json"
   "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
 )
 

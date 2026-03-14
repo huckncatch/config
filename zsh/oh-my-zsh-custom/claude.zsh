@@ -10,14 +10,10 @@
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "      ${0:A}"
 
+# Use XDG-compliant config directory instead of the default ~/.claude/
+# This makes Claude Code read CLAUDE.md global instructions from ~/.config/claude/CLAUDE.md
+export CLAUDE_CONFIG_DIR="$HOME/.config/claude"
+
 # Prevent auto-updates to ~/.local/bin/claude (use Homebrew instead)
-# Install Method Configuration:
-#   Claude Code stores settings in ~/.claude.json (not ~/.config/claude/settings.json)
-#   For Homebrew installations, ensure these fields are set in ~/.claude.json:
-#   {
-#     "installMethod": "homebrew",
-#     "autoUpdates": false
-#   }
-#
 export DISABLE_AUTOUPDATER=1
 export DISABLE_INSTALLATION_CHECKS=1
