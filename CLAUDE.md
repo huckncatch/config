@@ -219,12 +219,12 @@ The script performs these operations in order:
 ### Script Behavior
 
 - Uses `set -euo pipefail` for safety, but `brew install` failures don't stop execution
-- Supports `--dry-run`, `--update`, and `--verbose` flags
+- Supports `--dry-run` and `--verbose` flags
 - Auto-initializes Homebrew environment if needed
 
-### Update/Refresh Mode
+### Config Sync (bin/sync-config.sh)
 
-The `--update` flag enables safe configuration syncing after pulling repository updates:
+`bin/sync-config.sh` safely syncs configuration files from the repository to the system after a `git pull`. It replaces the old `--update` flag on `new-computer-install.sh`.
 
 **What it does:**
 
@@ -253,19 +253,13 @@ The `--update` flag enables safe configuration syncing after pulling repository 
 **Usage:**
 
 ```bash
-cd ~/config && git pull && ./new-computer-install.sh --update
+cd ~/config && git pull && bin/sync-config.sh
 ```
 
 **With dry-run preview:**
 
 ```bash
-./new-computer-install.sh --update --dry-run
-```
-
-**With verbose output:**
-
-```bash
-./new-computer-install.sh --update --verbose
+bin/sync-config.sh --dry-run
 ```
 
 **Backup format:**
@@ -275,6 +269,22 @@ Files are backed up with timestamps before updates:
 - Format: `<filename>.backup.YYYYMMDD_HHMMSS`
 - Example: `.zshrc.backup.20251025_121230`
 - All backups are preserved (no automatic cleanup)
+
+### Shell Environment (bin/install-shell.sh)
+
+Installs Homebrew taps, oh-my-zsh, and zsh plugins. Can be run independently on an existing machine.
+
+```bash
+bin/install-shell.sh
+```
+
+### Package Installation (bin/install-packages.sh)
+
+Installs Homebrew formulae, casks, pinned casks, and fonts interactively. Can be run independently.
+
+```bash
+bin/install-packages.sh
+```
 
 ## File Editing Guidelines
 
