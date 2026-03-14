@@ -200,17 +200,6 @@ OSX prompts for a password every time you use git after brew upgrades git. To ma
 
 Or, just delete the github password and regenerate the Personal Access Token again. (source: [Fixing the git-credential-osxkeychain password prompts on every git transaction](https://dominoc925.blogspot.com/2019/11/fixing-git-credential-osxkeychain.html))
 
-## [Permanently prevent macOS High Sierra from reopening apps after a restart](https://apple.stackexchange.com/a/309140/234778)
-
-> [!WARNING] This is broken in macOS 26 Tahoe and later
-
-```bash
-% sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow*
-% touch ~/Library/Preferences/ByHost/com.apple.loginwindow*
-% sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow*
-% sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow*
-```
-
 ## Speed the Dock open/close animation
 
 `defaults write com.apple.dock autohide-time-modifier -float 0.15;killall Dock`
@@ -301,16 +290,14 @@ To open the current profile's settings JSON: Cmd+Shift+P → **"Open User Settin
 
 ## Claude Code MCP Servers
 
-MCP servers are configured in `~/.claude.json` under the `mcpServers` key. Use `bin/sync-backups.sh` to back up configuration changes.
+MCP servers are configured in `~/.config/claude/settings.json` under the `mcpServers` key (set via `CLAUDE_CONFIG_DIR`). Use `bin/sync-backups.sh` to back up configuration changes.
 
 **Currently installed:**
 
-- **context7**: Library documentation lookup (npx @upstash/context7-mcp)
-- **fastmail**: Email/calendar/contacts management (local install)
-- **sequential-thinking**: Step-by-step reasoning (npx @modelcontextprotocol/server-sequential-thinking)
-- **memory-bank**: Project context memory (npx memory-bank-mcp)
+- **fastmail**: Email/calendar/contacts management (local install at `~/.local/share/mcp/fastmail-mcp`)
+- **context7**: Library documentation lookup — configured as a Claude plugin, not an MCP server (see `enabledPlugins` in settings.json)
 
-**Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.claude.json` to save ~9% context.
+**Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.config/claude/settings.json` to save ~9% context.
 
 ### Fastmail MCP Server
 
@@ -319,40 +306,26 @@ Repository: <https://github.com/MadLlama25/fastmail-mcp>
 #### Installation
 
 ```bash
-# Clone the repo
 git clone https://github.com/MadLlama25/fastmail-mcp.git ~/.local/share/mcp/fastmail-mcp
 cd ~/.local/share/mcp/fastmail-mcp
-
-# Install and build
 npm install
 npm run build
 ```
 
 #### Configuration
 
-1. Get your Fastmail API token:
-   - Log into Fastmail
-   - Go to Settings → Privacy & Security
-   - Find "Connected apps & API tokens"
-   - Generate a new token
+1. Get your Fastmail API token: Fastmail → Settings → Privacy & Security → Connected apps & API tokens
 
-2. Add to `~/.claude.json` under the `mcpServers` key:
+2. Add `FASTMAIL_API_TOKEN=<token>` to `~/.config/zsh/profile.local` (not tracked in git — token is inherited by Claude Code as an env var)
+
+3. Add to `~/.config/claude/settings.json` under `mcpServers`:
 
 ```json
-{
-  "mcpServers": {
-    "fastmail": {
-      "command": "node",
-      "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"],
-      "env": {
-        "FASTMAIL_API_TOKEN": "your_token_here"
-      }
-    }
-  }
+"fastmail": {
+  "command": "npx",
+  "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"]
 }
 ```
-
-Note: `~/.claude.json` is the actual settings file. When it exists, `~/.config/claude/settings.json` is ignored for settings like `mcpServers`.
 
 #### Updating
 
@@ -361,52 +334,4 @@ cd ~/.local/share/mcp/fastmail-mcp
 git pull
 npm install
 npm run build
-```
-
-### Other MCP Servers
-
-The following servers are installed via npx (no local installation required):
-
-**context7** - Library documentation lookup
-
-```json
-{
-  "mcpServers": {
-    "context7": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
-      "env": {}
-    }
-  }
-}
-```
-
-**sequential-thinking** - Step-by-step reasoning
-
-```json
-{
-  "mcpServers": {
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-    }
-  }
-}
-```
-
-**memory-bank** - Project context memory
-
-```json
-{
-  "mcpServers": {
-    "memory-bank": {
-      "command": "npx",
-      "args": ["-y", "memory-bank-mcp"],
-      "env": {
-        "MEMORY_BANK_PATH": "/Users/soob/.local/share/memory-bank"
-      }
-    }
-  }
-}
 ```
