@@ -79,7 +79,7 @@ Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/
 
 Oh my tmux! configuration framework is a git submodule:
 
-- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from https://github.com/gpakosz/.tmux
+- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from <https://github.com/gpakosz/.tmux>
 
 When modifying submodules, be aware they point to specific commits. Use `git submodule update --remote` to update.
 
@@ -108,20 +108,23 @@ For users expecting standard zsh conventions, a `.zprofile` file is installed th
 
 ### Tmux Configuration
 
-Tmux uses **Oh my tmux!** (https://github.com/gpakosz/.tmux), a pre-configured tmux framework with a two-file configuration system:
+Tmux uses **Oh my tmux!** (<https://github.com/gpakosz/.tmux>), a pre-configured tmux framework with a two-file configuration system:
 
 **Main Configuration** (read-only, from submodule):
+
 - **Submodule**: `xdg-config/tmux/oh-my-tmux/.tmux.conf`
 - **System**: `~/.config/tmux/tmux.conf` (symlink to submodule)
 - Never modify this file directly; it receives updates from the upstream project
 
 **User Customizations**:
+
 - **Repository**: `xdg-config/tmux/tmux.conf.local`
 - **System**: `~/.config/tmux/tmux.conf.local`
 - All personal settings and overrides go here (vi mode, mouse settings, key bindings, etc.)
 
 **Installation**:
 The `install_tmux_config()` function creates the symlink during installation. To update Oh my tmux!:
+
 ```bash
 git submodule update --remote xdg-config/tmux/oh-my-tmux
 ```
@@ -308,7 +311,7 @@ brew install package-name
 **Claude Code config files exist in two locations and must be kept in sync:**
 
 | Active | Repository | Notes |
-|--------|-----------|-------|
+| --- | --- | --- |
 | `~/.config/claude/CLAUDE.md` | `xdg-config/claude/CLAUDE.md` | Full sync |
 | `~/.config/claude/settings.json` | `xdg-config/claude/settings.json` | Sanitized — omit Fastmail token |
 | `~/.claude.json` | `claude/claude.json` | Sanitized — omit OAuth/secrets |
@@ -359,9 +362,7 @@ When adding new installation steps:
 
 ### Adding Homebrew Packages
 
-Edit `new-computer-install.sh`:
+- Add formulae (command-line tools) to `homebrew/formulae.zsh`
+- Add casks (GUI applications) to `homebrew/casks.zsh`
 
-- Add to `packages=(...)` array for formulae (command-line tools)
-- Add to `applications=(...)` array for casks (GUI applications)
-
-Both use the `brew_install` function which prompts before installing and handles errors gracefully.
+`bin/install-packages.sh` reads both files via `_read_package_list` and prompts before installing each.

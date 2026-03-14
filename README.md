@@ -93,7 +93,7 @@ Files with numeric prefixes (00_, 01_, etc.) control load order.
 All scripts support `-d` (dry-run) and `-v` (verbose).
 
 | Script | Purpose |
-|--------|---------|
+| --- | --- |
 | `bin/sync-config.sh` | Sync repo → system after `git pull` (safe, timestamped backups) |
 | `bin/sync-backups.sh` | Sync system → repo (keeps tracked files up to date) |
 | `bin/install-shell.sh` | Install Homebrew taps, oh-my-zsh, and zsh plugins |

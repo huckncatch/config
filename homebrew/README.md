@@ -4,12 +4,12 @@
 
 ### Adding Packages to Install Script
 
-To add packages that will be installed on new machines, edit `new-computer-install.sh`:
+To add packages that will be installed on new machines:
 
-- Add to `packages` array for command-line tools (formulae)
-- Add to `applications` array for GUI applications (casks)
+- Add formulae (command-line tools) to `homebrew/formulae.zsh`
+- Add casks (GUI applications) to `homebrew/casks.zsh`
 
-The script provides interactive prompts for each package and continues even if individual installations fail.
+`bin/install-packages.sh` reads these files and provides interactive prompts for each package, continuing even if individual installations fail.
 
 ## Java
 
