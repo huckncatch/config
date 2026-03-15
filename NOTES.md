@@ -311,6 +311,14 @@ claude plugin install superpowers@claude-plugins-official
 
 Browse available plugins at <https://claude.com/plugins>.
 
+The `enabledPlugins` list in `settings.json` is backed up by `bin/sync-backups.sh`, so installed plugins are captured automatically. On a new machine, restore them with:
+
+```bash
+bin/install-plugins.sh
+```
+
+This is also run automatically by `new-computer-install.sh`.
+
 ## Claude Code MCP Servers
 
 MCP servers are configured in `~/.config/claude/settings.json` under the `mcpServers` key (set via `CLAUDE_CONFIG_DIR`). Use `bin/sync-backups.sh` to back up configuration changes.
