@@ -37,7 +37,7 @@ source "$SCRIPT_DIR/lib/utils.sh"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/lib/copy.sh"
 
-[ $DRY_RUN -eq 1 ] && echo "=== DRY RUN MODE - No changes will be made ===" && echo ""
+[ "$DRY_RUN" -eq 1 ] && echo "=== DRY RUN MODE - No changes will be made ===" && echo ""
 
 echo "============================================================================="
 echo "  Syncing configuration files"
@@ -47,7 +47,6 @@ echo ""
 copy_zsh_config
 copy_dotfiles
 copy_xdg_config
-copy_claude_settings
 install_tmux_config
 
 echo ""

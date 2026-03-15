@@ -37,8 +37,10 @@ RESET='\033[0m'
 
 # Get OS uptime
 get_os_uptime() {
-    local boot_time=$(sysctl -n kern.boottime | awk '{print $4}' | sed 's/,//')
-    local current_time=$(date +%s)
+    local boot_time
+    boot_time=$(sysctl -n kern.boottime | awk '{print $4}' | sed 's/,//')
+    local current_time
+    current_time=$(date +%s)
     local uptime_seconds=$((current_time - boot_time))
 
     local days=$((uptime_seconds / 86400))

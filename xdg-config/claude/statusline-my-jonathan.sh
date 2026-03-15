@@ -8,6 +8,7 @@ input=$(cat)
 
 # Extract values from JSON
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
+# shellcheck disable=SC2034  # unused in current output; available if prompt is extended
 model_name=$(echo "$input" | jq -r '.model.display_name')
 time_now=$(date +%H:%M:%S)
 

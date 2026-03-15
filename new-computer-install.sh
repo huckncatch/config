@@ -33,8 +33,8 @@ done
 
 # Build flags array to forward to sub-scripts
 FLAGS=()
-[ $DRY_RUN -eq 1 ] && FLAGS+=("--dry-run")
-[ $VERBOSE -eq 1 ] && FLAGS+=("--verbose")
+[ "$DRY_RUN" -eq 1 ] && FLAGS+=("--dry-run")
+[ "$VERBOSE" -eq 1 ] && FLAGS+=("--verbose")
 
 #############################################################################
 # PREREQUISITES
@@ -68,7 +68,7 @@ source "$SCRIPT_DIR/lib/utils.sh"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/lib/copy.sh"
 
-[ $DRY_RUN -eq 1 ] && echo "=== DRY RUN MODE - No changes will be made ===" && echo ""
+[ "$DRY_RUN" -eq 1 ] && echo "=== DRY RUN MODE - No changes will be made ===" && echo ""
 
 #############################################################################
 # PHASE 1: CONFIGURATION FILES
@@ -77,7 +77,6 @@ source "$SCRIPT_DIR/lib/copy.sh"
 copy_zsh_config
 copy_dotfiles
 copy_xdg_config
-copy_claude_settings
 install_tmux_config
 
 #############################################################################

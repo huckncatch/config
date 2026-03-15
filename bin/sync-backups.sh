@@ -68,8 +68,8 @@ for pair in "${FILE_PAIRS[@]}"; do
   echo ""
 
   # Show modification times and sizes
-  system_mtime=$(ls -l "$system_file" | awk '{print $6, $7, $8}')
-  repo_mtime=$(ls -l "$repo_file" | awk '{print $6, $7, $8}')
+  system_mtime=$(date -r "$system_file" "+%b %e %H:%M")
+  repo_mtime=$(date -r "$repo_file" "+%b %e %H:%M")
   system_size=$(wc -c < "$system_file" | tr -d ' ')
   repo_size=$(wc -c < "$repo_file" | tr -d ' ')
 
