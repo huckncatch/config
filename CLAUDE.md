@@ -7,8 +7,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Work Process
 
 - **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
-  - Checks `~/.claude.json` ↔ `claude/claude.json` (sanitized template - API tokens removed)
   - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
+  - Checks `~/.config/claude/settings.json` ↔ `xdg-config/claude/settings.json` (sanitized - Fastmail token omitted)
+  - Checks `~/.config/claude/statusline.sh` ↔ `xdg-config/claude/statusline.sh`
+  - Checks `~/.config/claude/statusline-my-jonathan.sh` ↔ `xdg-config/claude/statusline-my-jonathan.sh`
+  - Checks `~/.config/claude/commands/` ↔ `xdg-config/claude/commands/` (directory)
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
@@ -18,6 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): New universal workflows, cross-project preferences discovered
   - Ensure information isn't duplicated or in the wrong location between files
 - Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
+- Keep TODO.md current as work progresses: mark items completed (with date), update status notes, move resolved items to the Completed section, and add new items when new planned work is identified.
 
 ## Repository Overview
 
@@ -78,7 +82,7 @@ Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/
 
 Oh my tmux! configuration framework is a git submodule:
 
-- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from https://github.com/gpakosz/.tmux
+- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from <https://github.com/gpakosz/.tmux>
 
 When modifying submodules, be aware they point to specific commits. Use `git submodule update --remote` to update.
 
@@ -96,7 +100,7 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
 
-Note: Claude Code settings are NOT stored in `~/.config/claude/settings.json`. See "Claude Code Configuration" section below for the correct file locations.
+Note: Claude Code config directory is set to `~/.config/claude/` via `CLAUDE_CONFIG_DIR` (exported from `zsh/oh-my-zsh-custom/claude.zsh`). This is required for global `CLAUDE.md` instructions to be loaded.
 
 ### Profile Discovery Helper
 
@@ -107,20 +111,23 @@ For users expecting standard zsh conventions, a `.zprofile` file is installed th
 
 ### Tmux Configuration
 
-Tmux uses **Oh my tmux!** (https://github.com/gpakosz/.tmux), a pre-configured tmux framework with a two-file configuration system:
+Tmux uses **Oh my tmux!** (<https://github.com/gpakosz/.tmux>), a pre-configured tmux framework with a two-file configuration system:
 
 **Main Configuration** (read-only, from submodule):
+
 - **Submodule**: `xdg-config/tmux/oh-my-tmux/.tmux.conf`
 - **System**: `~/.config/tmux/tmux.conf` (symlink to submodule)
 - Never modify this file directly; it receives updates from the upstream project
 
 **User Customizations**:
+
 - **Repository**: `xdg-config/tmux/tmux.conf.local`
 - **System**: `~/.config/tmux/tmux.conf.local`
 - All personal settings and overrides go here (vi mode, mouse settings, key bindings, etc.)
 
 **Installation**:
 The `install_tmux_config()` function creates the symlink during installation. To update Oh my tmux!:
+
 ```bash
 git submodule update --remote xdg-config/tmux/oh-my-tmux
 ```
@@ -130,7 +137,7 @@ Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config syml
 
 ### Claude Code Configuration
 
-Claude Code uses a hierarchical settings system with `~/.claude.json` as the primary configuration file.
+Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CONFIG_DIR` in `claude.zsh`). This enables global `CLAUDE.md` instructions and consolidates state under the XDG directory.
 
 #### Settings File Hierarchy (Precedence: highest → lowest)
 
@@ -141,48 +148,63 @@ Claude Code uses a hierarchical settings system with `~/.claude.json` as the pri
    - This is what enables tool execution per-project
 4. **Shared project settings**: `<project>/.claude/settings.json`
    - Team conventions (CAN be in git)
-5. **User configuration**: `~/.claude.json`
-   - Global settings, MCP servers, preferences, install method
+5. **User settings**: `~/.config/claude/settings.json`
+   - Model, plugins, statusLine, permissions, MCP servers
+6. **Main configuration**: `~/.claude.json`
+   - OAuth account info, feature flags, install method (sensitive)
 
-#### Primary Configuration File
+#### User Settings File
 
-`~/.claude.json` is the main Claude Code configuration file containing:
+`~/.config/claude/settings.json` contains:
 
-- MCP servers configuration (`mcpServers`)
-- Installation method (`"installMethod": "homebrew"`)
-- User preferences (`alwaysThinkingEnabled`, `autoUpdates`, etc.)
-- Feature flags (cached from Statsig/GrowthBook)
-- Project-specific data and history
-- OAuth account info (sensitive - excluded from repository backup)
+- Model selection (`model`)
+- Enabled plugins (`enabledPlugins`)
+- Status line configuration (`statusLine`)
+- Permissions (`permissions`)
+- MCP servers (`mcpServers`) — Fastmail token read from `FASTMAIL_API_TOKEN` env var (set in `profile.local`)
+- Install method and update preferences
+
+#### Main Configuration File
+
+`~/.claude.json` contains OAuth account info, feature flags (Statsig/GrowthBook cache), and install method. Sensitive — excluded from repository backup except as a sanitized template.
 
 #### Homebrew Installation Settings
 
 For Homebrew installations, configure:
 
 1. **Shell environment** (`zsh/oh-my-zsh-custom/claude.zsh`):
+   - `CLAUDE_CONFIG_DIR="$HOME/.config/claude"` - XDG config dir (loads global CLAUDE.md)
    - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
    - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
 
-2. **Main configuration** (`~/.claude.json`):
+2. **User settings** (`~/.config/claude/settings.json`):
 
    ```json
    {
      "installMethod": "homebrew",
-     "alwaysThinkingEnabled": true,
      "autoUpdates": false,
-     "mcpServers": {
-       "context7": { ... },
-       "brave-search": { ... }
-     }
+     "autoUpdatesProtectedForNative": false
    }
    ```
+
+   - `installMethod` — tells Claude Code it was installed via Homebrew; prevents it from trying to self-update via npm/native installer
+   - `autoUpdates` — disables automatic updates (managed by `brew upgrade` instead)
+   - `autoUpdatesProtectedForNative` — prevents the native updater from re-enabling auto-updates
+
+3. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
+   - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess; not stored in settings.json
 
 #### Repository Backups
 
 - `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
-- `claude/claude.json` → `~/.claude.json` (sanitized template - sensitive data removed)
+- `xdg-config/claude/settings.json` → `~/.config/claude/settings.json` (sanitized — Fastmail token omitted)
+- `xdg-config/claude/statusline.sh` → `~/.config/claude/statusline.sh` (active status line script)
+- `xdg-config/claude/statusline-my-jonathan.sh` → `~/.config/claude/statusline-my-jonathan.sh` (alternate status line)
+- `xdg-config/claude/commands/` → `~/.config/claude/commands/` (custom slash commands)
 
-**Note**: The repository contains a sanitized template with API tokens replaced by placeholders. After installation, you must add your actual API keys to `~/.claude.json`.
+Note: `~/.claude.json` is not backed up — it contains OAuth tokens and ephemeral caches that regenerate on first run. Re-authenticate with `claude` after re-imaging.
+
+**Note**: After fresh installation, add `FASTMAIL_API_TOKEN` to `~/.config/zsh/profile.local`.
 
 ## Installation Script Architecture
 
@@ -192,14 +214,14 @@ The `new-computer-install.sh` script performs automated setup in a specific orde
 
 - **`lib/utils.sh`**: Common helpers (`show_usage`, `_sync_file`, `_files_differ`, `_sync_directory_selective`, `_prompt_install`)
 - **`lib/brew.sh`**: Homebrew operations (`_read_package_list`, `brew_install`, `_should_install`, `_brew_list_does_not_contain`)
-- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `copy_claude_settings`)
+- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `install_tmux_config`)
 
 ### Key Installation Functions
 
 - `copy_zsh_config()`: Copies zshrc and creates profile
 - `copy_dotfiles()`: Handles dotfiles with SSH config special case (sets permissions 700/600)
 - `copy_xdg_config()`: Copies XDG-compliant config directories
-- `copy_claude_settings()`: Copies Claude Code configuration to `~/.claude.json`
+- `install_tmux_config()`: Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
 - `brew_install()`: Interactive package installation with error handling that continues on failures
 
 ### Installation Script Flow
@@ -212,7 +234,7 @@ The script performs these operations in order:
 4. Creates profile (`~/.config/zsh/profile.local`) from home/work template
 5. Copies dotfiles → `~/.<filename>` (SSH config gets special permissions)
 6. Copies XDG configs → `~/.config/`
-7. Copies Claude Code configuration → `~/.claude.json` (sanitized template)
+7. Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
 8. Installs oh-my-zsh (with `RUNZSH=no KEEP_ZSHRC=yes` to preserve zshrc)
 9. Installs zsh plugins to `$ZSH_CUSTOM/plugins/`
 10. Installs Homebrew packages (interactive, continues on failures)
@@ -221,62 +243,27 @@ The script performs these operations in order:
 ### Script Behavior
 
 - Uses `set -euo pipefail` for safety, but `brew install` failures don't stop execution
-- Supports `--dry-run`, `--update`, and `--verbose` flags
+- Supports `--dry-run` and `--verbose` flags
 - Auto-initializes Homebrew environment if needed
 
-### Update/Refresh Mode
+### Config Sync (bin/sync-config.sh)
 
-The `--update` flag enables safe configuration syncing after pulling repository updates:
+Replaces the old `--update` flag. Syncs changed config files from repo to system with timestamped backups; skips all installations. XDG config preservation rules:
 
-**What it does:**
+- **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md` and `settings.json`; preserves `projects/`, `todos/`, `hooks/`, `commands/`, `plugins/`, `statsig/`
+- **Karabiner**: Syncs `karabiner.json`; preserves `assets/`
+- **Tmux**: Syncs `tmux.conf.local`; preserves `oh-my-tmux/` submodule symlink
+- **Git/ncdu**: Full sync
 
-- Syncs only changed configuration files (creates timestamped backups)
-- Skips all installations (Homebrew, oh-my-zsh, plugins, packages)
-- Preserves user data and local customizations
-- Detects profile drift from templates
+Skips entirely: `~/.config/zsh/profile.local` (drift detection runs), `~/.ssh/config`.
 
-**Files synced:**
+### Shell Environment (bin/install-shell.sh)
 
-- `~/.zshrc` - Smart sync with backup if changed
-- Dotfiles (`~/.p10k.zsh`, `~/.editorconfig`, etc.) - Smart sync with backup
-- XDG configs with selective preservation:
-  - **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md`, preserves `local/`, `projects/`, `statsig/`, `todos/`, `hooks/`
-  - **Karabiner**: Syncs `karabiner.json`, preserves `automatic_backups/`, `assets/`
-  - **Git/tmux/ncdu**: Full sync (no user data to preserve)
-- Claude Code configuration (`~/.claude.json`) - Smart sync with backup if changed (merges settings, preserves OAuth/secrets)
+Installs Homebrew taps, oh-my-zsh, and zsh plugins. Can be run independently.
 
-**Files preserved/skipped:**
+### Package Installation (bin/install-packages.sh)
 
-- `~/.config/zsh/profile.local` - Skipped entirely (drift detection runs)
-- `~/.ssh/config` - Skipped entirely (manual merge recommended)
-- All Homebrew taps, packages, casks, fonts
-- oh-my-zsh and zsh plugins
-
-**Usage:**
-
-```bash
-cd ~/config && git pull && ./new-computer-install.sh --update
-```
-
-**With dry-run preview:**
-
-```bash
-./new-computer-install.sh --update --dry-run
-```
-
-**With verbose output:**
-
-```bash
-./new-computer-install.sh --update --verbose
-```
-
-**Backup format:**
-
-Files are backed up with timestamps before updates:
-
-- Format: `<filename>.backup.YYYYMMDD_HHMMSS`
-- Example: `.zshrc.backup.20251025_121230`
-- All backups are preserved (no automatic cleanup)
+Installs Homebrew formulae, casks, pinned casks, and fonts interactively. Can be run independently.
 
 ## File Editing Guidelines
 
@@ -292,9 +279,11 @@ When editing files in this repository:
 
 5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
-   - **Configuration**: `~/.claude.json` (active) → `claude/claude.json` (sanitized backup)
+   - **User settings**: `~/.config/claude/settings.json` (active) → `xdg-config/claude/settings.json` (sanitized backup — omit Fastmail token)
+   - **Statusline scripts**: `~/.config/claude/statusline*.sh` → `xdg-config/claude/statusline*.sh`
+   - **Custom commands**: `~/.config/claude/commands/` → `xdg-config/claude/commands/`
 
-   Note: The repository contains a sanitized template with API tokens removed. Use `bin/sync-backups.sh` to sync non-sensitive settings.
+   Use `bin/sync-backups.sh` to sync. Never commit API tokens. Note: `~/.claude.json` is not backed up (OAuth tokens + ephemeral caches; re-authenticate after re-imaging).
 
 6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
 
@@ -327,16 +316,17 @@ brew install package-name
 
 ### Configuration Sync Requirements
 
-**Claude Code CLAUDE.md exists in two locations and must be kept in sync:**
+**Claude Code config files exist in two locations and must be kept in sync:**
 
-- Active: `~/.config/claude/CLAUDE.md`
-- Repository: `xdg-config/claude/CLAUDE.md`
+| Active | Repository | Notes |
+| --- | --- | --- |
+| `~/.config/claude/CLAUDE.md` | `xdg-config/claude/CLAUDE.md` | Full sync |
+| `~/.config/claude/settings.json` | `xdg-config/claude/settings.json` | Sanitized — omit Fastmail token |
+| `~/.config/claude/statusline.sh` | `xdg-config/claude/statusline.sh` | Full sync |
+| `~/.config/claude/statusline-my-jonathan.sh` | `xdg-config/claude/statusline-my-jonathan.sh` | Full sync |
+| `~/.config/claude/commands/` | `xdg-config/claude/commands/` | Full sync (directory) |
 
-When modifying global instructions, both locations must be updated. The repository version is used for new installations.
-
-**Claude Code Configuration Backup:**
-
-- `~/.claude.json` is backed up as a sanitized template in `claude/claude.json` (sensitive data removed)
+- `~/.claude.json` is NOT backed up — OAuth tokens and ephemeral caches; re-authenticate after re-imaging
 - Project-local settings (`.claude/settings.local.json`) are NOT backed up as they contain machine-specific permissions
 - Use `bin/sync-backups.sh` to sync configuration changes between system and repository
 
@@ -383,9 +373,7 @@ When adding new installation steps:
 
 ### Adding Homebrew Packages
 
-Edit `new-computer-install.sh`:
+- Add formulae (command-line tools) to `homebrew/formulae.zsh`
+- Add casks (GUI applications) to `homebrew/casks.zsh`
 
-- Add to `packages=(...)` array for formulae (command-line tools)
-- Add to `applications=(...)` array for casks (GUI applications)
-
-Both use the `brew_install` function which prompts before installing and handles errors gracefully.
+`bin/install-packages.sh` reads both files via `_read_package_list` and prompts before installing each.

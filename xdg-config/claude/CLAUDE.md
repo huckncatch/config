@@ -118,7 +118,7 @@ markdownlint-cli2 "file.md"  # ❌ Wrong - may not use config
 ## Work Process
 
 - **After completing work**: Validate whether the project's CLAUDE.md needs updates for architecture changes, new patterns, or updated file structure. Consider if any universal workflows or cross-project preferences discovered should be added to this global CLAUDE.md. Ensure information isn't duplicated between files.
-- **Check TODO.md**: When starting a new session or when asked "what's next", check if the project has a TODO.md file and reference it to suggest relevant tasks.
+- **TODO.md**: When starting a new session or when asked "what's next", check if the project has a TODO.md and reference it to suggest relevant tasks. Keep it current as work progresses: mark items completed (with date), update status notes, move resolved items to a Completed section, and add new items when planned work is identified.
 
 ## Known Command Path Issues
 

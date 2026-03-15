@@ -6,27 +6,16 @@ Future improvements and features for this configuration repository.
 
 ### Fix Markdownlint Errors in Project Files
 
-Run `markdownlint-cli2 "**/*.md"` and fix all errors in project-owned markdown files.
+- Status: Completed 2026-03-14
 
-**Files with errors:**
-
-- MODERN_CLI_TOOLS.md (48 errors) - table styles, bare URLs, heading punctuation, blank lines
-- NOTES.md (4 errors) - blank lines around code blocks, heading increment
-- TODO.md (11 errors) - blank lines around lists and code blocks
-
-**Action items:**
-
-- Fix MODERN_CLI_TOOLS.md errors
-- Fix NOTES.md errors
-- Fix TODO.md errors
-- Verify zero errors with `markdownlint-cli2 "**/*.md"`
-- Status: Not started
+Fixed all errors in NOTES.md, MODERN_CLI_TOOLS.md (48 errors — bare URLs, heading punctuation, blank lines, table style), and TODO.md. Added `"MD024": { "siblings_only": true }` to `.markdownlint.json` to allow same-name headings in different sections.
 
 ### Review Oh-My-Zsh Plugins for Useful Additions
 
 Review the built-in oh-my-zsh plugins to identify useful ones not currently enabled.
 
 **Current plugins enabled:**
+
 - zsh-nvm
 - profiles
 - alias-finder
@@ -44,6 +33,7 @@ Review the built-in oh-my-zsh plugins to identify useful ones not currently enab
 - fast-syntax-highlighting
 
 **Action items:**
+
 - Browse oh-my-zsh plugins directory or documentation
 - Identify plugins that would improve workflow
 - Test selected plugins in local profile
@@ -56,6 +46,7 @@ Review the built-in oh-my-zsh plugins to identify useful ones not currently enab
 Resolution: Keep both installations - they coexist without real conflict.
 
 Investigation revealed:
+
 - In interactive shells, zsh-nvm plugin ensures nvm's Node takes precedence
 - markdownlint-cli2 Homebrew formula has hardcoded shebang (`#!/opt/homebrew/opt/node/bin/node`)
 - Cannot use nvm's Node with Homebrew's markdownlint-cli2 due to shebang hardcoding
@@ -69,32 +60,26 @@ Decision: Keep both Homebrew Node (for markdownlint-cli2) and nvm (for project d
 
 Periodically check if Claude Code has improved its XDG Base Directory specification support.
 
-**Current State (as of 2025-10-23):**
+**Current State (as of 2026-03-14):**
 
-Configuration directory resolution order:
-1. `$CLAUDE_CONFIG_DIR` (if set) - highest priority
+`CLAUDE_CONFIG_DIR=$HOME/.config/claude` is set in `claude.zsh` — this is the primary workaround and is working. Configuration directory resolution order:
+
+1. `$CLAUDE_CONFIG_DIR` (if set) — highest priority ✅ in use
 2. `$XDG_CONFIG_HOME/claude` (if XDG_CONFIG_HOME is set)
 3. `~/.claude` (default fallback)
 
-Known issues with XDG compliance:
-- **Partial XDG support**: Claude Code uses `$XDG_CONFIG_HOME/claude` but violates XDG spec by placing ALL files there (config, cache, state, runtime data)
-- **Per XDG spec**: Only config files (CLAUDE.md, commands/, settings.json) should be in `$XDG_CONFIG_HOME/claude/`
-- **Should use**: `$XDG_DATA_HOME`, `$XDG_STATE_HOME`, `$XDG_CACHE_HOME` for non-config data (local/, projects/, statsig/, todos/)
-- **CLAUDE_CONFIG_DIR bugs**: Still creates local `.claude/` directories even when CLAUDE_CONFIG_DIR is set (Issue #3833)
-- **Installation detection**: Ignores CLAUDE_CONFIG_DIR when detecting local installations (Issue #2986)
+Remaining XDG compliance gaps:
 
-Related GitHub issues:
-- #1455: Does not respect XDG Base Directory specification
-- #2350: Move runtime/cache files out of $XDG_CONFIG_HOME
-- #2277: Docs about `~/.claude` contradict actual CLI behavior
-- #3833: CLAUDE_CONFIG_DIR behavior unclear - still creates local directories
-- #2986: Local installation detection ignores CLAUDE_CONFIG_DIR
+- Claude Code still creates local `.claude/` directories in project folders even when CLAUDE_CONFIG_DIR is set (Issue #3833)
+- Installation detection ignores CLAUDE_CONFIG_DIR (Issue #2986)
+- All state/cache files (projects/, statsig/, todos/) are placed in the config dir rather than `$XDG_DATA_HOME` / `$XDG_CACHE_HOME` (Issue #2350)
+
+Related GitHub issues: #1455, #2350, #2277, #3833, #2986
 
 **Action items:**
-- Periodically check if issues #1455, #2350, #3833, #2986 are resolved
+
+- Periodically check if issues #3833, #2986, #2350 are resolved
 - Review Claude Code release notes for XDG-related improvements
-- Test if `$XDG_DATA_HOME`, `$XDG_STATE_HOME`, `$XDG_CACHE_HOME` become supported
-- Update repository configuration if Claude Code achieves full XDG compliance
 - Status: Monitoring (check quarterly or when major Claude Code versions release)
 
 ## Ideas / Future Consideration
@@ -112,6 +97,7 @@ Items that need more thought or may not be implemented
 Unified the two profile systems into a complementary dual-profile architecture:
 
 **Solution implemented:**
+
 - **Profile templates** (`profile-home.zsh`/`profile-work.zsh`) define theme and plugins before oh-my-zsh initialization
 - **Hostname-based profiles** (Profiles plugin) provide machine-specific runtime config during oh-my-zsh initialization
 - Re-enabled Profiles plugin with `.local` suffix normalization (single file works for both `Skuld` and `Skuld.local` hostnames)
@@ -119,6 +105,7 @@ Unified the two profile systems into a complementary dual-profile architecture:
 - Updated documentation to explain the dual-system architecture and load order
 
 **Benefits:**
+
 - Clean separation of concerns (theme/plugins vs runtime config)
 - Hostname-based auto-loading for machine-specific settings
 - No install script changes needed (systems work together seamlessly)
@@ -130,6 +117,7 @@ Unified the two profile systems into a complementary dual-profile architecture:
 Implemented `--update` flag for `new-computer-install.sh` to safely sync configuration changes after pulling repository updates.
 
 **Features implemented:**
+
 - Smart file syncing with timestamped backups for all changes
 - Profile drift detection (detects if local profile differs from templates)
 - Selective directory syncing with pattern-based preservation:
@@ -143,8 +131,9 @@ Implemented `--update` flag for `new-computer-install.sh` to safely sync configu
 - Verbose mode for detailed output
 
 **Usage:**
+
 ```bash
-cd ~/config && git pull && ./new-computer-install.sh --update
+cd ~/config && git pull && bin/sync-config.sh
 ```
 
 Older completed items are removed from this list but visible in git history

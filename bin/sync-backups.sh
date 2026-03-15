@@ -5,9 +5,16 @@ set -euo pipefail
 
 # File pairs: system_path:repo_path
 FILE_PAIRS=(
-  "$HOME/.claude.json:claude/claude.json"
   "$HOME/.config/claude/CLAUDE.md:xdg-config/claude/CLAUDE.md"
+  "$HOME/.config/claude/settings.json:xdg-config/claude/settings.json"
+  "$HOME/.config/claude/statusline.sh:xdg-config/claude/statusline.sh"
+  "$HOME/.config/claude/statusline-my-jonathan.sh:xdg-config/claude/statusline-my-jonathan.sh"
   "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
+)
+
+# Directory pairs: system_path:repo_path (synced recursively)
+DIR_PAIRS=(
+  "$HOME/.config/claude/commands:xdg-config/claude/commands"
 )
 
 # Get script directory and change to repo root
@@ -61,8 +68,8 @@ for pair in "${FILE_PAIRS[@]}"; do
   echo ""
 
   # Show modification times and sizes
-  system_mtime=$(ls -l "$system_file" | awk '{print $6, $7, $8}')
-  repo_mtime=$(ls -l "$repo_file" | awk '{print $6, $7, $8}')
+  system_mtime=$(date -r "$system_file" "+%b %e %H:%M")
+  repo_mtime=$(date -r "$repo_file" "+%b %e %H:%M")
   system_size=$(wc -c < "$system_file" | tr -d ' ')
   repo_size=$(wc -c < "$repo_file" | tr -d ' ')
 
@@ -101,6 +108,75 @@ for pair in "${FILE_PAIRS[@]}"; do
       d|D)
         echo ""
         diff -u "$repo_file" "$system_file" || true
+        echo ""
+        ;;
+      k|K)
+        echo "Skipped."
+        skipped_count=$((skipped_count + 1))
+        break
+        ;;
+      *)
+        echo "Invalid choice. Please enter s, r, d, or k."
+        ;;
+    esac
+  done
+
+  echo ""
+done
+
+for pair in "${DIR_PAIRS[@]}"; do
+  IFS=':' read -r system_dir repo_dir <<< "$pair"
+
+  if [[ ! -d "$system_dir" ]]; then
+    echo -e "${YELLOW}⚠ System dir not found: $system_dir${NC}"
+    echo "  (skipping)"
+    echo ""
+    skipped_count=$((skipped_count + 1))
+    continue
+  fi
+
+  if [[ ! -d "$repo_dir" ]]; then
+    echo -e "${YELLOW}⚠ Repo dir not found: $repo_dir${NC}"
+    echo "  System dir exists at: $system_dir"
+    echo ""
+    skipped_count=$((skipped_count + 1))
+    continue
+  fi
+
+  if diff -rq "$system_dir" "$repo_dir" > /dev/null 2>&1; then
+    echo -e "${GREEN}✓${NC} $repo_dir (in sync)"
+    continue
+  fi
+
+  echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+  echo -e "${RED}✗${NC} Directories differ: $repo_dir"
+  echo ""
+
+  while true; do
+    echo "Options:"
+    echo "  [s] Sync from system to repo (rsync system → repo)"
+    echo "  [r] Sync from repo to system (rsync repo → system)"
+    echo "  [d] Show full diff"
+    echo "  [k] Skip this directory"
+    echo ""
+    read -r -p "Choice: " choice
+
+    case "$choice" in
+      s|S)
+        rsync -a --delete "$system_dir/" "$repo_dir/"
+        echo -e "${GREEN}✓ Synced system → repo${NC}"
+        synced_count=$((synced_count + 1))
+        break
+        ;;
+      r|R)
+        rsync -a --delete "$repo_dir/" "$system_dir/"
+        echo -e "${GREEN}✓ Synced repo → system${NC}"
+        synced_count=$((synced_count + 1))
+        break
+        ;;
+      d|D)
+        echo ""
+        diff -ru "$repo_dir" "$system_dir" || true
         echo ""
         ;;
       k|K)

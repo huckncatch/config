@@ -125,7 +125,7 @@ moneydance # personal finance manager with budgeting, investments, and bank sync
 
 # PDF & Documents
 abbyy-finereader-pdf # OCR-powered PDF editor, form filler, and document converter; https://www.abbyy.com/en-us/finereader/
-qlmarkdown # Quick Look plugin to preview Markdown files in Finder; https://github.com/sbarex/QLMarkdown
+# qlmarkdown # Quick Look plugin to preview Markdown files in Finder; https://github.com/sbarex/QLMarkdown
 
 # Virtualization & Network
 privadovpn # VPN client for PrivadoVPN; https://privadovpn.com/

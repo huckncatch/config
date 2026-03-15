@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Smoke tests for new-computer-install.sh
 # Runs the script with --dry-run and validates expected output
 
@@ -80,7 +80,6 @@ echo "Test: Configuration functions execute"
 assert_contains "$output" "Setting up zsh configuration" "Runs copy_zsh_config"
 assert_contains "$output" "Copying dotfiles" "Runs copy_dotfiles"
 assert_contains "$output" "Copying XDG config files" "Runs copy_xdg_config"
-assert_contains "$output" "Copying Claude Code user settings" "Runs copy_claude_settings"
 
 #############################################################################
 # Test 4: Update mode skips installations
@@ -111,7 +110,7 @@ assert_contains "$output" "Configuration Update Complete" "Shows completion mess
 echo ""
 echo "============================================================================="
 TOTAL=$((TESTS_PASSED + TESTS_FAILED))
-if [ $TESTS_FAILED -eq 0 ]; then
+if [ "$TESTS_FAILED" -eq 0 ]; then
   echo "${GREEN}All $TOTAL tests passed${NC}"
   exit 0
 else

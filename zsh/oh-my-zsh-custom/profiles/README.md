@@ -13,11 +13,13 @@ The zsh configuration uses two complementary profile systems:
 **Purpose:** Define theme and plugins that must be set BEFORE oh-my-zsh initialization
 
 **Files:**
+
 - `zsh/profile-home.zsh` - Template for personal machines
 - `zsh/profile-work.zsh` - Template for work machines
 - `~/.config/zsh/profile.local` - Active profile (not tracked in git)
 
 **What they define:**
+
 - `ZSH_THEME` - Theme selection
 - `plugins` - oh-my-zsh plugins array
 - `MACHINE_PROFILE` - Environment marker ("home" or "work")
@@ -31,6 +33,7 @@ The zsh configuration uses two complementary profile systems:
 **Files:** This directory (`zsh/oh-my-zsh-custom/profiles/`)
 
 **What they define:**
+
 - Machine-specific environment variables (e.g., `SSH_AUTH_SOCK`)
 - Custom paths (e.g., `DOTFILES`, `ZSH_TMUX_CONFIG`)
 - Runtime configuration that doesn't affect oh-my-zsh initialization

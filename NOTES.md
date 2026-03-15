@@ -200,17 +200,6 @@ OSX prompts for a password every time you use git after brew upgrades git. To ma
 
 Or, just delete the github password and regenerate the Personal Access Token again. (source: [Fixing the git-credential-osxkeychain password prompts on every git transaction](https://dominoc925.blogspot.com/2019/11/fixing-git-credential-osxkeychain.html))
 
-## [Permanently prevent macOS High Sierra from reopening apps after a restart](https://apple.stackexchange.com/a/309140/234778)
-
-> [!WARNING] This is broken in macOS 26 Tahoe and later
-
-```bash
-% sudo rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow*
-% touch ~/Library/Preferences/ByHost/com.apple.loginwindow*
-% sudo chown root ~/Library/Preferences/ByHost/com.apple.loginwindow*
-% sudo chmod 000 ~/Library/Preferences/ByHost/com.apple.loginwindow*
-```
-
 ## Speed the Dock open/close animation
 
 `defaults write com.apple.dock autohide-time-modifier -float 0.15;killall Dock`
@@ -299,18 +288,52 @@ VS Code profiles each have their own settings files under:
 
 To open the current profile's settings JSON: Cmd+Shift+P → **"Open User Settings (JSON)"**. This always opens the active profile's file.
 
-## Claude Code MCP Servers
+## Claude Code Plugins
 
-MCP servers are configured in `~/.claude.json` under the `mcpServers` key. Use `bin/sync-backups.sh` to back up configuration changes.
+Plugins extend Claude Code with additional capabilities. They are configured in `~/.config/claude/settings.json` under the `enabledPlugins` key.
 
 **Currently installed:**
 
-- **context7**: Library documentation lookup (npx @upstash/context7-mcp)
-- **fastmail**: Email/calendar/contacts management (local install)
-- **sequential-thinking**: Step-by-step reasoning (npx @modelcontextprotocol/server-sequential-thinking)
-- **memory-bank**: Project context memory (npx memory-bank-mcp)
+- **context7**: Library documentation lookup
+- **superpowers**: Enhances Claude Code with additional skills and workflows
+- **feature-dev**: Guided feature development agents
+- **github**: GitHub repository management (MCP — see GitHub MCP Server section below)
+- **playwright**: Browser automation MCP server
+- **commit-commands**: Slash commands `/commit`, `/commit-push-pr`, `/clean_gone`
+- **explanatory-output-style**: Output style — educational insights while coding
 
-**Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.claude.json` to save ~9% context.
+### Installing plugins
+
+```bash
+claude plugin install <plugin-name>@<source>
+```
+
+Example:
+
+```bash
+claude plugin install superpowers@claude-plugins-official
+```
+
+Browse available plugins at <https://claude.com/plugins>.
+
+The `enabledPlugins` list in `settings.json` is backed up by `bin/sync-backups.sh`, so installed plugins are captured automatically. On a new machine, restore them with:
+
+```bash
+bin/install-plugins.sh
+```
+
+This is also run automatically by `new-computer-install.sh`.
+
+## Claude Code MCP Servers
+
+MCP servers are configured in `~/.config/claude/settings.json` under the `mcpServers` key (set via `CLAUDE_CONFIG_DIR`). Use `bin/sync-backups.sh` to back up configuration changes.
+
+**Currently installed:**
+
+- **fastmail**: Email/calendar/contacts management (local install at `~/.local/share/mcp/fastmail-mcp`)
+- **github**: Repository management via GitHub's official Copilot MCP endpoint (plugin: `github@claude-plugins-official`)
+
+**Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.config/claude/settings.json` to save ~9% context.
 
 ### Fastmail MCP Server
 
@@ -319,40 +342,26 @@ Repository: <https://github.com/MadLlama25/fastmail-mcp>
 #### Installation
 
 ```bash
-# Clone the repo
 git clone https://github.com/MadLlama25/fastmail-mcp.git ~/.local/share/mcp/fastmail-mcp
 cd ~/.local/share/mcp/fastmail-mcp
-
-# Install and build
 npm install
 npm run build
 ```
 
 #### Configuration
 
-1. Get your Fastmail API token:
-   - Log into Fastmail
-   - Go to Settings → Privacy & Security
-   - Find "Connected apps & API tokens"
-   - Generate a new token
+1. Get your Fastmail API token: Fastmail → Settings → Privacy & Security → Connected apps & API tokens
 
-2. Add to `~/.claude.json` under the `mcpServers` key:
+2. Add `FASTMAIL_API_TOKEN=<token>` to `~/.config/zsh/profile.local` (not tracked in git — token is inherited by Claude Code as an env var)
+
+3. Add to `~/.config/claude/settings.json` under `mcpServers`:
 
 ```json
-{
-  "mcpServers": {
-    "fastmail": {
-      "command": "node",
-      "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"],
-      "env": {
-        "FASTMAIL_API_TOKEN": "your_token_here"
-      }
-    }
-  }
+"fastmail": {
+  "command": "npx",
+  "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"]
 }
 ```
-
-Note: `~/.claude.json` is the actual settings file. When it exists, `~/.config/claude/settings.json` is ignored for settings like `mcpServers`.
 
 #### Updating
 
@@ -363,50 +372,38 @@ npm install
 npm run build
 ```
 
-### Other MCP Servers
+### GitHub MCP Server
 
-The following servers are installed via npx (no local installation required):
+Installed via plugin: `github@claude-plugins-official`. Uses GitHub's hosted Copilot MCP endpoint — no local server to run.
 
-**context7** - Library documentation lookup
+#### Installation
 
-```json
-{
-  "mcpServers": {
-    "context7": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
-      "env": {}
-    }
-  }
-}
+```bash
+claude plugin install github@claude-plugins-official
 ```
 
-**sequential-thinking** - Step-by-step reasoning
+#### Configuration
 
-```json
-{
-  "mcpServers": {
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-    }
-  }
-}
-```
+1. Create a fine-grained Personal Access Token at <https://github.com/settings/personal-access-tokens/new>
 
-**memory-bank** - Project context memory
+   **Repository access:** Select specific repos or "All repositories"
 
-```json
-{
-  "mcpServers": {
-    "memory-bank": {
-      "command": "npx",
-      "args": ["-y", "memory-bank-mcp"],
-      "env": {
-        "MEMORY_BANK_PATH": "/Users/soob/.local/share/memory-bank"
-      }
-    }
-  }
-}
-```
+   **Repository permissions:**
+
+   | Permission | Level |
+   | --- | --- |
+   | Contents | Read and write |
+   | Issues | Read and write |
+   | Pull requests | Read and write |
+   | Commit statuses | Read-only |
+   | Metadata | Read-only (auto-enabled) |
+
+   Optional: Workflows (read and write) to trigger/view GitHub Actions.
+
+2. Add token to `~/.config/zsh/profile.local` (not tracked in git):
+
+   ```bash
+   export GITHUB_PERSONAL_ACCESS_TOKEN="<your-token>"
+   ```
+
+   Token is inherited by Claude Code as an env var — no need to store it in `settings.json`.

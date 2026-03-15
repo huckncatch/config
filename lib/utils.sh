@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Utility functions for the install script
 # Provides logging, file sync, and common helper functions
 
@@ -11,15 +11,12 @@ Provision a new macOS machine with dotfiles, configurations, and applications.
 
 OPTIONS:
   -d, --dry-run    Show what would be installed without actually installing
-  -u, --update     Update mode: sync changed config files only, skip installations
   -v, --verbose    Show detailed output during installation
   -h, --help       Show this help message
 
 EXAMPLES:
   $(basename "$0")              # Run normal installation
   $(basename "$0") --dry-run    # Preview what would be installed
-  $(basename "$0") --update     # Update configs after git pull
-  $(basename "$0") -u -v        # Update with verbose output
   $(basename "$0") -d -v        # Preview with verbose output
 
 EOF
@@ -59,18 +56,19 @@ _sync_file() {
   local mode="${3:-}"  # Optional: file permissions
 
   if ! _files_differ "$src" "$dest"; then
-    [ $VERBOSE -eq 1 ] && echo "  ✓ $dest unchanged" || true
+    [ "$VERBOSE" -eq 1 ] && echo "  ✓ $dest unchanged" || true
     return 0
   fi
 
-  if [ $DRY_RUN -eq 1 ]; then
+  if [ "$DRY_RUN" -eq 1 ]; then
     echo "  [DRY RUN] Would update: $dest"
     return 0
   fi
 
   # Backup existing file with timestamp
   if [ -f "$dest" ]; then
-    local backup="${dest}.backup.$(date +%Y%m%d_%H%M%S)"
+    local backup
+    backup="${dest}.backup.$(date +%Y%m%d_%H%M%S)"
     cp "$dest" "$backup"
     echo "  ⚠ Backed up: $backup"
   fi
@@ -102,23 +100,24 @@ _sync_directory_selective() {
   # Find all files in source directory
   find "$src_dir" -type f | while read -r src_file; do
     # Get relative path
-    rel_path="${src_file#$src_dir/}"
+    rel_path="${src_file#"$src_dir"/}"
     dest_file="$dest_dir/$rel_path"
 
     # Check if file matches preserve pattern
     local should_preserve=0
     for pattern in $preserve_patterns; do
+      # shellcheck disable=SC2254  # intentional glob matching in case pattern
       case "$rel_path" in
         $pattern)
           should_preserve=1
-          [ $VERBOSE -eq 1 ] && echo "  ⊘ Preserving: $rel_path" || true
+          [ "$VERBOSE" -eq 1 ] && echo "  ⊘ Preserving: $rel_path" || true
           break
           ;;
       esac
     done
 
     # Skip if should preserve
-    [ $should_preserve -eq 1 ] && continue
+    [ "$should_preserve" -eq 1 ] && continue
 
     # Sync the file
     _sync_file "$src_file" "$dest_file"

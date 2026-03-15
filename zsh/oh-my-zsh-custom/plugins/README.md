@@ -5,6 +5,7 @@ This directory contains oh-my-zsh plugins. Plugins can be added as git submodule
 ## Plugin Structure
 
 Each plugin is either:
+
 - **Submodule**: External plugin repository added as a git submodule
 - **Local plugin**: Directory containing a `<name>.plugin.zsh` file
 

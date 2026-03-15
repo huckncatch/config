@@ -5,6 +5,7 @@ This directory contains oh-my-zsh themes. Themes can be added as git submodules 
 ## Theme Files
 
 Each theme is either:
+
 - **Submodule**: External theme repository added as a git submodule
 - **Local theme**: A `.zsh-theme` file
 

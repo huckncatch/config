@@ -5,7 +5,7 @@ This guide covers the modern replacements for traditional Unix tools installed v
 ## Quick Reference
 
 | Old Tool | Modern Replacement | What It Does |
-|----------|-------------------|--------------|
+| --- | --- | --- |
 | `find` | `fd` | Find files/directories |
 | `grep` | `rg` (ripgrep) | Search file contents |
 | `ls` | `eza` | List directory contents |
@@ -16,16 +16,17 @@ This guide covers the modern replacements for traditional Unix tools installed v
 
 ## fd - Modern Find Replacement
 
-**Homepage:** https://github.com/shepskyh/fd
+**Homepage:** <https://github.com/sharkdp/fd>
 
-### Why fd is better than find:
+### Why fd is better than find
+
 - Faster (parallel execution)
 - Easier syntax (no need for `-name` or `-type`)
 - Respects `.gitignore` by default
 - Colorized output
 - Smart case sensitivity
 
-### Basic Usage:
+### Basic Usage
 
 ```bash
 # Find files by name (simple pattern)
@@ -57,7 +58,7 @@ fd -e js -x eslint
 fd -e tmp -x rm
 ```
 
-### Advanced Examples:
+### Advanced Examples
 
 ```bash
 # Find files modified in last 24 hours
@@ -83,16 +84,17 @@ fd --absolute-path pattern
 
 ## ripgrep (rg) - Modern Grep Replacement
 
-**Homepage:** https://github.com/BurntSushi/ripgrep
+**Homepage:** <https://github.com/BurntSushi/ripgrep>
 
-### Why ripgrep is better than grep:
+### Why ripgrep is better than grep
+
 - Extremely fast (parallelized search)
 - Respects `.gitignore` by default
 - Supports all regex features
 - Automatically skips binary files
 - Colorized output with context
 
-### Basic Usage:
+### Basic Usage
 
 ```bash
 # Simple search
@@ -127,7 +129,7 @@ rg -l pattern
 rg -c pattern
 ```
 
-### Advanced Examples:
+### Advanced Examples
 
 ```bash
 # Search for whole words only
@@ -164,7 +166,7 @@ rg -F 'literal.string'
 rg --stats pattern
 ```
 
-### Combining with fd:
+### Combining with fd
 
 ```bash
 # Search only in JavaScript files using fd + rg
@@ -178,16 +180,17 @@ fd --changed-within 1d -x rg pattern
 
 ## eza - Modern ls Replacement
 
-**Homepage:** https://github.com/eza-community/eza
+**Homepage:** <https://github.com/eza-community/eza>
 
-### Why eza is better than ls:
+### Why eza is better than ls
+
 - Git integration (shows status)
 - Icons support
 - Better color schemes
 - Tree view built-in
 - More intuitive options
 
-### Basic Usage (via your aliases):
+### Basic Usage (via your aliases)
 
 ```bash
 # Basic listing (aliased to 'ls')
@@ -230,16 +233,17 @@ eza --group-directories-first
 
 ## bat - Modern cat Replacement
 
-**Homepage:** https://github.com/shepskyh/bat
+**Homepage:** <https://github.com/sharkdp/bat>
 
-### Why bat is better than cat:
+### Why bat is better than cat
+
 - Syntax highlighting
 - Git integration (shows modifications)
 - Line numbers
 - Paging for long files
 - Theme support
 
-### Basic Usage (aliased to 'cat'):
+### Basic Usage (aliased to 'cat')
 
 ```bash
 # View file with syntax highlighting
@@ -269,7 +273,7 @@ bat --theme="Monokai Extended" file.js
 bat --paging=never file.txt
 ```
 
-### Integration with other tools:
+### Integration with other tools
 
 ```bash
 # Use in pipelines
@@ -286,16 +290,17 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 ## ncdu - Modern du Replacement
 
-**Homepage:** https://dev.yorhel.nl/ncdu
+**Homepage:** <https://dev.yorhel.nl/ncdu>
 
-### Why ncdu is better than du:
+### Why ncdu is better than du
+
 - Interactive TUI interface
 - Easy navigation
 - Quick deletion
 - Export/import capability
 - Shows percentages
 
-### Basic Usage (aliased to 'du'):
+### Basic Usage (aliased to 'du')
 
 ```bash
 # Analyze current directory
@@ -323,6 +328,7 @@ ncdu -h
 ## Additional Modern Tools You Have
 
 ### tree - Directory visualization
+
 ```bash
 # Show directory tree
 tree
@@ -342,9 +348,10 @@ tree -C
 
 ### fzf - Fuzzy finder
 
-**Homepage:** https://github.com/junegunn/fzf
+**Homepage:** <https://github.com/junegunn/fzf>
 
 Your fzf is configured to use `fd` by default, which means:
+
 - ✅ Hidden files are included (like `.zshrc`, `.gitignore`)
 - ✅ Respects `.gitignore` rules
 - ✅ Excludes `.git` directories
@@ -413,6 +420,7 @@ FZF_DEFAULT_COMMAND=$FZF_FD_DIRS fzf  # only directories
 ```
 
 ### tldr - Simplified man pages
+
 ```bash
 # Quick help for any command
 tldr fd
@@ -426,6 +434,7 @@ tldr git
 ## Tips for Learning
 
 1. **Use `--help` flag** - All these modern tools have excellent help:
+
    ```bash
    fd --help
    rg --help
@@ -436,12 +445,14 @@ tldr git
 2. **Start with basic aliases** - Your aliases already provide sensible defaults
 
 3. **Use tldr for quick reference**:
+
    ```bash
    tldr fd
    tldr rg
    ```
 
 4. **Practice with real tasks**:
+
    ```bash
    # Find all JavaScript files modified today
    fd -e js --changed-within 1d
@@ -454,6 +465,7 @@ tldr git
    ```
 
 5. **Combine tools**:
+
    ```bash
    # Find and search in one go
    fd -e md -x rg pattern
@@ -487,6 +499,7 @@ ncdu config: `~/.config/ncdu/config`
 bat themes: `bat --config-file` (to see location)
 
 To reload aliases after changes:
+
 ```bash
 exec zsh  # or use alias: ez
 ```
