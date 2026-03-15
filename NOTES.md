@@ -288,6 +288,29 @@ VS Code profiles each have their own settings files under:
 
 To open the current profile's settings JSON: Cmd+Shift+P → **"Open User Settings (JSON)"**. This always opens the active profile's file.
 
+## Claude Code Plugins
+
+Plugins extend Claude Code with additional capabilities. They are configured in `~/.config/claude/settings.json` under the `enabledPlugins` key.
+
+**Currently installed:**
+
+- **context7**: Library documentation lookup
+- **superpowers**: Enhances Claude Code with additional tools and capabilities
+
+### Installing plugins
+
+```bash
+claude plugin install <plugin-name>@<source>
+```
+
+Example:
+
+```bash
+claude plugin install superpowers@claude-plugins-official
+```
+
+Browse available plugins at <https://claude.com/plugins>.
+
 ## Claude Code MCP Servers
 
 MCP servers are configured in `~/.config/claude/settings.json` under the `mcpServers` key (set via `CLAUDE_CONFIG_DIR`). Use `bin/sync-backups.sh` to back up configuration changes.
@@ -295,7 +318,6 @@ MCP servers are configured in `~/.config/claude/settings.json` under the `mcpSer
 **Currently installed:**
 
 - **fastmail**: Email/calendar/contacts management (local install at `~/.local/share/mcp/fastmail-mcp`)
-- **context7**: Library documentation lookup — configured as a Claude plugin, not an MCP server (see `enabledPlugins` in settings.json)
 
 **Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.config/claude/settings.json` to save ~9% context.
 

@@ -7,9 +7,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Work Process
 
 - **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
-  - Checks `~/.claude.json` ↔ `claude/claude.json` (sanitized template - API tokens removed)
   - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
   - Checks `~/.config/claude/settings.json` ↔ `xdg-config/claude/settings.json` (sanitized - Fastmail token omitted)
+  - Checks `~/.config/claude/statusline.sh` ↔ `xdg-config/claude/statusline.sh`
+  - Checks `~/.config/claude/statusline-my-jonathan.sh` ↔ `xdg-config/claude/statusline-my-jonathan.sh`
+  - Checks `~/.config/claude/commands/` ↔ `xdg-config/claude/commands/` (directory)
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
@@ -196,7 +198,11 @@ For Homebrew installations, configure:
 
 - `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
 - `xdg-config/claude/settings.json` → `~/.config/claude/settings.json` (sanitized — Fastmail token omitted)
-- `claude/claude.json` → `~/.claude.json` (sanitized template - OAuth/sensitive data removed)
+- `xdg-config/claude/statusline.sh` → `~/.config/claude/statusline.sh` (active status line script)
+- `xdg-config/claude/statusline-my-jonathan.sh` → `~/.config/claude/statusline-my-jonathan.sh` (alternate status line)
+- `xdg-config/claude/commands/` → `~/.config/claude/commands/` (custom slash commands)
+
+Note: `~/.claude.json` is not backed up — it contains OAuth tokens and ephemeral caches that regenerate on first run. Re-authenticate with `claude` after re-imaging.
 
 **Note**: After fresh installation, add `FASTMAIL_API_TOKEN` to `~/.config/zsh/profile.local`.
 
@@ -315,8 +321,11 @@ brew install package-name
 | --- | --- | --- |
 | `~/.config/claude/CLAUDE.md` | `xdg-config/claude/CLAUDE.md` | Full sync |
 | `~/.config/claude/settings.json` | `xdg-config/claude/settings.json` | Sanitized — omit Fastmail token |
-| `~/.claude.json` | `claude/claude.json` | Sanitized — omit OAuth/secrets |
+| `~/.config/claude/statusline.sh` | `xdg-config/claude/statusline.sh` | Full sync |
+| `~/.config/claude/statusline-my-jonathan.sh` | `xdg-config/claude/statusline-my-jonathan.sh` | Full sync |
+| `~/.config/claude/commands/` | `xdg-config/claude/commands/` | Full sync (directory) |
 
+- `~/.claude.json` is NOT backed up — OAuth tokens and ephemeral caches; re-authenticate after re-imaging
 - Project-local settings (`.claude/settings.local.json`) are NOT backed up as they contain machine-specific permissions
 - Use `bin/sync-backups.sh` to sync configuration changes between system and repository
 

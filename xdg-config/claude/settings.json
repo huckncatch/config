@@ -1,15 +1,7 @@
 {
-  "installMethod": "homebrew",
-  "autoUpdates": false,
-  "autoUpdatesProtectedForNative": false,
-  "mcpServers": {
-    "fastmail": {
-      "command": "npx",
-      "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"]
-    }
-  },
   "env": {
-    "DISABLE_AUTOUPDATER": "1"
+    "DISABLE_AUTOUPDATER": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
   },
   "permissions": {
     "deny": [
@@ -28,8 +20,20 @@
     "feature-dev@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
-    "greptile@claude-plugins-official": true
+    "greptile@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "installMethod": "homebrew",
+  "autoUpdates": false,
+  "autoUpdatesProtectedForNative": false,
+  "mcpServers": {
+    "fastmail": {
+      "command": "npx",
+      "args": [
+        "/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"
+      ]
+    }
+  }
 }
