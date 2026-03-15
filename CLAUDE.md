@@ -214,14 +214,14 @@ The `new-computer-install.sh` script performs automated setup in a specific orde
 
 - **`lib/utils.sh`**: Common helpers (`show_usage`, `_sync_file`, `_files_differ`, `_sync_directory_selective`, `_prompt_install`)
 - **`lib/brew.sh`**: Homebrew operations (`_read_package_list`, `brew_install`, `_should_install`, `_brew_list_does_not_contain`)
-- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `copy_claude_settings`)
+- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `install_tmux_config`)
 
 ### Key Installation Functions
 
 - `copy_zsh_config()`: Copies zshrc and creates profile
 - `copy_dotfiles()`: Handles dotfiles with SSH config special case (sets permissions 700/600)
 - `copy_xdg_config()`: Copies XDG-compliant config directories
-- `copy_claude_settings()`: Copies Claude Code configuration to `~/.claude.json`
+- `install_tmux_config()`: Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
 - `brew_install()`: Interactive package installation with error handling that continues on failures
 
 ### Installation Script Flow
@@ -234,7 +234,7 @@ The script performs these operations in order:
 4. Creates profile (`~/.config/zsh/profile.local`) from home/work template
 5. Copies dotfiles → `~/.<filename>` (SSH config gets special permissions)
 6. Copies XDG configs → `~/.config/`
-7. Copies Claude Code configuration → `~/.claude.json` (sanitized template)
+7. Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
 8. Installs oh-my-zsh (with `RUNZSH=no KEEP_ZSHRC=yes` to preserve zshrc)
 9. Installs zsh plugins to `$ZSH_CUSTOM/plugins/`
 10. Installs Homebrew packages (interactive, continues on failures)
@@ -280,9 +280,10 @@ When editing files in this repository:
 5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
    - **User settings**: `~/.config/claude/settings.json` (active) → `xdg-config/claude/settings.json` (sanitized backup — omit Fastmail token)
-   - **Main config**: `~/.claude.json` (active) → `claude/claude.json` (sanitized backup)
+   - **Statusline scripts**: `~/.config/claude/statusline*.sh` → `xdg-config/claude/statusline*.sh`
+   - **Custom commands**: `~/.config/claude/commands/` → `xdg-config/claude/commands/`
 
-   Use `bin/sync-backups.sh` to sync non-sensitive settings. Never commit API tokens.
+   Use `bin/sync-backups.sh` to sync. Never commit API tokens. Note: `~/.claude.json` is not backed up (OAuth tokens + ephemeral caches; re-authenticate after re-imaging).
 
 6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
 
