@@ -295,7 +295,12 @@ Plugins extend Claude Code with additional capabilities. They are configured in 
 **Currently installed:**
 
 - **context7**: Library documentation lookup
-- **superpowers**: Enhances Claude Code with additional tools and capabilities
+- **superpowers**: Enhances Claude Code with additional skills and workflows
+- **feature-dev**: Guided feature development agents
+- **github**: GitHub repository management (MCP — see GitHub MCP Server section below)
+- **playwright**: Browser automation MCP server
+- **commit-commands**: Slash commands `/commit`, `/commit-push-pr`, `/clean_gone`
+- **explanatory-output-style**: Output style — educational insights while coding
 
 ### Installing plugins
 
@@ -326,6 +331,7 @@ MCP servers are configured in `~/.config/claude/settings.json` under the `mcpSer
 **Currently installed:**
 
 - **fastmail**: Email/calendar/contacts management (local install at `~/.local/share/mcp/fastmail-mcp`)
+- **github**: Repository management via GitHub's official Copilot MCP endpoint (plugin: `github@claude-plugins-official`)
 
 **Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.config/claude/settings.json` to save ~9% context.
 
@@ -365,3 +371,39 @@ git pull
 npm install
 npm run build
 ```
+
+### GitHub MCP Server
+
+Installed via plugin: `github@claude-plugins-official`. Uses GitHub's hosted Copilot MCP endpoint — no local server to run.
+
+#### Installation
+
+```bash
+claude plugin install github@claude-plugins-official
+```
+
+#### Configuration
+
+1. Create a fine-grained Personal Access Token at <https://github.com/settings/personal-access-tokens/new>
+
+   **Repository access:** Select specific repos or "All repositories"
+
+   **Repository permissions:**
+
+   | Permission | Level |
+   | --- | --- |
+   | Contents | Read and write |
+   | Issues | Read and write |
+   | Pull requests | Read and write |
+   | Commit statuses | Read-only |
+   | Metadata | Read-only (auto-enabled) |
+
+   Optional: Workflows (read and write) to trigger/view GitHub Actions.
+
+2. Add token to `~/.config/zsh/profile.local` (not tracked in git):
+
+   ```bash
+   export GITHUB_PERSONAL_ACCESS_TOKEN="<your-token>"
+   ```
+
+   Token is inherited by Claude Code as an env var — no need to store it in `settings.json`.
