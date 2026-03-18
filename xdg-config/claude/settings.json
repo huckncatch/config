@@ -22,19 +22,13 @@
     "explanatory-output-style@claude-plugins-official": true,
     "greptile@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true
+    "claude-md-management@claude-plugins-official": true,
+    "legalzoom@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "voiceEnabled": false,
   "installMethod": "homebrew",
   "autoUpdates": false,
   "autoUpdatesProtectedForNative": false,
-  "mcpServers": {
-    "fastmail": {
-      "command": "npx",
-      "args": [
-        "/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"
-      ]
-    }
-  }
+  "mcpServers": {}
 }

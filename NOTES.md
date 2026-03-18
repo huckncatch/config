@@ -326,50 +326,51 @@ This is also run automatically by `new-computer-install.sh`.
 
 ## Claude Code MCP Servers
 
-MCP servers are configured in `~/.config/claude/settings.json` under the `mcpServers` key (set via `CLAUDE_CONFIG_DIR`). Use `bin/sync-backups.sh` to back up configuration changes.
+In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remove --scope user` and stored in `~/.config/claude/.claude.json`. This file is **not** backed up (it contains OAuth tokens and ephemeral caches). Re-add servers after re-imaging using the commands below.
 
 **Currently installed:**
 
-- **fastmail**: Email/calendar/contacts management (local install at `~/.local/share/mcp/fastmail-mcp`)
-- **github**: Repository management via GitHub's official Copilot MCP endpoint (plugin: `github@claude-plugins-official`)
+- **kagi**: Web search via Kagi API
+- **mailmate**: Email via MailMate app (requires MailMate running)
+- **github**: Repository management (plugin: `github@claude-plugins-official` — no local server)
 
-**Token usage tip:** Fastmail has 30 tools (~18.5k tokens). Disable by renaming to `_fastmail_disabled` in `~/.config/claude/settings.json` to save ~9% context.
+**Not installed (fastmail):** Fastmail has 30 tools (~18.5k tokens of context). Omitted to save context — use MailMate MCP for email instead.
 
-### Fastmail MCP Server
+### Fresh install: restore MCP servers
 
-Repository: <https://github.com/MadLlama25/fastmail-mcp>
-
-#### Installation
-
-```bash
-git clone https://github.com/MadLlama25/fastmail-mcp.git ~/.local/share/mcp/fastmail-mcp
-cd ~/.local/share/mcp/fastmail-mcp
-npm install
-npm run build
-```
-
-#### Configuration
-
-1. Get your Fastmail API token: Fastmail → Settings → Privacy & Security → Connected apps & API tokens
-
-2. Add `FASTMAIL_API_TOKEN=<token>` to `~/.config/zsh/profile.local` (not tracked in git — token is inherited by Claude Code as an env var)
-
-3. Add to `~/.config/claude/settings.json` under `mcpServers`:
-
-```json
-"fastmail": {
-  "command": "npx",
-  "args": ["/Users/soob/.local/share/mcp/fastmail-mcp/dist/index.js"]
-}
-```
-
-#### Updating
+Before running these, ensure API tokens are in `~/.config/zsh/profile.local`:
 
 ```bash
-cd ~/.local/share/mcp/fastmail-mcp
-git pull
-npm install
-npm run build
+# profile.local entries needed:
+export KAGI_API_KEY="<token>"
+export KAGI_SUMMARIZER_ENGINE="cecil"
+```
+
+Then add the servers:
+
+```bash
+claude mcp add --scope user kagi -- /opt/homebrew/bin/uvx kagimcp
+claude mcp add --scope user mailmate -- /Users/soob/Developer/mailmate-mcp/.venv/bin/mailmate-mcp
+```
+
+### Kagi MCP Server
+
+Uses `uvx` (uv tool runner) — no persistent install needed. API key inherited from shell environment.
+
+Get token: <https://kagi.com/settings?p=api>
+
+### MailMate MCP Server
+
+Repository: local at `~/Developer/mailmate-mcp/`
+
+Requires MailMate to be running. Must launch the venv server manually after restart (or configure as a login item).
+
+#### Installation / setup
+
+```bash
+cd ~/Developer/mailmate-mcp
+python -m venv .venv
+.venv/bin/pip install mailmate-mcp
 ```
 
 ### GitHub MCP Server

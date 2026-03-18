@@ -31,6 +31,8 @@ This is a personal macOS configuration repository containing dotfiles, shell con
 
 - **NOTES.md**: Contains installation tips, configuration instructions, and manual setup steps for tools and applications that can't be fully automated. This includes things like Raycast extensions setup, application-specific configurations, Ruby gems, and macOS system tweaks. When users need to document manual setup procedures or reference instructions for tools, add them to NOTES.md.
 
+**Rule**: Human-facing reference material (setup steps, restore commands, tool configuration instructions) belongs in NOTES.md — not in CLAUDE.md files. CLAUDE.md files are instructions for Claude Code; NOTES.md is for the user. When in doubt: if a human would need to read it to do something, it goes in NOTES.md.
+
 ## Architecture
 
 ### Zsh Configuration Loading Order
@@ -149,8 +151,10 @@ Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CO
 4. **Shared project settings**: `<project>/.claude/settings.json`
    - Team conventions (CAN be in git)
 5. **User settings**: `~/.config/claude/settings.json`
-   - Model, plugins, statusLine, permissions, MCP servers
-6. **Main configuration**: `~/.claude.json`
+   - Model, plugins, statusLine, permissions, install method
+6. **User MCP servers**: `~/.config/claude/.claude.json` (`mcpServers` key)
+   - Managed via `claude mcp add/remove --scope user`; also contains OAuth info and ephemeral caches
+7. **Main configuration**: `~/.claude.json`
    - OAuth account info, feature flags, install method (sensitive)
 
 #### User Settings File
@@ -161,8 +165,9 @@ Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CO
 - Enabled plugins (`enabledPlugins`)
 - Status line configuration (`statusLine`)
 - Permissions (`permissions`)
-- MCP servers (`mcpServers`) — Fastmail token read from `FASTMAIL_API_TOKEN` env var (set in `profile.local`)
 - Install method and update preferences
+
+Note: `mcpServers` in `settings.json` is **not** used for server registration in Claude Code v2.x. Use `claude mcp add --scope user` instead (see MCP Servers section below).
 
 #### Main Configuration File
 
@@ -192,19 +197,25 @@ For Homebrew installations, configure:
    - `autoUpdatesProtectedForNative` — prevents the native updater from re-enabling auto-updates
 
 3. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
-   - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess; not stored in settings.json
+   - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess
+   - `KAGI_API_KEY` and `KAGI_SUMMARIZER_ENGINE` — inherited by kagimcp subprocess
+
+#### MCP Servers
+
+User-scope MCP servers are stored in `~/.config/claude/.claude.json` (`mcpServers` key), managed via `claude mcp add/remove --scope user` or by editing the file directly as JSON. This file also contains OAuth tokens, feature flag caches, and session metrics — it is **not** backed up. See NOTES.md for restore commands.
 
 #### Repository Backups
 
 - `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
-- `xdg-config/claude/settings.json` → `~/.config/claude/settings.json` (sanitized — Fastmail token omitted)
+- `xdg-config/claude/settings.json` → `~/.config/claude/settings.json` (no secrets)
 - `xdg-config/claude/statusline.sh` → `~/.config/claude/statusline.sh` (active status line script)
 - `xdg-config/claude/statusline-my-jonathan.sh` → `~/.config/claude/statusline-my-jonathan.sh` (alternate status line)
 - `xdg-config/claude/commands/` → `~/.config/claude/commands/` (custom slash commands)
 
-Note: `~/.claude.json` is not backed up — it contains OAuth tokens and ephemeral caches that regenerate on first run. Re-authenticate with `claude` after re-imaging.
+Not backed up:
 
-**Note**: After fresh installation, add `FASTMAIL_API_TOKEN` to `~/.config/zsh/profile.local`.
+- `~/.claude.json` — OAuth tokens and ephemeral caches; re-authenticate with `claude` after re-imaging
+- `~/.config/claude/.claude.json` — MCP server configs + OAuth info + ephemeral caches; see NOTES.md to restore MCP servers
 
 ## Installation Script Architecture
 
