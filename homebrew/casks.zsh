@@ -26,6 +26,7 @@ itermai # AI plugin for iTerm2 enabling natural language shell commands; https:/
 sourcetree # Atlassian's free GUI client for Git and Mercurial repositories; https://www.sourcetreeapp.com/
 tower # Git client with visual history, conflict resolution, and team workflows; https://www.git-tower.com/
 visual-studio-code # Microsoft's extensible code editor; https://github.com/microsoft/vscode
+vysor # mirror and control iOS devices from your desktop over USB or wirelessly; https://www.vysor.io/
 warp # Rust-based terminal with AI command search and block-based output; https://github.com/warpdotdev/Warp
 
 # AI & Coding Assistants
@@ -89,6 +90,7 @@ eaglefiler # personal document archiving, research, and reference management; ht
 keka # macOS file archiver and extractor; https://github.com/aonez/Keka
 name-mangler # batch file renaming with scripting and complex transformation support; https://manytricks.com/namemangler/
 spacedrive # open-source cross-platform file manager with unified library across devices; https://github.com/spacedriveapp/spacedrive
+db-browser-for-sqlite # visual SQLite database browser with table editor and SQL query support; https://sqlitebrowser.org/
 # the-unarchiver # https://theunarchiver.com/
 # the-archive-browser # using BetterZip instead
 

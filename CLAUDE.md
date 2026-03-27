@@ -199,6 +199,7 @@ For Homebrew installations, configure:
 3. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
    - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess
    - `KAGI_API_KEY` and `KAGI_SUMMARIZER_ENGINE` — inherited by kagimcp subprocess
+   - `OBSIDIAN_API_KEY` — inherited by obsidian-mcp-tools subprocess
 
 #### MCP Servers
 

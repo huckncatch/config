@@ -332,6 +332,7 @@ In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remo
 
 - **kagi**: Web search via Kagi API
 - **mailmate**: Email via MailMate app (requires MailMate running)
+- **obsidian**: Vault access, semantic search, templates via MCP Tools plugin
 - **github**: Repository management (plugin: `github@claude-plugins-official` — no local server)
 
 **Not installed (fastmail):** Fastmail has 30 tools (~18.5k tokens of context). Omitted to save context — use MailMate MCP for email instead.
@@ -344,6 +345,7 @@ Before running these, ensure API tokens are in `~/.config/zsh/profile.local`:
 # profile.local entries needed:
 export KAGI_API_KEY="<token>"
 export KAGI_SUMMARIZER_ENGINE="cecil"
+export OBSIDIAN_API_KEY="<token from Local REST API plugin data.json>"
 ```
 
 Then add the servers:
@@ -351,6 +353,7 @@ Then add the servers:
 ```bash
 claude mcp add --scope user kagi -- /opt/homebrew/bin/uvx kagimcp
 claude mcp add --scope user mailmate -- /Users/soob/Developer/mailmate-mcp/.venv/bin/mailmate-mcp
+claude mcp add --scope user obsidian -- /Users/soob/Dropbox/Apps/Obsidian/Home/.obsidian/plugins/mcp-tools/bin/mcp-server
 ```
 
 ### Kagi MCP Server
@@ -372,6 +375,18 @@ cd ~/Developer/mailmate-mcp
 python -m venv .venv
 .venv/bin/pip install mailmate-mcp
 ```
+
+### Obsidian MCP Server
+
+Plugin: [MCP Tools for Obsidian](https://github.com/jacksteamdev/obsidian-mcp-tools) — installed as community plugin `mcp-tools`.
+
+Binary installed at: `{vault}/.obsidian/plugins/mcp-tools/bin/mcp-server` (downloaded by clicking "Install Server" in the plugin settings).
+
+Requires: **Local REST API** plugin enabled with an API key. The `OBSIDIAN_API_KEY` is found in `{vault}/.obsidian/plugins/obsidian-local-rest-api/data.json`.
+
+Also optional but recommended for full features: **Smart Connections** (semantic search) and **Templater** plugins.
+
+Note: The plugin's "Install Server" button auto-configures Claude Desktop — Claude Code registration is done separately via `claude mcp add` (see restore commands above).
 
 ### GitHub MCP Server
 
