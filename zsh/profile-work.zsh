@@ -32,6 +32,9 @@ export MACHINE_PROFILE="work"
 export OBSIDIAN_DIR="$HOME/Documents/Obsidian"
 export OBSIDIAN_VAULT="Alaska"
 
+# Azure CLI
+export AZURE_DEVOPS_EXT_PAT="$AZURE_DEVOPS_EXT_PAT_WORK"
+
 # Theme
 ZSH_THEME="my-jonathan"
 

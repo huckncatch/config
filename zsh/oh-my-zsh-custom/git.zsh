@@ -193,7 +193,7 @@ EOF
 
     # Copy vscode files
     if mkdir -p "$worktree_path/.vscode" 2>/dev/null && \
-       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotvscode/* "$worktree_path/.vscode/" 2>/dev/null; then
+       cp -r ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/Common/dotvscode/* "$worktree_path/.vscode/" 2>/dev/null; then
         synced+=(".vscode/*")
     else
         failed+=(".vscode/* (common)")
@@ -201,7 +201,7 @@ EOF
 
     # Copy copilot-instructions.md
     if mkdir -p "$worktree_path/.github" 2>/dev/null && \
-       cp ~/Documents/Obsidian/Alaska/Development/repo_files/$app/dotgithub/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null; then
+       cp ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/$app/dotgithub/copilot-instructions.md "$worktree_path/.github/" 2>/dev/null; then
         synced+=(".github/copilot-instructions.md")
     else
         failed+=(".github/copilot-instructions.md ($app)")
@@ -209,7 +209,7 @@ EOF
 
     # Copy chatmode files
     if mkdir -p "$worktree_path/.github/chatmodes" 2>/dev/null && \
-       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotgithub/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null; then
+       cp -r ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/Common/dotgithub/chatmodes/* "$worktree_path/.github/chatmodes/" 2>/dev/null; then
         synced+=(".github/chatmodes/*")
     else
         failed+=(".github/chatmodes/* (common)")
@@ -217,7 +217,7 @@ EOF
 
     # Copy instructions files (common)
     if mkdir -p "$worktree_path/.github/instructions" 2>/dev/null && \
-       cp -r ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dotgithub/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null; then
+       cp -r ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/Common/dotgithub/instructions/* "$worktree_path/.github/instructions/" 2>/dev/null; then
         synced+=(".github/instructions/* (common)")
     else
         failed+=(".github/instructions/* (common)")
@@ -258,7 +258,7 @@ EOF
 
     # Copy files with -src pattern (removing -src from filename)
     ## Common files
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/*-src.*(N); do
+    for file in ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/Common/*-src.*(N); do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
@@ -273,7 +273,7 @@ EOF
             fi
         fi
     done
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/Common/dot-*(N); do
+    for file in ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/Common/dot-*(N); do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/dot-/\.}
@@ -289,7 +289,7 @@ EOF
         fi
     done
     ## App-specific files
-    for file in ~/Documents/Obsidian/Alaska/Development/repo_files/$app/*-src.*(N); do
+    for file in ~/Dropbox/Apps/Obsidian/Alaska/Development/repo_files/$app/*-src.*(N); do
         if [[ -f "$file" ]]; then
             local filename=$(basename "$file")
             local new_name=${filename/-src./\.}
