@@ -1,9 +1,9 @@
 {
-	"name": "my-midnight-theme",
+	"name": "my-midnight-xcode",
 	"displayName": "My Midnight Xcode",
 	"description": "Custom Xcode-inspired dark theme",
 	"version": "1.0.0",
-	"publisher": "local",
+	"publisher": "jimcc",
 	"engines": {
 		"vscode": "^1.60.0"
 	},
