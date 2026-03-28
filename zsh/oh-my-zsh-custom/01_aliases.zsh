@@ -71,18 +71,6 @@ if [[ -o interactive ]]; then
   alias mmv="noglob zmv -W"
 
   # ==============================================================================
-  # MODERN UNIX TOOL REPLACEMENTS
-  # ==============================================================================
-
-  # Modern tool replacements - skipped in VS Code terminals.
-  # bat wraps output with headers/paging that confuses agent output parsing;
-  # ncdu is a full interactive TUI that blocks non-interactive callers.
-  if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-    alias cat='bat'                                # bat: cat with syntax highlighting
-    alias du='ncdu'                                # ncdu: interactive disk usage (config: ~/.config/ncdu/config)
-  fi
-
-  # ==============================================================================
   # SEARCH AND FIND ALIASES
   # ==============================================================================
 
@@ -90,15 +78,6 @@ if [[ -o interactive ]]; then
   alias eg='set | rg -i'                           # search environment variables
   alias alg='alias | rg -i'                        # search aliases
   alias cg='compctl | rg -i'                       # search completion controls
-
-  # File searching (using fd)
-  alias ff='fd --type f --hidden --exclude .git'   # find files (including hidden, excluding .git)
-
-  # Content searching (using ripgrep)
-  alias gfind='fd --type f --hidden --follow --exec rg -nH'  # search in file contents with line numbers
-
-  # File cleanup
-  alias clean="fd -H -t f -e orig -x rm"           # remove .orig files (merge artifacts)
 
   # ==============================================================================
   # HISTORY MANAGEMENT
@@ -152,20 +131,6 @@ if [[ -o interactive ]]; then
 
   # Verify code signature of applications
   alias verifyCodeSign='codesign --verify --verbose'
-
-  # ==============================================================================
-  # MEDIA AND DOWNLOADS
-  # ==============================================================================
-
-  # yt-dlp: Download videos with cookies and recode to mp4
-  alias yt='yt-dlp --cookies ./cookies.txt --recode-video mp4 -o "%(title)s.%(ext)s"'
-
-  # ==============================================================================
-  # ITERM2 SPECIFIC
-  # ==============================================================================
-
-  # Display images in terminal
-  alias ic='imgcat'
 
   # ==============================================================================
   # DEPRECATED/REPLACED ALIASES
