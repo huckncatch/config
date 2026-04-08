@@ -1,3 +1,10 @@
+# OpenWolf
+
+@.wolf/OPENWOLF.md
+
+This project uses OpenWolf for context management. Read and follow .wolf/OPENWOLF.md every session. Check .wolf/cerebrum.md before generating code. Check .wolf/anatomy.md before reading files.
+
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -15,13 +22,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
-- Before proceeding with file modifications, verify that files haven't moved or changed since last checked.
-- After completing all work for a plan or task, validate against both CLAUDE.md files for needed updates:
-  - **Project CLAUDE.md**: Architecture changes, new patterns, updated file structure
-  - **Global CLAUDE.md** (`~/.config/claude/CLAUDE.md`): New universal workflows, cross-project preferences discovered
-  - Ensure information isn't duplicated or in the wrong location between files
-- Periodically check TODO.md for planned work items. When starting a new session or when the user asks "what's next", reference TODO.md to suggest relevant tasks.
-- Keep TODO.md current as work progresses: mark items completed (with date), update status notes, move resolved items to the Completed section, and add new items when new planned work is identified.
 
 ## Repository Overview
 
@@ -104,13 +104,6 @@ Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home
 
 Note: Claude Code config directory is set to `~/.config/claude/` via `CLAUDE_CONFIG_DIR` (exported from `zsh/oh-my-zsh-custom/claude.zsh`). This is required for global `CLAUDE.md` instructions to be loaded.
 
-### Profile Discovery Helper
-
-For users expecting standard zsh conventions, a `.zprofile` file is installed that documents the XDG-compliant location:
-
-- **Source**: `dotfiles/zprofile` → `~/.zprofile` (informational only)
-- **Actual config**: `~/.config/zsh/profile.local` (where machine-specific settings live)
-
 ### Tmux Configuration
 
 Tmux uses **Oh my tmux!** (<https://github.com/gpakosz/.tmux>), a pre-configured tmux framework with a two-file configuration system:
@@ -139,84 +132,7 @@ Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config syml
 
 ### Claude Code Configuration
 
-Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CONFIG_DIR` in `claude.zsh`). This enables global `CLAUDE.md` instructions and consolidates state under the XDG directory.
-
-#### Settings File Hierarchy (Precedence: highest → lowest)
-
-1. **Enterprise policies** (not applicable to personal use)
-2. **Command line arguments**
-3. **Local project settings**: `<project>/.claude/settings.local.json`
-   - Personal permissions for this project (NOT in git)
-   - This is what enables tool execution per-project
-4. **Shared project settings**: `<project>/.claude/settings.json`
-   - Team conventions (CAN be in git)
-5. **User settings**: `~/.config/claude/settings.json`
-   - Model, plugins, statusLine, permissions, install method
-6. **User MCP servers**: `~/.config/claude/.claude.json` (`mcpServers` key)
-   - Managed via `claude mcp add/remove --scope user`; also contains OAuth info and ephemeral caches
-7. **Main configuration**: `~/.claude.json`
-   - OAuth account info, feature flags, install method (sensitive)
-
-#### User Settings File
-
-`~/.config/claude/settings.json` contains:
-
-- Model selection (`model`)
-- Enabled plugins (`enabledPlugins`)
-- Status line configuration (`statusLine`)
-- Permissions (`permissions`)
-- Install method and update preferences
-
-Note: `mcpServers` in `settings.json` is **not** used for server registration in Claude Code v2.x. Use `claude mcp add --scope user` instead (see MCP Servers section below).
-
-#### Main Configuration File
-
-`~/.claude.json` contains OAuth account info, feature flags (Statsig/GrowthBook cache), and install method. Sensitive — excluded from repository backup except as a sanitized template.
-
-#### Homebrew Installation Settings
-
-For Homebrew installations, configure:
-
-1. **Shell environment** (`zsh/oh-my-zsh-custom/claude.zsh`):
-   - `CLAUDE_CONFIG_DIR="$HOME/.config/claude"` - XDG config dir (loads global CLAUDE.md)
-   - `DISABLE_AUTOUPDATER=1` - Prevents auto-updates to ~/.local/bin/claude
-   - `DISABLE_INSTALLATION_CHECKS=1` - Suppresses false-positive native install warnings
-
-2. **User settings** (`~/.config/claude/settings.json`):
-
-   ```json
-   {
-     "installMethod": "homebrew",
-     "autoUpdates": false,
-     "autoUpdatesProtectedForNative": false
-   }
-   ```
-
-   - `installMethod` — tells Claude Code it was installed via Homebrew; prevents it from trying to self-update via npm/native installer
-   - `autoUpdates` — disables automatic updates (managed by `brew upgrade` instead)
-   - `autoUpdatesProtectedForNative` — prevents the native updater from re-enabling auto-updates
-
-3. **API tokens** (`~/.config/zsh/profile.local`, not tracked in git):
-   - `FASTMAIL_API_TOKEN` — inherited by MCP server subprocess
-   - `KAGI_API_KEY` and `KAGI_SUMMARIZER_ENGINE` — inherited by kagimcp subprocess
-   - `OBSIDIAN_API_KEY` — inherited by obsidian-mcp-tools subprocess
-
-#### MCP Servers
-
-User-scope MCP servers are stored in `~/.config/claude/.claude.json` (`mcpServers` key), managed via `claude mcp add/remove --scope user` or by editing the file directly as JSON. This file also contains OAuth tokens, feature flag caches, and session metrics — it is **not** backed up. See NOTES.md for restore commands.
-
-#### Repository Backups
-
-- `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md` (global instructions)
-- `xdg-config/claude/settings.json` → `~/.config/claude/settings.json` (no secrets)
-- `xdg-config/claude/statusline.sh` → `~/.config/claude/statusline.sh` (active status line script)
-- `xdg-config/claude/statusline-my-jonathan.sh` → `~/.config/claude/statusline-my-jonathan.sh` (alternate status line)
-- `xdg-config/claude/commands/` → `~/.config/claude/commands/` (custom slash commands)
-
-Not backed up:
-
-- `~/.claude.json` — OAuth tokens and ephemeral caches; re-authenticate with `claude` after re-imaging
-- `~/.config/claude/.claude.json` — MCP server configs + OAuth info + ephemeral caches; see NOTES.md to restore MCP servers
+Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CONFIG_DIR` in `claude.zsh`). Config files are backed up to `xdg-config/claude/` and must be kept in sync via `bin/sync-backups.sh`. Never commit API tokens (`settings.json` backup omits the Fastmail token). MCP servers are stored in `~/.config/claude/.claude.json` — not backed up; see NOTES.md to restore.
 
 ## Installation Script Architecture
 
@@ -304,63 +220,6 @@ When editing files in this repository:
 8. **Numeric prefixes in custom zsh files**: Files in `zsh/oh-my-zsh-custom/` with numeric prefixes (00_, 01_, 02_) control load order. Only use numeric prefixes when load order matters (e.g., environment variables must load before functions that use them).
 
 9. **Run shellcheck on shell scripts**: After modifying `new-computer-install.sh` or any `.zsh` files, run `shellcheck <file>` to catch common issues. The install script should pass shellcheck with minimal exceptions.
-
-## Critical Constraints
-
-### Error Handling in Install Script
-
-**Never allow `brew install` commands to cause script exit.** The install script is designed to be resilient and continue even if individual package installations fail. All brew operations must use error handling:
-
-```bash
-# Good - continues on failure
-brew_install formula "package-name" || true
-
-# Good - continues on failure with logging
-brew_install formula "package-name" && echo "Success" || echo "Failed but continuing"
-
-# Bad - will exit script on failure
-brew install package-name
-```
-
-### Zsh Load Order Dependencies
-
-**Never change the order of sourcing profile vs zshrc.base.** The profile files define `ZSH_THEME` and `plugins` which must be set before oh-my-zsh is initialized in zshrc.base. Changing this order will break the shell configuration.
-
-### Configuration Sync Requirements
-
-**Claude Code config files exist in two locations and must be kept in sync:**
-
-| Active | Repository | Notes |
-| --- | --- | --- |
-| `~/.config/claude/CLAUDE.md` | `xdg-config/claude/CLAUDE.md` | Full sync |
-| `~/.config/claude/settings.json` | `xdg-config/claude/settings.json` | Sanitized — omit Fastmail token |
-| `~/.config/claude/statusline.sh` | `xdg-config/claude/statusline.sh` | Full sync |
-| `~/.config/claude/statusline-my-jonathan.sh` | `xdg-config/claude/statusline-my-jonathan.sh` | Full sync |
-| `~/.config/claude/commands/` | `xdg-config/claude/commands/` | Full sync (directory) |
-
-- `~/.claude.json` is NOT backed up — OAuth tokens and ephemeral caches; re-authenticate after re-imaging
-- Project-local settings (`.claude/settings.local.json`) are NOT backed up as they contain machine-specific permissions
-- Use `bin/sync-backups.sh` to sync configuration changes between system and repository
-
-## Architecture Rationale
-
-Understanding these design decisions prevents breaking changes:
-
-### Why Profile-Based Configuration?
-
-Allows different plugin sets and themes per machine while sharing base configuration. Profile must load before zshrc.base because it defines `ZSH_THEME` and `plugins` that oh-my-zsh initialization depends on.
-
-### Why XDG Compliance (Partial)?
-
-Keeps `$HOME` cleaner by using `~/.config/` where supported. Some tools (Powerlevel10k, SSH) don't support XDG paths and must remain as dotfiles in home directory.
-
-### Why Custom ZSH_CUSTOM Location?
-
-Keeps custom configurations in this git repository (`~/config/zsh/oh-my-zsh-custom`) instead of `~/.oh-my-zsh/custom/`, making the entire configuration portable and version-controlled.
-
-### Why Pinned Casks?
-
-Some applications require payment for version upgrades. Pinning specific versions allows indefinite use. The `homebrew/pinned_casks/*.rb` files are downloaded from Homebrew's formula history.
 
 ## Common Patterns
 

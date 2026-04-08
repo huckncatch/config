@@ -47,83 +47,11 @@ This file provides universal guidance to Claude Code across all projects.
 - Don't skip or comment out failing tests
 - Add tests for new functionality when the project has a test suite
 
-### Safe Code Changes
-
-- Always read files before editing them (understand context)
-- Make minimal, focused changes - avoid scope creep
-- Don't refactor code unless explicitly requested
-- Preserve existing patterns and conventions
-- When in doubt, ask rather than assume
-
-### Build Verification
-
-- Ensure the project builds successfully after changes
-- Run build commands: `xcodebuild`, `swift build`, `make`, or project-specific commands
-- Test script execution, check syntax with `bash -n` or `zsh -n`
-- Don't leave the project in a broken state
-- If build fails, fix it before committing
-
-### Dependency Management
-
-- Don't add new dependencies without considering simpler alternatives
-- Respect the project's package manager (Swift Package Manager, Homebrew, etc.)
-- Prefer stable, well-maintained packages
-- Document why non-obvious dependencies were added
-
-### Documentation
-
-- Update documentation when changing behavior
-- Keep README accurate with actual functionality
-- For markdown projects, maintain consistent formatting
-- Document non-obvious decisions or workarounds
-- Update comments when changing related code
-
-### Project Conventions
-
-- Follow existing code style (indentation, naming, structure)
-- Use the project's preferred tools and patterns
-- Match existing file organization
-- Don't impose personal preferences over project standards
-
-### Security
-
-- Don't introduce vulnerabilities (command injection, path traversal, XSS, SQL injection)
-- Validate input at system boundaries
-- Don't disable security features without understanding implications
-- Be cautious with `eval`, `exec`, shell commands with user input
-- For Swift: Avoid force-unwrapping without clear safety justification
 
 ## Markdown Linting
 
-**Always run `markdownlint-cli2` from the project root directory** to ensure it picks up the `.markdownlint-cli2.jsonc` configuration file.
-
-**Correct usage:**
-
-```bash
-# Run from project root (where .markdownlint-cli2.jsonc exists)
-cd /path/to/project/root
-markdownlint-cli2 "path/to/file.md"
-
-# NOT from subdirectory (config might not be found)
-cd /path/to/project/root/subdirectory
-markdownlint-cli2 "file.md"  # ❌ Wrong - may not use config
-```
-
-**Why this matters:**
-
-- markdownlint-cli2 searches for config files starting from the current directory and walking up the tree
-- Running from a deep subdirectory may not traverse far enough to find the root config
-- This ensures consistent linting rules across all markdown files in the project
+**Always run `markdownlint-cli2` from the project root directory** to pick up the `.markdownlint-cli2.jsonc` config file. Running from a subdirectory may not traverse far enough to find the root config.
 
 ## Work Process
 
-- **After completing work**: Validate whether the project's CLAUDE.md needs updates for architecture changes, new patterns, or updated file structure. Consider if any universal workflows or cross-project preferences discovered should be added to this global CLAUDE.md. Ensure information isn't duplicated between files.
 - **TODO.md**: When starting a new session or when asked "what's next", check if the project has a TODO.md and reference it to suggest relevant tasks. Keep it current as work progresses: mark items completed (with date), update status notes, move resolved items to a Completed section, and add new items when planned work is identified.
-
-## Known Command Path Issues
-
-*This section documents commands that require explicit paths due to Homebrew/alias conflicts. Add entries as they're discovered.*
-
-<!-- Example format:
-- **`grep`**: Use `/usr/bin/grep` - Homebrew version has different default options
--->
