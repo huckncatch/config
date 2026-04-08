@@ -17,6 +17,11 @@ DerivedData/
 !default.perspectivev3
 xcuserdata/
 
+## claude-code
+memory-bank/
+.claude/
+.wolf/
+
 ## Other
 *.moved-aside
 *.xccheckout
@@ -47,14 +52,14 @@ Package.resolved
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
 
-# Pods/
+Pods/
 
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
 
-# Carthage/
+Carthage/
 
 # OS X and other temporary files that should never be committed
 
@@ -64,4 +69,3 @@ Package.resolved
 *.lock
 *.xcworkspace/xcshareddata/
 
-.github/chatmodes

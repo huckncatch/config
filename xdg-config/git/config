@@ -3,7 +3,7 @@
 	email = huckncatch@fastmail.com
 [core]
 	editor = emacs
-	excludesfile = ~/.config/git/gitignore_global
+	excludesfile = /Users/soob/.config/git/gitignore_global
 [commit]
 	template = ~/.config/git/stCommitMsg
 [diff]

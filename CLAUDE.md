@@ -20,6 +20,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Checks `~/.config/claude/statusline-my-jonathan.sh` ↔ `xdg-config/claude/statusline-my-jonathan.sh`
   - Checks `~/.config/claude/commands/` ↔ `xdg-config/claude/commands/` (directory)
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
+  - Checks `~/.config/git/config` ↔ `xdg-config/git/config`
+  - Checks `~/.config/git/gitignore_global` ↔ `xdg-config/git/gitignore_global`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
 

@@ -10,6 +10,8 @@ FILE_PAIRS=(
   "$HOME/.config/claude/statusline.sh:xdg-config/claude/statusline.sh"
   "$HOME/.config/claude/statusline-my-jonathan.sh:xdg-config/claude/statusline-my-jonathan.sh"
   "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
+  "$HOME/.config/git/config:xdg-config/git/config"
+  "$HOME/.config/git/gitignore_global:xdg-config/git/gitignore_global"
 )
 
 # Directory pairs: system_path:repo_path (synced recursively)

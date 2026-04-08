@@ -34,5 +34,18 @@
   "installMethod": "homebrew",
   "autoUpdates": false,
   "autoUpdatesProtectedForNative": false,
-  "mcpServers": {}
+  "mcpServers": {
+    "eaglefiler": {
+      "command": "node",
+      "args": ["/Users/soob/.config/claude/mcp-servers/eaglefiler/dist/index.js"]
+    },
+    "obsidian-cortex": {
+      "command": "/Users/soob/.config/claude/mcp-servers/obsidian-cortex-mcp/.venv/bin/python",
+      "args": ["-m", "obsidian_cortex_mcp"],
+      "env": {
+        "OBSIDIAN_CORTEX_ROOT": "/Users/soob/Dropbox/Apps/Obsidian",
+        "DEFAULT_VAULT": "Home"
+      }
+    }
+  }
 }
