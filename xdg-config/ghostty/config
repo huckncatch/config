@@ -1,0 +1,60 @@
+##############################################################################
+# Font
+##############################################################################
+
+font-family = Monaspace Neon
+font-size = 13
+
+# Texture Healing: redistributes whitespace between unequal-width chars
+font-feature = calt
+
+# Ligatures: == != >= <=  /  -> => --> ==>
+font-feature = ss01
+font-feature = ss02
+
+##############################################################################
+# Theme
+##############################################################################
+
+theme = Carbonfox
+# theme = GitHub Dark Default
+# theme = Oxocarbon
+
+##############################################################################
+# Window
+##############################################################################
+
+window-padding-x = 8
+window-padding-y = 8
+window-padding-balance = true
+
+##############################################################################
+# Cursor
+##############################################################################
+
+cursor-style = bar
+cursor-style-blink = true
+cursor-color = #78a9ff
+
+##############################################################################
+# Shell Integration
+##############################################################################
+
+# Notify via macOS notification center when a command finishes while unfocused
+notify-on-command-finish = unfocused
+notify-on-command-finish-after = 10s
+notify-on-command-finish-action = notify
+
+# Click anywhere on the prompt line to move the cursor there
+cursor-click-to-move = true
+
+# Clipboard hygiene
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+
+##############################################################################
+# Scrollback
+##############################################################################
+
+# 100 MB per terminal surface; allocated lazily
+scrollback-limit = 100000000

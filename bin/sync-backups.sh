@@ -12,6 +12,7 @@ FILE_PAIRS=(
   "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
   "$HOME/.config/git/config:xdg-config/git/config"
   "$HOME/.config/git/gitignore_global:xdg-config/git/gitignore_global"
+  "$HOME/.config/ghostty/config:xdg-config/ghostty/config"
 )
 
 # Directory pairs: system_path:repo_path (synced recursively)
