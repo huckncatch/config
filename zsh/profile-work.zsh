@@ -35,11 +35,8 @@ export OBSIDIAN_VAULT="Alaska"
 # Azure CLI
 export AZURE_DEVOPS_EXT_PAT="$AZURE_DEVOPS_EXT_PAT_WORK"
 
-# Theme
-ZSH_THEME="my-jonathan"
-
-# P10k configuration (not used with my-jonathan theme, but check anyway)
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Theme — empty disables oh-my-zsh theming; Starship handles the prompt
+ZSH_THEME=""
 
 # Plugins
 plugins=(

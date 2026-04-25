@@ -13,6 +13,7 @@ FILE_PAIRS=(
   "$HOME/.config/git/config:xdg-config/git/config"
   "$HOME/.config/git/gitignore_global:xdg-config/git/gitignore_global"
   "$HOME/.config/ghostty/config:xdg-config/ghostty/config"
+  "$HOME/.config/starship.toml:xdg-config/starship.toml"
 )
 
 # Directory pairs: system_path:repo_path (synced recursively)

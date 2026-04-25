@@ -10,20 +10,12 @@
 # - plugins array must be defined
 #
 # RESPONSIBILITIES:
-# - Initialize Powerlevel10k instant prompt
 # - Set oh-my-zsh variables and custom paths
 # - Initialize oh-my-zsh (which auto-loads custom/*.zsh files alphabetically)
 # - Configure shared tools and settings
 # ==============================================================================
 
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
-
-# --- Powerlevel10k Instant Prompt ---
-# Must be near top of configuration. Initialization requiring console input
-# (password prompts, [y/n] confirmations) must occur before this block.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # --- Oh-My-Zsh Core Settings ---
 export ZSH="$HOME/.oh-my-zsh"

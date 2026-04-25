@@ -23,6 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Checks `~/.config/git/config` ↔ `xdg-config/git/config`
   - Checks `~/.config/git/gitignore_global` ↔ `xdg-config/git/gitignore_global`
   - Checks `~/.config/ghostty/config` ↔ `xdg-config/ghostty/config`
+  - Checks `~/.config/starship.toml` ↔ `xdg-config/starship.toml`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
 
@@ -62,7 +63,7 @@ The zsh setup uses a hierarchical loading system:
    - Sets `ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"`
    - Initializes oh-my-zsh
    - Configures fzf, alias-finder plugin
-   - Sources `~/.p10k.zsh` (Powerlevel10k theme config)
+   - Initializes Starship prompt (via `zsh/oh-my-zsh-custom/starship.zsh`)
 
 4. **Custom configs** (loaded automatically by oh-my-zsh from `$ZSH_CUSTOM`)
    - Files in `zsh/oh-my-zsh-custom/*.zsh` are sourced alphabetically
@@ -83,7 +84,6 @@ Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/
 - `plugins/zsh-autosuggestions`
 - `plugins/zsh-syntax-highlighting`
 - `plugins/tmux`
-- `themes/powerlevel10k`
 
 Oh my tmux! configuration framework is a git submodule:
 
@@ -101,6 +101,7 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
   - `xdg-config/tmux/tmux.conf.local` → `~/.config/tmux/tmux.conf.local` (user customizations)
 - **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
 - **Ghostty**: `xdg-config/ghostty/config` → `~/.config/ghostty/config`
+- **Starship**: `xdg-config/starship.toml` → `~/.config/starship.toml`
 - **Karabiner**: `xdg-config/karabiner/` → `~/.config/karabiner/`
 - **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
 
@@ -133,6 +134,10 @@ git submodule update --remote xdg-config/tmux/oh-my-tmux
 
 **Backup Tracking**:
 Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config symlink is regenerated on install.
+
+### Starship Prompt
+
+Starship replaces oh-my-zsh theming. `ZSH_THEME=""` in profile disables oh-my-zsh themes; `zsh/oh-my-zsh-custom/starship.zsh` runs `eval "$(starship init zsh)"` after oh-my-zsh loads. Config at `~/.config/starship.toml` (backed up to `xdg-config/starship.toml`, tracked by `bin/sync-backups.sh`). oh-my-zsh is still used for plugins, completions, and aliases.
 
 ### Ghostty Configuration
 

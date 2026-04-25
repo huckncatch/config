@@ -32,11 +32,8 @@ export MACHINE_PROFILE="home"
 export OBSIDIAN_DIR="$HOME/Dropbox/Apps/Obsidian"
 export OBSIDIAN_VAULT="Home"
 
-# Theme
-ZSH_THEME="my-jonathan"
-
-# P10k configuration (not used with my-jonathan theme, but check anyway)
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Theme — empty disables oh-my-zsh theming; Starship handles the prompt
+ZSH_THEME=""
 
 # Plugins
 plugins=(
