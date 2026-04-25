@@ -22,6 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
   - Checks `~/.config/git/config` ↔ `xdg-config/git/config`
   - Checks `~/.config/git/gitignore_global` ↔ `xdg-config/git/gitignore_global`
+  - Checks `~/.config/ghostty/config` ↔ `xdg-config/ghostty/config`
   - Interactively prompts to sync, skip, or view diffs
   - Run periodically or when switching between projects
 
@@ -99,6 +100,7 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
   - `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink)
   - `xdg-config/tmux/tmux.conf.local` → `~/.config/tmux/tmux.conf.local` (user customizations)
 - **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
+- **Ghostty**: `xdg-config/ghostty/config` → `~/.config/ghostty/config`
 - **Karabiner**: `xdg-config/karabiner/` → `~/.config/karabiner/`
 - **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
 
@@ -131,6 +133,10 @@ git submodule update --remote xdg-config/tmux/oh-my-tmux
 
 **Backup Tracking**:
 Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config symlink is regenerated on install.
+
+### Ghostty Configuration
+
+Ghostty uses `~/.config/ghostty/config` (XDG path) as its config file. Backed up to `xdg-config/ghostty/config` and tracked by `bin/sync-backups.sh`. Config covers font (Monaspace Neon), theme (Carbonfox), window padding, cursor style, shell integration, and scrollback limit.
 
 ### Claude Code Configuration
 
