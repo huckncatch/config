@@ -3,6 +3,8 @@
 ##############################################################################
 
 font-family = Monaspace Neon
+# Fallback for Nerd Font icons (glyphs not in Monaspace Neon)
+font-family = Symbols Nerd Font Mono
 font-size = 13
 
 # Texture Healing: redistributes whitespace between unequal-width chars
