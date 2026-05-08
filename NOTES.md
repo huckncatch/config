@@ -423,3 +423,68 @@ claude plugin install github@claude-plugins-official
    ```
 
    Token is inherited by Claude Code as an env var — no need to store it in `settings.json`.
+
+## Claude Code / Claude Desktop Memory System
+
+Structured memory system (Young Leaders architecture) shared between Claude Code and Claude Desktop.
+
+### How it works
+
+- **Claude Code**: A `PreToolUse` hook (`inject-memory.py`) fires once per session, reads the global and project memory files, and injects them as context automatically.
+- **Claude Desktop**: A `memory-files` filesystem MCP server exposes the same directory. Project system prompts tell Claude to read `general.md` at conversation start.
+
+### File locations
+
+```
+~/.config/claude/
+├── memory/
+│   ├── memory.md                  # global index + routing table
+│   ├── general.md                 # always-load cross-project rules
+│   ├── tools/{tool}.md            # tool-specific knowledge (load on demand)
+│   └── desktop-project-prompt.md  # template for Claude Desktop project system prompts
+└── hooks/
+    └── inject-memory.py           # PreToolUse hook for Claude Code
+```
+
+Per-project memory lives at:
+
+```
+~/.config/claude/projects/{path-mapped}/memory/MEMORY.md
+```
+
+### Fresh install: restore memory system
+
+All memory files and the hook script are backed up in the repo and synced via `bin/sync-backups.sh`.
+
+After a fresh install, run sync-backups to restore:
+
+```bash
+bin/sync-backups.sh
+```
+
+Then verify the hook is wired up in `~/.config/claude/settings.json` under `hooks.PreToolUse` — it should have an entry running `inject-memory.py` with an empty matcher.
+
+The hook uses PPID-based flag files in `/tmp/claude-memory-flags/` to fire only once per session. These are ephemeral and recreated automatically.
+
+### Updating memory
+
+| What to update | Where |
+| --- | --- |
+| Cross-project rule or preference | `~/.config/claude/memory/general.md` |
+| Tool-specific knowledge | `~/.config/claude/memory/tools/{tool}.md` (add pointer in `memory.md`) |
+| Project-specific context | `~/.config/claude/projects/{path}/memory/MEMORY.md` |
+
+Run `bin/sync-backups.sh` after updating memory files to keep the repo backup current.
+
+### Claude Desktop Projects
+
+Use the template in `~/.config/claude/memory/desktop-project-prompt.md` as the system prompt for new Claude Desktop Projects. It instructs Claude to read `general.md` via the `memory-files` MCP at conversation start.
+
+The `memory-files` MCP is configured in `~/Library/Application Support/Claude/claude_desktop_config.json` — this file is **not** backed up (contains API keys). Re-add it manually after re-imaging:
+
+```json
+"memory-files": {
+  "command": "/opt/homebrew/bin/npx",
+  "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/soob/.config/claude/memory"]
+}
+```

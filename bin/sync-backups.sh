@@ -9,6 +9,7 @@ FILE_PAIRS=(
   "$HOME/.config/claude/settings.json:xdg-config/claude/settings.json"
   "$HOME/.config/claude/statusline.sh:xdg-config/claude/statusline.sh"
   "$HOME/.config/claude/statusline-my-jonathan.sh:xdg-config/claude/statusline-my-jonathan.sh"
+  "$HOME/.config/claude/hooks/inject-memory.py:xdg-config/claude/hooks/inject-memory.py"
   "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
   "$HOME/.config/git/config:xdg-config/git/config"
   "$HOME/.config/git/gitignore_global:xdg-config/git/gitignore_global"
@@ -19,6 +20,7 @@ FILE_PAIRS=(
 # Directory pairs: system_path:repo_path (synced recursively)
 DIR_PAIRS=(
   "$HOME/.config/claude/commands:xdg-config/claude/commands"
+  "$HOME/.config/claude/memory:xdg-config/claude/memory"
 )
 
 # Get script directory and change to repo root

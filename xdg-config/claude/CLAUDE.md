@@ -52,6 +52,25 @@ This file provides universal guidance to Claude Code across all projects.
 
 **Always run `markdownlint-cli2` from the project root directory** to pick up the `.markdownlint-cli2.jsonc` config file. Running from a subdirectory may not traverse far enough to find the root config.
 
+## Memory System
+
+Memory files live in `~/.config/claude/memory/`. A PreToolUse hook auto-injects the
+global index, general rules, and current project memory once per session.
+
+**File map:**
+- `memory.md` — global index and routing table (always injected)
+- `general.md` — cross-project rules always in effect (always injected)
+- `tools/{tool}.md` — tool-specific knowledge, load on demand
+- `~/.config/claude/projects/{path}/memory/MEMORY.md` — per-project context (always injected)
+
+**Load on demand** (read the file when the topic comes up):
+- Ghostty terminal config or commands → `~/.config/claude/memory/tools/ghostty.md`
+
+**Adding new memory:**
+- Cross-project preference or workflow rule → append to `general.md`
+- Tool-specific knowledge → create or update `tools/{tool}.md`, add pointer in `memory.md`
+- Project-specific context → update that project's `MEMORY.md`
+
 ## Work Process
 
 - **TODO.md**: When starting a new session or when asked "what's next", check if the project has a TODO.md and reference it to suggest relevant tasks. Keep it current as work progresses: mark items completed (with date), update status notes, move resolved items to a Completed section, and add new items when planned work is identified.
