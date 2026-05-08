@@ -3,14 +3,14 @@
 # Inline comments are supported: app-name # comment
 
 ####################
-# Manual downloads #
+# Manual downloads
 ####################
 # 1password - password manager with end-to-end encryption; https://1password.com/downloads/mac/
 # arc - Chromium-based browser with a spaces/tab management UI; https://arc.net/
 # xcode - Apple's IDE for macOS/iOS/watchOS/tvOS development; https://xcodereleases.com/
 
 #####################
-# Core Productivity #
+# Core Productivity
 #####################
 bartender # organize, hide, and rearrange menu bar icons; https://www.macbartender.com/
 default-folder-x # enhances Open/Save dialogs with favorites, recent folders, and Finder sync; https://www.stclairsoft.com/DefaultFolderX/
@@ -21,7 +21,7 @@ path-finder # dual-pane Finder replacement with advanced file management; https:
 raycast # extensible productivity launcher, command palette, and script runner; https://raycast.com/
 
 ##########################
-# Terminal & Development #
+# Terminal & Development
 ##########################
 bbedit # programmers' text editor for Mac with advanced regex search and scripting; https://www.barebones.com/products/bbedit/
 beyond-compare # file and folder diff/merge tool with 3-way merge support; https://www.scootersoftware.com/
@@ -39,7 +39,7 @@ vysor # mirror and control iOS devices from your desktop over USB or wirelessly;
 warp # Rust-based terminal with AI command search and block-based output; https://github.com/warpdotdev/Warp
 
 ##########################
-# AI & Coding Assistants #
+# AI & Coding Assistants
 ##########################
 claude # Anthropic's Claude AI desktop app; https://claude.ai/
 claude-code # Anthropic's agentic CLI coding assistant; https://www.anthropic.com/claude-code
@@ -51,7 +51,7 @@ poe # multi-model AI chat aggregator (Claude, GPT, Gemini, and more); https://po
 # chatgpt # OpenAI's ChatGPT desktop app; https://chatgpt.com/
 
 ################
-# Web Browsers #
+# Web Browsers
 ################
 brave-browser # privacy-focused Chromium browser with built-in ad and tracker blocking; https://github.com/brave/brave-browser
 chatgpt-atlas # OpenAI's ChatGPT Atlas Chromium browser client; https://chatgpt.com/atlas/
@@ -63,7 +63,7 @@ opera # browser with built-in VPN, ad blocker, and sidebar apps; https://www.ope
 orion # WebKit browser by Kagi with native Firefox and Chrome extension support; https://browser.kagi.com/
 
 #################
-# Communication #
+# Communication
 #################
 discord # voice, video, and text chat platform for communities and gaming; https://discord.com/
 fastmail # desktop app for Fastmail email accounts; https://www.fastmail.com/
@@ -72,7 +72,7 @@ slack # team messaging, channels, and file sharing; https://slack.com/
 # mailmate # https://freron.com/ -- using beta version
 
 #################
-# Media & Audio #
+# Media & Audio
 #################
 amadeus-pro # professional audio waveform editor and recorder for Mac; https://www.hairersoft.com/pro.html
 audio-hijack # capture and record audio from any app or system source; https://rogueamoeba.com/audiohijack/
@@ -88,7 +88,7 @@ xld # X Lossless Decoder: lossless CD ripper and audio format converter for Mac;
 # spotify # problems launching after updates
 
 ######################
-# Reading & Research #
+# Reading & Research
 ######################
 calibre # comprehensive ebook management, format conversion, and library tool; https://github.com/kovidgoyal/calibre
 netnewswire # free open-source RSS and Atom feed reader for Mac and iOS; https://github.com/Ranchero-Software/NetNewsWire
@@ -96,7 +96,7 @@ reader # Readwise Reader: read-it-later app with RSS, highlights, and AI summari
 skim # PDF reader and annotator designed for academic use; https://skim-app.sourceforge.io/
 
 #####################
-# Photos & Graphics #
+# Photos & Graphics
 #####################
 graphicconverter # comprehensive image editor, viewer, and converter for Mac; https://www.lemkesoft.de/en/products/graphicconverter/
 musicbrainz-picard # cross-platform music tagger using the MusicBrainz community database; https://github.com/metabrainz/picard
@@ -105,7 +105,7 @@ xnviewmp # versatile image viewer, browser, and batch converter supporting 500+ 
 graphicconverter # comprehensive image editor, viewer, and converter for Mac; https://www.lemkesoft.de/en/products/graphicconverter/
 
 ####################
-# Files & Archives #
+# Files & Archives
 ####################
 a-better-finder-rename # powerful batch file renaming with live preview; https://www.publicspace.net/ABetterFinderRename/
 betterzip # archive utility supporting ZIP, RAR, 7-ZIP, TAR, and many more formats; https://macitbetter.com/
@@ -119,7 +119,7 @@ db-browser-for-sqlite # visual SQLite database browser with table editor and SQL
 # the-archive-browser # using BetterZip instead
 
 ######################
-# System & Utilities #
+# System & Utilities
 ######################
 flux-app # reduces eye strain by shifting screen color temperature toward warm tones at night; https://justgetflux.com/
 istat-menus # comprehensive system monitor (CPU, RAM, GPU, network, temps) in the menu bar; https://bjango.com/mac/istatmenus/
@@ -134,6 +134,7 @@ shortcutdetective # identifies which app owns a conflicting keyboard shortcut; h
 shottr # fast screenshot tool with OCR, scrolling capture, and annotation; https://shottr.cc/
 stats # open-source menu bar system stats: CPU, RAM, GPU, network, disk; https://github.com/exelban/stats
 usb-overdrive # customize USB and Bluetooth mouse/trackball/joystick/keyboard behavior; https://www.usboverdrive.com/
+viewscan # view and scan documents and images from TWAIN and WIA scanners; https://www.hamrick.com/
 voiceink # offline and cloud voice dictation powered by Whisper; https://github.com/Beingpax/VoiceInk
 # jordanbaird-ice # free open-source menu bar manager and icon hider (Bartender alternative); https://github.com/jordanbaird/Ice
 # logi-options-plus # Logitech mouse and keyboard settings and customization manager; https://www.logitech.com/en-us/product/options-plus
