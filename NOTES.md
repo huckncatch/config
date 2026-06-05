@@ -333,6 +333,7 @@ In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remo
 - **kagi**: Web search via Kagi API
 - **mailmate**: Email via MailMate app (requires MailMate running)
 - **obsidian**: Vault access, semantic search, templates via MCP Tools plugin
+- **things**: Things 3 task management (persistent tmux session — see Things MCP Server section)
 - **github**: Repository management (plugin: `github@claude-plugins-official` — no local server)
 
 **Not installed (fastmail):** Fastmail has 30 tools (~18.5k tokens of context). Omitted to save context — use MailMate MCP for email instead.
@@ -388,6 +389,62 @@ Also optional but recommended for full features: **Smart Connections** (semantic
 
 Note: The plugin's "Install Server" button auto-configures Claude Desktop — Claude Code registration is done separately via `claude mcp add` (see restore commands above).
 
+### Things MCP Server
+
+Provides Claude Code access to Things 3 tasks via `uvx things-mcp`. Runs persistently in a tmux session (`things-mcp`) rather than being spawned per-session.
+
+#### Fresh install: restore Things MCP
+
+**1. Create the LaunchAgent plist** at `~/Library/LaunchAgents/com.local.things-mcp.plist`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.local.things-mcp</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/soob/config/bin/start-things-mcp.sh</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/tmp/things-mcp-launch.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/things-mcp-launch.log</string>
+</dict>
+</plist>
+```
+
+**2. Register and start the LaunchAgent:**
+
+```bash
+launchctl load ~/Library/LaunchAgents/com.local.things-mcp.plist
+```
+
+**3. Re-add as a Claude Code MCP server** (check `~/.config/claude/.claude.json` from backup or re-run):
+
+```bash
+claude mcp add --scope user things -- /opt/homebrew/bin/uvx things-mcp
+```
+
+#### Verify / restart
+
+```bash
+# Check if the tmux session is running
+tmux has-session -t things-mcp && echo "running" || echo "not running"
+
+# View logs
+cat /tmp/things-mcp-launch.log
+
+# Restart manually
+~/config/bin/start-things-mcp.sh
+```
+
 ### GitHub MCP Server
 
 Installed via plugin: `github@claude-plugins-official`. Uses GitHub's hosted Copilot MCP endpoint — no local server to run.
@@ -435,7 +492,7 @@ Structured memory system (Young Leaders architecture) shared between Claude Code
 
 ### File locations
 
-```
+```text
 ~/.config/claude/
 ├── memory/
 │   ├── memory.md                  # global index + routing table
@@ -448,7 +505,7 @@ Structured memory system (Young Leaders architecture) shared between Claude Code
 
 Per-project memory lives at:
 
-```
+```text
 ~/.config/claude/projects/{path-mapped}/memory/MEMORY.md
 ```
 
