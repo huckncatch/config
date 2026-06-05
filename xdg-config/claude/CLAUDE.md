@@ -2,9 +2,42 @@
 
 This file provides universal guidance to Claude Code across all projects.
 
-## General Principles
+## Behavioral Foundation
 
-- **Never assume you know how a tool or app works. Always seek documentation.** When working with any tool, library, framework, or application, consult official documentation, man pages, or help output rather than relying on assumptions or general knowledge. Tools evolve, syntax changes, and edge cases exist that may not be obvious. Use resources like `man`, `--help`, official docs, or the Context7 MCP server to verify behavior before proceeding.
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+### 1. Think Before Coding
+
+**Don’t assume. Don’t hide confusion. Surface tradeoffs.**
+
+- State assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them — don’t pick silently.
+- If something is unclear, stop. Name what’s confusing. Ask.
+
+### 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked. No abstractions for single-use code.
+- No error handling for impossible scenarios.
+- Ask: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+### 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+- Don’t improve adjacent code, comments, or formatting.
+- Match existing style, even if you’d do it differently.
+- Remove imports/variables YOUR changes made unused. Don’t remove pre-existing dead code.
+- Test: every changed line must trace directly to the request.
+
+### 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+- Transform tasks into verifiable goals: "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- For multi-step tasks: `1. [Step] → verify: [check]`
+- Strong success criteria let you loop independently. Weak criteria require constant clarification.
 
 ## Safe Development Practices
 
@@ -21,6 +54,7 @@ This file provides universal guidance to Claude Code across all projects.
 - Fix linting errors rather than suppressing them (unless well-justified)
 - Respect project linting configs (`.markdownlint-cli2.jsonc`, `.swiftlint.yml`, etc.)
 - If unsure about a linting rule, research it before ignoring
+- Always run `markdownlint-cli2` from the **project root** (not a subdirectory) — config lookup starts from cwd
 
 ### Command Execution
 
@@ -42,35 +76,22 @@ This file provides universal guidance to Claude Code across all projects.
 ### Testing Discipline
 
 - Run existing tests before making changes (establish baseline)
-- Run tests after making changes: `swift test`, `xcodebuild test`, script test suites
+- Run tests after making changes per project convention
 - If tests fail, fix the issue or revert changes
 - Don't skip or comment out failing tests
 - Add tests for new functionality when the project has a test suite
 
-
-## Markdown Linting
-
-**Always run `markdownlint-cli2` from the project root directory** to pick up the `.markdownlint-cli2.jsonc` config file. Running from a subdirectory may not traverse far enough to find the root config.
-
 ## Memory System
 
-Memory files live in `~/.config/claude/memory/`. A PreToolUse hook auto-injects the
-global index, general rules, and current project memory once per session.
-
-**File map:**
-- `memory.md` — global index and routing table (always injected)
-- `general.md` — cross-project rules always in effect (always injected)
-- `tools/{tool}.md` — tool-specific knowledge, load on demand
-- `~/.config/claude/projects/{path}/memory/MEMORY.md` — per-project context (always injected)
-
-**Load on demand** (read the file when the topic comes up):
-- Ghostty terminal config or commands → `~/.config/claude/memory/tools/ghostty.md`
-
-**Adding new memory:**
-- Cross-project preference or workflow rule → append to `general.md`
-- Tool-specific knowledge → create or update `tools/{tool}.md`, add pointer in `memory.md`
-- Project-specific context → update that project's `MEMORY.md`
+Save new memory to: cross-project rules → `general.md`; tool knowledge → `tools/{tool}.md`; project context → project `MEMORY.md`. Load `tools/ghostty.md` for Ghostty questions.
 
 ## Work Process
 
+- **After completing work**: Validate whether the project's CLAUDE.md needs updates for architecture changes, new patterns, or updated file structure. Consider if any universal workflows or cross-project preferences discovered should be added to this global CLAUDE.md. Ensure information isn't duplicated between files.
 - **TODO.md**: When starting a new session or when asked "what's next", check if the project has a TODO.md and reference it to suggest relevant tasks. Keep it current as work progresses: mark items completed (with date), update status notes, move resolved items to a Completed section, and add new items when planned work is identified.
+
+## Known Command Path Issues
+
+**Prefer `command <cmd>` over bare invocations** to bypass shell functions, aliases, and zsh hooks that could produce output differences or unexpected behavior. For example, use `command grep` instead of `grep`. Fall back to explicit system paths (`/usr/bin/grep`) only when `command` doesn't resolve the issue.
+
+*This section documents commands that require explicit paths due to Homebrew/alias conflicts. Add entries as they're discovered.*

@@ -1,4 +1,6 @@
 .claude/settings.local.json
+# Allow claude ref docs (on-demand context files for Claude Code)
+!.claude/refs/
 # Machine-specific zsh profile (created by install script)
 .config/zsh/profile.local
 # Session state files (may contain sensitive context)

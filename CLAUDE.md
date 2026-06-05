@@ -6,19 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Work Process
 
-- **Check for config drift**: Run `bin/sync-backups.sh` to sync backup files between system and repository:
-  - Checks `~/.config/claude/CLAUDE.md` ↔ `xdg-config/claude/CLAUDE.md`
-  - Checks `~/.config/claude/settings.json` ↔ `xdg-config/claude/settings.json` (sanitized - Fastmail token omitted)
-  - Checks `~/.config/claude/statusline.sh` ↔ `xdg-config/claude/statusline.sh`
-  - Checks `~/.config/claude/statusline-my-jonathan.sh` ↔ `xdg-config/claude/statusline-my-jonathan.sh`
-  - Checks `~/.config/claude/commands/` ↔ `xdg-config/claude/commands/` (directory)
-  - Checks `~/.config/tmux/tmux.conf.local` ↔ `xdg-config/tmux/tmux.conf.local`
-  - Checks `~/.config/git/config` ↔ `xdg-config/git/config`
-  - Checks `~/.config/git/gitignore_global` ↔ `xdg-config/git/gitignore_global`
-  - Checks `~/.config/ghostty/config` ↔ `xdg-config/ghostty/config`
-  - Checks `~/.config/starship.toml` ↔ `xdg-config/starship.toml`
-  - Interactively prompts to sync, skip, or view diffs
-  - Run periodically or when switching between projects
+- **Check for config drift**: Run `bin/sync-backups.sh` (syncs Claude config, tmux, git, ghostty, starship between `~/.config/` and `xdg-config/`). Run periodically or when switching projects.
 
 ## Repository Overview
 
@@ -34,55 +22,7 @@ This is a personal macOS configuration repository containing dotfiles, shell con
 
 ### Zsh Configuration Loading Order
 
-**Critical: This load order must be maintained for the system to work correctly.**
-
-The zsh setup uses a hierarchical loading system:
-
-1. **`~/.zshrc`** (entry point, sourced by zsh)
-   - Sets `DEBUG_STARTUP=0` (set to 1 to trace file loading)
-   - Sources profile-specific config (`~/.config/zsh/profile.local` or falls back to `~/config/zsh/profile-home.zsh`)
-   - Sources `~/config/zsh/zshrc.base`
-
-2. **Profile files** (define theme and plugins before oh-my-zsh init)
-   - `~/.config/zsh/profile.local` - Machine-specific, created during install, **not tracked in git**
-   - `zsh/profile-home.zsh` - Template for personal machines
-   - `zsh/profile-work.zsh` - Template for work machines
-   - `zsh/profile-base.zsh` - Shared settings sourced by all profile templates
-   - Must define: `ZSH_THEME` and `plugins` array
-   - Profile templates source `profile-base.zsh` for shared config (e.g., tmux plugin settings)
-
-3. **`zsh/zshrc.base`** (shared configuration)
-   - Enables Powerlevel10k instant prompt
-   - Sets `ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"`
-   - Initializes oh-my-zsh
-   - Configures fzf, alias-finder plugin
-   - Initializes Starship prompt (via `zsh/oh-my-zsh-custom/starship.zsh`)
-
-4. **Custom configs** (loaded automatically by oh-my-zsh from `$ZSH_CUSTOM`)
-   - Files in `zsh/oh-my-zsh-custom/*.zsh` are sourced alphabetically
-   - Naming conventions:
-     - Numeric prefixes (00_, 01_, 02_) control load order when needed
-     - `00_environment.zsh` - Loads first for PATH and environment variables
-     - `01_aliases.zsh` - General shell aliases (not tool-specific)
-     - `02_functions.zsh` - General shell functions (not tool-specific)
-     - Tool-specific files (e.g., `fzf.zsh`, `git.zsh`, `homebrew.zsh`) contain ALL related configuration for that tool (environment vars, aliases, functions)
-
-### Git Submodules
-
-Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/`:
-
-- `plugins/zsh-completions`
-- `plugins/zsh-nvm`
-- `plugins/fast-syntax-highlighting`
-- `plugins/zsh-autosuggestions`
-- `plugins/zsh-syntax-highlighting`
-- `plugins/tmux`
-
-Oh my tmux! configuration framework is a git submodule:
-
-- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from <https://github.com/gpakosz/.tmux>
-
-When modifying submodules, be aware they point to specific commits. Use `git submodule update --remote` to update.
+Load order is critical — breaking it breaks the shell. Read `.claude/refs/zsh-loading.md` when modifying any zsh config files or submodules.
 
 ### XDG Base Directory Compliance
 
@@ -142,62 +82,7 @@ Claude Code uses `~/.config/claude/` as its config directory (set via `CLAUDE_CO
 
 ## Installation Script Architecture
 
-The `new-computer-install.sh` script performs automated setup in a specific order. Functions are organized into library files in the `lib/` directory:
-
-### Library Structure
-
-- **`lib/utils.sh`**: Common helpers (`show_usage`, `_sync_file`, `_files_differ`, `_sync_directory_selective`, `_prompt_install`)
-- **`lib/brew.sh`**: Homebrew operations (`_read_package_list`, `brew_install`, `_should_install`, `_brew_list_does_not_contain`)
-- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `install_tmux_config`)
-
-### Key Installation Functions
-
-- `copy_zsh_config()`: Copies zshrc and creates profile
-- `copy_dotfiles()`: Handles dotfiles with SSH config special case (sets permissions 700/600)
-- `copy_xdg_config()`: Copies XDG-compliant config directories
-- `install_tmux_config()`: Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
-- `brew_install()`: Interactive package installation with error handling that continues on failures
-
-### Installation Script Flow
-
-The script performs these operations in order:
-
-1. Initializes Homebrew environment (auto-detects and runs `brew shellenv` if needed)
-2. Validates Homebrew installation
-3. Copies zsh configuration → `~/.zshrc` (backs up existing)
-4. Creates profile (`~/.config/zsh/profile.local`) from home/work template
-5. Copies dotfiles → `~/.<filename>` (SSH config gets special permissions)
-6. Copies XDG configs → `~/.config/`
-7. Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
-8. Installs oh-my-zsh (with `RUNZSH=no KEEP_ZSHRC=yes` to preserve zshrc)
-9. Installs zsh plugins to `$ZSH_CUSTOM/plugins/`
-10. Installs Homebrew packages (interactive, continues on failures)
-11. Installs pinned casks from `homebrew/pinned_casks/*.rb`
-
-### Script Behavior
-
-- Uses `set -euo pipefail` for safety, but `brew install` failures don't stop execution
-- Supports `--dry-run` and `--verbose` flags
-- Auto-initializes Homebrew environment if needed
-
-### Config Sync (bin/sync-config.sh)
-
-Replaces the old `--update` flag. Syncs changed config files from repo to system with timestamped backups; skips all installations. XDG config preservation rules:
-
-- **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md` and `settings.json`; preserves `projects/`, `todos/`, `hooks/`, `commands/`, `plugins/`, `statsig/`
-- **Karabiner**: Syncs `karabiner.json`; preserves `assets/`
-- **Tmux**: Syncs `tmux.conf.local`; preserves `oh-my-tmux/` submodule symlink
-- **Git/ncdu**: Full sync
-
-Skips entirely: `~/.config/zsh/profile.local` (drift detection runs), `~/.ssh/config`.
-
-### Shell Environment (bin/install-shell.sh)
-
-Installs Homebrew taps, oh-my-zsh, and zsh plugins. Can be run independently.
-
-### Package Installation (bin/install-packages.sh)
-
-Installs Homebrew formulae, casks, pinned casks, and fonts interactively. Can be run independently.
+Functions in `lib/` directory; entry point is `new-computer-install.sh`. Read `.claude/refs/install-scripts.md` when modifying install scripts, lib/ files, or bin/sync-config.sh.
 
 ## File Editing Guidelines
 
