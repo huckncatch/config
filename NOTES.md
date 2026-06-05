@@ -395,29 +395,10 @@ Provides Claude Code access to Things 3 tasks via `uvx things-mcp`. Runs persist
 
 #### Fresh install: restore Things MCP
 
-**1. Create the LaunchAgent plist** at `~/Library/LaunchAgents/com.local.things-mcp.plist`:
+**1. Copy the LaunchAgent plist** from the repo:
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.local.things-mcp</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Users/soob/config/bin/start-things-mcp.sh</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <false/>
-    <key>StandardOutPath</key>
-    <string>/tmp/things-mcp-launch.log</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/things-mcp-launch.log</string>
-</dict>
-</plist>
+```bash
+cp ~/config/launchagents/com.local.things-mcp.plist ~/Library/LaunchAgents/
 ```
 
 **2. Register and start the LaunchAgent:**
@@ -443,6 +424,37 @@ cat /tmp/things-mcp-launch.log
 
 # Restart manually
 ~/config/bin/start-things-mcp.sh
+```
+
+### kmhs-weather Dev Server
+
+Runs the kmhs-weather Next.js dev server persistently in a tmux session (`kmhs-weather`) via a LaunchAgent. Started automatically at login.
+
+#### Fresh install: restore kmhs-weather LaunchAgent
+
+**1. Copy the LaunchAgent plist** from the repo:
+
+```bash
+cp ~/config/launchagents/com.local.kmhs-weather.plist ~/Library/LaunchAgents/
+```
+
+**2. Register and start the LaunchAgent:**
+
+```bash
+launchctl load ~/Library/LaunchAgents/com.local.kmhs-weather.plist
+```
+
+#### Verify / restart
+
+```bash
+# Check if the tmux session is running
+tmux has-session -t kmhs-weather && echo "running" || echo "not running"
+
+# View logs
+cat /tmp/kmhs-weather-launch.log
+
+# Restart manually
+~/config/bin/start-kmhs-weather.sh
 ```
 
 ### GitHub MCP Server
