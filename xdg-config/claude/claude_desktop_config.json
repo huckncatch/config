@@ -1,0 +1,80 @@
+{
+  "globalShortcut": "",
+  "mcpServers": {
+    "kagi": {
+      "command": "uvx",
+      "args": [
+        "kagimcp"
+      ],
+      "env": {
+        "KAGI_API_KEY": "<token from kagi.com/settings?p=api>",
+        "KAGI_SUMMARIZER_ENGINE": "cecil"
+      }
+    },
+    "mailmate": {
+      "command": "/Users/soob/Developer/mailmate-mcp/.venv/bin/mailmate-mcp"
+    },
+    "memory-files": {
+      "command": "/opt/homebrew/bin/npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/soob/.config/claude/memory"
+      ]
+    },
+    "obsidian-cortex": {
+      "command": "/bin/bash",
+      "args": [
+        "/Users/soob/Developer/obsidian-cortex-mcp/run.sh"
+      ],
+      "env": {
+        "OBSIDIAN_CORTEX_ROOT": "/Users/soob/Dropbox/Apps/Obsidian",
+        "DEFAULT_VAULT": "Home"
+      }
+    }
+  },
+  "coworkUserFilesPath": "/Users/soob/Claude",
+  "preferences": {
+    "menuBarEnabled": false,
+    "chromeExtension": {
+      "pairedDeviceId": "c7cb532b-585a-43ae-972b-f0e26a159cd1",
+      "pairedDeviceName": "Browser 1",
+      "pairedFromDeviceIds": [
+        "c7cb532b-585a-43ae-972b-f0e26a159cd1"
+      ]
+    },
+    "quickEntryShortcut": "off",
+    "chillingSlothLocation": {
+      "customPath": "/Users/soob/.config/claude"
+    },
+    "localAgentModeTrustedFolders": [
+      "/Users/soob/Desktop/screenshots",
+      "/Users/soob/Downloads copy",
+      "/Users/soob/Documents/Claude",
+      "/Users/soob/Library/Mobile Documents/com~apple~CloudDocs/finances/rental/3031 SE 89th Ave Portland"
+    ],
+    "coworkScheduledTasksEnabled": true,
+    "ccdScheduledTasksEnabled": true,
+    "sidebarMode": "chat",
+    "bypassPermissionsGateByAccount": {
+      "400457b0-0cf9-40b9-a089-4d2adb59bbe1": false
+    },
+    "dockBounceEnabled": true,
+    "coworkWebSearchEnabled": true,
+    "remoteToolsDeviceName": "skuld-3",
+    "epitaxyPrefs": {
+      "starred-local-code-sessions": [],
+      "starred-cowork-spaces": [],
+      "starred-session-groups": [],
+      "dframe-local-slice": {
+        "pinnedOrder": [],
+        "customGroupAssignments": {},
+        "customGroupOrder": {}
+      }
+    },
+    "coworkModelAutoFallbackByAccount": {
+      "400457b0-0cf9-40b9-a089-4d2adb59bbe1": true
+    },
+    "launchPreviewPersistSession": true
+  }
+}

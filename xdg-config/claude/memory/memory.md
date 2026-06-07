@@ -10,6 +10,7 @@
 ## Tool Files (load when relevant)
 
 - `tools/ghostty.md` — Ghostty terminal CLI syntax and quirks
+- `tools/obsidian.md` — Obsidian search limitations, path conventions, AND-search workaround
 
 ## Routing Rules
 
@@ -18,3 +19,4 @@
 | Any git operation | `general.md` (always loaded) |
 | Documentation tasks | `general.md` (always loaded) |
 | Ghostty config, terminal questions | `tools/ghostty.md` |
+| Any Obsidian note lookup or search | `tools/obsidian.md` |

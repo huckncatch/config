@@ -10,6 +10,7 @@ FILE_PAIRS=(
   "$HOME/.config/claude/statusline.sh:xdg-config/claude/statusline.sh"
   "$HOME/.config/claude/statusline-my-jonathan.sh:xdg-config/claude/statusline-my-jonathan.sh"
   "$HOME/.config/claude/hooks/inject-memory.py:xdg-config/claude/hooks/inject-memory.py"
+  "$HOME/Library/Application Support/Claude/claude_desktop_config.json:xdg-config/claude/claude_desktop_config.json"
   "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
   "$HOME/.config/git/config:xdg-config/git/config"
   "$HOME/.config/git/gitignore_global:xdg-config/git/gitignore_global"

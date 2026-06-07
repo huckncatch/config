@@ -37,15 +37,113 @@
   "mcpServers": {
     "eaglefiler": {
       "command": "node",
-      "args": ["/Users/soob/.config/claude/mcp-servers/eaglefiler/dist/index.js"]
+      "args": [
+        "/Users/soob/.config/claude/mcp-servers/eaglefiler/dist/index.js"
+      ]
     },
     "obsidian-cortex": {
-      "command": "/Users/soob/.config/claude/mcp-servers/obsidian-cortex-mcp/.venv/bin/python",
-      "args": ["-m", "obsidian_cortex_mcp"],
+      "command": "/bin/bash",
+      "args": [
+        "/Users/soob/Developer/obsidian-cortex-mcp/run.sh"
+      ],
       "env": {
         "OBSIDIAN_CORTEX_ROOT": "/Users/soob/Dropbox/Apps/Obsidian",
         "DEFAULT_VAULT": "Home"
       }
     }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/soob/.config/claude/hooks/gsd-check-update.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/soob/.config/claude/hooks/gsd-session-state.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/soob/.config/claude/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/soob/.config/claude/hooks/gsd-phase-boundary.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/soob/.config/claude/hooks/inject-memory.py",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/soob/.config/claude/hooks/gsd-prompt-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/soob/.config/claude/hooks/gsd-read-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/soob/.config/claude/hooks/gsd-workflow-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/soob/.config/claude/hooks/gsd-validate-commit.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
   }
 }

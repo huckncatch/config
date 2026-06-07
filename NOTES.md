@@ -333,6 +333,7 @@ In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remo
 - **kagi**: Web search via Kagi API
 - **mailmate**: Email via MailMate app (requires MailMate running)
 - **obsidian**: Vault access, semantic search, templates via MCP Tools plugin
+- **obsidian-cortex**: Cross-vault read/write/search/frontmatter via FastMCP Python server
 - **things**: Things 3 task management (persistent tmux session — see Things MCP Server section)
 - **github**: Repository management (plugin: `github@claude-plugins-official` — no local server)
 
@@ -356,6 +357,8 @@ claude mcp add --scope user kagi -- /opt/homebrew/bin/uvx kagimcp
 claude mcp add --scope user mailmate -- /Users/soob/Developer/mailmate-mcp/.venv/bin/mailmate-mcp
 claude mcp add --scope user obsidian -- /Users/soob/Dropbox/Apps/Obsidian/Home/.obsidian/plugins/mcp-tools/bin/mcp-server
 ```
+
+**obsidian-cortex** requires env vars and must be added manually to `~/.config/claude/settings.json` (see obsidian-cortex MCP Server section below).
 
 ### Kagi MCP Server
 
@@ -388,6 +391,39 @@ Requires: **Local REST API** plugin enabled with an API key. The `OBSIDIAN_API_K
 Also optional but recommended for full features: **Smart Connections** (semantic search) and **Templater** plugins.
 
 Note: The plugin's "Install Server" button auto-configures Claude Desktop — Claude Code registration is done separately via `claude mcp add` (see restore commands above).
+
+### obsidian-cortex MCP Server
+
+Repository: local at `~/Developer/obsidian-cortex-mcp/`
+
+A FastMCP Python server for multi-vault Obsidian operations. Provides: `list_vaults`, `list_notes`, `read_note`, `search`, `list_tags`, `create_note`, `write_note`, `edit_note`, `update_frontmatter`, `move_note` (intra-vault via Obsidian CLI to preserve wikilinks; cross-vault via filesystem).
+
+Requires: Python 3.11+ and ripgrep (`brew install ripgrep`).
+
+#### Fresh install: restore obsidian-cortex
+
+**1. Set up the venv:**
+
+```bash
+cd ~/Developer/obsidian-cortex-mcp
+python -m venv .venv
+.venv/bin/pip install -e .
+```
+
+**2. Register in `~/.config/claude/settings.json`** under `mcpServers`. Use the `env` block — `OBSIDIAN_CORTEX_ROOT` is required and must be explicit (don't rely on shell inheritance):
+
+```json
+"obsidian-cortex": {
+  "command": "/bin/bash",
+  "args": ["/Users/soob/Developer/obsidian-cortex-mcp/run.sh"],
+  "env": {
+    "OBSIDIAN_CORTEX_ROOT": "/Users/soob/Dropbox/Apps/Obsidian",
+    "DEFAULT_VAULT": "Home"
+  }
+}
+```
+
+**3. For Claude Desktop**, add the same block to `~/Library/Application Support/Claude/claude_desktop_config.json` under `mcpServers`.
 
 ### Things MCP Server
 
