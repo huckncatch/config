@@ -493,6 +493,33 @@ cat /tmp/kmhs-weather-launch.log
 ~/config/bin/start-kmhs-weather.sh
 ```
 
+### WorldPackers Hours Tracker
+
+Runs the WorldPackers Hours Tracker Flask server (port 5050) persistently in a tmux session (`worldpackers`) via a LaunchAgent. Started automatically at login.
+
+#### Fresh install: restore WorldPackers LaunchAgent
+
+```bash
+cp ~/config/launchagents/com.local.worldpackers-tracker.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.local.worldpackers-tracker.plist
+```
+
+#### Verify / restart
+
+```bash
+# Check if the tmux session is running
+tmux has-session -t worldpackers && echo "running" || echo "not running"
+
+# View app logs
+cat ~/Library/Logs/worldpackers-tracker.log
+
+# View LaunchAgent logs
+cat ~/Library/Logs/worldpackers-launchagent.log
+
+# Restart manually
+~/config/bin/start-worldpackers.sh
+```
+
 ### GitHub MCP Server
 
 Installed via plugin: `github@claude-plugins-official`. Uses GitHub's hosted Copilot MCP endpoint — no local server to run.
