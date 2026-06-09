@@ -466,15 +466,23 @@ cat /tmp/things-mcp-launch.log
 
 Runs the kmhs-weather Next.js dev server persistently in a tmux session (`kmhs-weather`) via a LaunchAgent. Started automatically at login.
 
+Start script and LaunchAgent plist live in the project repo: `~/Developer/kmhs-weather/`.
+
 #### Fresh install: restore kmhs-weather LaunchAgent
 
-**1. Copy the LaunchAgent plist** from the repo:
+**1. Clone the project repo** (if not already present):
 
 ```bash
-cp ~/config/launchagents/com.local.kmhs-weather.plist ~/Library/LaunchAgents/
+git clone git@github.com:huckncatch/kmhs-weather.git ~/Developer/kmhs-weather
 ```
 
-**2. Register and start the LaunchAgent:**
+**2. Copy the LaunchAgent plist** from the project repo:
+
+```bash
+cp ~/Developer/kmhs-weather/launchagents/com.local.kmhs-weather.plist ~/Library/LaunchAgents/
+```
+
+**3. Register and start the LaunchAgent:**
 
 ```bash
 launchctl load ~/Library/LaunchAgents/com.local.kmhs-weather.plist
@@ -490,17 +498,27 @@ tmux has-session -t kmhs-weather && echo "running" || echo "not running"
 cat /tmp/kmhs-weather-launch.log
 
 # Restart manually
-~/config/bin/start-kmhs-weather.sh
+~/Developer/kmhs-weather/bin/start.sh
 ```
 
 ### WorldPackers Hours Tracker
 
 Runs the WorldPackers Hours Tracker Flask server (port 5050) persistently in a tmux session (`worldpackers`) via a LaunchAgent. Started automatically at login.
 
+Start script and LaunchAgent plist live in the project repo: `~/Developer/worldpackers-hours-tracker/`.
+
 #### Fresh install: restore WorldPackers LaunchAgent
 
+**1. Clone the project repo** (if not already present):
+
 ```bash
-cp ~/config/launchagents/com.local.worldpackers-tracker.plist ~/Library/LaunchAgents/
+git clone git@github.com:huckncatch/worldpackers-hours-tracker.git ~/Developer/worldpackers-hours-tracker
+```
+
+**2. Copy the LaunchAgent plist** from the project repo:
+
+```bash
+cp ~/Developer/worldpackers-hours-tracker/launchagents/com.local.worldpackers-tracker.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.local.worldpackers-tracker.plist
 ```
 
@@ -517,7 +535,7 @@ cat ~/Library/Logs/worldpackers-tracker.log
 cat ~/Library/Logs/worldpackers-launchagent.log
 
 # Restart manually
-~/config/bin/start-worldpackers.sh
+~/Developer/worldpackers-hours-tracker/bin/start.sh
 ```
 
 ### GitHub MCP Server
