@@ -509,18 +509,12 @@ Start script and LaunchAgent plist live in the project repo: `~/Developer/worldp
 
 #### Fresh install: restore WorldPackers LaunchAgent
 
-**1. Clone the project repo** (if not already present):
-
 ```bash
 git clone git@github.com:huckncatch/worldpackers-hours-tracker.git ~/Developer/worldpackers-hours-tracker
+~/Developer/worldpackers-hours-tracker/bin/install.sh
 ```
 
-**2. Copy the LaunchAgent plist** from the project repo:
-
-```bash
-cp ~/Developer/worldpackers-hours-tracker/launchagents/com.local.worldpackers-tracker.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.local.worldpackers-tracker.plist
-```
+`install.sh` prompts for the admin (ops) password, sets up the venv and dependencies, installs and loads the LaunchAgent, and starts the server.
 
 #### Verify / restart
 
