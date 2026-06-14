@@ -90,6 +90,14 @@ Save new memory to: cross-project rules → `general.md`; tool knowledge → `to
 - **After completing work**: Validate whether the project's CLAUDE.md needs updates for architecture changes, new patterns, or updated file structure. Consider if any universal workflows or cross-project preferences discovered should be added to this global CLAUDE.md. Ensure information isn't duplicated between files.
 - **TODO.md**: When starting a new session or when asked "what's next", check if the project has a TODO.md and reference it to suggest relevant tasks. Keep it current as work progresses: mark items completed (with date), update status notes, move resolved items to a Completed section, and add new items when planned work is identified.
 
+## Cross-Project Knowledge Base
+
+The Obsidian vault at `/Users/soob/Dropbox/Apps/Obsidian` (`Home/` sub-vault) is the shared "second brain" for all Claude Code projects — accessible everywhere via the global `obsidian-cortex` MCP server.
+
+Every project's CLAUDE.md should include a "Cross-repo documentation (Obsidian)" section pointing to its project note in the vault — except the Obsidian vault project itself, which documents this role directly in its own CLAUDE.md.
+
+If a project's CLAUDE.md is missing this section, add it: see the `second-brain` skill for templates and conventions, or run `/vault-init` to bootstrap a new project.
+
 ## Known Command Path Issues
 
 **Prefer `command <cmd>` over bare invocations** to bypass shell functions, aliases, and zsh hooks that could produce output differences or unexpected behavior. For example, use `command grep` instead of `grep`. Fall back to explicit system paths (`/usr/bin/grep`) only when `command` doesn't resolve the issue.

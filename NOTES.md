@@ -470,23 +470,12 @@ Start script and LaunchAgent plist live in the project repo: `~/Developer/kmhs-w
 
 #### Fresh install: restore kmhs-weather LaunchAgent
 
-**1. Clone the project repo** (if not already present):
-
 ```bash
 git clone git@github.com:huckncatch/kmhs-weather.git ~/Developer/kmhs-weather
+~/Developer/kmhs-weather/bin/install.sh
 ```
 
-**2. Copy the LaunchAgent plist** from the project repo:
-
-```bash
-cp ~/Developer/kmhs-weather/launchagents/com.local.kmhs-weather.plist ~/Library/LaunchAgents/
-```
-
-**3. Register and start the LaunchAgent:**
-
-```bash
-launchctl load ~/Library/LaunchAgents/com.local.kmhs-weather.plist
-```
+`bin/install.sh` installs dependencies, provisions `.env.local` from `.env.example` (stops here on first run so you can fill in API credentials — re-run after editing), then installs/loads the LaunchAgent plist and starts the server.
 
 #### Verify / restart
 
@@ -632,3 +621,21 @@ The `memory-files` MCP is configured in `~/Library/Application Support/Claude/cl
   "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/soob/.config/claude/memory"]
 }
 ```
+
+## Second Brain Framework (Obsidian)
+
+Lets any Claude Code project read/write a shared knowledge base in the Obsidian vault (`/Users/soob/Dropbox/Apps/Obsidian`, `Home/` sub-vault) — project status notes, decisions, research, and plans, shared across all projects on this machine.
+
+**Components:**
+
+- Hub docs: vault `CLAUDE.md`, "Cross-Project Knowledge Base (Hub Role)" section
+- Bootstrap convention: `~/.config/claude/CLAUDE.md`, "Cross-Project Knowledge Base" section
+- `second-brain` skill: `~/.config/claude/skills/second-brain/SKILL.md`
+- `/vault-init` command: `~/.config/claude/commands/vault-init.md` — run in a new project to connect it (creates its vault project note and adds a "Cross-repo documentation (Obsidian)" section to its CLAUDE.md)
+- Transport: `obsidian-cortex` MCP server (see above)
+
+**Vault reference note:** `Home/Development/AIConfig/ClaudeCode/Second Brain Framework.md`
+
+**Connected projects:** kmhs-weather, worldpackers-hours-tracker
+
+Built 2026-06-13.

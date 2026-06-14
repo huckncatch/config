@@ -9,7 +9,9 @@ Before writing any code, analyze the existing codebase:
 1. **Search for related patterns** - Find similar implementations in the codebase
 2. **Identify dependencies** - What modules, services, or types will this interact with?
 3. **Check for constraints** - Are there architectural rules or patterns to follow?
-4. **Document findings** - List what you discovered before proceeding
+4. **Identify how to preview the app** - dev server command/URL, simulator, or other
+   way to observe a running change (needed for the UX checkpoint in Phase 3)
+5. **Document findings** - List what you discovered before proceeding
 
 **Deliverable:** Summary of exploration findings with file paths and relevant code snippets.
 
@@ -49,6 +51,10 @@ Implement following project standards:
 - Use @Observable for ViewModels (if SwiftUI)
 - No force unwrapping
 
+**UX Checkpoint:** If this task changes user-facing UI/UX, pause once each
+significant visual piece is complete. Describe how to view it (using the preview
+method from Phase 1) and wait for feedback before continuing to the next piece.
+
 ## Phase 4: Test
 
 Verify the implementation:
@@ -63,6 +69,19 @@ Verify the implementation:
 - All tests passing
 - Coverage on new code >80%
 - Documentation updated
+- Manual test plan (if any) written to a single project-level `TEST_PLANS.md`
+  (create if missing) as a new dated section per feature — not just output in
+  chat. Keep prior sections; this is a running log, organized newest-first.
+  Include the golden path plus edge cases identified in Phase 2.
+- `TEST_PLANS.md` starts with a **Setup** section, kept up to date (not per-feature):
+  how to start the dev server (command, URL/port), any mock/test users or
+  credentials, seed data or fixtures, and how to reset state. Create it on first
+  use; update it only when these steps change, so switching projects later
+  doesn't require digging through past conversations.
+
+**Completion gate:** If a manual test plan was written, do not consider the task
+complete (e.g., don't check off TODO/backlog items) until the user has run
+through it and confirmed it works.
 
 ## Output Format
 

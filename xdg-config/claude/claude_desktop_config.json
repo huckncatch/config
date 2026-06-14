@@ -47,6 +47,7 @@
     "chillingSlothLocation": {
       "customPath": "/Users/soob/.config/claude"
     },
+    "launchPreviewPersistSession": true,
     "localAgentModeTrustedFolders": [
       "/Users/soob/Desktop/screenshots",
       "/Users/soob/Downloads copy",
@@ -61,6 +62,9 @@
     },
     "dockBounceEnabled": true,
     "coworkWebSearchEnabled": true,
+    "coworkModelAutoFallbackByAccount": {
+      "400457b0-0cf9-40b9-a089-4d2adb59bbe1": true
+    },
     "remoteToolsDeviceName": "skuld-3",
     "epitaxyPrefs": {
       "starred-local-code-sessions": [],
@@ -72,9 +76,6 @@
         "customGroupOrder": {}
       }
     },
-    "coworkModelAutoFallbackByAccount": {
-      "400457b0-0cf9-40b9-a089-4d2adb59bbe1": true
-    },
-    "launchPreviewPersistSession": true
+    "coworkHipaaRestricted": false
   }
 }
