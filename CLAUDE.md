@@ -99,7 +99,7 @@ When editing files in this repository:
 5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)
    - **User settings**: `~/.config/claude/settings.json` (active) → `xdg-config/claude/settings.json` (sanitized backup — omit Fastmail token)
-   - **Desktop app settings**: `~/Library/Application Support/Claude/claude_desktop_config.json` (active) → `xdg-config/claude/claude_desktop_config.json` (sanitized backup — omit `KAGI_API_KEY`)
+   - **Desktop app settings**: `~/Library/Application Support/Claude/claude_desktop_config.json` (active) → `xdg-config/claude/claude_desktop_config.json` (sanitized backup — `bin/sync-backups.sh` auto-redacts secret-like values in `mcpServers.*.env`, matched by key name pattern such as `*_KEY`/`*_TOKEN`/`*_SECRET`/`*_PASSWORD`/`*_CREDENTIAL`, so no per-server upkeep is needed)
    - **Statusline scripts**: `~/.config/claude/statusline*.sh` → `xdg-config/claude/statusline*.sh`
    - **Custom commands**: `~/.config/claude/commands/` → `xdg-config/claude/commands/`
 

@@ -7,7 +7,7 @@
         "kagimcp"
       ],
       "env": {
-        "KAGI_API_KEY": "<token from kagi.com/settings?p=api>",
+        "KAGI_API_KEY": "<REDACTED - set in live system config>",
         "KAGI_SUMMARIZER_ENGINE": "cecil"
       }
     },

@@ -36,6 +36,25 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Redact secret-like values from MCP server env blocks (xdg-config/claude/claude_desktop_config.json)
+# before they're compared/copied into the repo. Matches by env var name pattern so adding or
+# removing MCP servers never requires updating this script.
+sanitize_mcp_secrets() {
+  jq '
+    if .mcpServers then
+      .mcpServers |= with_entries(
+        if .value.env then
+          .value.env |= with_entries(
+            if (.key | test("KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL"; "i")) then
+              .value = "<REDACTED - set in live system config>"
+            else . end
+          )
+        else . end
+      )
+    else . end
+  ' "$1"
+}
+
 synced_count=0
 skipped_count=0
 
@@ -63,9 +82,23 @@ for pair in "${FILE_PAIRS[@]}"; do
     continue
   fi
 
+  # claude_desktop_config.json holds MCP server secrets in mcpServers.*.env; redact them
+  # before comparing/copying into the repo, and never sync repo → system for this file
+  # (the repo copy has redacted secrets and would overwrite real values in the live config).
+  redact_secrets=false
+  compare_file="$system_file"
+  tmp_file=""
+  if [[ "$repo_file" == "xdg-config/claude/claude_desktop_config.json" ]]; then
+    redact_secrets=true
+    tmp_file=$(mktemp)
+    sanitize_mcp_secrets "$system_file" > "$tmp_file"
+    compare_file="$tmp_file"
+  fi
+
   # Check if files differ
-  if diff -q "$system_file" "$repo_file" > /dev/null 2>&1; then
+  if diff -q "$compare_file" "$repo_file" > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC} $repo_file (in sync)"
+    [[ -n "$tmp_file" ]] && rm -f "$tmp_file"
     continue
   fi
 
@@ -77,7 +110,7 @@ for pair in "${FILE_PAIRS[@]}"; do
   # Show modification times and sizes
   system_mtime=$(date -r "$system_file" "+%b %e %H:%M")
   repo_mtime=$(date -r "$repo_file" "+%b %e %H:%M")
-  system_size=$(wc -c < "$system_file" | tr -d ' ')
+  system_size=$(wc -c < "$compare_file" | tr -d ' ')
   repo_size=$(wc -c < "$repo_file" | tr -d ' ')
 
   echo "  System: $system_file"
@@ -93,7 +126,9 @@ for pair in "${FILE_PAIRS[@]}"; do
   while true; do
     echo "Options:"
     echo "  [s] Sync from system to repo (copy system → repo)"
-    echo "  [r] Sync from repo to system (copy repo → system)"
+    if [[ "$redact_secrets" == false ]]; then
+      echo "  [r] Sync from repo to system (copy repo → system)"
+    fi
     echo "  [d] Show full diff"
     echo "  [k] Skip this file"
     echo ""
@@ -101,12 +136,16 @@ for pair in "${FILE_PAIRS[@]}"; do
 
     case "$choice" in
       s|S)
-        cp "$system_file" "$repo_file"
+        cp "$compare_file" "$repo_file"
         echo -e "${GREEN}✓ Copied system → repo${NC}"
         synced_count=$((synced_count + 1))
         break
         ;;
       r|R)
+        if [[ "$redact_secrets" == true ]]; then
+          echo "Repo → system sync is disabled for this file (see comment above)."
+          continue
+        fi
         cp "$repo_file" "$system_file"
         echo -e "${GREEN}✓ Copied repo → system${NC}"
         synced_count=$((synced_count + 1))
@@ -114,7 +153,7 @@ for pair in "${FILE_PAIRS[@]}"; do
         ;;
       d|D)
         echo ""
-        diff -u "$repo_file" "$system_file" || true
+        diff -u "$repo_file" "$compare_file" || true
         echo ""
         ;;
       k|K)
@@ -128,6 +167,7 @@ for pair in "${FILE_PAIRS[@]}"; do
     esac
   done
 
+  [[ -n "$tmp_file" ]] && rm -f "$tmp_file"
   echo ""
 done
 
