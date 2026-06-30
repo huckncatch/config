@@ -589,13 +589,30 @@ Per-project memory lives at:
 
 All memory files and the hook script are backed up in the repo and synced via `bin/sync-backups.sh`.
 
-After a fresh install, run sync-backups to restore:
+After a fresh install, run sync-backups to restore files:
 
 ```bash
 bin/sync-backups.sh
 ```
 
-Then verify the hook is wired up in `~/.config/claude/settings.json` under `hooks.PreToolUse` — it should have an entry running `inject-memory.py` with an empty matcher.
+Then confirm `~/.config/claude/settings.json` has this `hooks` block — it is the **only** hook needed (GSD was removed 2026-06-30; inject-memory.py was the sole component worth keeping because it loads the global memory files that Claude Code's native auto-memory does not reach):
+
+```json
+"hooks": {
+  "PreToolUse": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python3 /Users/soob/.config/claude/hooks/inject-memory.py",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
+}
+```
 
 The hook uses PPID-based flag files in `/tmp/claude-memory-flags/` to fire only once per session. These are ephemeral and recreated automatically.
 
