@@ -19,6 +19,7 @@ moom # window management via snap zones, grids, and keyboard shortcuts; https://
 obsidian # markdown-based personal knowledge base with local-first storage; https://obsidian.md/
 path-finder # dual-pane Finder replacement with advanced file management; https://cocoatech.com/
 raycast # extensible productivity launcher, command palette, and script runner; https://raycast.com/
+tolaria # markdown knowledgebase manager; https://tolaria.md/
 
 ##########################
 # Terminal & Development
@@ -26,40 +27,33 @@ raycast # extensible productivity launcher, command palette, and script runner; 
 bbedit # programmers' text editor for Mac with advanced regex search and scripting; https://www.barebones.com/products/bbedit/
 beyond-compare # file and folder diff/merge tool with 3-way merge support; https://www.scootersoftware.com/
 devtoys # offline developer utilities: formatters, encoders, converters, and more; https://github.com/ObuchiYuki/DevToysMac
-dotnet-sdk # Microsoft .NET SDK for C#, F#, and ASP.NET development; https://dotnet.microsoft.com/
 font-symbols-only-nerd-font # Symbols Nerd Font Mono: Nerd Font icons only, used as fallback alongside Monaspace Neon in Ghostty; https://www.nerdfonts.com/
 ghostty # terminal emulator with built-in TUI apps and AI assistant; https://github.com/ghostty-org/ghostty
 iterm2 # feature-rich terminal emulator for macOS; https://github.com/gnachman/iTerm2
 itermai # AI plugin for iTerm2 enabling natural language shell commands; https://iterm2.com/ai-plugin.html
+sf-symbols # tool that provides consistent, highly configurable symbols for apps; https://developer.apple.com/sf-symbols/
 sourcetree # Atlassian's free GUI client for Git and Mercurial repositories; https://www.sourcetreeapp.com/
-starship # minimal, blazing-fast, and customizable cross-shell prompt; https://github.com/starship/starship
 tower # Git client with visual history, conflict resolution, and team workflows; https://www.git-tower.com/
 visual-studio-code # Microsoft's extensible code editor; https://github.com/microsoft/vscode
 vysor # mirror and control iOS devices from your desktop over USB or wirelessly; https://www.vysor.io/
-warp # Rust-based terminal with AI command search and block-based output; https://github.com/warpdotdev/Warp
 
 ##########################
 # AI & Coding Assistants
 ##########################
 claude # Anthropic's Claude AI desktop app; https://claude.ai/
-claude-code # Anthropic's agentic CLI coding assistant; https://www.anthropic.com/claude-code
-chatgpt # OpenAI's ChatGPT desktop app; https://chatgpt.com/
-codex # OpenAI's agentic CLI coding assistant; https://github.com/openai/codex
-cursor # AI-first code editor forked from VS Code with inline generation and chat; https://www.cursor.so/
-github-copilot-for-xcode # GitHub Copilot code completion and chat extension for Xcode; https://github.com/github/CopilotForXcode
+claude-code@latest # Anthropic's agentic CLI coding assistant; https://www.anthropic.com/claude-code
+chatgpt-classic # OpenAI's previous ChatGPT desktop app; https://chatgpt.com/
+ollama-app # get up and running with large language models locally; https://ollama.com/
 poe # multi-model AI chat aggregator (Claude, GPT, Gemini, and more); https://poeapp.com/
-# chatgpt # OpenAI's ChatGPT desktop app; https://chatgpt.com/
 
 ################
 # Web Browsers
 ################
 brave-browser # privacy-focused Chromium browser with built-in ad and tracker blocking; https://github.com/brave/brave-browser
-chatgpt-atlas # OpenAI's ChatGPT Atlas Chromium browser client; https://chatgpt.com/atlas/
 choosy # routes link clicks to the right browser based on configurable rules; https://www.choosyosx.com/
 firefox # Mozilla's open-source browser; https://www.mozilla.org/en-US/firefox/new/
 google-chrome # Google's Chromium-based browser; https://www.google.com/chrome/
 microsoft-edge # Microsoft's Chromium-based browser with IE compatibility mode; https://www.microsoft.com/en-us/edge
-opera # browser with built-in VPN, ad blocker, and sidebar apps; https://www.opera.com/
 orion # WebKit browser by Kagi with native Firefox and Chrome extension support; https://browser.kagi.com/
 
 #################
@@ -68,7 +62,9 @@ orion # WebKit browser by Kagi with native Firefox and Chrome extension support;
 discord # voice, video, and text chat platform for communities and gaming; https://discord.com/
 fastmail # desktop app for Fastmail email accounts; https://www.fastmail.com/
 mailmate@beta # powerful IMAP client with advanced search and Markdown composition; https://freron.com/
+microsoft-teams # meet, chat, call, and collaborate in one place; https://www.microsoft.com/en/microsoft-teams/group-chat-software/
 slack # team messaging, channels, and file sharing; https://slack.com/
+whatsapp # native desktop client for WhatsApp; https://www.whatsapp.com/
 # mailmate # https://freron.com/ -- using beta version
 
 #################
@@ -83,7 +79,7 @@ piezo # simple drag-and-drop audio recorder from app sources; https://rogueamoeb
 soundsource # system-wide audio routing, per-app volume control, and EQ; https://rogueamoeba.com/soundsource/
 vlc # open-source media player supporting virtually all audio and video formats; https://www.videolan.org/vlc/
 xld # X Lossless Decoder: lossless CD ripper and audio format converter for Mac; https://tmkk.undo.jp/xld/index_e.html
-# audiobook-builder # combines audio files into chaptered audiobooks for Apple Books/iTunes; https://www.splasm.com/audiobookbuilder/
+audiobook-builder # combines audio files into chaptered audiobooks for Apple Books/iTunes; https://www.splasm.com/audiobookbuilder/
 # audioranger # audio file tagger, cover art fetcher, and music library organizer; https://www.audioranger.com/
 # spotify # problems launching after updates
 
@@ -92,7 +88,6 @@ xld # X Lossless Decoder: lossless CD ripper and audio format converter for Mac;
 ######################
 calibre # comprehensive ebook management, format conversion, and library tool; https://github.com/kovidgoyal/calibre
 netnewswire # free open-source RSS and Atom feed reader for Mac and iOS; https://github.com/Ranchero-Software/NetNewsWire
-reader # Readwise Reader: read-it-later app with RSS, highlights, and AI summaries; https://readwise.io/read/
 skim # PDF reader and annotator designed for academic use; https://skim-app.sourceforge.io/
 
 #####################
@@ -102,7 +97,6 @@ graphicconverter # comprehensive image editor, viewer, and converter for Mac; ht
 musicbrainz-picard # cross-platform music tagger using the MusicBrainz community database; https://github.com/metabrainz/picard
 mylio # photo organization and sync across devices with local-first storage; https://mylio.com/
 xnviewmp # versatile image viewer, browser, and batch converter supporting 500+ formats; https://www.xnview.com/en/xnviewmp/
-graphicconverter # comprehensive image editor, viewer, and converter for Mac; https://www.lemkesoft.de/en/products/graphicconverter/
 
 ####################
 # Files & Archives
@@ -114,6 +108,7 @@ eaglefiler # personal document archiving, research, and reference management; ht
 keka # macOS file archiver and extractor; https://github.com/aonez/Keka
 name-mangler # batch file renaming with scripting and complex transformation support; https://manytricks.com/namemangler/
 spacedrive # open-source cross-platform file manager with unified library across devices; https://github.com/spacedriveapp/spacedrive
+radix # disk space analyzer with interactive sunburst chart and file management; https://radix.colinkim.dev/
 db-browser-for-sqlite # visual SQLite database browser with table editor and SQL query support; https://sqlitebrowser.org/
 # the-unarchiver # https://theunarchiver.com/
 # the-archive-browser # using BetterZip instead
@@ -121,21 +116,19 @@ db-browser-for-sqlite # visual SQLite database browser with table editor and SQL
 ######################
 # System & Utilities
 ######################
+betterdisplay # display management tool for resolution, HiDPI scaling, and virtual displays; https://betterdisplay.pro/
 flux-app # reduces eye strain by shifting screen color temperature toward warm tones at night; https://justgetflux.com/
 istat-menus # comprehensive system monitor (CPU, RAM, GPU, network, temps) in the menu bar; https://bjango.com/mac/istatmenus/
-karabiner-elements # powerful keyboard customizer and key remapper for macOS; https://github.com/pqrs-org/Karabiner-Elements
 keyboard-cleaner # locks all keyboard and trackpad input so you can safely clean them; https://folivora.ai/keyboardcleaner
 keyclu # keyboard shortcut overlay triggered by holding ⌘ or ⌃ in any app; https://sergii.tatarenkov.name/keyclu/support/
 launchcontrol # GUI editor and manager for launchd Launch Agents and Daemons; https://www.soma-zone.com/LaunchControl/
-mole # lightweight Mac system cleaner and optimizer; https://github.com/tw93/Mole
-monitorcontrol # control external monitor brightness and volume via DDC/CI protocol; https://github.com/MonitorControl/MonitorControl
+mole-app # deep clean, analyze, and optimize app (GUI companion to the mole CLI); https://mole.fit/
 onyx # macOS maintenance, cleaning, and system tweaks utility; https://www.titanium-software.fr/en/onyx.html
 shortcutdetective # identifies which app owns a conflicting keyboard shortcut; https://www.irradiatedsoftware.com/labs/
 shottr # fast screenshot tool with OCR, scrolling capture, and annotation; https://shottr.cc/
-stats # open-source menu bar system stats: CPU, RAM, GPU, network, disk; https://github.com/exelban/stats
 usb-overdrive # customize USB and Bluetooth mouse/trackball/joystick/keyboard behavior; https://www.usboverdrive.com/
-viewscan # view and scan documents and images from TWAIN and WIA scanners; https://www.hamrick.com/
 voiceink # offline and cloud voice dictation powered by Whisper; https://github.com/Beingpax/VoiceInk
+whatcable # menu bar app for USB-C cable diagnostics; https://github.com/darrylmorley/whatcable
 # jordanbaird-ice # free open-source menu bar manager and icon hider (Bartender alternative); https://github.com/jordanbaird/Ice
 # logi-options-plus # Logitech mouse and keyboard settings and customization manager; https://www.logitech.com/en-us/product/options-plus
 # logitech-g-hub # Logitech gaming peripheral configuration and RGB lighting software; https://www.logitechg.com/en-us/innovation/g-hub.html
@@ -167,22 +160,21 @@ abbyy-finereader-pdf # OCR-powered PDF editor, form filler, and document convert
 ############################
 privadovpn # VPN client for PrivadoVPN; https://privadovpn.com/
 proxyman # HTTP/HTTPS debugging proxy with SSL decryption and request rewriting; https://github.com/ProxymanApp/Proxyman
-utm # QEMU-based virtual machine host for running Linux, Windows, and more on macOS; https://github.com/utmapp/UTM
 # cloudflare-warp # Cloudflare's DNS + VPN client (1.1.1.1 WARP); https://www.cloudflare.com/warp/
 # cyberduck # FTP, SFTP, WebDAV, S3, and cloud storage browser; https://cyberduck.io/
 
 #########
 # Other #
 #########
-applite # open-source GUI for browsing and managing Homebrew Casks; https://github.com/milanvarady/Applite
 bambu-studio # 3D printing slicer optimized for Bambu Lab printers; https://github.com/bambulab/BambuStudio
+mactracker # detailed information on every Apple product ever made; https://mactracker.ca/
 modern-csv # fast CSV editor with large file support and multi-table editing; https://www.moderncsv.com/
 steam # Valve's game distribution platform and launcher; https://store.steampowered.com/about/
 suspicious-package # inspect macOS .pkg installer contents before running them; https://www.mothersruin.com/software/SuspiciousPackage/
 # alfred # keyboard launcher, file search, and workflow automation tool; https://www.alfredapp.com/
-# fluid # turn any website into a standalone Mac app (site-specific browser); https://fluidapp.com/
-# reunion # genealogy research and family tree software; https://www.reunionapp.com/ -- PINNED
-# unclutter # clipboard history, scratch notes, and files shelf in the menu bar; https://unclutterapp.com/ -- homebrew version is out of date
+fluid # turn any website into a standalone Mac app (site-specific browser); https://fluidapp.com/
+reunion # genealogy research and family tree software; https://www.reunionapp.com/ -- PINNED
+unclutter # clipboard history, scratch notes, and files shelf in the menu bar; https://unclutterapp.com/ -- homebrew version is out of date
 
 # Manual installation
 # Motion Minute # workout timer and interval training app; https://motionminute.app/

@@ -47,7 +47,6 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
 - **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
 - **Ghostty**: `xdg-config/ghostty/config` → `~/.config/ghostty/config`
 - **Starship**: `xdg-config/starship.toml` → `~/.config/starship.toml`
-- **Karabiner**: `xdg-config/karabiner/` → `~/.config/karabiner/`
 - **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.

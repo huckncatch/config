@@ -14,6 +14,12 @@ Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory f
 
 Toothpick is a Raycast extension that allows you to control Bluetooth devices from the command line. It requires the `blueutil` command-line tool to be installed. Follow the "Enabling 'blueutil' backend" instructions in the [README](https://www.raycast.com/VladCuciureanu/toothpick#readme) file.
 
+## Karabiner-Elements
+
+Not currently installed via Homebrew and not wired into `bin/sync-backups.sh`. Config is kept at `xdg-config/karabiner/karabiner.json` for manual restore only.
+
+To restore: `brew install --cask karabiner-elements`, then symlink or copy `xdg-config/karabiner/karabiner.json` to `~/.config/karabiner/karabiner.json`.
+
 ## Maestral
 
 keep-alive instructions: <https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro>
