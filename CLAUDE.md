@@ -10,7 +10,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a personal macOS configuration repository containing dotfiles, shell configurations, and automated setup scripts for provisioning new machines. The repository is designed to be cloned to `~/config` and uses a modular structure with profile-based zsh configuration.
+This is a personal configuration repository for macOS and Linux (Ubuntu on Windows PC), containing dotfiles, shell configurations, and automated setup scripts for provisioning new machines. The repository is designed to be cloned to `~/config` and uses a modular structure with profile-based zsh configuration.
+
+### Cross-Platform Development
+
+This repo is actively being adapted to support both macOS and Linux. Changes may be pushed from either platform and pulled on the other.
+
+When suggesting or reviewing changes, flag whether something is macOS-only. Specifically:
+- **Homebrew**: macOS (and Linux via Linuxbrew, but not guaranteed) — guard with `[[ "$(uname)" == "Darwin" ]]` or check `command -v brew`
+- **LaunchAgents / `.plist` files**: macOS only — Linux equivalent is systemd user units
+- **macOS-specific tools**: Ghostty, Raycast, Karabiner, Things — not available on Linux
+- **`/usr/bin/open`**: macOS only — Linux equivalent is `xdg-open`
+
+Prefer `uname`-based guards for platform-specific code paths rather than assuming macOS.
 
 ### Documentation Files
 
@@ -35,7 +47,6 @@ Configurations follow XDG spec where supported. The `xdg-config/` directory stru
 - **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
 - **Ghostty**: `xdg-config/ghostty/config` → `~/.config/ghostty/config`
 - **Starship**: `xdg-config/starship.toml` → `~/.config/starship.toml`
-- **Karabiner**: `xdg-config/karabiner/` → `~/.config/karabiner/`
 - **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.

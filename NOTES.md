@@ -14,6 +14,12 @@ Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory f
 
 Toothpick is a Raycast extension that allows you to control Bluetooth devices from the command line. It requires the `blueutil` command-line tool to be installed. Follow the "Enabling 'blueutil' backend" instructions in the [README](https://www.raycast.com/VladCuciureanu/toothpick#readme) file.
 
+## Karabiner-Elements
+
+Not currently installed via Homebrew and not wired into `bin/sync-backups.sh`. Config is kept at `xdg-config/karabiner/karabiner.json` for manual restore only.
+
+To restore: `brew install --cask karabiner-elements`, then symlink or copy `xdg-config/karabiner/karabiner.json` to `~/.config/karabiner/karabiner.json`.
+
 ## Maestral
 
 keep-alive instructions: <https://daringfireball.net/2023/07/nerding_out_with_maestral_launchcontrol_and_keyboard_maestro>
@@ -589,13 +595,30 @@ Per-project memory lives at:
 
 All memory files and the hook script are backed up in the repo and synced via `bin/sync-backups.sh`.
 
-After a fresh install, run sync-backups to restore:
+After a fresh install, run sync-backups to restore files:
 
 ```bash
 bin/sync-backups.sh
 ```
 
-Then verify the hook is wired up in `~/.config/claude/settings.json` under `hooks.PreToolUse` — it should have an entry running `inject-memory.py` with an empty matcher.
+Then confirm `~/.config/claude/settings.json` has this `hooks` block — it is the **only** hook needed (GSD was removed 2026-06-30; inject-memory.py was the sole component worth keeping because it loads the global memory files that Claude Code's native auto-memory does not reach):
+
+```json
+"hooks": {
+  "PreToolUse": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python3 /Users/soob/.config/claude/hooks/inject-memory.py",
+          "timeout": 10
+        }
+      ]
+    }
+  ]
+}
+```
 
 The hook uses PPID-based flag files in `/tmp/claude-memory-flags/` to fire only once per session. These are ephemeral and recreated automatically.
 

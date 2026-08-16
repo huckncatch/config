@@ -6,6 +6,7 @@
 bash # GNU Bash (Homebrew version kept current for scripting; macOS ships an ancient 3.x); https://www.gnu.org/software/bash/
 emacs # GNU Emacs text editor; https://github.com/emacs-mirror/emacs
 screen # GNU terminal multiplexer (older alternative to tmux); https://www.gnu.org/software/screen/
+starship # minimal, blazing-fast, and customizable cross-shell prompt; https://github.com/starship/starship
 tmux # modern terminal multiplexer with scriptable sessions and panes; https://github.com/tmux/tmux
 zsh # Z shell with powerful tab completion, globbing, and theming; https://www.zsh.org/
 
@@ -79,6 +80,7 @@ ollama # run and manage large language models locally (llama3, mistral, etc.); h
 # System Utilities
 blueutil # command-line Bluetooth power control and device management; https://github.com/toy/blueutil
 gzip # GNU gzip compression (kept current vs macOS's older bundled version); https://www.gnu.org/software/gzip/
+mole # deep clean and optimize your Mac (CLI); https://mole.fit
 
 # Disabled
 # mas # Mac App Store command-line interface for installing and updating App Store apps; https://github.com/mas-cli/mas

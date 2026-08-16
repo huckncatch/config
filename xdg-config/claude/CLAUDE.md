@@ -83,7 +83,28 @@ This file provides universal guidance to Claude Code across all projects.
 
 ## Memory System
 
-Save new memory to: cross-project rules → `general.md`; tool knowledge → `tools/{tool}.md`; project context → project `MEMORY.md`. Load `tools/ghostty.md` for Ghostty questions.
+### Where to save
+
+| What | Where |
+|---|---|
+| Cross-project behavior corrections or preferences | `~/.config/claude/memory/general.md` |
+| Tool-specific knowledge (CLI syntax, quirks, workarounds) | `~/.config/claude/memory/tools/{tool}.md` (add pointer in `memory.md`) |
+| Project-specific context, decisions, ongoing work | Project `MEMORY.md` (`~/.config/claude/projects/{path}/memory/MEMORY.md`) |
+
+### Global vs. project: the deciding question
+
+**Ask:** "If I opened a completely different project tomorrow, would this correction or fact still apply?"
+
+- **Yes → global** (`general.md` or `tools/`): behavioral corrections, tool usage patterns, communication preferences, git workflow rules. These apply regardless of which project is open.
+- **No → project** (`MEMORY.md`): codebase-specific conventions, decisions made for this repo, ongoing work context, architecture notes.
+
+A feedback memory about *how* to use a tool (e.g. "don't use `git -C` when already in cwd") is global. A feedback memory about *this project's* code patterns is project-specific.
+
+When in doubt, ask: would a colleague need to know this rule on a completely different codebase? If yes, it's global.
+
+### Loading
+
+Load `tools/ghostty.md` for Ghostty questions. Load `tools/obsidian.md` for any Obsidian search or note operation.
 
 ## Work Process
 

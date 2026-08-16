@@ -13,6 +13,24 @@
     ]
   },
   "model": "sonnet",
+  "skillOverrides": {
+    "commit-commands:clean_gone": "user-invocable-only",
+    "commit-commands:commit-push-pr": "user-invocable-only"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/soob/.config/claude/hooks/inject-memory.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "/Users/soob/.config/claude/statusline.sh"
@@ -24,12 +42,13 @@
     "feature-dev@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
-    "greptile@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false,
     "claude-md-management@claude-plugins-official": true,
-    "legalzoom@claude-plugins-official": true
+    "legalzoom@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
   "voiceEnabled": false,
   "installMethod": "homebrew",
   "autoUpdates": false,
@@ -51,99 +70,5 @@
         "DEFAULT_VAULT": "Home"
       }
     }
-  },
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/soob/.config/claude/hooks/gsd-check-update.js\""
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/soob/.config/claude/hooks/gsd-session-state.sh"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/soob/.config/claude/hooks/gsd-context-monitor.js\"",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/soob/.config/claude/hooks/gsd-phase-boundary.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 /Users/soob/.config/claude/hooks/inject-memory.py",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/soob/.config/claude/hooks/gsd-prompt-guard.js\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/soob/.config/claude/hooks/gsd-read-guard.js\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/soob/.config/claude/hooks/gsd-workflow-guard.js\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/soob/.config/claude/hooks/gsd-validate-commit.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
   }
 }

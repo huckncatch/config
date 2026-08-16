@@ -14,4 +14,7 @@ if [[ -o interactive ]]; then
   # Download video using cookies from ./cookies.txt, recoded to mp4
   alias yt='yt-dlp --cookies ./cookies.txt --recode-video mp4 -o "%(title)s.%(ext)s"'
 
+  # Download video using cookies from ./cookies.txt, recoded to mp4
+  alias yti='yt-dlp_macos --cookies ./cookies.txt --recode-video mp4 -o "%(title)s.%(ext)s"'
+
 fi
