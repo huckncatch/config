@@ -14,8 +14,14 @@
 [[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
 
 # Homebrew environment (must be early to add /opt/homebrew/bin to PATH)
-# This is required on Apple Silicon Macs for Homebrew-installed tools
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Guarded for cross-platform use: Apple Silicon Mac, Intel Mac, Linuxbrew
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 # Tmux plugin configuration (must be set before oh-my-zsh loads)
 export ZSH_TMUX_AUTOREFRESH=true    # Auto-refresh SSH_AUTH_SOCK in long-running sessions
