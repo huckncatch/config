@@ -14,7 +14,12 @@
 if [[ -o interactive ]]; then
 
   if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-    alias cat='bat'                                # syntax-highlighted output with line numbers
+    if command -v bat &>/dev/null; then
+      alias cat='bat'                              # syntax-highlighted output with line numbers
+    elif command -v batcat &>/dev/null; then
+      alias bat='batcat'                           # Ubuntu: apt installs bat as batcat
+      alias cat='batcat'
+    fi
   fi
 
 fi

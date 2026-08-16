@@ -11,6 +11,11 @@
 
 if [[ -o interactive ]]; then
 
+  # Ubuntu: apt installs fd as fdfind; alias to fd if not already present
+  if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then
+    alias fd='fdfind'
+  fi
+
   # File searching
   alias ff='fd --type f --hidden --exclude .git'   # find files (including hidden, excluding .git)
 
