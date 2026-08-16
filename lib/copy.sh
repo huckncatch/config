@@ -183,9 +183,10 @@ copy_xdg_config() {
         # Define preservation patterns per config directory
         case "$itemname" in
           "claude")
-            # Preserve everything except CLAUDE.md and settings.json
+            # Preserve settings.json (machine-specific: hardcoded paths differ per OS/machine)
+            # Preserve runtime dirs that are managed in place, not from repo
             _sync_directory_selective "$item" "$HOME/.config/$itemname" \
-              "local/* projects/* statsig/* todos/* hooks/* commands/* plugins/*"
+              "settings.json local/* projects/* statsig/* todos/* hooks/* commands/* plugins/*"
             ;;
           "karabiner")
             # Preserve assets only (automatic_backups are machine-generated)

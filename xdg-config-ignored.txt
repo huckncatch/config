@@ -6,3 +6,7 @@
 # Example entries:
 # some-app
 # another-tool
+
+# starship.toml is a plain file, not a directory — copy_xdg_config only handles dirs.
+# Deploy manually or via sync-backups.sh.
+starship.toml
