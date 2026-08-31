@@ -342,6 +342,7 @@ In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remo
 - **obsidian-cortex**: Cross-vault read/write/search/frontmatter via FastMCP Python server
 - **things**: Things 3 task management (persistent tmux session — see Things MCP Server section)
 - **github**: Repository management (plugin: `github@claude-plugins-official` — no local server)
+- **fathom**: Meeting recordings/transcripts via Fathom's hosted remote MCP endpoint
 
 **Not installed (fastmail):** Fastmail has 30 tools (~18.5k tokens of context). Omitted to save context — use MailMate MCP for email instead.
 
@@ -362,6 +363,7 @@ Then add the servers:
 claude mcp add --scope user kagi -- /opt/homebrew/bin/uvx kagimcp
 claude mcp add --scope user mailmate -- /Users/soob/Developer/mailmate-mcp/.venv/bin/mailmate-mcp
 claude mcp add --scope user obsidian -- /Users/soob/Dropbox/Apps/Obsidian/Home/.obsidian/plugins/mcp-tools/bin/mcp-server
+claude mcp add --scope user fathom -- npx mcp-remote@latest https://api.fathom.ai/mcp
 ```
 
 **obsidian-cortex** requires env vars and must be added manually to `~/.config/claude/settings.json` (see obsidian-cortex MCP Server section below).
@@ -430,6 +432,10 @@ python -m venv .venv
 ```
 
 **3. For Claude Desktop**, add the same block to `~/Library/Application Support/Claude/claude_desktop_config.json` under `mcpServers`.
+
+### Fathom MCP Server
+
+Remote MCP server hosted by Fathom (meeting recordings/transcripts) — no local process to install. Uses `mcp-remote` (via `npx`) as a stdio-to-HTTP bridge; first connection opens a browser for OAuth login, then caches the token locally (no manual API key needed).
 
 ### Things MCP Server
 
