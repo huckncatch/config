@@ -4,6 +4,29 @@ Future improvements and features for this configuration repository.
 
 ## Planned Work
 
+### Migrate Config Management to chezmoi
+
+Replace the copy/sync scripts with chezmoi (source state in `home/`, selected by `.chezmoiroot`). Each step: confirm `chezmoi status` shows the expected non-empty diff first, then apply and confirm it is empty.
+
+- Step 1 — plain dotfiles: completed 2026-10-01 (see Completed)
+- Step 2 — zsh: move `zshrc` and the profile into chezmoi as one template with macOS/Linux conditionals; drop the home/work split (`profile-home.zsh`/`profile-work.zsh`, profile prompt, drift detection); template the Colima `Include` in `~/.ssh/config` (hard-codes `/Users/soob`)
+- Step 3 — externals: replace git submodules (oh-my-tmux, zsh plugins) and the `install_tmux_config` symlink with `.chezmoiexternal.toml`
+- Step 4 — app-owned files: Claude `settings.json`, `claude_desktop_config.json`, memory, commands; secrets via 1Password `onepasswordRead` or `modify_` scripts. Also fix fresh install copying the redacted `claude_desktop_config.json` and `.DS_Store` into `~/.config/claude/`, and consider excluding Desktop app state (session IDs, feature flags) from the backup
+- Step 5 — scripts: Brewfile via `brew bundle` in a `run_onchange_` script (<https://docs.brew.sh/Brew-Bundle-and-Brewfile>); LaunchAgents; shrink `new-computer-install.sh` to a bootstrap
+- Status: Step 2 in progress
+
+### Fix Install Script Smoke Tests
+
+`test/test-install.sh` still exercises the removed `--update` flag (replaced by `bin/sync-config.sh`) and exits at test 2, so later assertions never run.
+
+- Status: Not started
+
+### Decide on Karabiner
+
+No longer in use, but `xdg-config/karabiner/karabiner.json` is kept in case it is retried. Either move it into chezmoi (macOS-only, ignored on Linux) or remove it.
+
+- Status: Not started
+
 ### Fix Markdownlint Errors in Project Files
 
 - Status: Completed 2026-03-14
@@ -86,9 +109,28 @@ Related GitHub issues: #1455, #2350, #2277, #3833, #2986
 
 Items that need more thought or may not be implemented
 
-- None currently
+- bat maps every `*/config` file to Bash syntax, so Ghostty's `key = value` config shows almost no highlighting; try `INI` for those files
+- Ghostty `copy-on-select = true` may only copy to Ghostty's own selection buffer on macOS; `clipboard` may be needed for Cmd-V in other apps (unverified)
 
 ## Completed
+
+### chezmoi Migration Step 1: Plain Dotfiles
+
+**Status:** Completed 2026-10-01
+
+Moved git, Ghostty, Starship, bat, ncdu, `tmux.conf.local`, `.editorconfig`, `.tidyrc`, `.zprofile`, and `~/.ssh/config` into `home/`. Replaced `copy_dotfiles()` with `apply_chezmoi()`. `~/.ssh/config` mode drift (644) is now corrected and tracked.
+
+### Stop sync-config.sh Overwriting Live Claude Config
+
+**Status:** Completed 2026-10-02
+
+Update mode skips `~/.config/claude/` (system is source of truth; `bin/sync-backups.sh` owns it). Previously a sync would have reverted memory files and dropped newer `settings.json` keys.
+
+### DEBUG_STARTUP From Environment + `ezd` Alias
+
+**Status:** Completed 2026-10-02
+
+`zshrc` defaults `DEBUG_STARTUP` to 0 when unset and unexports it; `ezd` restarts the shell with one traced startup.
 
 ### Consolidate Profile Systems
 
