@@ -126,9 +126,10 @@ copy_xdg_config() {
         # Define preservation patterns per config directory
         case "$itemname" in
           "claude")
-            # Preserve everything except CLAUDE.md and settings.json
-            _sync_directory_selective "$item" "$HOME/.config/$itemname" \
-              "local/* projects/* statsig/* todos/* hooks/* commands/* plugins/*"
+            # Live files are authored by Claude (memory, settings) and the repo copy is
+            # sanitized, so repo → system would revert newer edits. sync-backups.sh owns
+            # this directory in both directions.
+            echo "  ⊘ Skipping $itemname (system is source of truth; use bin/sync-backups.sh)"
             ;;
           "karabiner")
             # Preserve assets only (automatic_backups are machine-generated)

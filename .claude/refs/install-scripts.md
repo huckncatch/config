@@ -26,7 +26,7 @@ The `new-computer-install.sh` script performs automated setup. Functions are org
 
 Replaces the old `--update` flag. Syncs changed config files from repo to system with timestamped backups; skips all installations. XDG config preservation rules:
 
-- **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md` and `settings.json`; preserves `projects/`, `todos/`, `hooks/`, `commands/`, `plugins/`, `statsig/`
+- **Claude** (`~/.config/claude/`): Skipped — the live directory is authored by Claude (memory, settings) and the repo copy is sanitized; `bin/sync-backups.sh` owns it. Fresh install (`new-computer-install.sh`) still copies it
 - **Karabiner**: Syncs `karabiner.json`; preserves `assets/`
 - **Tmux**: Preserves `oh-my-tmux/` submodule symlink (`tmux.conf.local` is chezmoi-managed)
 - **chezmoi** (`home/`): git, Ghostty, Starship, bat, ncdu, `tmux.conf.local`, dotfiles, `~/.ssh/config` via `apply_chezmoi`

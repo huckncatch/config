@@ -49,7 +49,7 @@ Configurations follow XDG spec where supported. Two mechanisms deploy them durin
 **Copy scripts** (`xdg-config/`, mirrors `~/.config/`): still used for Claude Code, Karabiner, and the Oh my tmux! submodule:
 
 - **Tmux**: `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink); `tmux.conf.local` is chezmoi-managed
-- **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
+- **Claude Code**: `xdg-config/claude/` → `~/.config/claude/` on fresh install only; `sync-config.sh` skips it (system is source of truth, synced via `bin/sync-backups.sh`)
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
 
