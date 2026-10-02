@@ -174,6 +174,7 @@ suspicious-package # inspect macOS .pkg installer contents before running them; 
 # alfred # keyboard launcher, file search, and workflow automation tool; https://www.alfredapp.com/
 fluid # turn any website into a standalone Mac app (site-specific browser); https://fluidapp.com/
 reunion # genealogy research and family tree software; https://www.reunionapp.com/ -- PINNED
+raycast-glaze # build custom Mac desktop apps from natural language descriptions using AI; https://www.glaze.app/
 unclutter # clipboard history, scratch notes, and files shelf in the menu bar; https://unclutterapp.com/ -- homebrew version is out of date
 
 # Manual installation
