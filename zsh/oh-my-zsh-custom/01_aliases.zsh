@@ -104,6 +104,7 @@ if [[ -o interactive ]]; then
   alias em='emacs'                                 # short emacs
   alias so='source'                                # source files
   alias ez='exec zsh'                              # restart shell (reload config)
+  alias ezd='DEBUG_STARTUP=1 exec zsh'             # restart shell with startup file trace
 
   # Job control
   alias jobs='builtin jobs -l'                     # list background jobs with PIDs

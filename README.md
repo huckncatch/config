@@ -102,7 +102,7 @@ All scripts support `-d` (dry-run) and `-v` (verbose).
 
 ### Debugging Shell Startup
 
-Run `DEBUG_STARTUP=1 zsh` to see which files are being sourced during initialization. To trace every new shell, add `export DEBUG_STARTUP=1` to `~/.zshenv`.
+Run `ezd` (or `DEBUG_STARTUP=1 zsh`) to see which files are being sourced during initialization. To trace every new shell, add `export DEBUG_STARTUP=1` to `~/.zshenv`.
 
 ### Modifying Your Configuration
 

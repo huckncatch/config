@@ -31,7 +31,8 @@
 #   Run `DEBUG_STARTUP=1 zsh` to trace file loading (or export it in ~/.zshenv)
 # ==============================================================================
 
-export DEBUG_STARTUP="${DEBUG_STARTUP:-0}"
+# Not exported: child shells (and `exec zsh` via `ez`) start untraced
+typeset +x DEBUG_STARTUP="${DEBUG_STARTUP:-0}"
 
 if [[ "$DEBUG_STARTUP" == "1" ]]; then
   echo "BEGIN zshrc"
