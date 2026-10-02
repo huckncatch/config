@@ -5,7 +5,7 @@
 The zsh setup uses a hierarchical loading system:
 
 1. **`~/.zshrc`** (entry point, sourced by zsh)
-   - Sets `DEBUG_STARTUP=0` (set to 1 to trace file loading)
+   - Defaults `DEBUG_STARTUP` to 0 unless already set in the environment (`DEBUG_STARTUP=1 zsh` traces file loading)
    - Sources profile-specific config (`~/.config/zsh/profile.local` or falls back to `~/config/zsh/profile-home.zsh`)
    - Sources `~/config/zsh/zshrc.base`
 

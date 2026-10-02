@@ -28,10 +28,10 @@
 #   Tool-specific: Update or create named files (e.g., git.zsh, xcode.zsh)
 #
 # DEBUGGING:
-#   Set DEBUG_STARTUP=1 to trace file loading
+#   Run `DEBUG_STARTUP=1 zsh` to trace file loading (or export it in ~/.zshenv)
 # ==============================================================================
 
-export DEBUG_STARTUP=0
+export DEBUG_STARTUP="${DEBUG_STARTUP:-0}"
 
 if [[ "$DEBUG_STARTUP" == "1" ]]; then
   echo "BEGIN zshrc"
