@@ -45,7 +45,7 @@ echo "==========================================================================
 echo ""
 
 copy_zsh_config
-copy_dotfiles
+apply_chezmoi
 copy_xdg_config
 install_tmux_config
 

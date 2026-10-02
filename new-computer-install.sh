@@ -75,7 +75,6 @@ source "$SCRIPT_DIR/lib/copy.sh"
 #############################################################################
 
 copy_zsh_config
-copy_dotfiles
 copy_xdg_config
 install_tmux_config
 
@@ -90,6 +89,9 @@ install_tmux_config
 #############################################################################
 
 "$SCRIPT_DIR/bin/install-packages.sh" "${FLAGS[@]+"${FLAGS[@]}"}"
+
+# Runs after packages so chezmoi (homebrew/formulae.zsh) is available on a fresh machine
+apply_chezmoi
 
 #############################################################################
 # PHASE 4: CLAUDE PLUGINS

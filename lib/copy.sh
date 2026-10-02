@@ -1,6 +1,6 @@
 #!/bin/bash
 # File copying functions for the install script
-# Handles zsh config, dotfiles, XDG config, and Claude settings
+# Handles zsh config, XDG config, chezmoi-managed files, and Oh my tmux!
 
 # Copy zsh configuration files
 copy_zsh_config() {
@@ -79,63 +79,6 @@ copy_zsh_config() {
       echo "  Created ~/.config/zsh/profile.local"
     fi
   fi
-}
-
-# Copy dotfiles to home directory
-copy_dotfiles() {
-  echo "Copying dotfiles..."
-
-  for item in ./dotfiles/*; do
-    if [ -e "$item" ]; then
-      itemname=$(basename "$item")
-
-      # Special handling for SSH config
-      if [ "$itemname" = "ssh-config" ]; then
-        if [ "$UPDATE_MODE" -eq 1 ]; then
-          echo "  ⊘ Skipping SSH config in update mode (manual merge recommended)"
-          continue
-        fi
-
-        if [ -f "$HOME/.ssh/config" ]; then
-          if [ "$DRY_RUN" -eq 1 ]; then
-            echo "  [DRY RUN] Would back up existing ~/.ssh/config to ~/.ssh/config.backup"
-          else
-            echo "  Backing up existing ~/.ssh/config to ~/.ssh/config.backup"
-            cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup"
-          fi
-        fi
-        if [ "$DRY_RUN" -eq 1 ]; then
-          echo "  [DRY RUN] Would copy SSH config to ~/.ssh/config"
-        else
-          echo "  Copying SSH config to ~/.ssh/config"
-          mkdir -p "$HOME/.ssh"
-          chmod 700 "$HOME/.ssh"
-          cp "$item" "$HOME/.ssh/config"
-          chmod 600 "$HOME/.ssh/config"
-        fi
-      else
-        # Use smart sync in update mode
-        if [ "$UPDATE_MODE" -eq 1 ]; then
-          _sync_file "$item" "$HOME/.$itemname"
-        else
-          if [ -f "$HOME/.$itemname" ]; then
-            if [ "$DRY_RUN" -eq 1 ]; then
-              echo "  [DRY RUN] Would back up existing ~/.$itemname to ~/.$itemname.backup"
-            else
-              echo "  Backing up existing ~/.$itemname to ~/.$itemname.backup"
-              cp "$HOME/.$itemname" "$HOME/.$itemname.backup"
-            fi
-          fi
-          if [ "$DRY_RUN" -eq 1 ]; then
-            echo "  [DRY RUN] Would copy $itemname to ~/.$itemname"
-          else
-            echo "  Copying $itemname to ~/.$itemname"
-            cp "$item" "$HOME/.$itemname"
-          fi
-        fi
-      fi
-    fi
-  done
 }
 
 # Copy XDG config files
@@ -221,6 +164,22 @@ copy_xdg_config() {
       fi
     fi
   done
+}
+
+# Apply chezmoi-managed files (source state: home/ in this repo, via .chezmoiroot)
+apply_chezmoi() {
+  echo "Applying chezmoi-managed files..."
+
+  if ! command -v chezmoi > /dev/null 2>&1; then
+    echo "  ⚠ chezmoi not installed; skipping (brew install chezmoi, then re-run bin/sync-config.sh)"
+    return 0
+  fi
+
+  if [ "$DRY_RUN" -eq 1 ]; then
+    chezmoi --source "$SCRIPT_DIR" diff --no-pager
+  else
+    chezmoi --source "$SCRIPT_DIR" apply --verbose
+  fi
 }
 
 # Install Oh my tmux! configuration

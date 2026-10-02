@@ -1,3 +1,5 @@
+Include /Users/soob/.colima/ssh_config
+
 #   UseKeychain yes
 
 Host *

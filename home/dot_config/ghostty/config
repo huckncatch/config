@@ -39,6 +39,12 @@ cursor-style-blink = true
 cursor-color = #78a9ff
 
 ##############################################################################
+# Mouse
+##############################################################################
+
+mouse-shift-capture = true
+
+##############################################################################
 # Shell Integration
 ##############################################################################
 
@@ -49,6 +55,8 @@ notify-on-command-finish-action = notify
 
 # Click anywhere on the prompt line to move the cursor there
 cursor-click-to-move = true
+
+copy-on-select = true
 
 # Clipboard hygiene
 clipboard-trim-trailing-spaces = true

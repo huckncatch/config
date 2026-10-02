@@ -6,12 +6,12 @@ The `new-computer-install.sh` script performs automated setup. Functions are org
 
 - **`lib/utils.sh`**: Common helpers (`show_usage`, `_sync_file`, `_files_differ`, `_sync_directory_selective`, `_prompt_install`)
 - **`lib/brew.sh`**: Homebrew operations (`_read_package_list`, `brew_install`, `_should_install`, `_brew_list_does_not_contain`)
-- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_dotfiles`, `copy_xdg_config`, `install_tmux_config`)
+- **`lib/copy.sh`**: File copy functions (`copy_zsh_config`, `copy_xdg_config`, `apply_chezmoi`, `install_tmux_config`)
 
 ## Key Installation Functions
 
 - `copy_zsh_config()`: Copies zshrc and creates profile
-- `copy_dotfiles()`: Handles dotfiles with SSH config special case (sets permissions 700/600)
+- `apply_chezmoi()`: Runs `chezmoi --source "$SCRIPT_DIR" apply` (or `diff` under `--dry-run`) for files under `home/`; skips with a warning if chezmoi is not installed. In `new-computer-install.sh` it runs after package installation so chezmoi is available
 - `copy_xdg_config()`: Copies XDG-compliant config directories
 - `install_tmux_config()`: Creates Oh my tmux! symlink at `~/.config/tmux/tmux.conf`
 - `brew_install()`: Interactive package installation with error handling that continues on failures
@@ -28,10 +28,10 @@ Replaces the old `--update` flag. Syncs changed config files from repo to system
 
 - **Claude** (`~/.config/claude/`): Syncs `CLAUDE.md` and `settings.json`; preserves `projects/`, `todos/`, `hooks/`, `commands/`, `plugins/`, `statsig/`
 - **Karabiner**: Syncs `karabiner.json`; preserves `assets/`
-- **Tmux**: Syncs `tmux.conf.local`; preserves `oh-my-tmux/` submodule symlink
-- **Git/ncdu**: Full sync
+- **Tmux**: Preserves `oh-my-tmux/` submodule symlink (`tmux.conf.local` is chezmoi-managed)
+- **chezmoi** (`home/`): git, Ghostty, Starship, bat, ncdu, `tmux.conf.local`, dotfiles, `~/.ssh/config` via `apply_chezmoi`
 
-Skips entirely: `~/.config/zsh/profile.local` (drift detection runs), `~/.ssh/config`.
+Skips entirely: `~/.config/zsh/profile.local` (drift detection runs).
 
 ## Shell Environment (bin/install-shell.sh)
 

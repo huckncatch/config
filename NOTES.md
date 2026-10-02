@@ -6,6 +6,21 @@
 npx mac-cleaner-cli
 ```
 
+## chezmoi
+
+Files under `home/` are applied to `~` by [chezmoi](https://www.chezmoi.io/). `.chezmoiroot` points chezmoi at `home/`, so the rest of the repo is ignored by it.
+
+```bash
+chezmoi --source ~/config status    # what differs (A add, M modify, D delete)
+chezmoi --source ~/config diff      # full diff of what apply would change
+chezmoi --source ~/config apply     # write repo → system
+chezmoi --source ~/config re-add    # pull edits made on the system back into home/
+```
+
+`bin/sync-config.sh` runs `apply`; `bin/sync-backups.sh` ends with `status`.
+
+Source file names encode target attributes: `dot_x` → `.x`, `private_` → mode 600/700, `empty_` → keep an empty file (without it chezmoi deletes the target).
+
 ## Raycast
 
 Add `.../Dropbox/ApplicationSupport/Raycast/CommandScripts` as watch directory for Raycast Script Commands (Extension)

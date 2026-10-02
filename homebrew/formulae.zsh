@@ -4,6 +4,7 @@
 
 # Shell & Terminal
 bash # GNU Bash (Homebrew version kept current for scripting; macOS ships an ancient 3.x); https://www.gnu.org/software/bash/
+chezmoi # dotfile manager that applies home/ in this repo to ~ (see NOTES.md); https://github.com/twpayne/chezmoi
 emacs # GNU Emacs text editor; https://github.com/emacs-mirror/emacs
 screen # GNU terminal multiplexer (older alternative to tmux); https://www.gnu.org/software/screen/
 starship # minimal, blazing-fast, and customizable cross-shell prompt; https://github.com/starship/starship

@@ -124,3 +124,5 @@ If a project's CLAUDE.md is missing this section, add it: see the `second-brain`
 **Prefer `command <cmd>` over bare invocations** to bypass shell functions, aliases, and zsh hooks that could produce output differences or unexpected behavior. For example, use `command grep` instead of `grep`. Fall back to explicit system paths (`/usr/bin/grep`) only when `command` doesn't resolve the issue.
 
 *This section documents commands that require explicit paths due to Homebrew/alias conflicts. Add entries as they're discovered.*
+
+- **`stat`**: Homebrew coreutils puts GNU `stat` first on PATH, which rejects BSD flags (`stat -f '%Lp' file` fails). Use `/usr/bin/stat` for BSD-style `-f` format strings.

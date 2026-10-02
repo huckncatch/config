@@ -30,17 +30,16 @@ The install script will:
 
 ```text
 config/
-├── dotfiles/           # Files copied to ~/ with dot prefix
-│   ├── p10k.zsh       # Powerlevel10k theme configuration
-│   ├── zprofile       # Informational file pointing to XDG config
-│   ├── tidyrc         # HTML Tidy configuration
-│   └── ssh-config     # SSH configuration (copied to ~/.ssh/config)
+├── home/              # chezmoi source state for ~ (selected by .chezmoiroot)
+│   ├── dot_config/    # ~/.config: git, ghostty, starship, bat, ncdu, tmux.conf.local
+│   ├── dot_zprofile   # Informational file pointing to XDG config
+│   ├── dot_tidyrc     # HTML Tidy configuration
+│   ├── dot_editorconfig
+│   └── private_dot_ssh/  # ~/.ssh/config (mode 700/600)
 ├── xdg-config/        # Directories copied to ~/.config/
-│   ├── git/           # Git configuration (XDG-compliant)
-│   ├── tmux/          # Tmux configuration (XDG-compliant)
+│   ├── tmux/          # Oh my tmux! submodule
 │   ├── claude/        # Claude Code settings
-│   ├── karabiner/     # Karabiner-Elements key mappings
-│   └── ncdu/          # ncdu disk analyzer settings
+│   └── karabiner/     # Karabiner-Elements key mappings
 ├── zsh/               # Zsh configuration
 │   ├── zshrc          # Main zshrc entry point (copied to ~/.zshrc)
 │   ├── zshrc.base     # Shared base configuration

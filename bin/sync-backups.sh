@@ -11,11 +11,6 @@ FILE_PAIRS=(
   "$HOME/.config/claude/statusline-my-jonathan.sh:xdg-config/claude/statusline-my-jonathan.sh"
   "$HOME/.config/claude/hooks/inject-memory.py:xdg-config/claude/hooks/inject-memory.py"
   "$HOME/Library/Application Support/Claude/claude_desktop_config.json:xdg-config/claude/claude_desktop_config.json"
-  "$HOME/.config/tmux/tmux.conf.local:xdg-config/tmux/tmux.conf.local"
-  "$HOME/.config/git/config:xdg-config/git/config"
-  "$HOME/.config/git/gitignore_global:xdg-config/git/gitignore_global"
-  "$HOME/.config/ghostty/config:xdg-config/ghostty/config"
-  "$HOME/.config/starship.toml:xdg-config/starship.toml"
 )
 
 # Directory pairs: system_path:repo_path (synced recursively)
@@ -245,3 +240,10 @@ echo "Summary:"
 echo "  Synced: $synced_count"
 echo "  Skipped: $skipped_count"
 echo ""
+
+# Files under home/ are managed by chezmoi rather than the pairs above
+if command -v chezmoi > /dev/null 2>&1; then
+  echo "chezmoi-managed drift (pull system edits into repo with: chezmoi --source \"$REPO_ROOT\" re-add):"
+  chezmoi --source "$REPO_ROOT" status || true
+  echo ""
+fi

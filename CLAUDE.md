@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Work Process
 
-- **Check for config drift**: Run `bin/sync-backups.sh` (syncs Claude config, tmux, git, ghostty, starship between `~/.config/` and `xdg-config/`). Run periodically or when switching projects.
+- **Check for config drift**: Run `bin/sync-backups.sh` (syncs Claude config between `~/.config/` and `xdg-config/`, then reports `chezmoi status` for files under `home/`). Run periodically or when switching projects.
 
 ## Repository Overview
 
@@ -38,16 +38,18 @@ Load order is critical — breaking it breaks the shell. Read `.claude/refs/zsh-
 
 ### XDG Base Directory Compliance
 
-Configurations follow XDG spec where supported. The `xdg-config/` directory structure mirrors `~/.config/`:
+Configurations follow XDG spec where supported. Two mechanisms deploy them during the chezmoi migration:
 
-- **Git**: `xdg-config/git/config` → `~/.config/git/config`
-- **Tmux**: Uses Oh my tmux! with two-file configuration:
-  - `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink)
-  - `xdg-config/tmux/tmux.conf.local` → `~/.config/tmux/tmux.conf.local` (user customizations)
+**chezmoi** (`home/`, selected by `.chezmoiroot`): source state for `~`. Applied by `apply_chezmoi` in `lib/copy.sh` (`chezmoi --source ~/config apply`). Covers git (`home/dot_config/private_git/`), Ghostty, Starship, bat, ncdu, `tmux.conf.local`, `.editorconfig`, `.tidyrc`, `.zprofile`, and `~/.ssh/config`.
+
+- File names use chezmoi attribute prefixes: `dot_` → `.`, `private_` → mode 600/700, `empty_` → keep an empty file (chezmoi otherwise **removes** targets whose source is empty — `empty_stCommitMsg` is referenced by git `commit.template`)
+- Before changing anything under `home/`, run `chezmoi --source ~/config status` and confirm the expected entries appear (non-empty) before relying on an empty diff
+- Pull system-side edits into the repo with `chezmoi --source ~/config re-add`, never by hand-copying into `xdg-config/`
+
+**Copy scripts** (`xdg-config/`, mirrors `~/.config/`): still used for Claude Code, Karabiner, and the Oh my tmux! submodule:
+
+- **Tmux**: `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink); `tmux.conf.local` is chezmoi-managed
 - **Claude Code**: `xdg-config/claude/CLAUDE.md` → `~/.config/claude/CLAUDE.md`
-- **Ghostty**: `xdg-config/ghostty/config` → `~/.config/ghostty/config`
-- **Starship**: `xdg-config/starship.toml` → `~/.config/starship.toml`
-- **ncdu**: `xdg-config/ncdu/` → `~/.config/ncdu/`
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
 
@@ -65,7 +67,7 @@ Tmux uses **Oh my tmux!** (<https://github.com/gpakosz/.tmux>), a pre-configured
 
 **User Customizations**:
 
-- **Repository**: `xdg-config/tmux/tmux.conf.local`
+- **Repository**: `home/dot_config/tmux/tmux.conf.local` (chezmoi)
 - **System**: `~/.config/tmux/tmux.conf.local`
 - All personal settings and overrides go here (vi mode, mouse settings, key bindings, etc.)
 
@@ -77,15 +79,15 @@ git submodule update --remote xdg-config/tmux/oh-my-tmux
 ```
 
 **Backup Tracking**:
-Only `tmux.conf.local` is tracked by `bin/sync-backups.sh`. The main config symlink is regenerated on install.
+`tmux.conf.local` is chezmoi-managed. The main config symlink is regenerated on install.
 
 ### Starship Prompt
 
-Starship replaces oh-my-zsh theming. `ZSH_THEME=""` in profile disables oh-my-zsh themes; `zsh/oh-my-zsh-custom/starship.zsh` runs `eval "$(starship init zsh)"` after oh-my-zsh loads. Config at `~/.config/starship.toml` (backed up to `xdg-config/starship.toml`, tracked by `bin/sync-backups.sh`). oh-my-zsh is still used for plugins, completions, and aliases.
+Starship replaces oh-my-zsh theming. `ZSH_THEME=""` in profile disables oh-my-zsh themes; `zsh/oh-my-zsh-custom/starship.zsh` runs `eval "$(starship init zsh)"` after oh-my-zsh loads. Config at `~/.config/starship.toml` (source: `home/dot_config/starship.toml`, chezmoi-managed). oh-my-zsh is still used for plugins, completions, and aliases.
 
 ### Ghostty Configuration
 
-Ghostty uses `~/.config/ghostty/config` (XDG path) as its config file. Backed up to `xdg-config/ghostty/config` and tracked by `bin/sync-backups.sh`. Config covers font (Monaspace Neon), theme (Carbonfox), window padding, cursor style, shell integration, and scrollback limit.
+Ghostty uses `~/.config/ghostty/config` (XDG path) as its config file. Source: `home/dot_config/ghostty/config` (chezmoi-managed). Config covers font (Monaspace Neon), theme (Carbonfox), window padding, cursor style, shell integration, and scrollback limit.
 
 ### Claude Code Configuration
 
@@ -116,7 +118,7 @@ When editing files in this repository:
 
    Use `bin/sync-backups.sh` to sync. Never commit API tokens. Note: `~/.claude.json` is not backed up (OAuth tokens + ephemeral caches; re-authenticate after re-imaging).
 
-6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced in `copy_dotfiles()`.
+6. **Preserve SSH security**: SSH config must always set directory permissions to 700 and file permissions to 600. This is enforced by chezmoi's `private_` prefixes (`home/private_dot_ssh/private_config`); `chezmoi status` flags mode drift.
 
 7. **Homebrew package additions**: When adding packages to `new-computer-install.sh`, add them to the appropriate array (`packages` for formulae, `applications` for casks). All installations use `brew_install` which handles errors gracefully.
 

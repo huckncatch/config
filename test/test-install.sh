@@ -78,7 +78,7 @@ assert_contains "$output" "UPDATE MODE" "Shows update mode banner"
 echo ""
 echo "Test: Configuration functions execute"
 assert_contains "$output" "Setting up zsh configuration" "Runs copy_zsh_config"
-assert_contains "$output" "Copying dotfiles" "Runs copy_dotfiles"
+assert_contains "$output" "Applying chezmoi-managed files" "Runs apply_chezmoi"
 assert_contains "$output" "Copying XDG config files" "Runs copy_xdg_config"
 
 #############################################################################
