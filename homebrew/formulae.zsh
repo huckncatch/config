@@ -77,6 +77,10 @@ pnpm # fast, disk-efficient package manager using a content-addressable store (w
 html2text # convert HTML to readable plain text; https://github.com/grobian/html2text
 ollama # run and manage large language models locally (llama3, mistral, etc.); https://github.com/ollama/ollama
 
+# Containers
+colima # lightweight Linux VM that runs the Docker engine on macOS without Docker Desktop (used by ~/Developer/domain-locker); https://github.com/abiosoft/colima
+docker # Docker CLI; talks to the engine inside Colima; https://github.com/docker/cli
+
 # System Utilities
 blueutil # command-line Bluetooth power control and device management; https://github.com/toy/blueutil
 gzip # GNU gzip compression (kept current vs macOS's older bundled version); https://www.gnu.org/software/gzip/
