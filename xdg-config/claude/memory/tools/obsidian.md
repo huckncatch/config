@@ -1,6 +1,6 @@
 ---
 name: obsidian-search-guidelines
-description: How to reliably find and read notes via mcp__obsidian-cortex tools — search limitations, path conventions, and AND-search workaround
+description: How to reliably find, read, and write notes via mcp__obsidian-cortex tools — search limitations, path conventions, AND-search workaround, and when to prefer native fs tools over MCP in Claude Code
 metadata:
   type: feedback
 ---
@@ -36,13 +36,30 @@ grep -ri "search term" "/Users/soob/Dropbox/Apps/Obsidian/" --include="*.md" -l
 ```
 This finds notes that the cortex server's index misses.
 
-## Writing Files in Obsidian
+## Reading/Writing Notes in Claude Code: Prefer Native Tools
 
-**The obsidian-cortex MCP tools are reliable** — use `create_note`, `write_note`, `edit_note` as appropriate. The `Write` filesystem tool also works and is a valid alternative.
+**In Claude Code, use native `Read`/`Edit`/`Write` directly on the resolved vault path instead of the MCP `read_note`/`create_note`/`write_note`/`edit_note`/`update_frontmatter` tools.**
+
+**Why:** These MCP tools do plain filesystem I/O under the hood (see `obsidian_cortex_mcp/vault.py` — `pathlib` read_text/write_text, no Obsidian app involvement for these operations). Calling them through MCP means their string arguments render as a single line with literal `\n` escapes in the permission/review UI, instead of Claude Code's native line-broken diff view. Since the underlying operation is identical, native tools are a strict UX upgrade with no functional loss — for Claude Code sessions only.
+
+**How to apply:**
+1. Resolve the absolute path first: `list_vaults` gives each vault's root path; join with the note's relative path.
+2. Use `Read` in place of `read_note`, `Edit`/`Write` in place of `write_note`/`edit_note`/`create_note`.
+3. For frontmatter edits, edit the YAML block between the `---` fences directly with `Edit` — same effect as `update_frontmatter`.
+4. Still use the MCP tools for: `move_note` (intra-vault moves shell out to the real Obsidian CLI to rewrite wikilinks — no native equivalent), `search`/`list_tags` (custom ripgrep-JSON and frontmatter-aggregation logic), and `list_vaults`/`list_notes` (discovery).
+5. **Claude Desktop has no filesystem access** — this preference is Claude-Code-only. The MCP read/write/edit/create/update_frontmatter tools stay in the server unchanged for that context; don't remove them from `obsidian_cortex_mcp`.
+
+**Always read-back verify** after any write operation — confirm the file content was saved correctly.
 
 **Note:** A different, older MCP server (`mcp__obsidian__create_vault_file`) had silent failure issues. That does not apply to obsidian-cortex.
 
-**Always read-back verify** after any write operation — confirm the file content was saved correctly.
+## File Naming: kebab-case
+
+**Name new Obsidian note files in kebab-case** (e.g. `domain-locker.md`, not `Domain Locker.md`).
+
+**Why:** User preference, stated explicitly 2026-09-18.
+
+**How to apply:** Applies to filenames only, not frontmatter `title`/display text or the note's H1, which can stay in normal prose case. Existing Title Case files in the vault (e.g. `Scoreboard.md`, `KMHS Weather Server.md`) are not being retroactively renamed unless asked — this applies going forward to new notes.
 
 ## Metadata-Menu Class Conventions
 

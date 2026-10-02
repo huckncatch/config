@@ -47,16 +47,32 @@
     "chillingSlothLocation": {
       "customPath": "/Users/soob/.config/claude"
     },
-    "launchPreviewPersistSession": true,
+    "coworkBrowserToolsEnabled": true,
+    "coworkPreferredBrowser": "built_in",
+    "launchPreviewPersistedWorkspaces": [],
+    "launchPreviewSessionScopedSessions": [],
     "localAgentModeTrustedFolders": [
       "/Users/soob/Desktop/screenshots",
       "/Users/soob/Downloads copy",
       "/Users/soob/Documents/Claude",
       "/Users/soob/Library/Mobile Documents/com~apple~CloudDocs/finances/rental/3031 SE 89th Ave Portland"
     ],
+    "remoteFolderConsentMemory": [
+      "/Users/soob/Developer/time-tracker"
+    ],
+    "remoteSessionFolderGrants": {
+      "session_01711C485jzNArgY5u5HFv4o": [
+        "/Users/soob/Developer/time-tracker"
+      ]
+    },
+    "coworkLegacyRootGrantsPruned": true,
     "coworkScheduledTasksEnabled": true,
+    "coworkHipaaRestricted": false,
+    "orgWorkAcrossAppsDisabled": false,
     "ccdScheduledTasksEnabled": true,
-    "sidebarMode": "chat",
+    "earlyWindowShowLatched": true,
+    "storeReadCacheLatched": true,
+    "sidebarMode": "epitaxy",
     "bypassPermissionsGateByAccount": {
       "400457b0-0cf9-40b9-a089-4d2adb59bbe1": false
     },
@@ -72,10 +88,33 @@
       "starred-session-groups": [],
       "dframe-local-slice": {
         "pinnedOrder": [],
-        "customGroupAssignments": {},
-        "customGroupOrder": {}
-      }
-    },
-    "coworkHipaaRestricted": false
+        "homeProjectsPinnedOrder": []
+      },
+      "desktop-frame.paneStore.v1": {
+        "state": {
+          "extraPanesByMode": {},
+          "colWeightsByMode": {},
+          "rowSplit": 0.5,
+          "draftNonce": 0,
+          "lastPrimaryCodeSession": {
+            "id": "local_f20f61c1-8d9b-4412-8e05-fbd1756f4dd1",
+            "type": "local"
+          }
+        },
+        "version": 4
+      },
+      "ccd-sessions-filter": {
+        "state": {
+          "selectedProjects": []
+        },
+        "version": 0
+      },
+      "dframe-group-scopes": {},
+      "cc-landing-worktree-enabled": false,
+      "epitaxy-auto-default-notice-seen.400457b0-0cf9-40b9-a089-4d2adb59bbe1": true,
+      "epitaxy-transcript-links-in-preview": true,
+      "epitaxy-transcript-links-chooser-seen": true,
+      "starred-local-routines": []
+    }
   }
 }
