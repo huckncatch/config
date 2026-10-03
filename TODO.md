@@ -9,11 +9,11 @@ Future improvements and features for this configuration repository.
 Replace the copy/sync scripts with chezmoi (source state in `home/`, selected by `.chezmoiroot`). Each step: confirm `chezmoi status` shows the expected non-empty diff first, then apply and confirm it is empty.
 
 - Step 1 — plain dotfiles: completed 2026-10-01 (see Completed)
-- Step 2 — zsh: move `zshrc` and the profile into chezmoi as one template with macOS/Linux conditionals; drop the home/work split (`profile-home.zsh`/`profile-work.zsh`, profile prompt, drift detection); template the Colima `Include` in `~/.ssh/config` (hard-codes `/Users/soob`)
+- Step 2 — zsh profile + 1Password secrets: completed 2026-10-02 (see Completed)
 - Step 3 — externals: replace git submodules (oh-my-tmux, zsh plugins) and the `install_tmux_config` symlink with `.chezmoiexternal.toml`
-- Step 4 — app-owned files: Claude `settings.json`, `claude_desktop_config.json`, memory, commands; secrets via 1Password `onepasswordRead` or `modify_` scripts. Also fix fresh install copying the redacted `claude_desktop_config.json` and `.DS_Store` into `~/.config/claude/`, and consider excluding Desktop app state (session IDs, feature flags) from the backup
+- Step 4 — app-owned files: Claude `settings.json`, `claude_desktop_config.json`, memory, commands; secrets via 1Password `onepasswordRead` or `modify_` scripts. Also fix fresh install copying the redacted `claude_desktop_config.json` and `.DS_Store` into `~/.config/claude/`, and consider excluding Desktop app state (session IDs, feature flags) from the backup. `claude_desktop_config.json` holds its own `KAGI_API_KEY` copy (rotation missed it); GUI-launched Claude does not read `secrets.zsh`, which likely explains the GitHub plugin's "Authorization header is badly formatted" error — feed both from 1Password
 - Step 5 — scripts: Brewfile via `brew bundle` in a `run_onchange_` script (<https://docs.brew.sh/Brew-Bundle-and-Brewfile>); LaunchAgents; shrink `new-computer-install.sh` to a bootstrap
-- Status: Step 2 in progress
+- Status: Step 3 next
 
 ### Fix Install Script Smoke Tests
 
@@ -113,6 +113,12 @@ Items that need more thought or may not be implemented
 - Ghostty `copy-on-select = true` may only copy to Ghostty's own selection buffer on macOS; `clipboard` may be needed for Cmd-V in other apps (unverified)
 
 ## Completed
+
+### chezmoi Migration Step 2: zsh Profile and 1Password Secrets
+
+**Status:** Completed 2026-10-02
+
+`~/.zshrc` and one `profile.zsh` template (macOS/Linux conditionals) replace the home/work profile templates, install prompt, and drift detection. Secrets render to `~/.config/zsh/secrets.zsh` from 1Password `op://` references; opt-in via `CHEZMOI_INCLUDE_SECRETS`, applied in a separate no-diff pass with a preflight that reports failures and keeps the last good copy. Verified by a before/after interactive-shell fingerprint (only `MACHINE_PROFILE` removed).
 
 ### chezmoi Migration Step 1: Plain Dotfiles
 
