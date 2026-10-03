@@ -13,3 +13,8 @@ memory-bank/
 xdg-config/karabiner/automatic_backups/
 
 .swift-version
+# oh-my-zsh plugins fetched by chezmoi (home/.chezmoiexternal.toml); local plugins stay tracked
+zsh/oh-my-zsh-custom/plugins/fast-syntax-highlighting/
+zsh/oh-my-zsh-custom/plugins/zsh-autosuggestions/
+zsh/oh-my-zsh-custom/plugins/zsh-completions/
+zsh/oh-my-zsh-custom/plugins/zsh-nvm/

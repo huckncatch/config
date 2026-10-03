@@ -1,0 +1,37 @@
+# Third-party files fetched by `chezmoi apply`, pinned to exact commits.
+# To update one: replace its commit hash in the URL, then run chezmoi apply.
+# exact = true removes files that are not in the archive (no stale leftovers).
+
+# --- oh-my-zsh plugins ---
+# Fetched into the repo's ZSH_CUSTOM (gitignored by name in /.gitignore)
+
+["config/zsh/oh-my-zsh-custom/plugins/fast-syntax-highlighting"]
+type = "archive"
+url = "https://github.com/zdharma-continuum/fast-syntax-highlighting/archive/3d574ccf48804b10dca52625df13da5edae7f553.tar.gz"
+stripComponents = 1
+exact = true
+
+["config/zsh/oh-my-zsh-custom/plugins/zsh-autosuggestions"]
+type = "archive"
+url = "https://github.com/zsh-users/zsh-autosuggestions/archive/85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5.tar.gz"
+stripComponents = 1
+exact = true
+
+["config/zsh/oh-my-zsh-custom/plugins/zsh-completions"]
+type = "archive"
+url = "https://github.com/zsh-users/zsh-completions/archive/f7c3173886f4f56bf97d622677c6d46ab005831f.tar.gz"
+stripComponents = 1
+exact = true
+
+["config/zsh/oh-my-zsh-custom/plugins/zsh-nvm"]
+type = "archive"
+url = "https://github.com/lukechilds/zsh-nvm/archive/745291dcf20686ec421935f1c3f8f3a2918dd106.tar.gz"
+stripComponents = 1
+exact = true
+
+# --- Oh my tmux! ---
+# Single-file framework; personal overrides live in ~/.config/tmux/tmux.conf.local
+
+[".config/tmux/tmux.conf"]
+type = "file"
+url = "https://raw.githubusercontent.com/gpakosz/.tmux/af33f07134b76134acca9d01eacbdecca9c9cda6/.tmux.conf"

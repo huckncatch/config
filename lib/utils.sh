@@ -98,10 +98,13 @@ _sync_directory_selective() {
   local dest_dir="$2"
   local preserve_patterns="$3"  # Patterns to preserve (space-separated)
 
-  if [ -n "$preserve_patterns" ]; then
-    echo "  Syncing $dest_dir (preserving: $preserve_patterns)"
-  else
-    echo "  Syncing $dest_dir"
+  # Per-file lines name full paths; the header only adds context in verbose mode
+  if [ "$VERBOSE" -eq 1 ]; then
+    if [ -n "$preserve_patterns" ]; then
+      echo "  Syncing $dest_dir (preserving: $preserve_patterns)"
+    else
+      echo "  Syncing $dest_dir"
+    fi
   fi
 
   # Find all files in source directory

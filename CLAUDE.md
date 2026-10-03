@@ -34,22 +34,21 @@ Prefer `uname`-based guards for platform-specific code paths rather than assumin
 
 ### Zsh Configuration Loading Order
 
-Load order is critical — breaking it breaks the shell. Read `.claude/refs/zsh-loading.md` when modifying any zsh config files or submodules.
+Load order is critical — breaking it breaks the shell. Read `.claude/refs/zsh-loading.md` when modifying any zsh config files or externals.
 
 ### XDG Base Directory Compliance
 
 Configurations follow XDG spec where supported. Two mechanisms deploy them during the chezmoi migration:
 
-**chezmoi** (`home/`, selected by `.chezmoiroot`): source state for `~`. Applied by `apply_chezmoi` in `lib/copy.sh` (`chezmoi --source ~/config apply`). Covers `~/.zshrc`, the zsh profile and secrets (`home/dot_config/zsh/`), git (`home/dot_config/private_git/`), Ghostty, Starship, bat, ncdu, `tmux.conf.local`, `.editorconfig`, `.tidyrc`, `.zprofile`, and `~/.ssh/config`. `~/.config/chezmoi/chezmoi.toml` (from `home/.chezmoi.toml.tmpl`) sets `sourceDir`, so `--source` is optional.
+**chezmoi** (`home/`, selected by `.chezmoiroot`): source state for `~`. Applied by `apply_chezmoi` in `lib/copy.sh` (`chezmoi --source ~/config apply`). Covers `~/.zshrc`, the zsh profile and secrets (`home/dot_config/zsh/`), git (`home/dot_config/private_git/`), Ghostty, Starship, bat, ncdu, `tmux.conf.local`, `.editorconfig`, `.tidyrc`, `.zprofile`, and `~/.ssh/config`. `~/.config/chezmoi/chezmoi.toml` (from `home/.chezmoi.toml.tmpl`) sets `sourceDir`, so `--source` is optional. Third-party code (oh-my-zsh plugins, Oh my tmux!) is pinned in `home/.chezmoiexternal.toml`; there are no git submodules.
 
 - File names use chezmoi attribute prefixes: `dot_` → `.`, `private_` → mode 600/700, `empty_` → keep an empty file (chezmoi otherwise **removes** targets whose source is empty — `empty_stCommitMsg` is referenced by git `commit.template`)
 - Before changing anything under `home/`, run `chezmoi --source ~/config status` and confirm the expected entries appear (non-empty) before relying on an empty diff
 - Pull system-side edits into the repo with `chezmoi --source ~/config re-add`, never by hand-copying into `xdg-config/` (`re-add` skips `.tmpl` files; edit those templates directly)
 - **Secrets**: `home/dot_config/zsh/private_secrets.zsh.tmpl` holds only `op://` references. Never put secret values in the repo, and never print `secrets.zsh` or `op read` output; hash or mask when verifying
 
-**Copy scripts** (`xdg-config/`, mirrors `~/.config/`): still used for Claude Code, Karabiner, and the Oh my tmux! submodule:
+**Copy scripts** (`xdg-config/`, mirrors `~/.config/`): still used for Claude Code and Karabiner:
 
-- **Tmux**: `xdg-config/tmux/oh-my-tmux/.tmux.conf` (submodule) → `~/.config/tmux/tmux.conf` (symlink); `tmux.conf.local` is chezmoi-managed
 - **Claude Code**: `xdg-config/claude/` → `~/.config/claude/` on fresh install only; `sync-config.sh` skips it (system is source of truth, synced via `bin/sync-backups.sh`)
 
 Note: Some tools (Powerlevel10k, SSH) don't support XDG paths and remain in home directory as dotfiles.
@@ -60,11 +59,11 @@ Note: Claude Code config directory is set to `~/.config/claude/` via `CLAUDE_CON
 
 Tmux uses **Oh my tmux!** (<https://github.com/gpakosz/.tmux>), a pre-configured tmux framework with a two-file configuration system:
 
-**Main Configuration** (read-only, from submodule):
+**Main Configuration** (read-only, chezmoi external):
 
-- **Submodule**: `xdg-config/tmux/oh-my-tmux/.tmux.conf`
-- **System**: `~/.config/tmux/tmux.conf` (symlink to submodule)
-- Never modify this file directly; it receives updates from the upstream project
+- **Source**: `home/.chezmoiexternal.toml` (`file` external pinned to an upstream commit)
+- **System**: `~/.config/tmux/tmux.conf` (regular file written by `chezmoi apply`)
+- Never modify this file directly; chezmoi overwrites it
 
 **User Customizations**:
 
@@ -72,15 +71,10 @@ Tmux uses **Oh my tmux!** (<https://github.com/gpakosz/.tmux>), a pre-configured
 - **System**: `~/.config/tmux/tmux.conf.local`
 - All personal settings and overrides go here (vi mode, mouse settings, key bindings, etc.)
 
-**Installation**:
-The `install_tmux_config()` function creates the symlink during installation. To update Oh my tmux!:
-
-```bash
-git submodule update --remote xdg-config/tmux/oh-my-tmux
-```
+**Updating**: Replace the commit SHA in the Oh my tmux! URL in `home/.chezmoiexternal.toml`, then run `chezmoi apply`.
 
 **Backup Tracking**:
-`tmux.conf.local` is chezmoi-managed. The main config symlink is regenerated on install.
+Both `tmux.conf.local` (file) and `tmux.conf` (external) are chezmoi-managed.
 
 ### Starship Prompt
 

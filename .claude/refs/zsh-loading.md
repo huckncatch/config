@@ -31,19 +31,11 @@ The zsh setup uses a hierarchical loading system:
      - `02_functions.zsh` - General shell functions (not tool-specific)
      - Tool-specific files (e.g., `fzf.zsh`, `git.zsh`, `homebrew.zsh`) contain ALL related configuration for that tool (environment vars, aliases, functions)
 
-## Git Submodules
+## Externals (chezmoi)
 
-Oh-my-zsh custom plugins and themes are git submodules in `zsh/oh-my-zsh-custom/`:
+Third-party code is fetched by chezmoi from pinned commits in `home/.chezmoiexternal.toml` (no git submodules):
 
-- `plugins/zsh-completions`
-- `plugins/zsh-nvm`
-- `plugins/fast-syntax-highlighting`
-- `plugins/zsh-autosuggestions`
-- `plugins/zsh-syntax-highlighting`
-- `plugins/tmux`
+- `plugins/fast-syntax-highlighting`, `plugins/zsh-autosuggestions`, `plugins/zsh-completions`, `plugins/zsh-nvm` - `archive` externals with `exact = true`, downloaded into the repo's `zsh/oh-my-zsh-custom/plugins/` and gitignored by name. `plugins/profiles` and `plugins/tmux` are local plugins tracked in git
+- `~/.config/tmux/tmux.conf` - Oh my tmux! as a `file` external (overrides in chezmoi-managed `tmux.conf.local`)
 
-Oh my tmux! configuration framework is a git submodule:
-
-- `xdg-config/tmux/oh-my-tmux` - Pre-configured tmux setup from <https://github.com/gpakosz/.tmux>
-
-When modifying submodules, be aware they point to specific commits. Use `git submodule update --remote` to update.
+To update, change the commit SHA in the URL and run `chezmoi apply`. `exact = true` deletes untracked files in those directories; runtime files a plugin writes must be listed in `home/.chezmoiignore` (e.g. zsh-nvm's `previous_version`). Because externals live under `~/config`, chezmoi manages `~/config` as a directory: `apply_chezmoi` refuses to run if `~/config` is a symlink.

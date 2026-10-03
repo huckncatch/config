@@ -32,6 +32,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 cd "$SCRIPT_DIR"
+
+# Marks the start of this run, so the summary can count backups it actually made
+run_marker=$(mktemp)
+trap 'rm -f "$run_marker"' EXIT
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/lib/utils.sh"
 # shellcheck disable=SC1091
@@ -46,7 +50,6 @@ echo ""
 
 apply_chezmoi
 copy_xdg_config
-install_tmux_config
 
 echo ""
 echo "============================================================================="
@@ -58,7 +61,10 @@ else
   echo "  Sync complete"
   echo "============================================================================="
   echo ""
-  echo "Changed files backed up with timestamps."
-  echo "Review: ls -lt ~/*.backup.* ~/.config/*/*.backup.* 2>/dev/null | head -20"
-  echo ""
+  backups=$(find "$HOME" -maxdepth 3 -name '*.backup.*' -newer "$run_marker" 2> /dev/null | wc -l | tr -d ' ')
+  if [ "$backups" -gt 0 ]; then
+    echo "Backed up $backups changed file(s) with timestamps."
+    echo "Review: ls -lt ~/*.backup.* ~/.config/*/*.backup.* 2>/dev/null | head -20"
+    echo ""
+  fi
 fi

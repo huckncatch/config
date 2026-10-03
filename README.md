@@ -5,8 +5,8 @@ Personal dotfiles and configuration management for macOS systems.
 ## Quick Start
 
 ```bash
-# Clone with submodules (includes oh-my-zsh plugins and themes)
-git clone --recurse-submodules https://github.com/yourusername/config.git ~/config
+# Clone (third-party plugins are fetched by chezmoi during installation)
+git clone https://github.com/yourusername/config.git ~/config
 
 # Run the installation script
 cd ~/config
@@ -31,6 +31,7 @@ The install script will:
 ```text
 config/
 ├── home/              # chezmoi source state for ~ (selected by .chezmoiroot)
+│   ├── .chezmoiexternal.toml  # pinned third-party: zsh plugins, Oh my tmux!
 │   ├── dot_config/    # ~/.config: git, ghostty, starship, bat, ncdu, tmux.conf.local, zsh profile + secrets
 │   ├── dot_zshrc      # ~/.zshrc entry point
 │   ├── dot_zprofile   # Informational file pointing to XDG config
@@ -38,7 +39,6 @@ config/
 │   ├── dot_editorconfig
 │   └── private_dot_ssh/  # ~/.ssh/config (mode 700/600)
 ├── xdg-config/        # Directories copied to ~/.config/
-│   ├── tmux/          # Oh my tmux! submodule
 │   ├── claude/        # Claude Code settings
 │   └── karabiner/     # Karabiner-Elements key mappings
 ├── zsh/               # Zsh configuration
@@ -116,15 +116,13 @@ brew install --cask <application-name>
 
 To add packages to the install script for future machines, see [Homebrew Management](./homebrew/README.md).
 
-### Updating Git Submodules
+### Updating Third-Party Plugins
 
-Oh-my-zsh plugins and themes are git submodules. To update them:
+Oh-my-zsh plugins and Oh my tmux! are chezmoi externals pinned to commits in `home/.chezmoiexternal.toml`. To update one, replace the commit SHA in its URL, then:
 
 ```bash
-cd ~/config
-git submodule update --remote
-git add zsh/oh-my-zsh-custom
-git commit -m "Update oh-my-zsh plugins and themes"
+chezmoi apply
+git -C ~/config commit -am "chore: update <plugin> to <sha>"
 ```
 
 ### Syncing Changes Across Machines

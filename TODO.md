@@ -10,10 +10,10 @@ Replace the copy/sync scripts with chezmoi (source state in `home/`, selected by
 
 - Step 1 — plain dotfiles: completed 2026-10-01 (see Completed)
 - Step 2 — zsh profile + 1Password secrets: completed 2026-10-02 (see Completed)
-- Step 3 — externals: replace git submodules (oh-my-tmux, zsh plugins) and the `install_tmux_config` symlink with `.chezmoiexternal.toml`
+- Step 3 — externals: completed 2026-10-02 (see Completed)
 - Step 4 — app-owned files: Claude `settings.json`, `claude_desktop_config.json`, memory, commands; secrets via 1Password `onepasswordRead` or `modify_` scripts. Also fix fresh install copying the redacted `claude_desktop_config.json` and `.DS_Store` into `~/.config/claude/`, and consider excluding Desktop app state (session IDs, feature flags) from the backup. `claude_desktop_config.json` holds its own `KAGI_API_KEY` copy (rotation missed it); GUI-launched Claude does not read `secrets.zsh`, which likely explains the GitHub plugin's "Authorization header is badly formatted" error — feed both from 1Password
 - Step 5 — scripts: Brewfile via `brew bundle` in a `run_onchange_` script (<https://docs.brew.sh/Brew-Bundle-and-Brewfile>); LaunchAgents; shrink `new-computer-install.sh` to a bootstrap
-- Status: Step 3 next
+- Status: Step 4 next
 
 ### Fix Install Script Smoke Tests
 
@@ -113,6 +113,12 @@ Items that need more thought or may not be implemented
 - Ghostty `copy-on-select = true` may only copy to Ghostty's own selection buffer on macOS; `clipboard` may be needed for Cmd-V in other apps (unverified)
 
 ## Completed
+
+### chezmoi Migration Step 3: Externals Replace Submodules
+
+**Status:** Completed 2026-10-02
+
+oh-my-zsh plugins (fast-syntax-highlighting, zsh-autosuggestions, zsh-completions, zsh-nvm) and Oh my tmux! are pinned chezmoi externals in `home/.chezmoiexternal.toml` at the commits the submodules used. Removed all submodules (including unused zsh-syntax-highlighting), `install_tmux_config()`, and `install-shell.sh` plugin cloning (it cloned into a directory oh-my-zsh never read). `apply_chezmoi` now inits chezmoi on fresh machines, summarizes externals instead of diffing them, and refuses a symlinked `~/config`. Verified: plugin file hashes, tmux option/key fingerprint, and shell fingerprint identical; fresh-home run end to end.
 
 ### chezmoi Migration Step 2: zsh Profile and 1Password Secrets
 

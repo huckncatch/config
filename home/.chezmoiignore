@@ -7,3 +7,6 @@
 {{ if not (env "CHEZMOI_INCLUDE_SECRETS") -}}
 .config/zsh/secrets.zsh
 {{ end -}}
+
+# Written by zsh-nvm's nvm_upgrade (read by nvm_revert); not part of the pinned archive
+config/zsh/oh-my-zsh-custom/plugins/zsh-nvm/previous_version

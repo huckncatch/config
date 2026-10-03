@@ -1,6 +1,6 @@
 #!/bin/bash
 # File copying functions for the install script
-# Handles XDG config, chezmoi-managed files, and Oh my tmux!
+# Handles XDG config and chezmoi-managed files
 
 # Copy XDG config files
 copy_xdg_config() {
@@ -59,10 +59,6 @@ copy_xdg_config() {
             _sync_directory_selective "$item" "$HOME/.config/$itemname" \
               "assets/*"
             ;;
-          "tmux")
-            # Only the oh-my-tmux submodule is left here (tmux.conf.local is chezmoi-managed);
-            # its symlink is handled by install_tmux_config
-            ;;
           *)
             # Default: full sync with no preservation
             _sync_directory_selective "$item" "$HOME/.config/$itemname" ""
@@ -98,17 +94,47 @@ apply_chezmoi() {
     return 0
   fi
 
-  # Pass 1: everything except secrets.zsh (home/.chezmoiignore leaves it out unless
-  # CHEZMOI_INCLUDE_SECRETS is set), showing diffs
-  if [ -z "$(chezmoi --source "$SCRIPT_DIR" status)" ]; then
-    echo "  ✓ chezmoi-managed files up to date"
-  elif [ "$DRY_RUN" -eq 1 ]; then
-    chezmoi --source "$SCRIPT_DIR" diff --no-pager
-  else
-    chezmoi --source "$SCRIPT_DIR" apply --verbose
+  # Externals live under ~/config/zsh/, so chezmoi manages ~/config itself and would
+  # replace a symlinked ~/config with a plain directory
+  if [ -L "$HOME/config" ]; then
+    echo "  ✗ ~/config is a symlink; chezmoi would replace it with a directory. Skipping."
+    echo "      → Clone the repo directly to ~/config"
+    return 0
   fi
 
-  # Pass 2: secrets.zsh, rendered from 1Password. Reading 1Password prompts for Touch ID,
+  # Fresh machine: create ~/.config/chezmoi/chezmoi.toml from home/.chezmoi.toml.tmpl
+  if [ ! -f "${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/chezmoi.toml" ]; then
+    if [ "$DRY_RUN" -eq 1 ]; then
+      echo "  [DRY RUN] Would run chezmoi init (creates ~/.config/chezmoi/chezmoi.toml)"
+    else
+      chezmoi init --source "$SCRIPT_DIR" && echo "  ✓ Created ~/.config/chezmoi/chezmoi.toml"
+    fi
+  fi
+
+  # Pass 1: files, showing diffs. Excludes externals (pass 2) and secrets.zsh
+  # (pass 3; home/.chezmoiignore leaves it out unless CHEZMOI_INCLUDE_SECRETS is set)
+  if [ -z "$(chezmoi --source "$SCRIPT_DIR" status --exclude=externals)" ]; then
+    echo "  ✓ chezmoi-managed files up to date"
+  elif [ "$DRY_RUN" -eq 1 ]; then
+    chezmoi --source "$SCRIPT_DIR" diff --no-pager --exclude=externals
+  else
+    chezmoi --source "$SCRIPT_DIR" apply --verbose --exclude=externals
+  fi
+
+  # Pass 2: pinned externals (home/.chezmoiexternal.toml), summarized rather than diffed
+  local ext_changes
+  ext_changes=$(chezmoi --source "$SCRIPT_DIR" status --include=externals | wc -l | tr -d ' ')
+  if [ "$ext_changes" -eq 0 ]; then
+    echo "  ✓ Externals up to date (zsh plugins, Oh my tmux!)"
+  elif [ "$DRY_RUN" -eq 1 ]; then
+    echo "  [DRY RUN] Would update externals: $ext_changes path(s) (zsh plugins, Oh my tmux!)"
+  else
+    chezmoi --source "$SCRIPT_DIR" apply --include=externals \
+      && echo "  ✓ Updated externals: $ext_changes path(s) (zsh plugins, Oh my tmux!)" \
+      || echo "  ✗ Updating externals failed (see chezmoi error above)"
+  fi
+
+  # Pass 3: secrets.zsh, rendered from 1Password. Reading 1Password prompts for Touch ID,
   # so dry-run only checks that op can reach the account
   local template="$SCRIPT_DIR/home/dot_config/zsh/private_secrets.zsh.tmpl"
   if [ "$DRY_RUN" -eq 1 ]; then
@@ -128,55 +154,4 @@ apply_chezmoi() {
   CHEZMOI_INCLUDE_SECRETS=1 chezmoi --source "$SCRIPT_DIR" apply --force "$HOME/.config/zsh/secrets.zsh" \
     && echo "  ✓ ~/.config/zsh/secrets.zsh rendered from 1Password (contents not shown)" \
     || echo "  ✗ Rendering ~/.config/zsh/secrets.zsh failed (see chezmoi error above)"
-}
-
-# Install Oh my tmux! configuration
-install_tmux_config() {
-  echo "Setting up Oh my tmux! configuration..."
-
-  # Define paths
-  local tmux_source="$HOME/config/xdg-config/tmux/oh-my-tmux/.tmux.conf"
-  local tmux_target="$HOME/.config/tmux/tmux.conf"
-
-  # Check if source exists
-  if [ ! -f "$tmux_source" ]; then
-    echo "  ⚠ Warning: Oh my tmux! not found at $tmux_source"
-    echo "  Run: git submodule update --init --recursive"
-    return 1
-  fi
-
-  # Remove existing file if it's not a symlink
-  if [ -f "$tmux_target" ] && [ ! -L "$tmux_target" ]; then
-    if [ "$DRY_RUN" -eq 1 ]; then
-      echo "  [DRY RUN] Would remove existing $tmux_target (not a symlink)"
-    else
-      echo "  Removing existing $tmux_target (not a symlink)"
-      rm "$tmux_target"
-    fi
-  fi
-
-  # Create or update symlink
-  if [ -L "$tmux_target" ]; then
-    # Check if symlink points to correct location
-    local current_target
-    current_target=$(readlink "$tmux_target")
-    if [ "$current_target" = "$tmux_source" ]; then
-      echo "  ✓ Symlink already correct: $tmux_target → $tmux_source"
-    else
-      if [ "$DRY_RUN" -eq 1 ]; then
-        echo "  [DRY RUN] Would update symlink: $tmux_target → $tmux_source"
-      else
-        echo "  Updating symlink: $tmux_target → $tmux_source"
-        rm "$tmux_target"
-        ln -s "$tmux_source" "$tmux_target"
-      fi
-    fi
-  else
-    if [ "$DRY_RUN" -eq 1 ]; then
-      echo "  [DRY RUN] Would create symlink: $tmux_target → $tmux_source"
-    else
-      echo "  Creating symlink: $tmux_target → $tmux_source"
-      ln -s "$tmux_source" "$tmux_target"
-    fi
-  fi
 }

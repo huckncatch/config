@@ -25,6 +25,6 @@ Use numeric prefixes only when load order matters (e.g., environment variables m
 
 ## Directory Structure
 
-- `plugins/` - Custom plugins (mix of submodules and local files)
-- `themes/` - Custom themes (mix of submodules and local files)
+- `plugins/` - Custom plugins (chezmoi externals and local files)
+- `themes/` - Custom themes (local files)
 - `profiles/` - Profile templates for different machine types

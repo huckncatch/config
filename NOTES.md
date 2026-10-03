@@ -21,6 +21,8 @@ chezmoi --source ~/config re-add    # pull edits made on the system back into ho
 
 Source file names encode target attributes: `dot_x` → `.x`, `private_` → mode 600/700, `empty_` → keep an empty file (without it chezmoi deletes the target), `.tmpl` → rendered as a template.
 
+Third-party code (oh-my-zsh plugins, Oh my tmux!) is fetched from pinned commits listed in `home/.chezmoiexternal.toml`. To update one, replace the commit SHA in its URL and run `chezmoi apply`. Plugin directories are gitignored; never edit them, since chezmoi removes changes on the next apply.
+
 First time on a machine, generate `~/.config/chezmoi/chezmoi.toml` (sets the source to `~/config`, so `--source` is optional afterwards):
 
 ```bash
