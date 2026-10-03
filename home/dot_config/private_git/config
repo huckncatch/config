@@ -3,7 +3,9 @@
 	email = huckncatch@fastmail.com
 [core]
 	editor = emacs
-	excludesfile = /Users/soob/.config/git/gitignore_global
+	excludesfile = ~/.config/git/gitignore_global
+	# oh-my-zsh sets LESS=-R, which stops git adding its default -F (quit if one screen)
+	pager = less -FRX
 [commit]
 	template = ~/.config/git/stCommitMsg
 [diff]
