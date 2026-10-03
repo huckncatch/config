@@ -382,7 +382,7 @@ In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remo
 
 ### Fresh install: restore MCP servers
 
-Before running these, ensure API tokens are loaded: `KAGI_API_KEY` and `OBSIDIAN_API_KEY` come from `~/.config/zsh/secrets.zsh` (rendered from 1Password, see [chezmoi](#chezmoi)); `KAGI_SUMMARIZER_ENGINE` is set in the profile. The Obsidian key is in `{vault}/.obsidian/plugins/obsidian-local-rest-api/data.json`.
+Before running these, ensure API tokens are loaded: `KAGI_API_KEY` and `OBSIDIAN_API_KEY` come from `~/.config/zsh/secrets.zsh` (rendered from 1Password, see [chezmoi](#chezmoi)). `kagimcp` uses Kagi's v1 API, which needs a key created in the current API portal (<https://kagi.com/api/keys>); v0-era keys and the v0 summarizer (`KAGI_SUMMARIZER_ENGINE`) no longer apply. The Obsidian key is in `{vault}/.obsidian/plugins/obsidian-local-rest-api/data.json`.
 
 Then add the servers:
 
