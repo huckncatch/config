@@ -1,0 +1,66 @@
+# ==============================================================================
+# ZSH PROFILE
+# ==============================================================================
+#
+# Applied to ~/.config/zsh/profile.zsh by chezmoi
+# (source: ~/config/home/dot_config/zsh/profile.zsh.tmpl). Edit the template,
+# then run `chezmoi apply`; edits made here are overwritten.
+#
+# Sourced from ~/.zshrc BEFORE ~/config/zsh/zshrc.base, so it defines what
+# oh-my-zsh needs at initialization: ZSH_THEME and the plugins array.
+# ==============================================================================
+
+[[ "$DEBUG_STARTUP" == "1" ]] && echo "  ${0:A}"
+
+# --- Homebrew ---
+{{- if eq .chezmoi.os "darwin" }}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- else }}
+[[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
+
+# --- oh-my-zsh tmux plugin ---
+export ZSH_TMUX_AUTOREFRESH=true    # Auto-refresh SSH_AUTH_SOCK in long-running sessions
+export ZSH_TMUX_UNICODE=true        # Enable unicode support
+
+# --- Obsidian ---
+export OBSIDIAN_DIR="$HOME/Dropbox/Apps/Obsidian"
+export OBSIDIAN_VAULT="Home"
+
+# --- Kagi ---
+export KAGI_SUMMARIZER_ENGINE="cecil"
+
+# --- Secrets (rendered from 1Password by chezmoi; see NOTES.md) ---
+if [[ -r "$HOME/.config/zsh/secrets.zsh" ]]; then
+  source "$HOME/.config/zsh/secrets.zsh"
+else
+  print -u2 "⚠ ~/.config/zsh/secrets.zsh missing: API tokens not loaded. Run ~/config/bin/sync-config.sh for 1Password diagnostics."
+fi
+
+# --- Theme ---
+# Empty disables oh-my-zsh theming; Starship handles the prompt
+ZSH_THEME=""
+
+# --- Plugins ---
+plugins=(
+  zsh-nvm
+  profiles
+  alias-finder
+{{- if eq .chezmoi.os "darwin" }}
+  bbedit
+  brew
+{{- end }}
+  git
+  gitfast
+  git-prompt
+{{- if eq .chezmoi.os "darwin" }}
+  iterm2
+{{- end }}
+  npm
+  python
+  sudo
+  tmux
+  vscode
+  zsh-autosuggestions
+  fast-syntax-highlighting
+)

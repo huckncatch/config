@@ -3,7 +3,7 @@
 # ==============================================================================
 #
 # Sourced from ~/.zshrc AFTER profile is loaded
-# Contains configuration shared across all machines (home and work)
+# Contains configuration shared across all machines
 #
 # PREREQUISITES (from profile):
 # - ZSH_THEME must be defined
@@ -20,7 +20,7 @@
 # --- Oh-My-Zsh Core Settings ---
 export ZSH="$HOME/.oh-my-zsh"
 
-# Theme is set in profile (profile-home.zsh or profile-work.zsh)
+# Theme is set in profile (~/.config/zsh/profile.zsh)
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -80,7 +80,7 @@ export ZSH_CUSTOM="$HOME/config/zsh/oh-my-zsh-custom"
 # Add zsh-completions to fpath
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
-# Plugins array is set in profile (profile-home.zsh or profile-work.zsh)
+# Plugins array is set in profile (~/.config/zsh/profile.zsh)
 
 # --- Oh-My-Zsh Initialization ---
 # During initialization, oh-my-zsh automatically sources all *.zsh files in

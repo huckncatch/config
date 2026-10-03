@@ -31,7 +31,8 @@ The install script will:
 ```text
 config/
 ├── home/              # chezmoi source state for ~ (selected by .chezmoiroot)
-│   ├── dot_config/    # ~/.config: git, ghostty, starship, bat, ncdu, tmux.conf.local
+│   ├── dot_config/    # ~/.config: git, ghostty, starship, bat, ncdu, tmux.conf.local, zsh profile + secrets
+│   ├── dot_zshrc      # ~/.zshrc entry point
 │   ├── dot_zprofile   # Informational file pointing to XDG config
 │   ├── dot_tidyrc     # HTML Tidy configuration
 │   ├── dot_editorconfig
@@ -41,10 +42,7 @@ config/
 │   ├── claude/        # Claude Code settings
 │   └── karabiner/     # Karabiner-Elements key mappings
 ├── zsh/               # Zsh configuration
-│   ├── zshrc          # Main zshrc entry point (copied to ~/.zshrc)
-│   ├── zshrc.base     # Shared base configuration
-│   ├── profile-home.zsh   # Home profile template
-│   ├── profile-work.zsh   # Work profile template
+│   ├── zshrc.base     # Shared base configuration (sourced by ~/.zshrc)
 │   └── oh-my-zsh-custom/  # Custom zsh configs and functions
 ├── homebrew/          # Homebrew package management
 │   ├── README.md      # Homebrew documentation
@@ -54,23 +52,19 @@ config/
 
 ## Zsh Configuration
 
-The zsh setup uses a profile-based system that allows different configurations on different machines while sharing common settings.
+The zsh setup loads a chezmoi-generated profile (with macOS/Linux differences) before shared base configuration.
 
 ### How It Works
 
 1. **~/.zshrc** - Entry point that sources your profile and base configuration
-2. **~/.config/zsh/profile.local** - Your machine-specific profile (created during install, not in git)
+2. **~/.config/zsh/profile.zsh** - Theme, plugins, and environment, rendered by chezmoi from `home/dot_config/zsh/profile.zsh.tmpl`
+   - Sources **~/.config/zsh/secrets.zsh** (API tokens rendered from 1Password; see NOTES.md)
 3. **zshrc.base** - Common configuration shared across all machines
 4. **oh-my-zsh-custom/** - Custom aliases, functions, and tool configurations
 
-### Profiles
+### Profile
 
-During installation, you'll choose a profile (home or work) which determines:
-
-- Which theme to use (Powerlevel10k by default)
-- Which oh-my-zsh plugins to load
-
-Profile templates are in `zsh/profile-home.zsh` and `zsh/profile-work.zsh`.
+One profile template, `home/dot_config/zsh/profile.zsh.tmpl`, applies to every machine. chezmoi template conditionals handle macOS vs Linux (Homebrew path, macOS-only plugins). Edit the template, then run `chezmoi apply`.
 
 ### Custom Configurations
 
@@ -106,7 +100,7 @@ Run `ezd` (or `DEBUG_STARTUP=1 zsh`) to see which files are being sourced during
 
 ### Modifying Your Configuration
 
-- **Machine-specific changes**: Edit `~/.config/zsh/profile.local` (not tracked in git)
+- **Theme, plugins, environment**: Edit `home/dot_config/zsh/profile.zsh.tmpl`, then `chezmoi apply`
 - **Shared configuration**: Edit `~/config/zsh/zshrc.base` and commit
 - **Aliases/functions**: Add to appropriate file in `~/config/zsh/oh-my-zsh-custom/`
 - **Environment variables**: Edit `~/config/zsh/oh-my-zsh-custom/00_environment.zsh`
@@ -158,7 +152,7 @@ Configuration files follow the [XDG Base Directory specification](https://specif
 
 - Git: `~/.config/git/config`
 - Tmux: `~/.config/tmux/tmux.conf`
-- Zsh profile: `~/.config/zsh/profile.local`
+- Zsh profile: `~/.config/zsh/profile.zsh`
 - Claude Code: `~/.config/claude/`
 
 Some tools (like Powerlevel10k) don't support XDG paths and remain in the home directory as dotfiles.
@@ -173,11 +167,11 @@ Verify `fpath` includes the completions plugin:
 echo $fpath | grep zsh-completions
 ```
 
-If missing, check that the plugin is listed in your profile file (`~/.config/zsh/profile.local`).
+If missing, check that the plugin is listed in your profile file (`home/dot_config/zsh/profile.zsh.tmpl`).
 
 ### Slow Shell Startup
 
-Reduce plugins in `~/.config/zsh/profile.local`, or enable lazy loading features (e.g., zsh-nvm has lazy loading options).
+Reduce plugins in `home/dot_config/zsh/profile.zsh.tmpl`, or enable lazy loading features (e.g., zsh-nvm has lazy loading options).
 
 ### PATH Issues
 

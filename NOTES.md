@@ -19,7 +19,24 @@ chezmoi --source ~/config re-add    # pull edits made on the system back into ho
 
 `bin/sync-config.sh` runs `apply`; `bin/sync-backups.sh` ends with `status`.
 
-Source file names encode target attributes: `dot_x` → `.x`, `private_` → mode 600/700, `empty_` → keep an empty file (without it chezmoi deletes the target).
+Source file names encode target attributes: `dot_x` → `.x`, `private_` → mode 600/700, `empty_` → keep an empty file (without it chezmoi deletes the target), `.tmpl` → rendered as a template.
+
+First time on a machine, generate `~/.config/chezmoi/chezmoi.toml` (sets the source to `~/config`, so `--source` is optional afterwards):
+
+```bash
+chezmoi init --source ~/config
+```
+
+### Secrets (1Password)
+
+`~/.config/zsh/secrets.zsh` (mode 600) is rendered from `op://` references in `home/dot_config/zsh/private_secrets.zsh.tmpl`. To add or change a secret, store it in 1Password, copy its reference (right-click the field → Copy Secret Reference), and put it in the template.
+
+Setup:
+
+1. `brew install --cask 1password-cli` (Linux: install `op` from <https://developer.1password.com/docs/cli/get-started/>)
+2. 1Password → Settings → Developer → enable **Integrate with 1Password CLI**
+
+Only `bin/sync-config.sh` updates `secrets.zsh`; plain `chezmoi` commands leave it out, so they never prompt for Touch ID or show secrets. `sync-config.sh` checks every reference first and prints what failed (op missing, app locked or not integrated, item/field not found), keeping the existing `secrets.zsh` on failure. `--dry-run` only checks that op can reach your account, so it doesn't prompt for Touch ID. If `secrets.zsh` is missing, new shells print a warning.
 
 ## Raycast
 
@@ -58,9 +75,9 @@ Python is managed via Homebrew. The OMZ `python` plugin provides useful aliases.
    brew link python@3.13
    ```
 
-2. The `python` plugin is enabled in the profile templates (profile-home.zsh, profile-work.zsh)
+2. The `python` plugin is enabled in the profile (`home/dot_config/zsh/profile.zsh.tmpl`)
 
-3. `brew shellenv` in profile-base.zsh adds `/opt/homebrew/bin` to PATH
+3. `brew shellenv` in the profile adds `/opt/homebrew/bin` to PATH
 
 ### Usage
 
@@ -85,7 +102,7 @@ mkv [name]      # create venv (default: venv)
 vrun [name]     # activate venv
 ```
 
-To enable auto-activation when entering directories with venv, add to profile.local:
+To enable auto-activation when entering directories with venv, add to `home/dot_config/zsh/profile.zsh.tmpl` and run `chezmoi apply`:
 
 ```bash
 PYTHON_AUTO_VRUN=true
@@ -363,14 +380,7 @@ In Claude Code v2.x, user-scope MCP servers are managed via `claude mcp add/remo
 
 ### Fresh install: restore MCP servers
 
-Before running these, ensure API tokens are in `~/.config/zsh/profile.local`:
-
-```bash
-# profile.local entries needed:
-export KAGI_API_KEY="<token>"
-export KAGI_SUMMARIZER_ENGINE="cecil"
-export OBSIDIAN_API_KEY="<token from Local REST API plugin data.json>"
-```
+Before running these, ensure API tokens are loaded: `KAGI_API_KEY` and `OBSIDIAN_API_KEY` come from `~/.config/zsh/secrets.zsh` (rendered from 1Password, see [chezmoi](#chezmoi)); `KAGI_SUMMARIZER_ENGINE` is set in the profile. The Obsidian key is in `{vault}/.obsidian/plugins/obsidian-local-rest-api/data.json`.
 
 Then add the servers:
 
@@ -576,11 +586,7 @@ claude plugin install github@claude-plugins-official
 
    Optional: Workflows (read and write) to trigger/view GitHub Actions.
 
-2. Add token to `~/.config/zsh/profile.local` (not tracked in git):
-
-   ```bash
-   export GITHUB_PERSONAL_ACCESS_TOKEN="<your-token>"
-   ```
+2. Store the token in 1Password; `~/.config/zsh/secrets.zsh` exports it as `GITHUB_PERSONAL_ACCESS_TOKEN` (see [chezmoi](#chezmoi)).
 
    Token is inherited by Claude Code as an env var — no need to store it in `settings.json`.
 

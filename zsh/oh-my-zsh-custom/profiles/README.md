@@ -14,15 +14,13 @@ The zsh configuration uses two complementary profile systems:
 
 **Files:**
 
-- `zsh/profile-home.zsh` - Template for personal machines
-- `zsh/profile-work.zsh` - Template for work machines
-- `~/.config/zsh/profile.local` - Active profile (not tracked in git)
+- `home/dot_config/zsh/profile.zsh.tmpl` - chezmoi template (macOS/Linux conditionals)
+- `~/.config/zsh/profile.zsh` - Rendered profile (do not edit)
 
 **What they define:**
 
 - `ZSH_THEME` - Theme selection
 - `plugins` - oh-my-zsh plugins array
-- `MACHINE_PROFILE` - Environment marker ("home" or "work")
 
 **When loaded:** Sourced by `~/.zshrc` BEFORE `zsh/zshrc.base` initializes oh-my-zsh
 
@@ -79,7 +77,7 @@ The Profiles plugin will automatically load this file based on hostname during s
 ## Load Order
 
 1. `~/.zshrc` - Entry point
-2. `~/.config/zsh/profile.local` - Sets theme and plugins
+2. `~/.config/zsh/profile.zsh` - Sets theme and plugins
 3. `~/config/zsh/zshrc.base` - Initializes oh-my-zsh
 4. **Profiles plugin loads** `~/config/zsh/oh-my-zsh-custom/profiles/<hostname>`
 5. Other oh-my-zsh custom files load alphabetically

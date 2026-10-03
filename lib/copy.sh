@@ -1,95 +1,18 @@
 #!/bin/bash
 # File copying functions for the install script
-# Handles zsh config, XDG config, chezmoi-managed files, and Oh my tmux!
-
-# Copy zsh configuration files
-copy_zsh_config() {
-  echo "Setting up zsh configuration..."
-
-  # In update mode, just sync the zshrc file
-  if [ "$UPDATE_MODE" -eq 1 ]; then
-    _sync_file "./zsh/zshrc" "$HOME/.zshrc"
-    echo "  ⊘ Skipping profile (update mode preserves local profile)"
-
-    # Profile drift detection
-    if [ -f "$HOME/.config/zsh/profile.local" ]; then
-      if diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-home.zsh" > /dev/null 2>&1; then
-        echo "  ✓ Profile matches home template"
-      elif diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-work.zsh" > /dev/null 2>&1; then
-        echo "  ✓ Profile matches work template"
-      else
-        echo "  ⚠ Profile drift detected: ~/.config/zsh/profile.local differs from both templates"
-      fi
-    fi
-
-    return 0
-  fi
-
-  # Copy main zshrc to home directory
-  if [ -f "$HOME/.zshrc" ]; then
-    if [ "$DRY_RUN" -eq 1 ]; then
-      echo "  [DRY RUN] Would back up existing ~/.zshrc to ~/.zshrc.backup"
-    else
-      echo "  Backing up existing ~/.zshrc to ~/.zshrc.backup"
-      cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
-    fi
-  fi
-
-  if [ "$DRY_RUN" -eq 1 ]; then
-    echo "  [DRY RUN] Would copy zshrc to ~/.zshrc"
-  else
-    cp "./zsh/zshrc" "$HOME/.zshrc" || { echo "Error: Failed to copy zshrc"; exit 1; }
-    echo "  Copied zshrc to ~/.zshrc"
-  fi
-
-  # Create ~/.config/zsh directory if it doesn't exist
-  if [ "$DRY_RUN" -eq 1 ]; then
-    echo "  [DRY RUN] Would create directory ~/.config/zsh"
-  else
-    mkdir -p "$HOME/.config/zsh"
-  fi
-
-  # Prompt for profile selection and create profile.local
-  local profile_source
-  if [ -f "$HOME/.config/zsh/profile.local" ]; then
-    echo "  Profile already exists at ~/.config/zsh/profile.local, skipping."
-
-    # Profile drift detection (also run in normal mode)
-    if diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-home.zsh" > /dev/null 2>&1; then
-      echo "  ✓ Profile matches home template"
-    elif diff -q "$HOME/.config/zsh/profile.local" "./zsh/profile-work.zsh" > /dev/null 2>&1; then
-      echo "  ✓ Profile matches work template"
-    else
-      echo "  ⚠ Profile drift detected: ~/.config/zsh/profile.local differs from both templates"
-    fi
-  else
-    if [ "$DRY_RUN" -eq 1 ]; then
-      echo "  [DRY RUN] Would prompt for profile selection and create ~/.config/zsh/profile.local"
-    else
-      personal=$(_prompt_install "Personal/Home config?")
-      if [[ "$personal" == "yes" ]]; then
-        echo "  Creating home profile..."
-        profile_source="./zsh/profile-home.zsh"
-      else
-        echo "  Creating work profile..."
-        profile_source="./zsh/profile-work.zsh"
-      fi
-
-      cp "$profile_source" "$HOME/.config/zsh/profile.local" || { echo "Error: Failed to copy profile"; exit 1; }
-      echo "  Created ~/.config/zsh/profile.local"
-    fi
-  fi
-}
+# Handles XDG config, chezmoi-managed files, and Oh my tmux!
 
 # Copy XDG config files
 copy_xdg_config() {
   echo "Copying XDG config files..."
 
   # Create ~/.config if it doesn't exist
-  if [ "$DRY_RUN" -eq 1 ]; then
-    echo "  [DRY RUN] Would create directory ~/.config"
-  else
-    mkdir -p "$HOME/.config"
+  if [ ! -d "$HOME/.config" ]; then
+    if [ "$DRY_RUN" -eq 1 ]; then
+      echo "  [DRY RUN] Would create directory ~/.config"
+    else
+      mkdir -p "$HOME/.config"
+    fi
   fi
 
   # Read ignored configs from file
@@ -137,9 +60,8 @@ copy_xdg_config() {
               "assets/*"
             ;;
           "tmux")
-            # Preserve oh-my-tmux submodule (symlink is managed by install_tmux_config)
-            _sync_directory_selective "$item" "$HOME/.config/$itemname" \
-              "oh-my-tmux/*"
+            # Only the oh-my-tmux submodule is left here (tmux.conf.local is chezmoi-managed);
+            # its symlink is handled by install_tmux_config
             ;;
           *)
             # Default: full sync with no preservation
@@ -176,11 +98,36 @@ apply_chezmoi() {
     return 0
   fi
 
-  if [ "$DRY_RUN" -eq 1 ]; then
+  # Pass 1: everything except secrets.zsh (home/.chezmoiignore leaves it out unless
+  # CHEZMOI_INCLUDE_SECRETS is set), showing diffs
+  if [ -z "$(chezmoi --source "$SCRIPT_DIR" status)" ]; then
+    echo "  ✓ chezmoi-managed files up to date"
+  elif [ "$DRY_RUN" -eq 1 ]; then
     chezmoi --source "$SCRIPT_DIR" diff --no-pager
   else
     chezmoi --source "$SCRIPT_DIR" apply --verbose
   fi
+
+  # Pass 2: secrets.zsh, rendered from 1Password. Reading 1Password prompts for Touch ID,
+  # so dry-run only checks that op can reach the account
+  local template="$SCRIPT_DIR/home/dot_config/zsh/private_secrets.zsh.tmpl"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    _check_1password "$template" connection \
+      && echo "  ✓ 1Password CLI connected (references not checked in dry-run)"
+    return 0
+  fi
+
+  # On any failed reference, keep the last good secrets.zsh
+  if ! _check_1password "$template"; then
+    echo "  ⚠ ~/.config/zsh/secrets.zsh left unchanged"
+    return 0
+  fi
+
+  # Never with a diff, which would print secret values.
+  # --force: the file is generated, so overwrite without chezmoi's "changed since" prompt
+  CHEZMOI_INCLUDE_SECRETS=1 chezmoi --source "$SCRIPT_DIR" apply --force "$HOME/.config/zsh/secrets.zsh" \
+    && echo "  ✓ ~/.config/zsh/secrets.zsh rendered from 1Password (contents not shown)" \
+    || echo "  ✗ Rendering ~/.config/zsh/secrets.zsh failed (see chezmoi error above)"
 }
 
 # Install Oh my tmux! configuration

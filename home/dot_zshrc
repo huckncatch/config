@@ -2,19 +2,19 @@
 # ZSHRC ENTRY POINT
 # ==============================================================================
 #
-# Copied to ~/.zshrc during installation (new-computer-install.sh)
+# Applied to ~/.zshrc by chezmoi (source: ~/config/home/dot_zshrc)
 #
 # ARCHITECTURE:
 # A thin entry point that loads configuration in two stages:
-#   1. Profile (machine-specific theme and plugins)
+#   1. Profile (theme, plugins, and environment; OS-specific via chezmoi template)
 #   2. Base (shared oh-my-zsh initialization and tool configuration)
 #
 # LOADING ORDER:
 #   ~/.zshrc (this file)
 #   │
-#   ├─ Profile: ~/.config/zsh/profile.local
-#   │           (fallback: ~/config/zsh/profile-home.zsh)
+#   ├─ Profile: ~/.config/zsh/profile.zsh (chezmoi template)
 #   │   Defines ZSH_THEME and plugins array before oh-my-zsh initialization
+#   │   └─ Secrets: ~/.config/zsh/secrets.zsh (rendered from 1Password)
 #   │
 #   └─ Base: ~/config/zsh/zshrc.base
 #       ├─ Initializes oh-my-zsh
@@ -22,7 +22,7 @@
 #       └─ oh-my-zsh auto-loads ~/config/zsh/oh-my-zsh-custom/*.zsh (alphabetically)
 #
 # CUSTOMIZATION:
-#   Machine-specific: Edit ~/.config/zsh/profile.local (not tracked in git)
+#   Profile: Edit ~/config/home/dot_config/zsh/profile.zsh.tmpl, then chezmoi apply
 #   Shared settings: Edit ~/config/zsh/zshrc.base
 #   General config: Update 00_environment.zsh, 01_aliases.zsh, 02_functions.zsh
 #   Tool-specific: Update or create named files (e.g., git.zsh, xcode.zsh)
@@ -44,14 +44,11 @@ if [[ "$DEBUG_STARTUP" == "1" ]]; then
   echo "  Loading profile..."
 fi
 
-if [[ -f "$HOME/.config/zsh/profile.local" ]]; then
-  source "$HOME/.config/zsh/profile.local"
-  [[ "$DEBUG_STARTUP" == "1" ]] && echo "    ✓ profile.local"
-elif [[ -f "$HOME/config/zsh/profile-home.zsh" ]]; then
-  source "$HOME/config/zsh/profile-home.zsh"
-  [[ "$DEBUG_STARTUP" == "1" ]] && echo "    ✓ profile-home.zsh (fallback)"
+if [[ -f "$HOME/.config/zsh/profile.zsh" ]]; then
+  source "$HOME/.config/zsh/profile.zsh"
+  [[ "$DEBUG_STARTUP" == "1" ]] && echo "    ✓ profile.zsh"
 else
-  echo "Warning: No profile found (expected ~/.config/zsh/profile.local)"
+  echo "Warning: No profile found (expected ~/.config/zsh/profile.zsh; run: chezmoi apply)"
   ZSH_THEME="robbyrussell"
   plugins=(git)
   [[ "$DEBUG_STARTUP" == "1" ]] && echo "    ! Using defaults"

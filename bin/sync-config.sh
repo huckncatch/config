@@ -44,16 +44,21 @@ echo "  Syncing configuration files"
 echo "============================================================================="
 echo ""
 
-copy_zsh_config
 apply_chezmoi
 copy_xdg_config
 install_tmux_config
 
 echo ""
 echo "============================================================================="
-echo "  Sync complete"
-echo "============================================================================="
-echo ""
-echo "Changed files backed up with timestamps."
-echo "Review: ls -lt ~/*.backup.* ~/.config/*/*.backup.* 2>/dev/null | head -20"
-echo ""
+if [ "$DRY_RUN" -eq 1 ]; then
+  echo "  Dry run complete (no changes made)"
+  echo "============================================================================="
+  echo ""
+else
+  echo "  Sync complete"
+  echo "============================================================================="
+  echo ""
+  echo "Changed files backed up with timestamps."
+  echo "Review: ls -lt ~/*.backup.* ~/.config/*/*.backup.* 2>/dev/null | head -20"
+  echo ""
+fi

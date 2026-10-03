@@ -74,7 +74,6 @@ source "$SCRIPT_DIR/lib/copy.sh"
 # PHASE 1: CONFIGURATION FILES
 #############################################################################
 
-copy_zsh_config
 copy_xdg_config
 install_tmux_config
 

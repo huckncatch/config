@@ -1,6 +1,6 @@
 # Python configuration
 #
-# Python is installed via Homebrew. The `brew shellenv` in profile-base.zsh
+# Python is installed via Homebrew. The `brew shellenv` in the zsh profile
 # adds /opt/homebrew/bin to PATH, making Homebrew's Python available.
 #
 # Homebrew Python versions:
@@ -30,6 +30,6 @@
 #   vrun [name] - Activate venv
 #   auto_vrun   - Auto-activate when entering directory with venv
 #
-# To enable auto_vrun, add to profile.local before oh-my-zsh sourcing:
+# To enable auto_vrun, add to the profile template (loads before oh-my-zsh):
 #   PYTHON_AUTO_VRUN=true
 #   PYTHON_VENV_NAME=".venv"  # optional, default is "venv"

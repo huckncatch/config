@@ -60,8 +60,15 @@ _sync_file() {
     return 0
   fi
 
+  local action="Updated"
+  [ -e "$dest" ] || action="Created"
+
   if [ "$DRY_RUN" -eq 1 ]; then
-    echo "  [DRY RUN] Would update: $dest"
+    if [ "$action" = "Created" ]; then
+      echo "  [DRY RUN] Would create: $dest"
+    else
+      echo "  [DRY RUN] Would update: $dest"
+    fi
     return 0
   fi
 
@@ -82,7 +89,7 @@ _sync_file() {
   # Set permissions if specified
   [ -n "$mode" ] && chmod "$mode" "$dest"
 
-  echo "  ✓ Updated: $dest"
+  echo "  ✓ $action: $dest"
 }
 
 # Sync directory with selective preservation
@@ -122,4 +129,45 @@ _sync_directory_selective() {
     # Sync the file
     _sync_file "$src_file" "$dest_file"
   done
+}
+
+# Check that 1Password can resolve every op:// reference in a chezmoi template.
+# Prints what failed and how to fix it; never prints secret values.
+# Returns 0 only if every reference resolves. With "connection" as the second
+# argument, stops after checking op can see an account (no Touch ID prompt).
+_check_1password() {
+  local template="$1"
+  local mode="${2:-}"
+  local ref err failed=0
+
+  if ! command -v op > /dev/null 2>&1; then
+    echo "  ✗ 1Password CLI (op) not installed"
+    echo "      → macOS: brew install --cask 1password-cli  (Linux: see NOTES.md → chezmoi)"
+    return 1
+  fi
+
+  if [ -z "$(op account list 2> /dev/null)" ]; then
+    echo "  ✗ op cannot see any 1Password account"
+    echo "      → Is the 1Password app running and unlocked?"
+    echo "      → 1Password → Settings → Developer → \"Integrate with 1Password CLI\" enabled?"
+    return 1
+  fi
+
+  [ "$mode" = "connection" ] && return 0
+
+  while IFS= read -r ref; do
+    if ! err=$(op read "$ref" 2>&1 > /dev/null); then
+      echo "  ✗ $ref"
+      echo "      op: $err"
+      failed=1
+    fi
+  done < <(command grep -o 'op://[^"]*' "$template")
+
+  if [ "$failed" -eq 1 ]; then
+    echo "      → Fix the item/field in 1Password, or the reference in ${template#"$SCRIPT_DIR"/}"
+    echo "        (1Password: right-click field → Copy Secret Reference)"
+    return 1
+  fi
+
+  echo "  ✓ 1Password: all secret references resolve"
 }

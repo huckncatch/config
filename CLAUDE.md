@@ -40,11 +40,12 @@ Load order is critical — breaking it breaks the shell. Read `.claude/refs/zsh-
 
 Configurations follow XDG spec where supported. Two mechanisms deploy them during the chezmoi migration:
 
-**chezmoi** (`home/`, selected by `.chezmoiroot`): source state for `~`. Applied by `apply_chezmoi` in `lib/copy.sh` (`chezmoi --source ~/config apply`). Covers git (`home/dot_config/private_git/`), Ghostty, Starship, bat, ncdu, `tmux.conf.local`, `.editorconfig`, `.tidyrc`, `.zprofile`, and `~/.ssh/config`.
+**chezmoi** (`home/`, selected by `.chezmoiroot`): source state for `~`. Applied by `apply_chezmoi` in `lib/copy.sh` (`chezmoi --source ~/config apply`). Covers `~/.zshrc`, the zsh profile and secrets (`home/dot_config/zsh/`), git (`home/dot_config/private_git/`), Ghostty, Starship, bat, ncdu, `tmux.conf.local`, `.editorconfig`, `.tidyrc`, `.zprofile`, and `~/.ssh/config`. `~/.config/chezmoi/chezmoi.toml` (from `home/.chezmoi.toml.tmpl`) sets `sourceDir`, so `--source` is optional.
 
 - File names use chezmoi attribute prefixes: `dot_` → `.`, `private_` → mode 600/700, `empty_` → keep an empty file (chezmoi otherwise **removes** targets whose source is empty — `empty_stCommitMsg` is referenced by git `commit.template`)
 - Before changing anything under `home/`, run `chezmoi --source ~/config status` and confirm the expected entries appear (non-empty) before relying on an empty diff
-- Pull system-side edits into the repo with `chezmoi --source ~/config re-add`, never by hand-copying into `xdg-config/`
+- Pull system-side edits into the repo with `chezmoi --source ~/config re-add`, never by hand-copying into `xdg-config/` (`re-add` skips `.tmpl` files; edit those templates directly)
+- **Secrets**: `home/dot_config/zsh/private_secrets.zsh.tmpl` holds only `op://` references. Never put secret values in the repo, and never print `secrets.zsh` or `op read` output; hash or mask when verifying
 
 **Copy scripts** (`xdg-config/`, mirrors `~/.config/`): still used for Claude Code, Karabiner, and the Oh my tmux! submodule:
 
@@ -107,7 +108,7 @@ When editing files in this repository:
 
 3. **Keep XDG structure consistent**: Files in `xdg-config/` should match their expected `~/.config/` structure. The directory hierarchy must be preserved exactly.
 
-4. **Test profile selection**: Ensure both home and work profiles define required variables (`ZSH_THEME`, `plugins`). Missing these will cause oh-my-zsh initialization to fail.
+4. **Test the profile on both OSes**: The profile template must define `ZSH_THEME` and `plugins` for every OS branch. Check the Linux render with `chezmoi execute-template --override-data '{"chezmoi":{"os":"linux"}}' < home/dot_config/zsh/profile.zsh.tmpl`.
 
 5. **Keep Claude config in sync**: When changing Claude Code configuration files:
    - **Global CLAUDE.md**: `~/.config/claude/CLAUDE.md` (active) → `xdg-config/claude/CLAUDE.md` (backup)

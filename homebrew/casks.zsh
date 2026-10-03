@@ -24,6 +24,7 @@ tolaria # markdown knowledgebase manager; https://tolaria.md/
 ##########################
 # Terminal & Development
 ##########################
+1password-cli # op: 1Password CLI; chezmoi renders ~/.config/zsh/secrets.zsh with it; https://developer.1password.com/docs/cli/
 bbedit # programmers' text editor for Mac with advanced regex search and scripting; https://www.barebones.com/products/bbedit/
 beyond-compare # file and folder diff/merge tool with 3-way merge support; https://www.scootersoftware.com/
 devtoys # offline developer utilities: formatters, encoders, converters, and more; https://github.com/ObuchiYuki/DevToysMac

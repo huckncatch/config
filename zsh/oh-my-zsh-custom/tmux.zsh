@@ -3,8 +3,8 @@
 # Since oh-my-zsh custom files load alphabetically and the tmux plugin
 # loads during oh-my-zsh initialization, this file won't affect plugin defaults.
 #
-# To set these variables, add them to your profile template (profile-home.zsh)
-# or to ~/.config/zsh/profile.local which loads before oh-my-zsh.
+# To set these variables, add them to the profile template
+# (~/config/home/dot_config/zsh/profile.zsh.tmpl), which loads before oh-my-zsh.
 #
 # Available configuration variables (defaults shown):
 #
@@ -21,7 +21,7 @@
 # ZSH_TMUX_FIXTERM=true           # Auto-set $TERM based on 256-color support
 # ZSH_TMUX_CONFIG=                # Auto-detected: ~/.config/tmux/tmux.conf
 #
-# Recommended settings to add to profile.local:
+# Recommended settings to add to the profile template:
 #
 #   # Auto-refresh SSH_AUTH_SOCK and other env vars in long-running sessions
 #   export ZSH_TMUX_AUTOREFRESH=true

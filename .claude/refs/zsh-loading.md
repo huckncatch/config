@@ -6,16 +6,14 @@ The zsh setup uses a hierarchical loading system:
 
 1. **`~/.zshrc`** (entry point, sourced by zsh)
    - Defaults `DEBUG_STARTUP` to 0 unless already set in the environment (`DEBUG_STARTUP=1 zsh` traces file loading)
-   - Sources profile-specific config (`~/.config/zsh/profile.local` or falls back to `~/config/zsh/profile-home.zsh`)
+   - Sources `~/.config/zsh/profile.zsh` (warns and falls back to defaults if missing)
    - Sources `~/config/zsh/zshrc.base`
 
-2. **Profile files** (define theme and plugins before oh-my-zsh init)
-   - `~/.config/zsh/profile.local` - Machine-specific, created during install, **not tracked in git**
-   - `zsh/profile-home.zsh` - Template for personal machines
-   - `zsh/profile-work.zsh` - Template for work machines
-   - `zsh/profile-base.zsh` - Shared settings sourced by all profile templates
+2. **Profile** (defines theme and plugins before oh-my-zsh init)
+   - `~/.config/zsh/profile.zsh`, rendered by chezmoi from `home/dot_config/zsh/profile.zsh.tmpl`; never edit the rendered file
+   - Template conditionals on `.chezmoi.os`: Homebrew `shellenv` path, macOS-only plugins (`bbedit`, `brew`, `iterm2`)
    - Must define: `ZSH_THEME` and `plugins` array
-   - Profile templates source `profile-base.zsh` for shared config (e.g., tmux plugin settings)
+   - Sources `~/.config/zsh/secrets.zsh` (rendered from 1Password via `home/dot_config/zsh/private_secrets.zsh.tmpl`); warns on stderr if missing
 
 3. **`zsh/zshrc.base`** (shared configuration)
    - Enables Powerlevel10k instant prompt

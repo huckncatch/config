@@ -1,0 +1,9 @@
+{{- /*
+  secrets.zsh is rendered from 1Password, which prompts for Touch ID and would
+  print secret values in diffs. Leave it out unless CHEZMOI_INCLUDE_SECRETS is
+  set (only apply_chezmoi's secrets pass sets it), so plain chezmoi commands
+  never read 1Password and an existing copy is left untouched.
+*/ -}}
+{{ if not (env "CHEZMOI_INCLUDE_SECRETS") -}}
+.config/zsh/secrets.zsh
+{{ end -}}
